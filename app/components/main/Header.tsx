@@ -109,10 +109,10 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href="/"
+                href="/posts"
                 className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
               >
-                서비스 소개
+                공지사항
               </Link>
             </li>
           </ul>
