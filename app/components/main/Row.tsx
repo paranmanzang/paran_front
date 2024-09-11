@@ -1,4 +1,5 @@
 import Link from "next/link";
+//props 로 데이터 받아서 room, group, chat 다 다르게 바뀌도록 다시 손봐야 함.
 export default function Row() {
   return (
     <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">

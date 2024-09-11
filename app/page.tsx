@@ -29,7 +29,7 @@ export default function Home() {
                   </li>
                   <li className="me-2">
                     <Link
-                      href="/books/2"
+                      href="/rooms"
                       className="active inline-block rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500"
                       aria-current="page"
                     >
@@ -38,7 +38,7 @@ export default function Home() {
                   </li>
                   <li className="me-2">
                     <Link
-                      href="/books/2"
+                      href="/books"
                       className="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                     >
                       도서
@@ -46,10 +46,10 @@ export default function Home() {
                   </li>
                   <li className="me-2">
                     <Link
-                      href="/books/2"
+                      href="/groups"
                       className="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                     >
-                      커뮤니티
+                      소모임
                     </Link>
                   </li>
                 </ul>
