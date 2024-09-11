@@ -1,9 +1,11 @@
+import SideBar from "@/app/components/main/SideBar";
+
 export default function Book() {
   return (
     <>
-     <h1>
-      BooKs world!!!
-     </h1> 
+    <SideBar />
+      무한스크롤 부분
+      
     </>
   )
 }

@@ -1,10 +1,10 @@
-import Article from "./components/Article";
+import Article from "./components/main/Article";
 // import Carousel from "./components/Carousel";
-import Pagination from "./components/Pagination";
-import Row from "./components/Row";
+import Pagination from "./components/main/Pagination";
+import Row from "./components/main/Row";
 import Link from "next/link";
 import "./globals.css";
-import Map from "./components/Map";
+import Map from "./components/main/Map";
 
 export default function Home() {
   return (
@@ -62,14 +62,13 @@ export default function Home() {
               <Row />
               <Row />
               <Row />
-            </div>
-
-            <button
-              type="button"
+              <Link
+              href="/books/"
               className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
             >
               더보기
-            </button>
+            </Link>
+            </div>
           </section>
         </h1>
       </main>

@@ -43,12 +43,12 @@ export default function Header() {
             />
           </div>
 
-          <button
-            type="button"
+          <Link
+            href="/users/login"
             className="mx-auto rounded-lg bg-blue-700 px-4 py-2 mx-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             로그인
-          </button>
+          </Link>
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
@@ -84,7 +84,7 @@ export default function Header() {
           <ul className="mt-4 flex flex-col items-center  rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900 rtl:space-x-reverse">
             <li>
               <Link
-                href="/"
+                href="/rooms"
                 className="block rounded bg-blue-700 px-3 py-2 text-white md:bg-transparent md:p-0 md:text-blue-700 md:dark:text-blue-500"
                 aria-current="page"
               >
@@ -93,7 +93,7 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href="/"
+                href="/groups"
                 className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
               >
                 소모임
@@ -101,7 +101,7 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href="/"
+                href="/books"
                 className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
               >
                 서점

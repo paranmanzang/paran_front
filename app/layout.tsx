@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { ThemeModeScript } from "flowbite-react";
 import "./globals.css";
-import Header from "./components/Header";
+import Header from "./components/main/Header";
 import Link from "next/link";
-import Footer from "./components/Footer";
+import Footer from "./components/main/Footer";
 
 export const metadata: Metadata = {
   title: "paranmanzang",
