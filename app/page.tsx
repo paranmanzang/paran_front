@@ -17,8 +17,8 @@ export default function Home() {
         <h1 className="text-2xl dark:text-white">
           <section className="w-90" id="rowColum">
             <div id="btn-wrap">
-              <div className="border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
-                <ul className="-mb-px flex flex-wrap">
+              <div className="border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400 mb-4">
+                <ul className="-mb-px flex flex-wrap ">
                   <li className="me-2">
                     <Link
                       href="/books/2"

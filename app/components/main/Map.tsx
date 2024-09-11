@@ -4,7 +4,7 @@ export default function Map() {
       <span className="w-200 min-h-60 bg-gray-200" 
       style={{position:'absolute', bottom:'-150px', left:'0', width:'100%', height: '400px', zIndex:'-999'}}></span>
       <div className="w-100 flex justify-center">
-        <div className="w-[43%] h-[850px] mx-3 bg-white">
+        <div className="w-[43%] h-[850px] mx-3 bg-white shadow border rounded-lg ">
           <form className="mx-auto max-w-full py-6 px-6">
             <div className="group relative z-0 mb-5 w-full">
               <input
@@ -47,7 +47,7 @@ export default function Map() {
           </form>
         </div>
         <div>
-          <img src="http://via.placeholder.com/580x850" alt="지도 넣어유" className="rounded-lg"/>
+          <img src="http://via.placeholder.com/580x850" alt="지도api 맛보기로 넣기" className="rounded-lg"/>
         </div>
       </div>
     </div>

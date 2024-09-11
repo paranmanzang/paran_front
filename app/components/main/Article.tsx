@@ -1,7 +1,7 @@
 import Link from "next/link";
 export default function Article() {
   return (
-    <div className="w-90 h-80 px-4 py-4" id="article">
+    <div className="w-90 h-80 px-4 py-4 rounded-lg" id="article">
       <h2 className="text-4xl font-extrabold dark:text-gray-900">
         독서습관 길러봐요!
       </h2>

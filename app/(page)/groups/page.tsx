@@ -4,7 +4,7 @@ export default function Groups() {
   return (
     <div>
       <SideBar />
-      <h1>Groups Hi!!</h1>
+      <h1>pagination</h1>
     </div>
   )
 }
