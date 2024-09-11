@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Row from "./Row";
 
 export default function SideBar() {
   return (
@@ -71,7 +72,7 @@ export default function SideBar() {
               <ul id="dropdown-example" className="space-y-2 py-2">
                 <li>
                   <Link
-                    href="/groups/list"
+                    href="/groups"
                     className="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
                   >
                     모임보기
@@ -89,7 +90,7 @@ export default function SideBar() {
             </li>
             <li>
               <Link
-                href="/rooms/list"
+                href="/rooms"
                 className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
                 <svg
@@ -107,7 +108,7 @@ export default function SideBar() {
             </li>
             <li>
               <Link
-                href="/books/list"
+                href="/books"
                 className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
                 <svg
@@ -127,6 +128,16 @@ export default function SideBar() {
           </ul>
         </div>
       </aside>
+      <div className="p-4 sm:ml-64">
+         <div className="grid grid-cols-3 gap-4 mb-4">
+            <Row />
+            <Row />
+            <Row />
+            <Row />
+            <Row />
+            <Row />
+         </div>
+      </div>
     </div>
   );
 }
