@@ -4,7 +4,7 @@ export default function Book() {
   return (
     <>
     <SideBar />
-      무한스크롤 부분
+    /books/id
       
     </>
   )
