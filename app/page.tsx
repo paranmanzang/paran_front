@@ -56,6 +56,7 @@ export default function Home() {
               </div>
             </div>
             <div className="grid h-full grid-cols-2 gap-4 md:grid-cols-3">
+              {/* map 사용해서 데이타 props받고 연속 돌리기 넣어줄거임 */}
               <Row />
               <Row />
               <Row />

@@ -23,7 +23,7 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
-        <main>
+        <main className="my-6 py-6">
           {children}
         </main>
         <Footer />
