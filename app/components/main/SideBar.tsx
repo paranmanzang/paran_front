@@ -4,6 +4,8 @@ import Row from "./Row";
 export default function SideBar() {
   return (
     <div>
+      {/*
+      페이지 작아질 때 햄버거 버튼 생성 됨. 
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
@@ -25,11 +27,11 @@ export default function SideBar() {
             d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
           ></path>
         </svg>
-      </button>
+      </button> */}
 
       <aside
         id="default-sidebar"
-        className="top-200 absolute left-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
+        className="top-100 absolute left-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
         aria-label="Sidebar"
       >
         <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 dark:bg-gray-800">
