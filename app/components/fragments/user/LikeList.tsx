@@ -1,8 +1,8 @@
 import Link from "next/link";
 
-export default function LikeList() {
+export default function LikeList({max}) {
   return (
-    <div>
+            
       <Link
         href="/"
         className="block max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
@@ -14,6 +14,5 @@ export default function LikeList() {
           작은 글 content
         </p>
       </Link>
-    </div>
   );
 }

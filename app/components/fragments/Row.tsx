@@ -1,8 +1,18 @@
 import Link from "next/link";
 //props 로 데이터 받아서 room, group, chat 다 다르게 바뀌도록 다시 손봐야 함.
-export default function Row() {
+export default function Row({
+  //title, content, isData, getId 
+  // -> 해당 프롭스로 다른 url 링크 타면 다른 데이터 받아오는 방식으로 컴포넌트 재활용할 것임. 
+  //fetchUrl
+}) {
+  /* 
+    const fetchData = async () => {
+    const request = await axios.get(fetchUrl);
+   } */
+
   return (
-    <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+   // {dataname.map((data) => (
+      <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <Link href="/books/2">
         <img
           className="rounded-t-lg"
@@ -45,5 +55,6 @@ export default function Row() {
         </Link>
       </div>
     </div>
+    //))}
   );
 }

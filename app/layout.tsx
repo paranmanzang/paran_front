@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { ThemeModeScript } from "flowbite-react";
 import "./globals.css";
-import Header from "./components/main/Header";
+import Header from "./components/fragments/Header";
 import Link from "next/link";
-import Footer from "./components/main/Footer";
+import Footer from "./components/fragments/Footer";
 
 export const metadata: Metadata = {
   title: "paranmanzang",
@@ -23,9 +23,7 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
-        <main className="my-6 py-6">
-          {children}
-        </main>
+        <main className="my-6 py-6">{children}</main>
         <Footer />
       </body>
     </html>

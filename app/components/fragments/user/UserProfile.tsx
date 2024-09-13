@@ -1,13 +1,17 @@
 import Link from "next/link";
 import TabBar from "./TabBar";
 import LikeList from "./LikeList";
+import Image from "next/image";
+
 export default function UserProfile() {
   return (
     <div className="mx-auto my-[20px] pt-3 px-6 h-[650px] w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <div className="flex mb-10">
         <div className="flex flex-col items-center ml-3">
-          <img
-            className="mb-3 h-24 w-24 rounded-full shadow-lg"
+          <Image
+            className="mb-3 rounded-full shadow-lg"
+            width={102}
+            height={100}
             src="/docs/images/people/profile-picture-3.jpg"
             alt="프로필 사진"
           />
@@ -25,7 +29,7 @@ export default function UserProfile() {
             <li className="flex items-center">
               아이디
               <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900 dark:text-white">
-                ringring123@naver.com
+                ringring123
               </h5>
             </li>
             <li className="flex items-center">
@@ -37,7 +41,7 @@ export default function UserProfile() {
             <li className="flex items-center">
               비밀번호
               <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900 dark:text-white">
-                qwer1234
+                qwer****
               </h5>
             </li>
             <li className="flex items-center">
@@ -53,7 +57,7 @@ export default function UserProfile() {
       <div className="flex-col items-center justify-center">
         <TabBar />
         <div className="grid gap-3 grid-cols-2 md:grid-cols-2">
-          <LikeList />
+          <LikeList max={3}/>
           <LikeList />
           <LikeList />
           <LikeList />
