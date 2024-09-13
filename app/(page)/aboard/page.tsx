@@ -1,5 +1,5 @@
 import Link from "next/link";
-export default function Post() {
+export default function aboard() {
   return (
     <div className="px-[15%] py-[5%]">
       <blockquote className="text-xl font-semibold italic text-gray-900 dark:text-white mb-6">

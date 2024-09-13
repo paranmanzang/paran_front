@@ -1,6 +1,7 @@
 "use client";
 import { DarkThemeToggle } from "flowbite-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
   return (
@@ -10,7 +11,7 @@ export default function Header() {
           href="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <img src="./logo.png" className="h-8" alt="Logo" />
+          <Image src="http://via.placeholder.com/24x24" width={24} height={24} className="size-8" alt="Logo" />
           <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
             Paranmanzang
           </span>
@@ -109,7 +110,7 @@ export default function Header() {
             </li>
             <li>
               <Link
-                href="/posts"
+                href="/aboard"
                 className="block rounded px-3 py-2 text-gray-900 hover:bg-gray-100 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
               >
                 공지사항

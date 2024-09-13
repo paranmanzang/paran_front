@@ -1,3 +1,4 @@
+import Image from "next/image";
 export default function Map() {
   return (
     <div id="map-wrap" style={{position: 'relative', margin:'100px 0 150px'}}>
@@ -47,7 +48,7 @@ export default function Map() {
           </form>
         </div>
         <div>
-          <img src="http://via.placeholder.com/580x850" alt="지도api 맛보기로 넣기" className="rounded-lg"/>
+          <Image src="http://via.placeholder.com/580x850" width={580} height={850} alt="지도api 맛보기로 넣기" className="rounded-lg"/>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
-import Article from "./components/main/Article";
+import Article from "./components/fragments/Article";
 // import Carousel from "./components/Carousel";
-import Pagination from "./components/main/Pagination";
-import Row from "./components/main/Row";
+import Pagination from "./components/fragments/Pagination";
+import Row from "./components/fragments/Row";
 import Link from "next/link";
 import "./globals.css";
-import Map from "./components/main/Map";
+import Map from "./components/fragments/Map";
 
 export default function Home() {
   return (
@@ -15,9 +15,9 @@ export default function Home() {
       </section>
       <main className="flex min-h-screen items-center justify-center gap-2 dark:bg-gray-800">
         <h1 className="text-2xl dark:text-white">
-          <section className="w-90" id="rowColum">
+          <section className="size-90" id="rowColum">
             <div id="btn-wrap">
-              <div className="border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400 mb-4">
+              <div className="mb-4 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
                 <ul className="-mb-px flex flex-wrap ">
                   <li className="me-2">
                     <Link
@@ -64,11 +64,11 @@ export default function Home() {
               <Row />
               <Row />
               <Link
-              href="/books/"
-              className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
-            >
-              더보기
-            </Link>
+                href="/books/"
+                className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
+              >
+                더보기
+              </Link>
             </div>
           </section>
         </h1>

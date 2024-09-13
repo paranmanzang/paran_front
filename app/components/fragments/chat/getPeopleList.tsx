@@ -1,7 +1,7 @@
 export default function getPeopleList() {
   return (
     <div>
-      cardList
+      peopleList
     </div>
   )
 }
