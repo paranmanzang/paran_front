@@ -1,5 +1,9 @@
+import Details from "@/app/components/Details"
+
 export default function one() {
   return (
-    <div>one</div>
+    <div>
+      <Details /> 
+    </div>
   )
 }

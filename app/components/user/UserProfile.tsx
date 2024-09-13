@@ -57,7 +57,7 @@ export default function UserProfile() {
       <div className="flex-col items-center justify-center">
         <TabBar />
         <div className="grid gap-3 grid-cols-2 md:grid-cols-2">
-          <LikeList max={3}/>
+          <LikeList/>
           <LikeList />
           <LikeList />
           <LikeList />

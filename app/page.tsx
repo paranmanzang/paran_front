@@ -1,14 +1,13 @@
-import Article from "./components/fragments/Article";
-// import Carousel from "./components/Carousel";
-import Pagination from "./components/fragments/Pagination";
-import Row from "./components/fragments/Row";
+import Article from "./components/Article";
+import Pagination from "./components/Pagination";
+import Row from "./components/Row";
 import Link from "next/link";
 import "./globals.css";
-import Map from "./components/fragments/Map";
+import Map from "./components/Map";
 
 export default function Home() {
   return (
-    <div>
+    <div className="git">
       <section className="artWrap">
         <span className="bgEffect"></span>
         <Article />
