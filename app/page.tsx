@@ -4,6 +4,7 @@ import Row from "./components/Row";
 import Link from "next/link";
 import "./globals.css";
 import Map from "./components/Map";
+import KakaoChat from "./components/chat/KakaoChat"
 
 export default function Home() {
   return (
@@ -71,6 +72,7 @@ export default function Home() {
             </div>
           </section>
         </h1>
+        <KakaoChat />
       </main>
       <article>
         <Map />
