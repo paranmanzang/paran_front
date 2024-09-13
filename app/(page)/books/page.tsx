@@ -1,4 +1,4 @@
-import SideBar from "@/app/components/fragments/SideBar";
+import SideBar from "@/app/components/SideBar";
 
 export default function Book() {
   return (
