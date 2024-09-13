@@ -19,37 +19,37 @@ export default function Home() {
               <div className="mb-4 border-b border-gray-200 text-center text-sm font-medium text-gray-500 dark:border-gray-700 dark:text-gray-400">
                 <ul className="-mb-px flex flex-wrap ">
                   <li className="me-2">
-                    <Link
-                      href="/books/2"
+                    <button
+                      type="button"
                       className="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                     >
                       전체
-                    </Link>
+                    </button>
                   </li>
                   <li className="me-2">
-                    <Link
-                      href="/rooms"
+                    <button
+                      type="button"
                       className="active inline-block rounded-t-lg border-b-2 border-blue-600 p-4 text-blue-600 dark:border-blue-500 dark:text-blue-500"
                       aria-current="page"
                     >
                       공간
-                    </Link>
+                    </button>
                   </li>
                   <li className="me-2">
-                    <Link
-                      href="/books"
+                    <button
+                      type="button"
                       className="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                     >
                       도서
-                    </Link>
+                    </button>
                   </li>
                   <li className="me-2">
-                    <Link
-                      href="/groups"
+                    <button
+                      type="button"
                       className="inline-block rounded-t-lg border-b-2 border-transparent p-4 hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                     >
                       소모임
-                    </Link>
+                    </button>
                   </li>
                 </ul>
               </div>

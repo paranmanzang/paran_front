@@ -1,9 +1,9 @@
-import Details from "@/app/components/Details"
+import GroupDetails from "@/app/components/GroupDetails"
 
-export default function one() {
+export default function groupDetails() {
   return (
     <div>
-      <Details /> 
+      <GroupDetails /> 
     </div>
   )
 }

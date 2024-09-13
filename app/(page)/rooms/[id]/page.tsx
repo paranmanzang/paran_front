@@ -1,9 +1,9 @@
-import Details from "@/app/components/Details"
+import RoomDetails from "@/app/components/RoomDetails"
 
 export default function RoomOne() {
   return (
     <div>
-      <Details />
+      <RoomDetails />
     </div>
   )
 }
