@@ -1,4 +1,4 @@
-import UserProfile from "@/app/components/fragments/user/UserProfile";
+import UserProfile from "@/app/components/user/UserProfile";
 
 export default function getMyPage() {
   return (

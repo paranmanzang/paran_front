@@ -129,12 +129,12 @@ export default function ChatRoom() {
           </section>
           <article className="flex w-[80%] flex-col bg-blue-200 ">
             <div className="h-[85%] w-full">대화 이루어 지는 공간임</div>
-            <aside className="h-[15%] w-full border px-1 py-2">
+            <aside className="w-full border px-1 py-2">
               <form className="flex justify-evenly">
-                <input
-                  type="text"
+                <textarea
                   placeholder="채팅 입력"
                   className="w-[90%] rounded-full"
+                  style={{resize:'none', whiteSpace: "pre-wrap" }}
                 />
                 <button type="button" className="rounded-full border px-5 py-3">
                   보내기

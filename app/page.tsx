@@ -5,6 +5,7 @@ import Link from "next/link";
 import "./globals.css";
 import Map from "./components/Map";
 import KakaoChat from "./components/chat/KakaoChat"
+import Text from "./components/chat/Text"
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
         <span className="bgEffect"></span>
         <Article />
       </section>
+      <Text />
       <main className="flex min-h-screen items-center justify-center gap-2 dark:bg-gray-800">
         <h1 className="text-2xl dark:text-white">
           <section className="size-90" id="rowColum">
@@ -72,11 +74,12 @@ export default function Home() {
             </div>
           </section>
         </h1>
-        <KakaoChat />
       </main>
       <article>
         <Map />
       </article>
+      <KakaoChat />
+      
     </div>
   );
 }
