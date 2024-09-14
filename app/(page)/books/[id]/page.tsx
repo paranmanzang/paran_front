@@ -1,9 +1,9 @@
-import Details from "@/app/components/Details"
+import BookDetails from "@/app/components/BookDetails"
 
 export default function Books() {
   return (
     <div>
-      <Details />
+      <BookDetails />
     </div>
   )
 }

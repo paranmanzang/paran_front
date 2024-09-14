@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { ThemeModeScript } from "flowbite-react";
 import "./globals.css";
 import Header from "./components/Header";
-import Link from "next/link";
 import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
@@ -23,7 +22,9 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
-        <main className="my-6 py-6">{children}</main>
+        <main className="my-6 py-6">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>
