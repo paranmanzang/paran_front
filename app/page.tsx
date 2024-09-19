@@ -6,6 +6,7 @@ import "./globals.css";
 import Map from "./components/Map";
 import KakaoChat from "./components/chat/KakaoChat"
 import Text from "./components/chat/Text"
+import RecommendBook from "./components/chat/RecommendBook";
 
 export default function Home() {
   return (
@@ -79,7 +80,7 @@ export default function Home() {
         <Map />
       </article>
       <KakaoChat />
-      
+      <RecommendBook/>
     </div>
   );
 }
