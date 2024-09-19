@@ -2,6 +2,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+//import Text from "@/app/components/chat/Text";
+import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
 
 export default function ChatRoom() {
   // 팝업 창 상태 관리
@@ -128,18 +130,8 @@ export default function ChatRoom() {
             </ul>
           </section>
           <article className="flex w-[80%] flex-col bg-blue-200 ">
-            <div className="h-[85%] w-full">대화 이루어 지는 공간임</div>
-            <aside className="w-full border px-1 py-2">
-              <form className="flex justify-evenly">
-                <textarea
-                  placeholder="채팅 입력"
-                  className="w-[90%] rounded-full"
-                  style={{resize:'none', whiteSpace: "pre-wrap" }}
-                />
-                <button type="button" className="rounded-full border px-5 py-3">
-                  보내기
-                </button>
-              </form>
+            <aside className="w-full]">
+              <ChatPage />
             </aside>
           </article>
         </div>
