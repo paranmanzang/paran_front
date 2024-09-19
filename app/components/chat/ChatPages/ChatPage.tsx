@@ -1,14 +1,13 @@
 "use client"
-import React, { useEffect, useState } from 'react'
-import MessageContainer from "../MessageContainer/MessageContainer";
+import React, { useState } from 'react'
 import InputField from "../InputField/InputField";
 import './ChatPageStyle.css'
 
 const ChatPage = () => {
     const [message, setMessage] = useState("");
   
-    const sendMessage = (e) => {
-      e.preventDefault();
+    const sendMessage = () => {
+      //
     };
 
     return (

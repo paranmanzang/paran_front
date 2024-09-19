@@ -2,8 +2,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-//import Text from "@/app/components/chat/Text";
 import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
+import MessageContainer from "@/app/components/chat/MessageContainer/MessageContainer";
+import ChatRoomList from "@/app/components/chat/ChatRoomList";
+import PeopleList from "@/app/components/chat/PeopleList";
+import MyProfile from "@/app/components/chat/MyProfile";
 
 export default function ChatRoom() {
   // 팝업 창 상태 관리
@@ -52,86 +55,20 @@ export default function ChatRoom() {
           </Link>
         </div>
         <div className="flex h-[100dvh] justify-center rounded-lg bg-gray-100">
-          <section className="w-[20%] bg-gray-900 text-white">
-            <div id="chatHead" className="px-5 py-3">
-              {/* onClick 시에 내가 참여하고 있는 방 확인 할 수 있도록 */}
-              <button type="button" className="font-bold">
-                참여중인 대화방 이름 {">"}{" "}
-              </button>
-              {/* 버튼 누르면 hidden 없애기 */}
-              <ul className="hidden">
-                <li>참여중인 대화방1</li>
-                <li>참여중인 대화방2</li>
-                <li>참여중인 대화방3</li>
-                <li>참여중인 대화방4</li>
-              </ul>
-            </div>
-            <ul className="px-5 py-3">
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
+          <section className="w-[20%] bg-gray-400">
+            <ChatRoomList />
+            <ul className="w-full">
+              <PeopleList />
+              <PeopleList />
+              <PeopleList />
+              <PeopleList />
             </ul>
+            <MyProfile />
           </section>
           <article className="flex w-[80%] flex-col bg-blue-200 ">
-            <aside className="w-full]">
+            <aside className="w-full">
               <ChatPage />
+              <MessageContainer />
             </aside>
           </article>
         </div>

@@ -16,14 +16,14 @@
 .my-message-container {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 5px;
+  margin-bottom: 0.938rem;
 }
 .my-message {
   background-color: #f7e600;
   border-radius: 8px;
   padding: 8px;
   max-width: 200px;
-  font-size: 12px;
+  font-size: 18px;
 }
 
 .your-message-container {
@@ -37,7 +37,16 @@
   border-radius: 8px;
   padding: 8px;
   max-width: 200px;
-  font-size: 12px;
+  font-size: 18px;
+}
+.your-checked{
+ font-size: 14px;
+ padding: 10px 10px 0; 
+
+}
+.my-checked{
+ font-size: 14px;
+ padding: 10px 10px 0; 
 }
 
 .profile-image {
@@ -46,3 +55,4 @@
   border-radius: 100px;
   margin-right: 10px;
 }
+
