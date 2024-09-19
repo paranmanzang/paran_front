@@ -5,7 +5,7 @@ export default function SideBar() {
   return (
     <div>
       {/*
-      페이지 작아질 때 햄버거 버튼 생성 됨. 
+       - 페이지 작아질 때 햄버거 버튼 생성 만들어 둠. 
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
