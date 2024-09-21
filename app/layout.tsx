@@ -24,7 +24,7 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
-        <main className="my-6 py-6">
+        <main className="mb-6 pb-6">
           {children}
         </main>
         <Footer />

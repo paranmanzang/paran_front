@@ -1,11 +1,23 @@
+"use client"
+import { useState } from "react";
 import Link from "next/link";
 import Row from "./Row";
 
 export default function SideBar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('All');
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+  }
+
   return (
     <div>
-      {/*
-       - 페이지 작아질 때 햄버거 버튼 생성 만들어 둠. 
+       {/* - 페이지 작아질 때 햄버거 버튼 생성 만들어 둠.  */}
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
@@ -27,7 +39,7 @@ export default function SideBar() {
             d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"
           ></path>
         </svg>
-      </button> */}
+      </button> 
 
       <aside
         id="default-sidebar"
@@ -39,9 +51,12 @@ export default function SideBar() {
             <li>
               <button
                 type="button"
-                className="group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                className={`"group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700" ${
+                  activeTab === 'All' ? 'border-green-600 text-green-600 dark:border-green-500 dark:text-green-500' : 'border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
+                }`}
                 aria-controls="dropdown-example"
                 data-collapse-toggle="dropdown-example"
+                onClick={toggleDropdown}
               >
                 <svg
                   className="h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -55,8 +70,9 @@ export default function SideBar() {
                 <span className="ms-3 flex-1 whitespace-nowrap text-left rtl:text-right">
                   우리들의 작은 모임
                 </span>
+               
                 <svg
-                  className="h-3 w-3"
+                  className={`h-3 w-3 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -64,31 +80,34 @@ export default function SideBar() {
                 >
                   <path
                     stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
                     d="m1 1 4 4 4-4"
                   />
                 </svg>
               </button>
-              <ul id="dropdown-example" className="space-y-2 py-2">
-                <li>
-                  <Link
-                    href="/groups"
-                    className="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    모임보기
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/chats/list"
-                    className="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-                  >
-                    채팅방보기
-                  </Link>
-                </li>
-              </ul>
+              {isOpen && (
+                <ul id="dropdownItems" className="space-y-2 py-2">
+                  <li>
+                    <Link
+                      href="/groups"
+                      className="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      모임보기
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href="/chats/list"
+                      className="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                    >
+                      채팅방보기
+                      <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">갯수</span>
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </li>
             <li>
               <Link

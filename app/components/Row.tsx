@@ -16,8 +16,8 @@ export default function Row({
       <Link href="/books/2">
         <img
           className="rounded-t-lg"
-          src="https://cdn.pixabay.com/photo/2017/01/19/08/56/book-1991816_640.jpg"
-          alt=""
+          src="https://picsum.photos/400/380"
+          alt="rowsImage"
         />
       </Link>
       <div className="p-5">
@@ -34,7 +34,7 @@ export default function Row({
         </p>
         <Link
           href="/books/2"
-          className="inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="inline-flex items-center rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-400 dark:hover:bg-green-500 dark:focus:ring-green-600"
         >
           상세보기
           <svg
