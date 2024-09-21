@@ -56,7 +56,6 @@ export default function ChatRoomList() {
           <span className="number">2</span>
         </li>
       </ul>
-      <div data-popper-arrow></div>
     </div>
   );
 }

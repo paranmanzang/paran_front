@@ -78,7 +78,6 @@ export default function Home() {
       <article>
         <Map />
       </article>
-      <KakaoChat />
       <RecommendBook/>
     </div>
   );
