@@ -48,24 +48,22 @@ const carouselItems: CarouselItem[] = [
     title: "여러분들의 심상을 공유해주세요!",
     string: "독서는 마음의 양식이면서 휴식처입니다!",
     text: "독서를 읽으면서 마음도 치유되는 새로운 경험을 공유해주세요!",
-    btn: { text: "더보기", link: "/groups" },
+    btn: { text: "더보기", link: "/chats/list" },
   },
 ];
 
-export default function CarouselComponent() {
+export default function Carousel() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [currentLink, setCurrentLink] = useState(carouselItems[0].btn.link); // 현재 링크 상태 관리
   const router = useRouter();
 
-  const handleButtonClick = useCallback(
-    (link: string) => {
-      router.push(link);
-    },
-    [router],
-  );
+  const handleButtonClick = useCallback(() => {
+    router.push(currentLink); // 현재 링크로 이동
+  }, [router, currentLink]);
 
   const renderButton = (btn: { text: string; link: string }) => (
     <button
-      onClick={() => handleButtonClick(btn.link)}
+      onClick={handleButtonClick}
       className="inline-flex items-center justify-center rounded-lg bg-green-400 px-5 py-2.5 text-center text-base font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-700"
     >
       {btn.text}
@@ -102,13 +100,17 @@ export default function CarouselComponent() {
     return () => clearInterval(interval);
   }, [nextSlide]);
 
+  useEffect(() => {
+    setCurrentLink(carouselItems[currentSlide].btn.link); // 슬라이드 변경 시 링크 업데이트
+  }, [currentSlide]);
+
   return (
     <div className="relative" aria-label="Carousel" id="article">
       <div className="rounded-xlg relative h-60 w-full overflow-hidden bg-green-50 px-[5.5rem] py-[4.5rem] md:h-96">
         {carouselItems.map((item, index) => (
           <div
             key={item.id}
-            className={`w-full absolute h-80 p-4 transition-opacity duration-700 ease-in ${
+            className={`w-full absolute h-80 p-4 transition-opacity duration-700 ease-linear ${
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >

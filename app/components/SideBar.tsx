@@ -43,10 +43,10 @@ export default function SideBar() {
 
       <aside
         id="default-sidebar"
-        className="top-100 absolute left-0 z-40 h-screen w-64 -translate-x-full transition-transform sm:translate-x-0"
+        className="top-100 absolute left-0 z-40 h-dvh w-64 -translate-x-full transition-transform sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="h-full overflow-y-auto bg-gray-50 px-3 py-4 dark:bg-gray-800">
+        <div className="h-dvh overflow-y-auto bg-gray-50 px-3 py-4 dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
             <li>
               <button

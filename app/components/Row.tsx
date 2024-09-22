@@ -19,7 +19,7 @@ export default function Row(
       <Link href="/books/2">
         <Image
           width={400}
-          height={380}
+          height={330}
           className="rounded-t-lg"
           src="https://picsum.photos/400/380"
           alt="rowsImage"

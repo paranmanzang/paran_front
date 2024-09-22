@@ -18,7 +18,7 @@ export default function Map() {
         }}
       ></span>
       <div className="w-full flex justify-center">
-        <div className="mx-3 h-[850px] w-[43%] rounded-lg border bg-white shadow ">
+        <div className="mx-3 h-[46rem] w-[30%] rounded-lg border bg-white shadow ">
           <form className="mx-auto max-w-full p-6">
             <div className="group relative z-0 mb-5 w-full">
               <input
@@ -63,8 +63,8 @@ export default function Map() {
         <div>
           <Image
             src="https://picsum.photos/580/850"
-            width={580}
-            height={850}
+            width={500}
+            height={800}
             alt="지도api 맛보기로 넣기"
             className="rounded-lg"
           />
