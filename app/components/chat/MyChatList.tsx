@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
-import "./ChatRoomList.css";
+import { button } from "flowbite-react";
+import "./MyChatList.css";
 
 export default function ChatRoomList() {
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function ChatRoomList() {
       <button
         id="popup-button"
         type="button"
-        className="relative mb-3 me-4 w-full rounded-lg px-5 py-2.5 text-center text-lg font-bold text-gray-100 hover:bg-blue-200 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="relative mb-3 me-4 w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-lg font-bold text-gray-100 hover:bg-green-600 dark:hover:bg-green-700"
         onClick={togglePopover}
       >
         참여중인 대화방 이름 {"^"}

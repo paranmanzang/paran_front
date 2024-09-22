@@ -1,14 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function getPeopleList() {
   return (
-    <li className="align-center flex justify-evenly px-3 py-2 my-3 border-b">
-      <button>
+    <li className="border-b w-full">
+{/* userId 받아서  */}
+      <Link href="" className="flex justify-evenly px-3 py-2 my-3 align-center"> 
         <div className="relative">
           <Image
           width="46"
           height="46"
-          className="rounded-full bg-blue-400"
+          className="rounded-full bg-green-400"
           src="/docs/images/people/profile-picture-5.jpg"
           alt="userprofile"
           />
@@ -20,9 +22,10 @@ export default function getPeopleList() {
           } */}
           
         </div>
-      </button>
-      <p className=" text-gray-700 text-lg font-semibold ">NickName</p>
-      <span>⭐️</span>
+        <p className="inline text-white text-lg font-semibold ">NickName</p>
+        <span className="text-xs border-white border px-1 py-3 rounded-lg text-white hover:bg-green-600">보기</span>
+      </Link>
+      
     </li>
   );
 }

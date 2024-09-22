@@ -1,13 +1,14 @@
-"use client"
-import { useState } from 'react';
+"use client";
+import { useState } from "react";
+import { button } from "flowbite-react";
 
 export default function Nav() {
   // 현재 선택된 탭 상태
-  const [activeTab, setActiveTab] = useState('All');
+  const [activeTab, setActiveTab] = useState("All");
   // 탭 클릭 시 상태 변경 함수
   const handleTabClick = (tab: string) => {
     setActiveTab(tab);
-  }
+  };
 
   return (
     <div>
@@ -17,9 +18,11 @@ export default function Nav() {
             <button
               type="button"
               className={`inline-block rounded-t-lg border-b-2 p-4 ${
-                activeTab === 'All' ? 'border-green-600 text-green-600 dark:border-green-500 dark:text-green-500' : 'border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
+                activeTab === "All"
+                  ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
+                  : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
               }`}
-              onClick={() => handleTabClick('All')}
+              onClick={() => handleTabClick("All")}
             >
               전체
             </button>
@@ -28,9 +31,11 @@ export default function Nav() {
             <button
               type="button"
               className={`inline-block rounded-t-lg border-b-2 p-4 ${
-                activeTab === 'Groups' ? 'border-green-600 text-green-600 dark:border-green-500 dark:text-green-500' : 'border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
+                activeTab === "Groups"
+                  ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
+                  : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
               }`}
-              onClick={() => handleTabClick('Groups')}
+              onClick={() => handleTabClick("Groups")}
             >
               소모임
             </button>
@@ -39,9 +44,11 @@ export default function Nav() {
             <button
               type="button"
               className={`inline-block rounded-t-lg border-b-2 p-4 ${
-                activeTab === 'Books' ? 'border-green-600 text-green-600 dark:border-green-500 dark:text-green-500' : 'border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
+                activeTab === "Books"
+                  ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
+                  : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
               }`}
-              onClick={() => handleTabClick('Books')}
+              onClick={() => handleTabClick("Books")}
             >
               도서
             </button>
@@ -50,9 +57,11 @@ export default function Nav() {
             <button
               type="button"
               className={`inline-block rounded-t-lg border-b-2 p-4 ${
-                activeTab === 'Rooms' ? 'border-green-600 text-green-600 dark:border-green-500 dark:text-green-500' : 'border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300'
+                activeTab === "Rooms"
+                  ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
+                  : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
               }`}
-              onClick={() => handleTabClick('Rooms')}
+              onClick={() => handleTabClick("Rooms")}
             >
               공간
             </button>

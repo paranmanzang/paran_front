@@ -2,8 +2,7 @@ import "./MessageContainer.css";
 
 const MessageContainer = () => {
         return (
-          
-          <div className="message-container py-10 px-20 ">
+          <div className="message-container py-10 px-20 mb-6">
             {/* 상대방 메세지  -  your message*/}
             {/* 내 메세지 - my-message */}
             {/* 참여, 나감 알림 메세지 -system message */}
@@ -31,7 +30,7 @@ const MessageContainer = () => {
                 <img
                   src="/profile.jpeg"
                   alt="profile"
-                  className="profile-image bg-blue-700"
+                  className="profile-image bg-green-700"
                   // user profile 넣어두기 
                  />
                 <div className="your-message">메세지지지지지지지지지지지지지지지지지ㅣ지지지지지지</div>
@@ -51,13 +50,63 @@ const MessageContainer = () => {
                 <img
                   src="/profile.jpeg"
                   alt="profile"
-                  className="profile-image bg-blue-700"
+                  className="profile-image bg-green-700"
                   // user profile 넣어두기 
                  />
                 <div className="your-message">메세지요</div>
                 <span className="my-checked">안읽음</span>
               </div>
 
+              <div className="your-message-container">
+                <img
+                  src="/profile.jpeg"
+                  alt="profile"
+                  className="profile-image bg-green-700"
+                  // user profile 넣어두기 
+                 />
+                <div className="your-message">메세지요</div>
+                <span className="my-checked">안읽음</span>
+              </div>
+              <div className="your-message-container">
+                <img
+                  src="/profile.jpeg"
+                  alt="profile"
+                  className="profile-image bg-green-700"
+                  // user profile 넣어두기 
+                 />
+                <div className="your-message">메세지요</div>
+                <span className="my-checked">안읽음</span>
+              </div>
+              <div className="your-message-container">
+                <img
+                  src="/profile.jpeg"
+                  alt="profile"
+                  className="profile-image bg-green-700"
+                  // user profile 넣어두기 
+                 />
+                <div className="your-message">메세지요</div>
+                <span className="my-checked">안읽음</span>
+              </div>
+              <div className="your-message-container">
+                <img
+                  src="/profile.jpeg"
+                  alt="profile"
+                  className="profile-image bg-green-700"
+                  // user profile 넣어두기 
+                 />
+                <div className="your-message">메세지요</div>
+                <span className="my-checked">안읽음</span>                
+              </div>
+              <div className="your-message-container">
+                <img
+                  src="/profile.jpeg"
+                  alt="profile"
+                  className="profile-image bg-green-700"
+                  // user profile 넣어두기 
+                 />
+                <div className="your-message">메세지요</div>
+                <span className="my-checked">안읽음</span>
+              </div>
           </div>
         )
 };

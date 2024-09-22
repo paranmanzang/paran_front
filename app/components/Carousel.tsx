@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
 import { useState, useEffect, useCallback } from "react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
+import { button } from "flowbite-react";
 
 type CarouselItem = {
   id: number;
@@ -15,100 +16,125 @@ type CarouselItem = {
 };
 
 const carouselItems: CarouselItem[] = [
-  { id: 1, title: '독서습관 길러봐요!', string:'우리들의 즐거운 소모임을 통해서 함께 독서습관 만들어요!' , 
-    text: '집과 가까운곳 재밌어 보이는곳 나와 취향이 비슷한 곳 등 다양한 소모임에 참여해보세요!' ,
-    btn: { text: '참여하기', link: '/groups' }},
-  { id: 2, title: '재밌는 모임에 함께해요!', string:'우리들의 즐거운 소모임을 통해서 함께 독서습관 만들어요!' , 
-    text: '나와 독서취향이 비슷한 사람들과 즐겁게 독서해요!', 
-    btn: { text: '함께하기', link: '/groups' }},
-  { id: 3, title: '독서가 새해목표이신 분들 집중!', string:'여러 사람들과 함께하는 독서는 어떠신가요?' , 
-    text: '새로운 만남과 집중할 공간도 있어서 독서에 재미를 붙여봐요!',
-    btn: { text: '더보기', link: '/groups' }},
-  { id: 4, title: '집이 아닌 카페같은 공간에서 독서해요!', string:'집 주변의 장소를 컨텍해서 독서를 해보는건 어떠세요?' , 
-    text: '예쁜 공간에서 즐겁게 독서해요',
-    btn: { text: '공간보러가기', link: '/rooms' }},
-  { id: 5, title: '여러분들의 심상을 공유해주세요!', string:'독서는 마음의 양식이면서 휴식처입니다!' , 
-    text: '독서를 읽으면서 마음도 치유되는 새로운 경험을 공유해주세요!', 
-    btn: { text: '더보기', link: '/chats'}},
+  {
+    id: 1,
+    title: "독서습관 길러봐요!",
+    string: "우리들의 즐거운 소모임을 통해서 함께 독서습관 만들어요!",
+    text: "집과 가까운곳 재밌어 보이는곳 나와 취향이 비슷한 곳 등 다양한 소모임에 참여해보세요!",
+    btn: { text: "참여하기", link: "/groups" },
+  },
+  {
+    id: 2,
+    title: "재밌는 모임에 함께해요!",
+    string: "우리들의 즐거운 소모임을 통해서 함께 독서습관 만들어요!",
+    text: "나와 독서취향이 비슷한 사람들과 즐겁게 독서해요!",
+    btn: { text: "함께하기", link: "/groups" },
+  },
+  {
+    id: 3,
+    title: "독서가 새해목표이신 분들 집중!",
+    string: "여러 사람들과 함께하는 독서는 어떠신가요?",
+    text: "새로운 만남과 집중할 공간도 있어서 독서에 재미를 붙여봐요!",
+    btn: { text: "더보기", link: "/groups" },
+  },
+  {
+    id: 4,
+    title: "집이 아닌 카페같은 공간에서 독서해요!",
+    string: "집 주변의 장소를 컨텍해서 독서를 해보는건 어떠세요?",
+    text: "예쁜 공간에서 즐겁게 독서해요",
+    btn: { text: "공간보러가기", link: "/rooms" },
+  },
+  {
+    id: 5,
+    title: "여러분들의 심상을 공유해주세요!",
+    string: "독서는 마음의 양식이면서 휴식처입니다!",
+    text: "독서를 읽으면서 마음도 치유되는 새로운 경험을 공유해주세요!",
+    btn: { text: "더보기", link: "/chats" },
+  },
 ];
 
-    export default function CarouselComponent() {
-        const [currentSlide, setCurrentSlide] = useState(0);
-        const router = useRouter();
-        
-        const handleButtonClick = useCallback((link: string) => {
-          router.push(link);
-        }, [router]);
-      
-        const renderButton = (btn: { text: string; link: string }) => (
-          <button
-            onClick={() => handleButtonClick(btn.link)}
-            className="inline-flex items-center justify-center rounded-lg bg-green-400 px-5 py-2.5 text-center text-base font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-700"
+export default function CarouselComponent() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const router = useRouter();
+
+  const handlebuttonClick = useCallback(
+    (link: string) => {
+      router.push(link);
+    },
+    [router],
+  );
+
+  const renderbutton = (btn: { text: string; link: string }) => (
+    <button
+      onClick={() => handlebuttonClick(btn.link)}
+      className="inline-flex items-center justify-center rounded-lg bg-green-400 px-5 py-2.5 text-center text-base font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-700"
+    >
+      {btn.text}
+      <svg
+        className="ms-2 h-3.5 w-3.5 rtl:rotate-180"
+        aria-hidden="true"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 14 10"
+      >
+        <path
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M1 5h12m0 0L9 1m4 4L9 9"
+        />
+      </svg>
+    </button>
+  );
+
+  const nextSlide = useCallback(() => {
+    setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
+  }, []);
+
+  const prevSlide = useCallback(() => {
+    setCurrentSlide(
+      (prev) => (prev - 1 + carouselItems.length) % carouselItems.length,
+    );
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 3000);
+    return () => clearInterval(interval);
+  }, [nextSlide]);
+
+  return (
+    <div className="relative" aria-label="Carousel" id="article">
+      <div className="rounded-xlg relative h-60 w-full overflow-hidden bg-green-50 px-[5.5rem] py-[4.5rem] md:h-96">
+        {carouselItems.map((item, index) => (
+          <div
+            key={item.id}
+            className={`w-90 absolute h-80 px-4 py-4 transition-opacity duration-700 ease-in ${
+              index === currentSlide ? "opacity-100" : "opacity-0"
+            }`}
           >
-            {btn.text}
-            <svg
-              className="ms-2 h-3.5 w-3.5 rtl:rotate-180"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 14 10"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 5h12m0 0L9 1m4 4L9 9"
-              />
-            </svg>
-          </button>
-        );
-      
-        const nextSlide = useCallback(() => {
-          setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
-        }, []);
-      
-        const prevSlide = useCallback(() => {
-          setCurrentSlide((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
-        }, []);
-      
-        useEffect(() => {
-          const interval = setInterval(nextSlide, 3000);
-          return () => clearInterval(interval);
-        }, [nextSlide]);
-      
-        return (
-          <div className="relative" aria-label="Carousel" id="article">
-            <div className="relative w-full h-60 px-[5.5rem] py-[4.5rem] overflow-hidden rounded-xlg md:h-96 bg-green-50">
-              {carouselItems.map((item, index) => (
-                <div
-                  key={item.id}
-                  className={`absolute w-90 h-80 px-4 py-4 transition-opacity duration-700 ease-in ${
-                    index === currentSlide ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <h2 className="text-4xl font-extrabold dark:text-gray-900">
-                    {item.title}
-                  </h2>
-                  <p className="my-2 text-lg text-gray-500">
-                    {item.string}
-                  </p>
-                  <p className="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
-                    {item.text}
-                  </p>
-                  {renderButton(item.btn)}
-                </div>
-              ))}
-            </div>
+            <h2 className="text-4xl font-extrabold dark:text-gray-900">
+              {item.title}
+            </h2>
+            <p className="my-2 text-lg text-gray-500">{item.string}</p>
+            <p className="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
+              {item.text}
+            </p>
+            {renderbutton(item.btn)}
+          </div>
+        ))}
+      </div>
 
       {/* Slider indicators */}
-      <div className="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+      <div className="absolute bottom-5 left-1/2 z-30 flex -translate-x-1/2 space-x-3">
         {carouselItems.map((_, index) => (
           <button
             key={index}
             type="button"
-            className={`w-3 h-3 rounded-full ${
-              index === currentSlide ? 'bg-green-300' : 'bg-white hover:bg-white/50'
+            className={`h-3 w-3 rounded-full ${
+              index === currentSlide
+                ? "bg-green-300"
+                : "bg-white hover:bg-white/50"
             }`}
             aria-current={index === currentSlide}
             aria-label={`Slide ${index + 1}`}
@@ -120,24 +146,46 @@ const carouselItems: CarouselItem[] = [
       {/* Slider controls */}
       <button
         type="button"
-        className="absolute top-0 left-[-10%] z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        className="group absolute left-[-10%] top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
         onClick={prevSlide}
       >
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
-          <svg className="w-4 h-4 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 1L1 5l4 4"/>
+        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white">
+          <svg
+            className="h-4 w-4 text-green-400"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M5 1L1 5l4 4"
+            />
           </svg>
           <span className="sr-only">Previous</span>
         </span>
       </button>
       <button
         type="button"
-        className="absolute top-0 right-[-10%] z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+        className="group absolute right-[-10%] top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
         onClick={nextSlide}
       >
-        <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
-          <svg className="w-4 h-4 text-green-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
+        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white">
+          <svg
+            className="h-4 w-4 text-green-400"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 6 10"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="m1 9 4-4-4-4"
+            />
           </svg>
           <span className="sr-only">Next</span>
         </span>

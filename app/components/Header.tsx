@@ -1,5 +1,6 @@
 "use client";
 import { DarkThemeToggle } from "flowbite-react";
+import { button } from "flowbite-react";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "./Nav";
@@ -12,13 +13,19 @@ export default function Header() {
           href="/"
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
-          <Image src='/' width={24} height={24} className="size-8" alt="Logo" />
+          <Image
+            src="/assets/paranLogo.png"
+            width={24}
+            height={24}
+            className="size-8"
+            alt="Logo"
+          />
           <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
             Paranmanzang
           </span>
         </Link>
         <div className="flex space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
-          <div className="relative hidden md:block mx-3">
+          <div className="relative mx-3 hidden md:block">
             <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
               <svg
                 className="h-4 w-4 text-gray-500 dark:text-gray-400"
@@ -47,7 +54,7 @@ export default function Header() {
 
           <Link
             href="/users/login"
-            className="mx-auto rounded-lg bg-green-400 px-4 py-2 mx-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+            className="mx-2 mx-auto rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
           >
             로그인
           </Link>

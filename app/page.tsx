@@ -4,7 +4,7 @@ import Row from "./components/Row";
 import Link from "next/link";
 import "./globals.css";
 import Map from "./components/Map";
-import KakaoChat from "./components/chat/KakaoChat"
+import KakaoChat from "./components/chat/KakaoChat";
 import RecommendBook from "./components/chat/RecommendBook";
 import Carousel from "./components/Carousel";
 
@@ -40,7 +40,7 @@ export default function Home() {
       <article>
         <Map />
       </article>
-      <RecommendBook/>
+      <RecommendBook />
     </div>
   );
 }

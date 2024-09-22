@@ -1,9 +1,9 @@
-import { Button } from "flowbite-react";
+import { button } from "flowbite-react";
 
 import "./InputField.css";
 import React, { useEffect } from "react";
-const InputField = ({ message, setMessage, sendMessage }) => {
 
+const InputField = ({ message, setMessage, sendMessage }) => {
   useEffect(() => {
     const textarea = document.getElementById(
       "autoResize",
@@ -26,28 +26,26 @@ const InputField = ({ message, setMessage, sendMessage }) => {
         textarea.removeEventListener("input", adjustHeight);
       };
     }
-  
   }, []);
 
-  const handleEnter = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if(e.key === 'Enter'){
-      if(!e.shiftKey){
+  const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter") {
+      if (!e.shiftKey) {
         e.preventDefault();
         sendMessage;
       }
     }
-  }
- 
-// text -> 글자 작성할때 위로 올라가면서 작성 되도록 함. 
+  };
+
+  // text -> 글자 작성할때 위로 올라가면서 작성 되도록 함.
 
   return (
     <div className="input-area">
-      <div className="plus-button">+</div>
       <form onSubmit={sendMessage} className="input-container">
         <textarea
           id="autoResize"
           rows={1} // 최소 1줄로 시작
-          placeholder="Type in here…"
+          placeholder="메세지를 작성해주세요.."
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           style={{
@@ -58,9 +56,23 @@ const InputField = ({ message, setMessage, sendMessage }) => {
           onKeyDown={handleEnter}
           className="w-[90%] rounded border p-2"
         />
-        <Button disabled={message === ""} type="submit" className="send-button">
-          전송
-        </Button>
+        <button disabled={message === ""} type="submit" className="send-button">
+          <svg
+            className="h-4 w-3 text-gray-800 dark:text-white"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 10 14"
+          >
+            <path
+              stroke="currentColor"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13V1m0 0L1 5m4-4 4 4"
+            ></path>
+          </svg>
+        </button>
       </form>
     </div>
   );

@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import InputField from "../InputField/InputField";
 import './ChatPageStyle.css'
+import MessageContainer from '../MessageContainer/MessageContainer';
 
 const ChatPage = () => {
     const [message, setMessage] = useState("");
@@ -13,6 +14,7 @@ const ChatPage = () => {
     return (
       <div>
         <div className="ChatPage">
+          <MessageContainer />
           <InputField
             message={message}
             setMessage={setMessage}

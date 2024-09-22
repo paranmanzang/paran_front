@@ -17,10 +17,10 @@ const KakaoChat = () => {
       }
 
       // DOM이 렌더링된 후에 채널 버튼 생성
-      const chatButtonContainer = document.getElementById(
+      const chatbuttonContainer = document.getElementById(
         "chat-channel-button",
       );
-      if (chatButtonContainer) {
+      if (chatbuttonContainer) {
         window.Kakao.Channel.createChatButton({
           container: "#chat-channel-button",
           channelPublicId: "_xgEezn", // 채널의 공개 ID 입력
@@ -34,7 +34,7 @@ const KakaoChat = () => {
     if (typeof window !== "undefined" && window.Kakao) {
       initializeKakao();
     } else {
-     // 만약 Kakao SDK가 로드되지 않았다면, Script가 로드된 후 초기화
+      // 만약 Kakao SDK가 로드되지 않았다면, Script가 로드된 후 초기화
       const interval = setInterval(() => {
         if (window.Kakao) {
           clearInterval(interval);
@@ -46,14 +46,14 @@ const KakaoChat = () => {
 
   return (
     <div>
-    <Script
-      src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-      integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
-      crossOrigin="anonymous"
-      strategy="afterInteractive"
-    />
-    <div id="chat-channel-button"></div>
-  </div>
+      <Script
+        src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
+        integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
+      <div id="chat-channel-button"></div>
+    </div>
   );
 };
 
