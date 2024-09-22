@@ -1,3 +1,9 @@
+.message-container{
+  overflow-y: scroll;
+  height: 800px;
+  background: #BCF0DA;
+  min-width: 94vh;
+}
 .system-message-container {
   display: flex;
 
@@ -29,7 +35,7 @@
 .your-message-container {
   display: flex;
   justify-content: flex-start;
-  /* margin-bottom: 5px; */
+  margin-bottom: 1.5rem;
   align-items: center;
 }
 .your-message {

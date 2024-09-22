@@ -1,5 +1,11 @@
+"use client"
+import { useState } from "react";
 import Link from "next/link";
+
+//Path variable 로 받은 id 값으로 연결하기 
 export default function CardRow() {
+  const [id, setId] = useState();
+
   return (
     <div>
       <div className="max-w-sm rounded-lg border border-gray-200 bg-white p-6 shadow dark:border-gray-700 dark:bg-gray-800">
@@ -12,12 +18,13 @@ export default function CardRow() {
           채팅방 간략 소개
         </p>
         <Link
+        // href 주소에 link로 변경하기 
           href="/chats"
-          className="inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="inline-flex items-center rounded-lg bg-green-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
         >
           참여하기
           <svg
-            className="ms-2 h-3.5 w-3.5 rtl:rotate-180"
+            className="ms-2 size-3.5 rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

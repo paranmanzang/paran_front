@@ -1,8 +1,11 @@
-import { Button } from "flowbite-react";
-
 import "./InputField.css";
 import React, { useEffect } from "react";
-const InputField = ({ message, setMessage, sendMessage }) => {
+
+const InputField = ({ message, setMessage, sendMessage }: { 
+  message: string, 
+  setMessage: (message: string) => void, 
+  sendMessage: () => void 
+}) => {
 
   useEffect(() => {
     const textarea = document.getElementById(
@@ -26,28 +29,26 @@ const InputField = ({ message, setMessage, sendMessage }) => {
         textarea.removeEventListener("input", adjustHeight);
       };
     }
-  
   }, []);
 
-  const handleEnter = (e:React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if(e.key === 'Enter'){
-      if(!e.shiftKey){
+  const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter") {
+      if (!e.shiftKey) {
         e.preventDefault();
         sendMessage;
       }
     }
-  }
- 
-// text -> 글자 작성할때 위로 올라가면서 작성 되도록 함. 
+  };
+
+  // text -> 글자 작성할때 위로 올라가면서 작성 되도록 함.
 
   return (
     <div className="input-area">
-      <div className="plus-button">+</div>
       <form onSubmit={sendMessage} className="input-container">
         <textarea
           id="autoResize"
           rows={1} // 최소 1줄로 시작
-          placeholder="Type in here…"
+          placeholder="메세지를 작성해주세요.."
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           style={{
@@ -58,9 +59,11 @@ const InputField = ({ message, setMessage, sendMessage }) => {
           onKeyDown={handleEnter}
           className="w-[90%] rounded border p-2"
         />
-        <Button disabled={message === ""} type="submit" className="send-button">
-          전송
-        </Button>
+        <button disabled={message === ""} type="submit" className="send-button">
+          <svg className="size-5 rotate-45 rtl:-rotate-45 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+              <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
+          </svg>
+        </button>
       </form>
     </div>
   );

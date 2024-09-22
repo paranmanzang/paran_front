@@ -1,23 +1,28 @@
 import Link from "next/link";
+import Image from "next/image";
 //props 로 데이터 받아서 room, group, chat 다 다르게 바뀌도록 다시 손봐야 함.
-export default function Row({
-  //title, content, isData, getId 
-  // -> 해당 프롭스로 다른 url 링크 타면 다른 데이터 받아오는 방식으로 컴포넌트 재활용할 것임. 
-  //fetchUrl
-}) {
+export default function Row(
+  {
+    //title, content, isData, getId
+    // -> 해당 프롭스로 다른 url 링크 타면 다른 데이터 받아오는 방식으로 컴포넌트 재활용할 것임.
+    //fetchUrl
+  },
+) {
   /* 
     const fetchData = async () => {
     const request = await axios.get(fetchUrl);
    } */
 
   return (
-   // {dataname.map((data) => (
-      <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+    // {dataname.map((data) => (
+    <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <Link href="/books/2">
-        <img
+        <Image
+          width={400}
+          height={330}
           className="rounded-t-lg"
-          src="https://cdn.pixabay.com/photo/2017/01/19/08/56/book-1991816_640.jpg"
-          alt=""
+          src="https://picsum.photos/400/380"
+          alt="rowsImage"
         />
       </Link>
       <div className="p-5">
@@ -26,19 +31,17 @@ export default function Row({
             책 제목
           </h5>
         </Link>
-        <p className="mb-3 font-medium text-sm text-gray-700 dark:text-gray-400">
+        <p className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-400">
           출간일:
         </p>
-        <p className="font-medium text-sm">
-          저자명: 
-        </p>
+        <p className="text-sm font-medium">저자명:</p>
         <Link
           href="/books/2"
-          className="inline-flex items-center rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          className="inline-flex items-center rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-400 dark:hover:bg-green-500 dark:focus:ring-green-600"
         >
           상세보기
           <svg
-            className="ms-2 h-3.5 w-3.5 rtl:rotate-180"
+            className="ms-2 size-3.5 rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
