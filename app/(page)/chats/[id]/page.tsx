@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { button } from "flowbite-react";
+
 import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
 import MessageContainer from "@/app/components/chat/MessageContainer/MessageContainer";
 import MyChatList from "@/app/components/chat/MyChatList";
@@ -29,7 +29,7 @@ export default function ChatRoom() {
       <div className="fixed left-0 top-0 min-h-screen w-full">
         <div
           id="chatHead"
-          className="mt-1 flex justify-end bg-gray-100 bg-opacity-90 text-black"
+          className="mt-1 flex justify-end bg-gray-100 opacity-90 text-black"
         >
           {/* PopUp 버튼 - 모바일에서는 안보이도록 후처리 */}
           <button
@@ -38,7 +38,7 @@ export default function ChatRoom() {
             className="mb-1 me-2 rounded-full bg-green-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900 "
           >
             <svg
-              className="h-4 w-4 text-white dark:text-white"
+              className="size-4 text-white dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -55,8 +55,8 @@ export default function ChatRoom() {
             X
           </Link>
         </div>
-        <div className="flex h-[100dvh] justify-center rounded-lg bg-gray-100">
-          <section className="relative w-[20%] bg-green-700">
+        <div className="flex h-dvh justify-center rounded-lg bg-gray-100">
+          <section className="relative w-1/5 bg-green-700">
             <MyChatList />
             <ul className="w-full">
               <PeopleList />
@@ -66,7 +66,7 @@ export default function ChatRoom() {
             </ul>
             <MyProfile />
           </section>
-          <article className="flex w-[80%] flex-col bg-blue-200 ">
+          <article className="flex w-4/5 flex-col bg-blue-200 ">
             <aside className="w-full">
               <ChatPage />
               <MessageContainer />

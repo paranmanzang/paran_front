@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function UserProfile() {
   return (
-    <div className="mx-auto my-[20px] pt-3 px-6 h-[650px] w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+    <div className="mx-auto my-[40px] pt-3 px-6 h-[650px] w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <div className="flex mb-10">
         <div className="flex flex-col items-center ml-3">
           <Image
@@ -18,7 +18,7 @@ export default function UserProfile() {
           <div className="flex md:mt-6">
             <Link
               href="/file/upload"
-              className="ms-2 px-4 py-2 text-sm font-medium text-gray-900 hover:text-blue-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-white"
+              className="ms-2 px-4 py-2 text-sm font-medium text-gray-900 hover:text-green-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:text-white"
             >
               내 프로필 사진변경
             </Link>

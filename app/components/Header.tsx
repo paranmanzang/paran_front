@@ -1,9 +1,10 @@
 "use client";
 import { DarkThemeToggle } from "flowbite-react";
-import { button } from "flowbite-react";
+
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "./Nav";
+import paranLogo from "@/app/assets/paranLogo.png"
 
 export default function Header() {
   return (
@@ -14,7 +15,7 @@ export default function Header() {
           className="flex items-center space-x-3 rtl:space-x-reverse"
         >
           <Image
-            src="/assets/paranLogo.png"
+            src={paranLogo}
             width={24}
             height={24}
             className="size-8"
@@ -28,7 +29,7 @@ export default function Header() {
           <div className="relative mx-3 hidden md:block">
             <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center ps-3">
               <svg
-                className="h-4 w-4 text-gray-500 dark:text-gray-400"
+                className="size-4 text-gray-500 dark:text-gray-400"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -47,27 +48,27 @@ export default function Header() {
             <input
               type="text"
               id="search-navbar"
-              className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 ps-10 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-500 dark:focus:ring-green-500"
+              className=" block w-full rounded-lg border border-gray-300 bg-gray-50 p-2 ps-10 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-green-500 dark:focus:ring-green-500"
               placeholder="Search..."
             />
           </div>
 
           <Link
             href="/users/login"
-            className="mx-2 mx-auto rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+            className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
           >
             로그인
           </Link>
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
-            className="inline-flex h-10 w-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
             aria-controls="navbar-sticky"
             aria-expanded="false"
           >
             <span className="sr-only">Open main menu</span>
             <svg
-              className="h-5 w-5"
+              className="size-5"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

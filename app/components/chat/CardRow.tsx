@@ -24,7 +24,7 @@ export default function CardRow() {
         >
           참여하기
           <svg
-            className="ms-2 h-3.5 w-3.5 rtl:rotate-180"
+            className="ms-2 size-3.5 rtl:rotate-180"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

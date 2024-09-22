@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-import { button } from "flowbite-react";
 
 export default function Nav() {
   // 현재 선택된 탭 상태

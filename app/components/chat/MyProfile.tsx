@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { button } from "flowbite-react";
+
 import { useEffect } from "react";
 
 export default function MyProfile() {
@@ -26,12 +26,12 @@ export default function MyProfile() {
   };
 
   return (
-    <div className="align-center absolute bottom-[25px] mb-3 flex w-full justify-evenly border-t bg-white px-3 py-2">
+    <div className="absolute bottom-[25px] mb-3 flex w-full justify-evenly border-t bg-white px-3 py-2">
       <Image
-        width="50"
-        height="50"
+        width={50}
+        height={50}
         className="rounded-full bg-green-400"
-        src="/docs/images/people/profile-picture-5.jpg"
+        src="/"
         alt="userprofile"
       />
       <span className="py-2 text-base font-semibold text-green-900">
@@ -43,21 +43,18 @@ export default function MyProfile() {
         data-popover-placement="top"
         type="button"
         onClick={togglePopover}
-        className="py-2text-center relative mb-3 me-4 rounded-lg border border-green-200 bg-green-50 px-2.5 text-sm font-medium text-green-900 hover:bg-green-100"
+        className="relative mb-3 me-4 rounded-lg border border-green-200 bg-green-50 px-2.5 text-sm font-medium text-green-900 hover:bg-green-100"
       >
         {">"}
         <div
           data-popover
           id="popover-top"
           role="tooltip"
-          className="invisible absolute bottom-[1rem] right-[-8rem] z-10 inline-block w-[9rem] rounded-lg border border-green-100 bg-white text-sm text-gray-900 opacity-0 shadow-sm transition-opacity dark:border-green-600 dark:bg-green-800 dark:text-green-400"
+          className="invisible absolute bottom-6 -right-36 w-36 z-10 inline-block rounded-lg border border-green-100 bg-white text-sm text-gray-900 opacity-0 shadow-sm transition-opacity dark:border-green-600 dark:bg-green-800 dark:text-green-400"
         >
           <div className="rounded-t-lg border-b border-green-100 bg-green-50 px-3 py-2 dark:border-green-300 dark:bg-green-700">
-            <div className="justify-space-around flex py-1">
-              <button
-                type="button"
-                className="mx-2 border-none"
-              >
+            <div className="justify-around flex py-1">
+              <button type="button" className="mx-2 border-none">
                 상태 변경
               </button>
               <span className="border text-xs">online</span>

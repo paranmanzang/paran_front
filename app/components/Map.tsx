@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { button } from "flowbite-react";
+
 export default function Map() {
   return (
     <div
@@ -17,9 +17,9 @@ export default function Map() {
           zIndex: "-999",
         }}
       ></span>
-      <div className="w-100 flex justify-center">
+      <div className="w-full flex justify-center">
         <div className="mx-3 h-[850px] w-[43%] rounded-lg border bg-white shadow ">
-          <form className="mx-auto max-w-full px-6 py-6">
+          <form className="mx-auto max-w-full p-6">
             <div className="group relative z-0 mb-5 w-full">
               <input
                 type="text"
@@ -31,7 +31,7 @@ export default function Map() {
               />
               <label
                 htmlFor="floating_address"
-                className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-green-400 dark:text-gray-400 peer-focus:dark:text-green-400 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
+                className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-green-400 dark:text-gray-400 peer-focus:dark:text-green-400 rtl:peer-focus:left-auto rtl:peer-focus:translate-x-1/4"
               >
                 주소를 입력해주세요
               </label>
@@ -47,7 +47,7 @@ export default function Map() {
               />
               <label
                 htmlFor="floating_detail"
-                className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 transform text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-green-400 dark:text-gray-400 peer-focus:dark:text-green-400 rtl:peer-focus:translate-x-1/4"
+                className="absolute top-3 -z-10 origin-[0] -translate-y-6 scale-75 text-sm text-gray-500 duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:start-0 peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:font-medium peer-focus:text-green-400 dark:text-gray-400 peer-focus:dark:text-green-400 rtl:peer-focus:translate-x-1/4"
               >
                 상세주소
               </label>
@@ -62,7 +62,7 @@ export default function Map() {
         </div>
         <div>
           <Image
-            src="http://via.placeholder.com/580x850"
+            src="https://picsum.photos/580/850"
             width={580}
             height={850}
             alt="지도api 맛보기로 넣기"

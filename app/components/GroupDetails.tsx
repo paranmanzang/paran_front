@@ -1,5 +1,3 @@
-import { button } from "flowbite-react";
-
 export default function Details() {
   return (
     <div>
@@ -7,13 +5,13 @@ export default function Details() {
         메인 상세보기
       </div>
       <div className="my-6 grid min-h-screen grid-cols-2 place-items-center">
-        <div className="h-[70%] w-[80%] bg-gray-400">안에 내용 넣기</div>
-        <div className="h-[70%] w-[80%] bg-gray-400">안에 내용 넣기</div>
+        <div className="h-[70%] w-4/5 bg-gray-400">안에 내용 넣기</div>
+        <div className="h-[70%] w-4/5 bg-gray-400">안에 내용 넣기</div>
         <div className="col-span-2 h-[70%] w-[90%] bg-gray-400">
           안에 내용 넣기
         </div>
-        <div className="h-[70%] w-[80%] bg-gray-400">안에 내용 넣기</div>
-        <div className="h-[70%] w-[80%] bg-gray-400">안에 내용 넣기</div>
+        <div className="h-[70%] w-4/5 bg-gray-400">안에 내용 넣기</div>
+        <div className="h-[70%] w-4/5 bg-gray-400">안에 내용 넣기</div>
         <div className="col-span-2 h-[70%] w-full bg-gray-400">
           안에 내용 넣기
         </div>

@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { button } from "flowbite-react";
 
 type CarouselItem = {
   id: number;
@@ -49,7 +48,7 @@ const carouselItems: CarouselItem[] = [
     title: "여러분들의 심상을 공유해주세요!",
     string: "독서는 마음의 양식이면서 휴식처입니다!",
     text: "독서를 읽으면서 마음도 치유되는 새로운 경험을 공유해주세요!",
-    btn: { text: "더보기", link: "/chats" },
+    btn: { text: "더보기", link: "/groups" },
   },
 ];
 
@@ -57,21 +56,21 @@ export default function CarouselComponent() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const router = useRouter();
 
-  const handlebuttonClick = useCallback(
+  const handleButtonClick = useCallback(
     (link: string) => {
       router.push(link);
     },
     [router],
   );
 
-  const renderbutton = (btn: { text: string; link: string }) => (
+  const renderButton = (btn: { text: string; link: string }) => (
     <button
-      onClick={() => handlebuttonClick(btn.link)}
+      onClick={() => handleButtonClick(btn.link)}
       className="inline-flex items-center justify-center rounded-lg bg-green-400 px-5 py-2.5 text-center text-base font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-700"
     >
       {btn.text}
       <svg
-        className="ms-2 h-3.5 w-3.5 rtl:rotate-180"
+        className="ms-2 size-3.5 rtl:rotate-180"
         aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
@@ -109,7 +108,7 @@ export default function CarouselComponent() {
         {carouselItems.map((item, index) => (
           <div
             key={item.id}
-            className={`w-90 absolute h-80 px-4 py-4 transition-opacity duration-700 ease-in ${
+            className={`w-full absolute h-80 p-4 transition-opacity duration-700 ease-in ${
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
@@ -120,7 +119,7 @@ export default function CarouselComponent() {
             <p className="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
               {item.text}
             </p>
-            {renderbutton(item.btn)}
+            {renderButton(item.btn)}
           </div>
         ))}
       </div>
@@ -131,7 +130,7 @@ export default function CarouselComponent() {
           <button
             key={index}
             type="button"
-            className={`h-3 w-3 rounded-full ${
+            className={`size-3 rounded-full ${
               index === currentSlide
                 ? "bg-green-300"
                 : "bg-white hover:bg-white/50"
@@ -149,9 +148,9 @@ export default function CarouselComponent() {
         className="group absolute left-[-10%] top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
         onClick={prevSlide}
       >
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white">
+        <span className="inline-flex size-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white">
           <svg
-            className="h-4 w-4 text-green-400"
+            className="size-4 text-green-400"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 6 10"
@@ -172,9 +171,9 @@ export default function CarouselComponent() {
         className="group absolute right-[-10%] top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
         onClick={nextSlide}
       >
-        <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white">
+        <span className="inline-flex size-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white">
           <svg
-            className="h-4 w-4 text-green-400"
+            className="size-4 text-green-400"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 6 10"

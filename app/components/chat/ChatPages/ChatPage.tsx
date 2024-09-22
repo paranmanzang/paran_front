@@ -13,7 +13,7 @@ const ChatPage = () => {
 
     return (
       <div>
-        <div className="ChatPage">
+        <div id="ChatPage">
           <MessageContainer />
           <InputField
             message={message}

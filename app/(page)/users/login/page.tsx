@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Login() {
   return (
-    <div className="mx-auto my-6 max-w-lg rounded-lg border px-6 py-6 shadow dark:bg-gray-600">
+    <div className="mx-auto my-6 max-w-lg rounded-lg border p-6 shadow dark:bg-gray-600">
       <form>
         <div className="mb-5">
           <label
@@ -14,7 +14,7 @@ export default function Login() {
           <input
             type="username"
             id="username"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-500 dark:focus:ring-green-400"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-green-500 dark:focus:ring-green-400"
             placeholder="ID를 입력해주세요"
             required
           />

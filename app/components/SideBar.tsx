@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Row from "./Row";
-import { button } from "flowbite-react";
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +27,7 @@ export default function SideBar() {
       >
         <span className="sr-only">Open sidebar</span>
         <svg
-          className="h-6 w-6"
+          className="size-6"
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -52,7 +51,7 @@ export default function SideBar() {
             <li>
               <button
                 type="button"
-                className={`"group dark:hover:bg-gray-700" flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white ${
+                className={`group dark:hover:bg-gray-700 flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white ${
                   activeTab === "All"
                     ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
                     : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
@@ -62,7 +61,7 @@ export default function SideBar() {
                 onClick={toggleDropdown}
               >
                 <svg
-                  className="h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  className="size-5 shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -75,7 +74,7 @@ export default function SideBar() {
                 </span>
 
                 <svg
-                  className={`h-3 w-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                  className={`size-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -120,7 +119,7 @@ export default function SideBar() {
                 className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
                 <svg
-                  className="h-5 w-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  className="size-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -138,7 +137,7 @@ export default function SideBar() {
                 className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
               >
                 <svg
-                  className="h-5 w-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                  className="size-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"

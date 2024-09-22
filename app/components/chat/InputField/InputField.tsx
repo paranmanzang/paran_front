@@ -1,9 +1,12 @@
-import { button } from "flowbite-react";
-
 import "./InputField.css";
 import React, { useEffect } from "react";
 
-const InputField = ({ message, setMessage, sendMessage }) => {
+const InputField = ({ message, setMessage, sendMessage }: { 
+  message: string, 
+  setMessage: (message: string) => void, 
+  sendMessage: () => void 
+}) => {
+
   useEffect(() => {
     const textarea = document.getElementById(
       "autoResize",
@@ -57,20 +60,8 @@ const InputField = ({ message, setMessage, sendMessage }) => {
           className="w-[90%] rounded border p-2"
         />
         <button disabled={message === ""} type="submit" className="send-button">
-          <svg
-            className="h-4 w-3 text-gray-800 dark:text-white"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 10 14"
-          >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M5 13V1m0 0L1 5m4-4 4 4"
-            ></path>
+          <svg className="size-5 rotate-45 rtl:-rotate-45 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+              <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z"/>
           </svg>
         </button>
       </form>

@@ -5,13 +5,13 @@ export default function getPeopleList() {
   return (
     <li className="border-b w-full">
 {/* userId 받아서  */}
-      <Link href="" className="flex justify-evenly px-3 py-2 my-3 align-center"> 
+      <Link href="" className="flex justify-evenly px-3 py-2 my-3 items-center"> 
         <div className="relative">
           <Image
-          width="46"
-          height="46"
+          width={46}
+          height={46}
           className="rounded-full bg-green-400"
-          src="/docs/images/people/profile-picture-5.jpg"
+          src="/"
           alt="userprofile"
           />
           {/* user 상태 온라인 오프라인일 때 구분  */}

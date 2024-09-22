@@ -98,7 +98,7 @@ export default function About() {
   return (
     <div className="px-[15%] py-[5%]">
       <blockquote className="mb-6 text-xl font-semibold italic text-gray-900 dark:text-gray-700">
-        <p>"Paranmanzang 서비스를 이용해주셔서 감사합니다."</p>
+        <p>&ldquo;Paranmanzang 서비스를 이용해주셔서 감사합니다.&rdquo;</p>
       </blockquote>
 
       <div id="accordion-open" data-accordion="open">
@@ -118,7 +118,7 @@ export default function About() {
               >
                 <span className="flex items-center">
                   <svg
-                    className="me-2 h-5 w-5 shrink-0"
+                    className="me-2 size-5 shrink-0"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +132,7 @@ export default function About() {
                   {item.title}
                 </span>
                 <svg
-                  className={`h-3 w-3 shrink-0 transition-transform ${
+                  className={`size-3 shrink-0 transition-transform ${
                     openItems.includes(item.id) ? "rotate-180" : ""
                   }`}
                   aria-hidden="true"

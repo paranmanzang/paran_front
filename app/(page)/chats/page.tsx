@@ -11,14 +11,14 @@ export default function Chat() {
           X
         </Link>
       </div>
-      <div className="absolute left-[50%] top-[50%] transform translate-x-[-50%] z-30 mx-auto flex h-[50dvh] w-[40%] bg-green-700 text-white justify-center rounded-lg py-6 px-6">
+      <div className="absolute left-1/2 top-1/2 translate-x-[-50%] z-30 mx-auto flex h-[50dvh] w-2/5 bg-green-700 text-white justify-center rounded-lg p-6">
       <section>
        <ChatDetails />
       </section>
     </div>
     <p
       id="theme"
-      className="z-1 fixed left-0 top-0 min-h-screen w-full bg-gray-200 bg-opacity-92 text-black"
+      className="fixed left-0 top-0 min-h-screen w-full bg-gray-200 opacity-92 text-black"
     />
 
     </div>

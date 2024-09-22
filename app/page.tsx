@@ -1,16 +1,14 @@
-import Article from "./components/Article";
 import Nav from "./components/Tabbutton";
 import Row from "./components/Row";
 import Link from "next/link";
 import "./globals.css";
 import Map from "./components/Map";
-import KakaoChat from "./components/chat/KakaoChat";
-import RecommendBook from "./components/chat/RecommendBook";
+import RecommendBook from "./components/chat/ChatBot/RecommendBook";
 import Carousel from "./components/Carousel";
 
 export default function Home() {
   return (
-    <div className="git">
+    <div id="home">
       <section className="artWrap">
         <span className="bgEffect"></span>
         <Carousel />
