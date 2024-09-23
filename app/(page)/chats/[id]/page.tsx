@@ -69,7 +69,6 @@ export default function ChatRoom() {
           <article className="flex w-4/5 flex-col bg-blue-200 ">
             <aside className="w-full">
               <ChatPage />
-              <MessageContainer />
             </aside>
           </article>
         </div>

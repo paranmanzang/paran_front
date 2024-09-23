@@ -2,7 +2,7 @@ import "./MessageContainer.css";
 import Image from "next/image";
 const MessageContainer = () => {
   return (
-    <div className="message-container mb-6 px-20 py-10">
+    <div className="message-container min-h-dvh mb-6 px-20 py-10">
       {/* 상대방 메세지  -  your message*/}
       {/* 내 메세지 - my-message */}
       {/* 참여, 나감 알림 메세지 -system message */}

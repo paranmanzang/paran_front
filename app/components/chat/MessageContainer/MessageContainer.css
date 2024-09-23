@@ -1,12 +1,11 @@
 .message-container{
   overflow-y: scroll;
-  height: 800px;
+  height: 80%;
   background: #BCF0DA;
   min-width: 94vh;
 }
 .system-message-container {
   display: flex;
-
   justify-content: center;
   align-items: center;
 }
