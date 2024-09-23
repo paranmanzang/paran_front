@@ -2,7 +2,7 @@ import axios from 'axios';
 import { RoomModel, RoomUpdateModel, RoomWTimeModel } from '../../model/room/room';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8083/api/rooms', // Spring Boot API 기본 URL
+    baseURL: 'http://localhost:8000/api/rooms', // Spring Boot API 기본 URL
 });
 
 // 공간 등록

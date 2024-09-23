@@ -1,4 +1,26 @@
+"use client";
+import { useEffect, useState } from "react";
+import { RoomWTimeModel } from "../model/room/room";
+import { findRoomById } from "../service/room/room.service";
+import { loadFile, selectFileList } from "../service/File/file.service";
+import { FileModel } from "../model/file/file.model";
+
 export default function Details() {
+  const id: number = 2;
+  const [room, setRoom] = useState<RoomWTimeModel>();
+  const [files, setFiles] = useState<FileModel[]>();
+  useEffect(() => {
+    findRoomById(id).then(data => {
+      if (data) {
+        setRoom(data)
+      }
+    })
+    selectFileList(2, 'room').then(data => {
+      if (data) {
+        setFiles(data)
+      }
+    })
+  }, [])
   return (
     <div>
       <div className="h-[300px] w-full justify-center bg-gray-400">

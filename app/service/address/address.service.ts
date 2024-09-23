@@ -2,7 +2,7 @@ import axios from 'axios';
 import { AddressModel, AddressUpdateModel } from '../../model/address/address';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8083/api/address',
+    baseURL: 'http://localhost:8083/api/rooms/addresses',
 });
 
 // 주소 검색  --????
