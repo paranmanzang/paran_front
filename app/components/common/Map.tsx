@@ -7,7 +7,7 @@ export default function Map() {
       style={{ position: "relative", margin: "100px 0 150px" }}
     >
       <span
-        className="w-200 min-h-60 bg-gray-200"
+        className="w-200 min-h-60 bg-green-100"
         style={{
           position: "absolute",
           bottom: "-150px",

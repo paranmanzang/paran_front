@@ -30,10 +30,10 @@ const MessageContainer = () => {
 
       <div className="your-message-container">
         <Image
-        width={24}
-        height={24}
+          width={24}
+          height={24}
           src="/"
-          alt="profile"
+          alt="userprofile"
           className="profile-image bg-green-700"
           // user profile 넣어두기
         />
@@ -58,7 +58,7 @@ const MessageContainer = () => {
           height={24}
           src="/"
           className="profile-image bg-green-700"
-          // user profile 넣어두기
+          alt="userprofile"
         />
         <div className="your-message">메세지요</div>
         <span className="my-checked">안읽음</span>
@@ -68,9 +68,9 @@ const MessageContainer = () => {
         <Image
         width={24}
         height={24}
-          src="/"
-          className="profile-image bg-green-700"
-          // user profile 넣어두기
+        src="/"
+        className="profile-image bg-green-700"
+        alt="userprofile"
         />
         <div className="your-message">메세지요</div>
         <span className="my-checked">안읽음</span>
@@ -79,9 +79,9 @@ const MessageContainer = () => {
         <Image
         width={24}
         height={24}
-          src="/"
-          className="profile-image bg-green-700"
-          // user profile 넣어두기
+        src="/"
+        className="profile-image bg-green-700"
+        alt="userprofile"
         />
         <div className="your-message">메세지요</div>
         <span className="my-checked">안읽음</span>
@@ -92,7 +92,7 @@ const MessageContainer = () => {
           height={24}
           src="/"
           className="profile-image bg-green-700"
-          // user profile 넣어두기
+          alt="userprofile"
         />
         <div className="your-message">메세지요</div>
         <span className="my-checked">안읽음</span>
@@ -103,7 +103,7 @@ const MessageContainer = () => {
           height={24}
           src="/"
           className="profile-image bg-green-700"
-          // user profile 넣어두기
+          alt="userprofile"
         />
         <div className="your-message">메세지요</div>
         <span className="my-checked">안읽음</span>
@@ -114,6 +114,7 @@ const MessageContainer = () => {
           height={24}
           src="/"
           className="profile-image bg-green-700"
+          alt="userprofile"
           // user profile 넣어두기
         />
         <div className="your-message">메세지요</div>

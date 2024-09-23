@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import { ThemeModeScript } from "flowbite-react";
 import "./globals.css";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-import Script from "next/script";
-import KakaoChat from "./components/chat/KakaoChat";
+import Header from "./components/common/Header";
+import Footer from "./components/common/Footer";
+import RecommendBook from "./components/chat/ChatBot/RecommendBook";
 
 export const metadata: Metadata = {
   title: "paranmanzang",
@@ -24,14 +23,12 @@ export default function RootLayout({
       </head>
       <body>
         <Header />
-        <main className="mb-6 pb-6">
-          {children}
-        </main>
+        <main className="mb-6 pb-6">{children}</main>
+        <RecommendBook />
         <Footer />
-        <KakaoChat />
       </body>
-       {/* Kakao SDK 스크립트 로드 */}
-       {/* <Script
+      {/* Kakao SDK 스크립트 로드 */}
+      {/* <Script
             src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
             integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
             crossOrigin="anonymous"
