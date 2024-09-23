@@ -16,14 +16,14 @@ export default function SideBar() {
   };
 
   return (
-    <div className="relative min-h-screen">
+    <div className="relative min-h-screen overflow-x-hidden">
       {/* - 페이지 작아질 때 햄버거 버튼 생성 만들어 둠.  */}
       <button
         data-drawer-target="default-sidebar"
         data-drawer-toggle="default-sidebar"
         aria-controls="default-sidebar"
         type="button"
-        className="ms-3 mt-2 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:hidden"
+        className="ms-3 mt-2 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-green-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 sm:hidden"
       >
         <span className="sr-only">Open sidebar</span>
         <svg
@@ -41,17 +41,19 @@ export default function SideBar() {
         </svg>
       </button>
 
+      {/* <AdminButton /> */}
+      
       <aside
         id="default-sidebar"
-        className="top-100 sticky left-0 z-40 min-h-dvh h-100 w-64 -translate-x-full transition-transform sm:translate-x-0"
+        className="top-100 sticky left-0 z-40 w-64 -translate-x-full transition-transform sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="min-h-screen overflow-y-auto bg-gray-200 px-3 py-4 dark:bg-gray-800">
+        <div className="min-h-screen overflow-y-auto bg-green-100 px-3 py-4 dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
             <li>
               <button
                 type="button"
-                className={`group dark:hover:bg-gray-700 flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white ${
+                className={`group dark:hover:bg-gray-700 flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white ${
                   activeTab === "All"
                     ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
                     : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
@@ -94,15 +96,16 @@ export default function SideBar() {
                   <li>
                     <Link
                       href="/groups"
-                      className="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      className="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white dark:hover:bg-gray-700"
                     >
                       모임보기
                     </Link>
                   </li>
                   <li>
                     <Link
+                      
                       href="/chats/list"
-                      className="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-900 transition duration-75 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                      className="group flex w-full items-center rounded-lg p-2 pl-11 text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white dark:hover:bg-gray-700"
                     >
                       채팅방보기
                       <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
@@ -116,7 +119,7 @@ export default function SideBar() {
             <li>
               <Link
                 href="/rooms"
-                className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-green-200 dark:text-white dark:hover:bg-gray-700"
               >
                 <svg
                   className="size-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -134,7 +137,7 @@ export default function SideBar() {
             <li>
               <Link
                 href="/books"
-                className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
+                className="group flex items-center rounded-lg p-2 text-gray-900 hover:bg-green-200 dark:text-white dark:hover:bg-gray-700"
               >
                 <svg
                   className="size-5 flex-shrink-0 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
@@ -152,16 +155,17 @@ export default function SideBar() {
             </li>
           </ul>
         </div>
-
       </aside>
-      <div className="p-8 sm:ml-64 absolute top-0 h-100">
+      <div className="p-8 sm:ml-64 w-[88%] absolute top-0 h-full overflow-y-scroll">
         <div className="mb-4 grid grid-cols-3 gap-4">
-          <Row />
-          <Row />
-          <Row />
-          <Row />
-          <Row />
-          <Row />
+          {/* {rowItem.map(){ */}
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          {/* }} */}
         </div>
       </div>
     </div>

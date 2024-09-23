@@ -37,7 +37,7 @@ export default function Row(
         <p className="text-sm font-medium">저자명:</p>
         <Link
           href="/books/2"
-          className="inline-flex items-center rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-400 dark:hover:bg-green-500 dark:focus:ring-green-600"
+          className="w-full mt-5 inline-flex items-center rounded-lg bg-green-400 p-3 text- text-sm font-medium text-white hover:bg-green-500 dark:bg-green-400 dark:hover:bg-green-500"
         >
           상세보기
           <svg

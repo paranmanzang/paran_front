@@ -46,7 +46,7 @@ export default function Nav() {
                  onClick={() => handleTabClick('Books')}
                   aria-current="page"
               >
-                서점
+                도서
               </Link>
             </li>
             <li>
