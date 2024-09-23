@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ExceptionResponseModel } from '../../model/error/error';
-import { GroupModel, GroupResponseModel, JoiningModel, PointModel, PointResponseModel } from '../../model/group/group';
+import { ExceptionResponseModel } from '../../model/error/error.model';
+import { GroupModel, GroupResponseModel, JoiningModel, PointModel, PointResponseModel } from '@/app/model/group/group.model';
 
 const api = axios.create({
     baseURL: 'http://localhost:8083/api/groups/groups',
@@ -8,7 +8,7 @@ const api = axios.create({
 
 
 // 참여중인 소모임 조회
-export const getGrouplistByUserNickname = async (nickname: string): Promise<GroupResponseModel[]|ExceptionResponseModel> => {
+export const getGrouplistByUserNickname = async (nickname: string): Promise<GroupResponseModel[] | ExceptionResponseModel> => {
     try {
         const response = await api.get(`/mygrouplist`, { params: { nickname } });
         return response.data;
