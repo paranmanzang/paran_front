@@ -3,6 +3,12 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
+import MessageContainer from "@/app/components/chat/MessageContainer/MessageContainer";
+import MyChatList from "@/app/components/chat/MyChatList";
+import PeopleList from "@/app/components/chat/PeopleList";
+import MyProfile from "@/app/components/chat/MyProfile";
+
 export default function ChatRoom() {
   // 팝업 창 상태 관리
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
@@ -23,16 +29,16 @@ export default function ChatRoom() {
       <div className="fixed left-0 top-0 min-h-screen w-full">
         <div
           id="chatHead"
-          className="mt-1 flex justify-end bg-gray-100 bg-opacity-90 text-black"
+          className="mt-1 flex justify-end bg-gray-100 opacity-90 text-black"
         >
           {/* PopUp 버튼 - 모바일에서는 안보이도록 후처리 */}
           <button
             type="button"
             onClick={togglePopUp}
-            className="mb-1 me-2 rounded-full bg-green-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900"
+            className="mb-1 me-2 rounded-full bg-green-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900 "
           >
             <svg
-              className="h-4 w-4 text-white dark:text-white"
+              className="size-4 text-white dark:text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -49,97 +55,21 @@ export default function ChatRoom() {
             X
           </Link>
         </div>
-        <div className="flex h-[100dvh] justify-center rounded-lg bg-gray-100">
-          <section className="w-[20%] bg-gray-900 text-white">
-            <div id="chatHead" className="px-5 py-3">
-              {/* onClick 시에 내가 참여하고 있는 방 확인 할 수 있도록 */}
-              <button type="button" className="font-bold">
-                참여중인 대화방 이름 {">"}{" "}
-              </button>
-              {/* 버튼 누르면 hidden 없애기 */}
-              <ul className="hidden">
-                <li>참여중인 대화방1</li>
-                <li>참여중인 대화방2</li>
-                <li>참여중인 대화방3</li>
-                <li>참여중인 대화방4</li>
-              </ul>
-            </div>
-            <ul className="px-5 py-3">
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
-              <li>
-                <button type="button" className="px-5 py-3">
-                  <Image
-                    src="http://via.placeholder.com/24x24"
-                    alt="유저프로필"
-                    width={56}
-                    height={56}
-                  />
-                </button>
-              </li>
+        <div className="flex h-dvh justify-center rounded-lg bg-gray-100">
+          <section className="relative w-1/5 bg-green-700">
+            <MyChatList />
+            <ul className="w-full">
+              <PeopleList />
+              <PeopleList />
+              <PeopleList />
+              <PeopleList />
             </ul>
+            <MyProfile />
           </section>
-          <article className="flex w-[80%] flex-col bg-blue-200 ">
-            <div className="h-[85%] w-full">대화 이루어 지는 공간임</div>
-            <aside className="w-full border px-1 py-2">
-              <form className="flex justify-evenly">
-                <textarea
-                  placeholder="채팅 입력"
-                  className="w-[90%] rounded-full"
-                  style={{resize:'none', whiteSpace: "pre-wrap" }}
-                />
-                <button type="button" className="rounded-full border px-5 py-3">
-                  보내기
-                </button>
-              </form>
+          <article className="flex w-4/5 flex-col bg-blue-200 ">
+            <aside className="w-full">
+              <ChatPage />
+              <MessageContainer />
             </aside>
           </article>
         </div>

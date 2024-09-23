@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function LikeList({max}) {
+export default function LikeList() {
   return (
             
       <Link
