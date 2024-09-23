@@ -1,13 +1,10 @@
-// import axios from "axios";
+// api/axiosInstance.ts
+import axios from "axios";
 
-// const fetchUrl = axios.create({
-//   baseUrl: '/api',
-//   params: {
-//     api_key: "필요시 ",
-//     language: 'ko-KR',
-//   },
-// });
+// 기본 axios 설정을 정의 (baseURL 설정이나 기본 헤더 추가)
+const axiosInstance = axios.create({
+  baseURL: "https://localhost:8083", // 기본 API URL
+  timeout: 10000, // 요청 시간 제한
+});
 
-// export default fetchUrl;
-
-
+export default axiosInstance;

@@ -25,14 +25,6 @@ export default function RootLayout({
         <main className="mb-6 pb-6">{children}</main>
         <Footer />
       </body>
-      {/* Kakao SDK 스크립트 로드 */}
-      {/* <Script
-            src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
-            integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
-            crossOrigin="anonymous"
-            strategy="afterInteractive" // 클라이언트 사이드에서만 로드되도록 설정
-          />
-          */}
     </html>
   );
 }

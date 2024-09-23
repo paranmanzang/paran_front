@@ -1,3 +1,6 @@
+"use client"
+import { useState } from "react";
+
 import Nav from "./components/common/Tabbutton";
 import Row from "./components/common/Row";
 import Link from "next/link";
@@ -7,6 +10,8 @@ import RecommendBook from "./components/chat/ChatBot/RecommendBook";
 import Carousel from "./components/common/Carousel";
 
 export default function Home() {
+  const [rowData, setRowData] = useState<any[]>([]); 
+  const [max, setMax] = useState<number>(5); 
   return (
     <div id="home">
       <section className="artWrap">
@@ -19,12 +24,19 @@ export default function Home() {
             <Nav />
             <div className="grid h-full grid-cols-2 gap-4 md:grid-cols-3">
               {/* map 사용해서 데이타 props받고 연속 돌리기 넣어줄거임 */}
-              <Row />
-              <Row />
-              <Row />
-              <Row />
-              <Row />
-              <Row />
+              {rowData.length > 0 ? (
+             rowData.slice(0, max).map((item: any) => (
+              <Row
+                key={item.id}
+                title={item.title}
+                content={item.content}
+                fetchUrl={item.fetchUrl}
+                linkUrl={item.linkUrl}
+              />
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
               <Link
                 href="/books/"
                 className="mb-2 me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-gray-400 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white dark:focus:ring-gray-700"
