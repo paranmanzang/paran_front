@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ExceptionResponseModel } from '../../model/error/error';
-import { BookModel, BookResponseModel } from '../../model/group/group';
+import { ExceptionResponseModel } from '../../model/error/error.model';
+import { BookModel, BookResponseModel } from '@/app/model/group/group.model';
 
 const api = axios.create({
     baseURL: 'http://localhost:8084/api/groups/books',
@@ -31,10 +31,10 @@ export const addBook = async (bookModel: BookModel): Promise<boolean | Exception
 // 책 상세 보기
 export const findOneByBookId = async (bookId: number): Promise<Boolean | BookResponseModel> => {
     try {
-      const response = await api.get(`/${bookId}`); 
-      return response.data;
+        const response = await api.get(`/${bookId}`);
+        return response.data;
     } catch (error) {
-      console.error('Error finding book:', error);
-      throw new Error('도서 찾는 중 오류 발생');
+        console.error('Error finding book:', error);
+        throw new Error('도서 찾는 중 오류 발생');
     }
-  }
+}

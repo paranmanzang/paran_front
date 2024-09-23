@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ExceptionResponseModel } from '../../model/error/error';
-import { GroupModel, GroupPostModel, GroupPostResponseModel, GroupResponseModel, JoiningModel, PointModel, PointResponseModel } from '../../model/group/group';
+import { ExceptionResponseModel } from '../../model/error/error.model';
+import { GroupPostModel, GroupPostResponseModel } from '@/app/model/group/group.model';
 
 const api = axios.create({
     baseURL: 'http://localhost:8083/api/groups/grouppost',
