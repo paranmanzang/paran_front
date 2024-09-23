@@ -3,7 +3,6 @@ import { ThemeModeScript } from "flowbite-react";
 import "./globals.css";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
-import RecommendBook from "./components/chat/ChatBot/RecommendBook";
 
 export const metadata: Metadata = {
   title: "paranmanzang",
@@ -24,7 +23,6 @@ export default function RootLayout({
       <body>
         <Header />
         <main className="mb-6 pb-6">{children}</main>
-        <RecommendBook />
         <Footer />
       </body>
       {/* Kakao SDK 스크립트 로드 */}

@@ -34,6 +34,7 @@ export default function Home() {
             </div>
           </section>
         </h1>
+        <RecommendBook />
       </main>
       <article>
         <Map />
