@@ -2,7 +2,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Row from "./Row";
-import AdminButton from "../user/admin/AdminButton";
 
 export default function SideBar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -160,7 +159,12 @@ export default function SideBar() {
       <div className="p-8 sm:ml-64 w-[88%] absolute top-0 h-full overflow-y-scroll">
         <div className="mb-4 grid grid-cols-3 gap-4">
           {/* {rowItem.map(){ */}
-          <Row title={'제목2'} fetchUrl={'http://localhost:8083/reviews'} getId={()=> ('id')} />
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
+          <Row/>
           {/* }} */}
         </div>
       </div>
