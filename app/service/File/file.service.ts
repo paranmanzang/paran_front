@@ -2,7 +2,7 @@ import { FileDeleteModel, FileModel } from '@/app/model/file/file.model';
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8000/api/files', // Spring Boot API 기본 URL
+    baseURL: 'http://localhost:8090/api/files', // Spring Boot API 기본 URL
 });
 
 // 파일 리스트 조회
