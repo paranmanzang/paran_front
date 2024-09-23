@@ -1,9 +1,10 @@
+
 import axios from 'axios';
 import { RoomModel, RoomUpdateModel, RoomWTimeModel } from '../../model/room/room';
 import { ExceptionResponseModel } from '../../model/error/error';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8083/api/rooms/rooms', // Spring Boot API 기본 URL
+    baseURL: 'http://localhost:8083/api/rooms', // Spring Boot API 기본 URL
 });
 
 // 공간 등록
@@ -18,7 +19,7 @@ export const saveRoom = async (roomModel: RoomModel): Promise<boolean | Exceptio
 };
 
 // 공간 수정
-export const updateRoom = async (roomModel: RoomUpdateModel): Promise<boolean| ExceptionResponseModel> => {
+export const updateRoom = async (roomModel: RoomUpdateModel): Promise<boolean | ExceptionResponseModel> => {
     try {
         const response = await api.put('/update', roomModel);
         return response.data;
