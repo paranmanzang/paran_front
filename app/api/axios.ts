@@ -6,3 +6,5 @@ const axiosInstance = axios.create({
   baseURL: "https://localhost:8083", // 기본 API URL
   timeout: 10000, // 요청 시간 제한
 });
+
+export default axiosInstance;
