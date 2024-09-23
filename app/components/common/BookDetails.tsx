@@ -1,6 +1,6 @@
 "use client";
 
-import { BookResponseModel, LikeBookModel } from "@/app/model/group/group";
+import { BookResponseModel, LikeBookModel } from "@/app/model/group/group.model";
 import { findOneByBookId } from "@/app/service/group/book.service";
 import { likeBook } from "@/app/service/group/likeBook.service";
 import { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ export default function Details({ bookId }: DetailsProps) {
     bookId: Number(bookId),
     nickname: 'A'
   });
+
   useEffect(() => {
     // bookId에 해당하는 도서 정보를 가져옴
     const fetchBook = async () => {
