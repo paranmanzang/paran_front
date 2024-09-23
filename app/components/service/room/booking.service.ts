@@ -1,12 +1,13 @@
 import axios from 'axios';
-import { BookingModel } from '../../model/booking/booking';
+import { ExceptionResponseModel } from '../../model/error/error';
+import { BookingModel } from '../../model/room/room';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080/api/bookings',
+    baseURL: 'http://localhost:8080/api/rooms/bookings',
   });
 
   // 예약 등록
-export const saveBooking = async (bookingModel: BookingModel): Promise<boolean> => {
+export const saveBooking = async (bookingModel: BookingModel): Promise<boolean| ExceptionResponseModel> => {
     try {
       const response = await api.post('/add', bookingModel);
       return response.data;

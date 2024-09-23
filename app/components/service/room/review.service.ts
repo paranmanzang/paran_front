@@ -1,12 +1,13 @@
 import axios from 'axios';
-import { ReviewModel, ReviewUpdateModel } from '../../model/review/review';
+import { ExceptionResponseModel } from '../../model/error/error';
+import { ReviewModel, ReviewUpdateModel } from '../../model/room/room';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8083/api/reviews', 
+    baseURL: 'http://localhost:8083/api/rooms/reviews', 
   });
 
 // 리뷰 등록
-export const saveReview = async (reviewModel: ReviewModel): Promise<boolean> => {
+export const saveReview = async (reviewModel: ReviewModel): Promise<boolean| ExceptionResponseModel> => {
     try {
       const response = await api.post('/add', reviewModel);
       return response.data;
@@ -17,7 +18,7 @@ export const saveReview = async (reviewModel: ReviewModel): Promise<boolean> => 
   };
   
   // 리뷰 수정
-  export const updateReview = async (reviewModel: ReviewUpdateModel): Promise<boolean> => {
+  export const updateReview = async (reviewModel: ReviewUpdateModel): Promise<boolean| ExceptionResponseModel> => {
     try {
       const response = await api.put('/update', reviewModel);
       return response.data;

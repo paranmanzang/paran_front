@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { CommentRequestModel, CommentResponseModel } from '../../model/comment/comment';
+import { ExceptionResponseModel } from '../../model/error/error';
 
 const api = axios.create({
     baseURL: 'http://localhost:8084/api/comments', // Spring Boot API 주소
   });
 
   // 댓글 등록
-export const insertComment = async (model: CommentRequestModel, nickname: string): Promise<boolean> => {
+export const insertComment = async (model: CommentRequestModel, nickname: string): Promise<boolean | ExceptionResponseModel> => {
     try {
       const response = await api.post('/', model, {
         headers: {

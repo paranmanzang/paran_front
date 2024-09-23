@@ -1,8 +1,9 @@
 import axios from 'axios';
-import { AddressModel, AddressUpdateModel } from '../../model/address/address';
+import { ExceptionResponseModel } from '../../model/error/error';
+import { AddressModel, AddressUpdateModel } from '../../model/room/room';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8083/api/address',
+    baseURL: 'http://localhost:8083/api/rooms/address',
 });
 
 // 주소 검색  --????
@@ -19,7 +20,7 @@ export const searchAddress = async (query: string): Promise<any> => {
   };
   
   // 주소 등록
-  export const saveAddress = async (addressModel: AddressModel): Promise<boolean> => {
+  export const saveAddress = async (addressModel: AddressModel): Promise<boolean | ExceptionResponseModel> => {
     try {
       const response = await api.post('/add', addressModel);
       return response.data;
@@ -30,7 +31,7 @@ export const searchAddress = async (query: string): Promise<any> => {
   };
   
   // 주소 수정
-  export const updateAddress = async (addressModel: AddressUpdateModel): Promise<boolean> => {
+  export const updateAddress = async (addressModel: AddressUpdateModel): Promise<boolean| ExceptionResponseModel> => {
     try {
       const response = await api.put('/update', addressModel);
       return response.data;

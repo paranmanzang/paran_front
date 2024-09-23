@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { AccountCancelModel, AccountResultModel } from '../../model/account/account';
+import { AccountCancelModel, AccountResultModel } from '../../model/room/room';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8083/api/account',
+    baseURL: 'http://localhost:8083/api/rooms/account',
   });
 
   // 결제 정보 저장 
