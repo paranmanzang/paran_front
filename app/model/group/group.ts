@@ -87,3 +87,20 @@ export interface GroupPostResponseModel {
     bookId?: number;           // 책 ID (선택적 필드)
     bookTitle?: string;        // 책 제목 (선택적 필드)
 }
+
+export interface BookResponseModel {
+    id: number;
+    title: string;
+    author: string;
+    publisher: string;
+    categoryName: string; 
+    likeBookCount: number;
+}
+
+export interface LikeBookModel {
+    id?: number;
+    nickname: string;
+    bookId: number;
+    bookName?: string; 
+}
+
