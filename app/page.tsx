@@ -1,10 +1,10 @@
-import Nav from "./components/Tabbutton";
-import Row from "./components/Row";
+import Nav from "./components/common/Tabbutton";
+import Row from "./components/common/Row";
 import Link from "next/link";
 import "./globals.css";
-import Map from "./components/Map";
+import Map from "./components/common/Map";
 import RecommendBook from "./components/chat/ChatBot/RecommendBook";
-import Carousel from "./components/Carousel";
+import Carousel from "./components/common/Carousel";
 
 export default function Home() {
   return (
@@ -34,11 +34,11 @@ export default function Home() {
             </div>
           </section>
         </h1>
+        <RecommendBook />
       </main>
       <article>
         <Map />
       </article>
-      <RecommendBook />
     </div>
   );
 }

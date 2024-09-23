@@ -11,16 +11,15 @@ export default function Chat() {
           X
         </Link>
       </div>
-      <div className="absolute left-1/2 top-1/2 translate-x-[-50%] z-30 mx-auto flex h-[50dvh] w-2/5 bg-green-700 text-white justify-center rounded-lg p-6">
-      <section>
-       <ChatDetails />
-      </section>
-    </div>
-    <p
-      id="theme"
-      className="fixed left-0 top-0 min-h-screen w-full bg-gray-200 opacity-92 text-black"
-    />
-
+      <div className="absolute left-1/2 top-1/2 z-30 mx-auto flex h-[50dvh] w-2/5 translate-x-[-50%] justify-center rounded-lg bg-green-700 p-6 text-white">
+        <section>
+          <ChatDetails />
+        </section>
+      </div>
+      <p
+        id="theme"
+        className="opacity-92 fixed left-0 top-0 min-h-screen w-full bg-green-100 text-black"
+      />
     </div>
   );
 }

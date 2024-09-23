@@ -1,9 +1,9 @@
-import GroupDetails from "@/app/components/GroupDetails"
+import GroupDetails from "@/app/components/common/GroupDetails";
 
 export default function groupDetails() {
   return (
     <div>
-      <GroupDetails /> 
+      <GroupDetails />
     </div>
-  )
+  );
 }

@@ -1,9 +1,19 @@
 "use client";
 import { useState } from "react";
+import KakaoChat from "../KakaoChat";
+import "./RecommendBook.css"
+import { PiRadioButtonDuotone } from "react-icons/pi";
+import { PiRadioButtonFill } from "react-icons/pi";
+import { IoIosSearch } from "react-icons/io";
 
 export default function RecommendBook() {
   const [question, setQuestion] = useState<string>("");
   const [answer, setAnswer] = useState<string | null>(null);
+  const [isHidden, setIsHidden] = useState(true);
+
+  const handleToggle = () => {
+    setIsHidden(prevState => !prevState);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,21 +44,27 @@ export default function RecommendBook() {
   };
 
   return (
-    <>
-    <button type="button">
-      
-    </button>
+    <div className="relative">
+      <div className="fixed bottom-6 right-6">
+        <button type="button" id="triggerBtn" onClick={handleToggle}>
+        {isHidden ? <PiRadioButtonDuotone /> : <PiRadioButtonFill />}
+        </button>
+        <KakaoChat />
+        <div  id="targetItem" className={isHidden ? 'hidden' : ''}>
+        <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              placeholder="책 취향을 입력하세요"
+            />
+            <button type="submit"><IoIosSearch /></button>
+          </form>
+          {answer && <div>추천 결과: {answer}</div>}
+      </div>
+      </div>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          placeholder="책 취향을 입력하세요"
-        />
-        <button type="submit">추천 받기</button>
-      </form>
-      {answer && <div>추천 결과: {answer}</div>}
-    </>
+      
+    </div>
   );
 }
