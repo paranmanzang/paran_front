@@ -6,6 +6,7 @@ import Link from "next/link";
 interface AccordionItem {
   id: string;
   title: string;
+  category: string,
   content: React.ReactNode;
 }
 
@@ -13,6 +14,7 @@ const accordionItems: AccordionItem[] = [
   {
     id: "accordion-open-heading-1",
     title: "paranmanzang 이란?",
+    category: '전체',
     content: (
       <>
         <p className="mb-2 text-gray-500 dark:text-gray-400">
@@ -24,7 +26,7 @@ const accordionItems: AccordionItem[] = [
           파란만장 서비스를 경험해보고 싶으신 분들은{" "}
           <Link
             href="/"
-            className="text-green-600 hover:underline dark:text-green-500"
+            className="bg-green-400 text-white hover:underline"
           >
             지금 시작해보기
           </Link>{" "}
@@ -37,6 +39,7 @@ const accordionItems: AccordionItem[] = [
   {
     id: "accordion-open-heading-2",
     title: "책 구매도 할 수 있나요?",
+    category: '',
     content: (
       <>
         <p className="mb-2 text-gray-500 dark:text-gray-400">
@@ -53,6 +56,7 @@ const accordionItems: AccordionItem[] = [
   {
     id: "accordion-open-heading-3",
     title: "공간은 어떻게 예약할 수 있나요?",
+    category: '',
     content: (
       <>
         <p className="mb-2 text-gray-500 dark:text-gray-400">
@@ -66,18 +70,10 @@ const accordionItems: AccordionItem[] = [
         <ul className="list-disc ps-5 text-gray-500 dark:text-gray-400">
           <li>
             <Link
-              href="/how-to-reserve"
-              className="text-green-600 hover:underline dark:text-green-500"
+              href="/"
+              className="bg-green-400 text-white hover:underline"
             >
               예약 방법 안내
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/spaces"
-              className="text-green-600 hover:underline dark:text-green-500"
-            >
-              available spaces
             </Link>
           </li>
         </ul>
@@ -88,7 +84,10 @@ const accordionItems: AccordionItem[] = [
 
 export default function About() {
   const [openItems, setOpenItems] = useState<string[]>([]);
-
+  
+  const setDelete = () => {
+    window.alert('삭제되었습니다.')
+  }
   const toggleItem = (id: string) => {
     setOpenItems((prev) =>
       prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
@@ -97,6 +96,14 @@ export default function About() {
 
   return (
     <div className="px-[15%] py-[5%]">
+      <div className="ms-auto max-w-[14rem]">
+        {/* 만약 어드민이라면 */}
+        {}
+        <Link href="/aboard/add" className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"> 등록</Link>
+        <Link href="/aboard/update" className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"> 수정</Link>
+        <button type='button' onClick={setDelete} className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"> 삭제</button>
+      </div>
+      
       <blockquote className="mb-6 text-xl font-semibold italic text-gray-900 dark:text-gray-700">
         <p>&ldquo;Paranmanzang 서비스를 이용해주셔서 감사합니다.&rdquo;</p>
       </blockquote>
@@ -130,6 +137,7 @@ export default function About() {
                     ></path>
                   </svg>
                   {item.title}
+                  <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-green-800 bg-green-100 rounded-full dark:bg-gray-700 dark:text-gray-300">{item.category}</span>
                 </span>
                 <svg
                   className={`size-3 shrink-0 transition-transform ${

@@ -147,4 +147,3 @@ export const getAddressList = async (): Promise<AddressModel> => {
     throw new Error('주소 목록 조회 중 오류 발생');
   }
 };
->>>>>>> 5a74f6067bbee6dedc5c442bb3e8a0ca831c5693

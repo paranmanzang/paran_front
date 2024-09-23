@@ -120,7 +120,9 @@ export default function SideBar() {
                   <MdMessage />
                   <span className="ms-3 flex-1 whitespace-nowrap">
                     모임채팅 보기
+                    
                   </span>
+                   <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">3</span>
                 </button>
               </li>
           </ul>
