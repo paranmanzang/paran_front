@@ -1,8 +1,8 @@
-import Aboard from "@/app/components/Aboard";
+import Aboard from "@/app/components/common/Aboard";
 export default function aboard() {
   return (
-      <>
+    <>
       <Aboard />
-      </>
+    </>
   );
 }

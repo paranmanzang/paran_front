@@ -46,11 +46,13 @@ export default function MyProfile() {
         className="relative mb-3 me-4 rounded-lg border border-green-200 bg-green-50 px-2.5 text-sm font-medium text-green-900 hover:bg-green-100"
       >
         {">"}
+        </button>
+
         <div
           data-popover
           id="popover-top"
           role="tooltip"
-          className="invisible absolute bottom-6 -right-36 w-36 z-10 inline-block rounded-lg border border-green-100 bg-white text-sm text-gray-900 opacity-0 shadow-sm transition-opacity dark:border-green-600 dark:bg-green-800 dark:text-green-400"
+          className="invisible absolute bottom-6 -right-24 w-36 z-10 inline-block rounded-lg border border-green-100 bg-white text-sm text-gray-900 opacity-0 shadow-sm transition-opacity dark:border-green-600 dark:bg-green-800 dark:text-green-400"
         >
           <div className="rounded-t-lg border-b border-green-100 bg-green-50 px-3 py-2 dark:border-green-300 dark:bg-green-700">
             <div className="justify-around flex py-1">
@@ -64,7 +66,6 @@ export default function MyProfile() {
             </div>
           </div>
         </div>
-      </button>
     </div>
   );
 }

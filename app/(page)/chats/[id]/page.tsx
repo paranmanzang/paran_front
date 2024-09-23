@@ -29,7 +29,7 @@ export default function ChatRoom() {
       <div className="fixed left-0 top-0 min-h-screen w-full">
         <div
           id="chatHead"
-          className="mt-1 flex justify-end bg-gray-100 opacity-90 text-black"
+          className="mt-1 flex justify-end bg-gray-100 text-black opacity-90"
         >
           {/* PopUp 버튼 - 모바일에서는 안보이도록 후처리 */}
           <button
@@ -49,7 +49,7 @@ export default function ChatRoom() {
             </svg>
           </button>
           <Link
-            href="/chats"
+            href="/chats/list"
             className="mb-1 me-2 rounded-full bg-red-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
           >
             X
