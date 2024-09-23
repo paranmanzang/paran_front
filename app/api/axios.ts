@@ -1,11 +1,11 @@
 import axios from "axios";
 
-const instance = axios.create({
-  //baseUrl: '백엔드 링크',
+const fetchUrl = axios.create({
+  baseUrl: '/api',
   params: {
-    //api_key: "필요시 ",
+    api_key: "필요시 ",
     language: 'ko-KR',
   },
 });
 
-export default instance;
+export default fetchUrl;

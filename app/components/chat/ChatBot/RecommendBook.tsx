@@ -45,7 +45,7 @@ export default function RecommendBook() {
 
   return (
     <div className="relative">
-      <div className="fixed bottom-6 right-6">
+      <div className="fixed z-30 bottom-6 right-6">
         <button type="button" id="triggerBtn" onClick={handleToggle}>
         {isHidden ? <PiRadioButtonDuotone /> : <PiRadioButtonFill />}
         </button>

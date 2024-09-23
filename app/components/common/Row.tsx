@@ -1,63 +1,102 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
-//props 로 데이터 받아서 room, group, chat 다 다르게 바뀌도록 다시 손봐야 함.
-export default function Row(
-  {
-    //title, content, isData, getId
-    // -> 해당 프롭스로 다른 url 링크 타면 다른 데이터 받아오는 방식으로 컴포넌트 재활용할 것임.
-    //fetchUrl
-  },
-) {
-  /* 
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+interface RowProps {
+  title: string;
+  fetchUrl: string;
+  getId: (id: string) => string;
+}
+
+interface RowData {
+  id: string;
+  title: string;
+  content: string;
+  publicationDate: string;
+  imageUrl: string;
+}
+
+export default function Row({ title, fetchUrl, getId, max }: RowProps) {
+  const [data, setData] = useState<RowData[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
     const fetchData = async () => {
-    const request = await axios.get(fetchUrl);
-   } */
+      try {
+        setIsLoading(true);
+        const response = await axios.get(fetchUrl);
+        setData(response.data); // 배열로 데이터를 받는다고 가정
+      } catch (err) {
+        setError("데이터를 불러오는 데 실패했습니다.");
+        console.error("Error fetching data: ", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [fetchUrl]);
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>{error}</div>;
+  if (!data || data.length === 0) return <div>데이터가 없습니다.</div>;
 
   return (
-    // {dataname.map((data) => (
-    <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
-      <Link href="/books/2">
-        <Image
-          width={400}
-          height={330}
-          className="rounded-t-lg"
-          src="https://picsum.photos/400/380"
-          alt="rowsImage"
-        />
-      </Link>
-      <div className="p-5">
-        <Link href="/books/2">
-          <h5 className="mb-2 text-lg font-medium tracking-tight text-gray-900 dark:text-white">
-            책 제목
-          </h5>
-        </Link>
-        <p className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-400">
-          출간일:
-        </p>
-        <p className="text-sm font-medium">저자명:</p>
-        <Link
-          href="/books/2"
-          className="inline-flex items-center rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-400 dark:hover:bg-green-500 dark:focus:ring-green-600"
-        >
-          상세보기
-          <svg
-            className="ms-2 size-3.5 rtl:rotate-180"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 10"
+    <div>
+      <h2 className="mb-5 text-xl font-bold">{title}</h2>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {data.map((item) => (
+          <div
+            key={item.id}
+            className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800"
           >
-            <path
-              stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M1 5h12m0 0L9 1m4 4L9 9"
-            />
-          </svg>
-        </Link>
+            <Link href={getId(item.id)}>
+              <Image
+                width={400}
+                height={330}
+                className="rounded-t-lg"
+                src={item.imageUrl} // 각 데이터의 imageUrl 사용
+                alt={item.title}
+              />
+            </Link>
+            <div className="p-5">
+              <Link href={getId(item.id)}>
+                <h5 className="mb-2 text-lg font-medium tracking-tight text-gray-900 dark:text-white">
+                  Title: {item.title}
+                </h5>
+              </Link>
+              <p className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-400">
+                출간일: {item.publicationDate}
+              </p>
+              <p className="text-sm font-medium">Contents: {item.content}</p>
+              <Link
+                href={getId(item.id)}
+                className="w-full mt-5 inline-flex items-center rounded-lg bg-green-400 p-3 text-center text-sm font-medium text-white hover:bg-green-500 dark:bg-green-400 dark:hover:bg-green-500"
+              >
+                상세보기
+                <svg
+                  className="ms-2 size-3.5 rtl:rotate-180"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 10"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M1 5h12m0 0L9 1m4 4L9 9"
+                  />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-    //))}
   );
 }
