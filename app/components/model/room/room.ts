@@ -43,9 +43,9 @@ export interface ReviewModel {
     createAt?: string; // 작성일 (선택사항, ISO 8601 형식)
     roomId: number; // 이용 공간 ID (필수)
     bookingId: number; // 예약 정보 ID (필수)
-  }  
+}
 
-  export interface ReviewUpdateModel {
+export interface ReviewUpdateModel {
     id: number; // 리뷰 ID (필수)
     rating: number; // 별점 (필수, 1~10 범위의 자연수)
     content: string; // 리뷰 내용 (필수)
@@ -58,9 +58,9 @@ export interface BookingModel {
     usingEnd: string; // 이용 종료 시간 (필수, "yyyy-MM-dd HH:mm" 형식)
     roomId: number; // 공간 ID (필수)
     groupId: number; // 소모임 ID (필수)
-  }
-  
-  export interface AddressModel {
+}
+
+export interface AddressModel {
     id?: number; // 주소 ID는 선택적으로 존재할 수 있습니다.
     address: string; // 전체 주소
     detailAddress: string; // 상세 주소
@@ -86,10 +86,10 @@ export interface AccountResultModel {
     roomId: number;         // 공간 ID (사용처)
     bookingId: number;      // 예약 ID
     usePoint: number;       // 사용한 포인트
-  }
-  
+}
 
-export interface AccountCancelModel{
+
+export interface AccountCancelModel {
     paymentKey: String;     // 결제 번호
     cancelReason: String;   // 취소 사유
 }
