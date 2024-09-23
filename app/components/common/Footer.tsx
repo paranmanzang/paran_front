@@ -11,7 +11,7 @@ export default function Footer() {
             <ul className="font-medium text-gray-500 dark:text-gray-400">
               <li className="mb-4">
                 <Link href="/" className="hover:underline">
-                  PO, CHAT : 임청하
+                  PO, CHAT, GROUP : 임청하
                 </Link>
               </li>
               <li className="mb-4">
@@ -27,11 +27,6 @@ export default function Footer() {
               <li className="mb-4">
                 <Link href="/" className="hover:underline">
                   ACCOUNT, ADDRESS : 송지현
-                </Link>
-              </li>
-              <li className="mb-4">
-                <Link href="/" className="hover:underline">
-                  GROUP : 송지혜
                 </Link>
               </li>
             </ul>
