@@ -16,7 +16,7 @@ export default function SideBar() {
   };
 
   return (
-    <div>
+    <div className="relative min-h-screen">
       {/* - 페이지 작아질 때 햄버거 버튼 생성 만들어 둠.  */}
       <button
         data-drawer-target="default-sidebar"
@@ -43,10 +43,10 @@ export default function SideBar() {
 
       <aside
         id="default-sidebar"
-        className="top-100 absolute left-0 z-40 h-dvh w-64 -translate-x-full transition-transform sm:translate-x-0"
+        className="top-100 sticky left-0 z-40 min-h-dvh h-100 w-64 -translate-x-full transition-transform sm:translate-x-0"
         aria-label="Sidebar"
       >
-        <div className="h-dvh overflow-y-auto bg-gray-50 px-3 py-4 dark:bg-gray-800">
+        <div className="min-h-screen overflow-y-auto bg-gray-200 px-3 py-4 dark:bg-gray-800">
           <ul className="space-y-2 font-medium">
             <li>
               <button
@@ -152,8 +152,9 @@ export default function SideBar() {
             </li>
           </ul>
         </div>
+
       </aside>
-      <div className="p-4 sm:ml-64">
+      <div className="p-8 sm:ml-64 absolute top-0 h-100">
         <div className="mb-4 grid grid-cols-3 gap-4">
           <Row />
           <Row />

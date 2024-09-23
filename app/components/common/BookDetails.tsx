@@ -1,9 +1,9 @@
 "use client";
 
+import { BookResponseModel, LikeBookModel } from "@/app/model/group/group";
+import { findOneByBookId } from "@/app/service/group/book.service";
+import { likeBook } from "@/app/service/group/likeBook.service";
 import { useEffect, useState } from "react";
-import { BookResponseModel, LikeBookModel } from "../model/group/group";
-import { findOneByBookId } from "../service/group/book.service";
-import { likeBook } from "../service/group/likeBook.service";
 
 interface DetailsProps {
   bookId: string; 

@@ -23,7 +23,7 @@ export default function getPeopleList() {
           
         </div>
         <p className="inline text-white text-lg font-semibold ">NickName</p>
-        <span className="text-xs border-white border px-1 py-3 rounded-lg text-white hover:bg-green-600">보기</span>
+        <span className="text-xs border-white border p-2 rounded-lg text-white hover:bg-green-600">보기</span>
       </Link>
       
     </li>
