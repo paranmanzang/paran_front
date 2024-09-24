@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ExceptionResponseModel } from '../../model/error/error';
+import { ExceptionResponseModel } from '@/app/model/error/error.model';
 import { AddressModel, AddressUpdateModel } from '../../model/room/room';
 
 const api = axios.create({
@@ -73,4 +73,3 @@ export const searchAddress = async (query: string): Promise<any> => {
       throw new Error('주소 목록 조회 중 오류 발생');
     }
   };
->>>>>>> 4feddb7b497bd86dc0cc520327c10d8ef7755c6d:app/service/room/address.service.ts

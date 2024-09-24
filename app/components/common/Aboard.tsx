@@ -2,10 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
 
 interface AccordionItem {
   id: string;
   title: string;
+  category: string;
   content: React.ReactNode;
 }
 
@@ -13,6 +16,7 @@ const accordionItems: AccordionItem[] = [
   {
     id: "accordion-open-heading-1",
     title: "paranmanzang 이란?",
+    category: "전체",
     content: (
       <>
         <p className="mb-2 text-gray-500 dark:text-gray-400">
@@ -22,10 +26,7 @@ const accordionItems: AccordionItem[] = [
         </p>
         <p className="text-gray-500 dark:text-gray-400">
           파란만장 서비스를 경험해보고 싶으신 분들은{" "}
-          <Link
-            href="/"
-            className="text-green-600 hover:underline dark:text-green-500"
-          >
+          <Link href="/" className="bg-green-400 text-white hover:underline">
             지금 시작해보기
           </Link>{" "}
           함께 독서하고 얘기를 나누며 삶의 질을 높이는 경험이 될 수 있으면
@@ -37,6 +38,7 @@ const accordionItems: AccordionItem[] = [
   {
     id: "accordion-open-heading-2",
     title: "책 구매도 할 수 있나요?",
+    category: "",
     content: (
       <>
         <p className="mb-2 text-gray-500 dark:text-gray-400">
@@ -53,6 +55,7 @@ const accordionItems: AccordionItem[] = [
   {
     id: "accordion-open-heading-3",
     title: "공간은 어떻게 예약할 수 있나요?",
+    category: "",
     content: (
       <>
         <p className="mb-2 text-gray-500 dark:text-gray-400">
@@ -65,19 +68,8 @@ const accordionItems: AccordionItem[] = [
         </p>
         <ul className="list-disc ps-5 text-gray-500 dark:text-gray-400">
           <li>
-            <Link
-              href="/how-to-reserve"
-              className="text-green-600 hover:underline dark:text-green-500"
-            >
+            <Link href="/" className="bg-green-400 text-white hover:underline">
               예약 방법 안내
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/spaces"
-              className="text-green-600 hover:underline dark:text-green-500"
-            >
-              available spaces
             </Link>
           </li>
         </ul>
@@ -88,6 +80,40 @@ const accordionItems: AccordionItem[] = [
 
 export default function About() {
   const [openItems, setOpenItems] = useState<string[]>([]);
+  const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [items, setItems] = useState<AccordionItem[]>(accordionItems);
+  const router = useRouter();
+
+  const handleGoBack = () => {
+    router.back();
+  };
+
+  const handleDelete = () => {
+    if (checkedItems.length === 0) {
+      window.alert("삭제할 항목을 선택해주세요.");
+      return;
+    }
+    
+    const newItems = items.filter((item) => !checkedItems.includes(item.id));
+    setItems(newItems);
+    setCheckedItems([]);
+    window.alert("선택한 항목이 삭제되었습니다.");
+  };
+
+  const handleUpdate = () => {
+    if (checkedItems.length === 0) {
+      window.alert("수정할 항목을 선택해주세요.");
+      return;
+    }
+
+    if (checkedItems.length > 1) {
+      window.alert("수정할 항목을 하나만 선택해주세요.");
+      return;
+    }
+
+    // 선택된 항목의 ID를 쿼리 파라미터로 전달
+    router.push(`/aboard/update?id=${checkedItems[0]}`);
+  };
 
   const toggleItem = (id: string) => {
     setOpenItems((prev) =>
@@ -95,14 +121,53 @@ export default function About() {
     );
   };
 
+  const handleCheckboxChange = (id: string) => {
+    setCheckedItems((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
+    );
+  };
+
   return (
     <div className="px-[15%] py-[5%]">
+      <div className="ms-auto max-w-[20rem]">
+        {/* 만약 어드민이라면 */}
+        {}
+        <Link
+          href="/aboard/add"
+          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+        >
+          등록
+        </Link>
+        <button
+          type="button"
+// /          href="/aboard/2/update"
+          onClick={handleUpdate}
+          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+        >
+          수정
+        </button>
+        <button
+          type="button"
+          onClick={handleDelete}
+          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+        >
+          삭제
+        </button>
+        <button
+          type="button"
+          onClick={handleGoBack}
+          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+        >
+          뒤로가기
+        </button>
+      </div>
+
       <blockquote className="mb-6 text-xl font-semibold italic text-gray-900 dark:text-gray-700">
         <p>&ldquo;Paranmanzang 서비스를 이용해주셔서 감사합니다.&rdquo;</p>
       </blockquote>
 
       <div id="accordion-open" data-accordion="open">
-        {accordionItems.map((item) => (
+        {items.map((item) => (
           <div key={item.id}>
             <h2 id={item.id}>
               <button
@@ -117,6 +182,17 @@ export default function About() {
                 aria-controls={`${item.id}-body`}
               >
                 <span className="flex items-center">
+                  <div className="mx-4 flex items-center">
+                    {/* admin 만 보이는 input 체크박스임. */}
+                  <input
+                      id={`checkbox-${item.id}`}
+                      type="checkbox"
+                      checked={checkedItems.includes(item.id)}
+                      onChange={() => handleCheckboxChange(item.id)}
+                      className="size-4 rounded border-gray-300 bg-gray-100 text-green-400 dark:border-gray-600 dark:bg-gray-700"
+                    />
+                  </div>
+
                   <svg
                     className="me-2 size-5 shrink-0"
                     fill="currentColor"
@@ -130,6 +206,9 @@ export default function About() {
                     ></path>
                   </svg>
                   {item.title}
+                  <span className="ms-3 inline-flex items-center justify-center rounded-full bg-green-100 px-2 text-sm font-medium text-green-800 dark:bg-gray-700 dark:text-gray-300">
+                    {item.category}
+                  </span>
                 </span>
                 <svg
                   className={`size-3 shrink-0 transition-transform ${

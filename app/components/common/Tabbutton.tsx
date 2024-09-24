@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 
-export default function Nav() {
+export default function TabButton() {
   // 현재 선택된 탭 상태
   const [activeTab, setActiveTab] = useState("All");
   // 탭 클릭 시 상태 변경 함수

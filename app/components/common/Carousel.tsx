@@ -110,7 +110,7 @@ export default function Carousel() {
         {carouselItems.map((item, index) => (
           <div
             key={item.id}
-            className={`w-full absolute h-80 p-4 transition-opacity duration-700 ease-linear ${
+            className={`absolute h-80 w-full p-4 transition-opacity duration-700 ease-linear ${
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >

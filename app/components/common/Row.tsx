@@ -21,7 +21,9 @@ export default function Row({ title, content, fetchUrl, linkUrl }: { title: stri
   }, [fetchUrl]);
 
   return (
+    
     <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+      <input />
       <Link href={linkUrl|| '/'}>
         <Image
           width={400}
@@ -57,14 +59,15 @@ export default function Row({ title, content, fetchUrl, linkUrl }: { title: stri
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="M1 5h12m0 0L9 1m4 4L9 9"
             />
           </svg>
         </Link>
       </div>
-    </div>
+    </div> 
+
   );
 }

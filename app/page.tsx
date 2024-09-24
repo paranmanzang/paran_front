@@ -1,7 +1,7 @@
 "use client"
 import { useState } from "react";
 
-import Nav from "./components/common/Tabbutton";
+import TabButton from "./components/common/TabButton";
 import Row from "./components/common/Row";
 import Link from "next/link";
 import "./globals.css";
@@ -21,7 +21,7 @@ export default function Home() {
       <main className="flex min-h-screen items-center justify-center gap-2 dark:bg-gray-800">
         <h1 className="text-2xl dark:text-white">
           <section className="size-90" id="rowColum">
-            <Nav />
+            <TabButton />
             <div className="grid h-full grid-cols-2 gap-4 md:grid-cols-3">
               {/* map 사용해서 데이타 props받고 연속 돌리기 넣어줄거임 */}
               {rowData.length > 0 ? (

@@ -3,7 +3,7 @@ import CardRow from "@/app/components/chat/CardRow";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
 import { getChatList } from "@/app/service/chat/chatRoom.service";
 import { useEffect, useState } from "react";
-export default function page() {
+export default function ChatList() {
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null); 
   const [loading, setLoading] = useState<boolean>(true); 
   const [error, setError] = useState<boolean>(false); 
