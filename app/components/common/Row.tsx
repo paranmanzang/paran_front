@@ -21,7 +21,9 @@ export default function Row({ title, content, fetchUrl, linkUrl }: { title: stri
   }, [fetchUrl]);
 
   return (
+    
     <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+      <input />
       <Link href={linkUrl|| '/'}>
         <Image
           width={400}
@@ -65,6 +67,7 @@ export default function Row({ title, content, fetchUrl, linkUrl }: { title: stri
           </svg>
         </Link>
       </div>
-    </div>
+    </div> 
+
   );
 }

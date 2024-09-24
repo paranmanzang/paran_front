@@ -6,13 +6,14 @@ import { FaBook } from "react-icons/fa";
 import { FaSchool } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 import { MdMessage } from "react-icons/md";
+import AdminButton from "../user/adminRow/AdminButton";
+import SellerButton from "../user/sellerRow/SellerButton";
 
 export default function SideBar() {
-
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("All");
   const [rowData, setRowData] = useState<any[]>([]); // Row 컴포넌트로 전달할 데이터
-  const [max, setMax] = useState<number>(5); 
+  const [max, setMax] = useState<number>(5);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -29,7 +30,7 @@ export default function SideBar() {
       url = "/groups";
     } else if (tab === "Chats") {
       url = "/chats";
-    } else if(tab === 'Books') {
+    } else if (tab === "Books") {
       url = "/books";
     }
 
@@ -48,20 +49,21 @@ export default function SideBar() {
   }, [activeTab]);
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden">
-      {/* <AdminButton /> */}
-      
-      <aside
-        id="default-sidebar"
-        className="top-100 sticky left-0 z-40 w-64 -translate-x-full transition-transform sm:translate-x-0"
-        aria-label="Sidebar"
-      >
-        <div className="min-h-screen overflow-y-auto bg-green-100 px-3 py-4 dark:bg-gray-800">
-          <ul className="space-y-2 font-medium">
-            <li>
+    <div>
+      <AdminButton />
+      {/* <SellerButton /> */}
+      <div className="relative min-h-screen overflow-x-hidden">
+        <aside
+          id="default-sidebar"
+          className="top-100 sticky left-0 z-40 w-64 -translate-x-full transition-transform sm:translate-x-0"
+          aria-label="Sidebar"
+        >
+          <div className="min-h-screen overflow-y-auto bg-green-100 px-3 py-4 dark:bg-gray-800">
+            <ul className="space-y-2 font-medium">
+              <li>
                 <button
                   type="button"
-                  className={`group dark:hover:bg-gray-700 flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white ${
+                  className={`group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white dark:hover:bg-gray-700 ${
                     activeTab === "Groups"
                       ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
                       : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
@@ -77,14 +79,14 @@ export default function SideBar() {
               <li>
                 <button
                   type="button"
-                  className={`group dark:hover:bg-gray-700 flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white ${
+                  className={`group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white dark:hover:bg-gray-700 ${
                     activeTab === "Rooms"
                       ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
                       : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                   }`}
                   onClick={() => setActiveTab("Rooms")}
                 >
-                 <FaSchool />
+                  <FaSchool />
                   <span className="ms-3 flex-1 whitespace-nowrap">
                     우리들의 공간
                   </span>
@@ -93,24 +95,24 @@ export default function SideBar() {
               <li>
                 <button
                   type="button"
-                  className={`group dark:hover:bg-gray-700 flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white ${
+                  className={`group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white dark:hover:bg-gray-700 ${
                     activeTab === "Books"
                       ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
                       : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
                   }`}
                   onClick={() => setActiveTab("Books")}
                 >
-                 <FaBook />
+                  <FaBook />
                   <span className="ms-3 flex-1 whitespace-nowrap">
                     우리들의 책
                   </span>
                 </button>
               </li>
-              
+
               <li>
                 <button
                   type="button"
-                  className={`group dark:hover:bg-gray-700 flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white ${
+                  className={`group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white dark:hover:bg-gray-700 ${
                     activeTab === "Chats"
                       ? "border-green-600 text-green-600 dark:border-green-500 dark:text-green-500"
                       : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
@@ -120,29 +122,33 @@ export default function SideBar() {
                   <MdMessage />
                   <span className="ms-3 flex-1 whitespace-nowrap">
                     모임채팅 보기
-                    
                   </span>
-                   <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">3</span>
+                  <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                    3
+                  </span>
                 </button>
               </li>
-          </ul>
-        </div>
-      </aside>
-      <div className="p-8 sm:ml-64 w-[88%] absolute top-0 h-full overflow-y-scroll">
-        <div className="mb-4 grid grid-cols-3 gap-4">
-          {rowData.length > 0 ? (
-             rowData.slice(0, max).map((item: any) => (
-              <Row
-                key={item.id}
-                title={item.title}
-                content={item.content}
-                fetchUrl={item.fetchUrl}
-                linkUrl={item.linkUrl}
-              />
-            ))
-          ) : (
-            <p>Loading...</p>
-          )}
+            </ul>
+          </div>
+        </aside>
+        <div className="absolute top-0 h-full w-[88%] overflow-y-scroll p-8 sm:ml-64">
+          <div className="mb-4 grid grid-cols-3 gap-4">
+            {rowData.length > 0 ? (
+              rowData
+            //    .slice(0, max)
+                .map((item: any) => (
+                  <Row
+                    key={item.id}
+                    title={item.title}
+                    content={item.content}
+                    fetchUrl={item.fetchUrl}
+                    linkUrl={item.linkUrl}
+                  />
+                ))
+             ): (
+               <p>Loading...</p>
+             )}
+          </div>
         </div>
       </div>
     </div>

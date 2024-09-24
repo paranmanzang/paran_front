@@ -1,4 +1,6 @@
 "use client"
+import Link from "next/link";
+
 export default function add() {
   const onCreate = () => {
     window.alert('등록이 완료되었습니다.')
@@ -56,6 +58,7 @@ export default function add() {
           </select>
         </div>
         <button type="submit" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600">등록하기</button>
+        <Link href="/aboard" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600">뒤로가기</Link>
       </form>
     </div>
   );
