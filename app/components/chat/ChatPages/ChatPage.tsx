@@ -7,13 +7,13 @@ import { insertMessage } from '@/app/service/chat/chatMessage.service';
 import { ChatMessageModel } from '@/app/model/chat/chat.model';
 
 interface ChatPageProps {
-  messages: ChatMessageModel[]
+  messages: ChatMessageModel[];
+  roomId: string;
 }
 
-const ChatPage: React.FC<ChatPageProps> = ({ messages }) => {
+const ChatPage: React.FC<ChatPageProps> = ({ messages,roomId }) => {
   const [message, setMessage] = useState("");
   const isSuccessRef = useRef<boolean | null>(null);
-  const roomId = '66f14b991332832511b02fbb' // 임의로 넣어둠
   const nickname = 'A' // 임의로 넣어둠
 
   const sendMessage = useCallback(async () => {

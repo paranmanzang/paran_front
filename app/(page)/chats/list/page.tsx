@@ -7,10 +7,10 @@ export default function ChatList() {
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null); 
   const [loading, setLoading] = useState<boolean>(true); 
   const [error, setError] = useState<boolean>(false); 
+  const nickname = 'A'; // 임의로 넣어둠
 
   useEffect(() => {
     const fetchChatRooms = async () => {
-      const nickname = 'A';
       const result = await getChatList({ nickname });
 
       if (result && Array.isArray(result)) {
@@ -22,7 +22,7 @@ export default function ChatList() {
     };
 
     fetchChatRooms(); 
-  }, [chatRooms]);
+  }, [nickname]);
 
   if (loading) {
     return <div>로딩 중...</div>; 

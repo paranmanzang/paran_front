@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { ChatMessageModel } from "@/app/model/chat/chat.model";
 import "./MessageContainer.css";
 
@@ -7,10 +8,21 @@ interface MessageContainerProps {
 }
 
 const MessageContainer: React.FC<MessageContainerProps> = ({ messages, currentUserNickname }) => {
+  const messageEndRef = useRef<HTMLDivElement | null>(null); // 마지막 메시지를 참조하는 ref
+
+  // 새로운 메시지가 올 때마다 자동 스크롤
+  useEffect(() => {
+    if (messageEndRef.current) {
+      messageEndRef.current.scrollIntoView({ behavior: "smooth" }); // 부드럽게 스크롤
+    }
+  }, [messages]); // 메시지가 업데이트될 때마다 실행
+
   return (
-    <div className="message-container min-h-dvh mb-6 px-20 py-10">
+    <div className="message-container min-h-dvh mb-9 px-20 py-20 ">
       {messages.map((message) => {
-        // 시스템 메시지 처리
+        const isCurrentUser = message.nickname === currentUserNickname;
+
+        // 시스템 메시지 처리 (ENTER, EXIT)
         if (message.type === "ENTER" || message.type === "EXIT") {
           return (
             <div key={message.id} className="system-message-container">
@@ -20,31 +32,34 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ messages, currentUs
         }
 
         // 내가 보낸 메시지
-        if (message.nickname === currentUserNickname) {
+        if (isCurrentUser) {
           return (
             <div key={message.id} className="my-message-container">
-              <div className="my-message">{message.message}</div>
+              <span className="message-time">{message.time}</span>
+              <div className="my-message">
+                <span>{message.message}</span>
+              </div>
             </div>
           );
         }
 
         // 상대방이 보낸 메시지
         return (
+        <>
+            <p>{message.nickname}</p>
           <div key={message.id} className="your-message-container">
-            {/* <Image
-              width={24}
-              height={24}
-              src="/"
-              className="profile-image bg-green-700"
-              alt="userprofile"
-            // user profile 넣어두기
-            /> */}
-            <div className="your-message">{message.message}</div>
+            <div className="your-message">
+              <span>{message.message}</span>
+            </div>
+              <span className="message-time">{message.time}</span>
           </div>
+        </>    
         );
       })}
+      <div ref={messageEndRef} /> {/* 스크롤을 마지막으로 이동 */}
     </div>
   );
 };
 
 export default MessageContainer;
+
