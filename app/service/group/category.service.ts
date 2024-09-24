@@ -3,7 +3,7 @@ import { ExceptionResponseModel } from '../../model/error/error.model';
 import { CategoryModel } from '@/app/model/group/group.model';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8083/api/groups/newcategory',
+    baseURL: 'http://localhost:8084/api/groups/newcategory',
 });
 
 

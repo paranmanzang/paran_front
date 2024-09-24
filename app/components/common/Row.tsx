@@ -1,53 +1,70 @@
-"use client"
+"use client";
+import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { fetchData } from '@/app/api/fetchData'; // api 함수 임포트
+import { fetchData } from "@/app/api/fetchData";
 
-export default function Row({ title, content, fetchUrl, linkUrl }: { title: string, content: string, fetchUrl: string, linkUrl: string }) {
-  const [data, setData] = useState<any>(null);
+interface RowData {
+  id: string | number;
+  title: string;
+  content: string;
+  fetchUrl: string;
+  linkUrl: string;
+  imageUrl?: string; 
+  author?: string;    
+}
+
+interface RowProps {
+  data: RowData;
+  onSelect: () => void;
+  isSelected: boolean;
+  key: string | number;
+}
+
+
+const Row: React.FC<RowProps> = ({ data, onSelect, isSelected }) => {
+  const [detailedData, setDetailedData] = useState(data);
 
   useEffect(() => {
-    const loadData = async () => {
+    const fetchDetailedData = async () => {
       try {
-        const result = await fetchData(fetchUrl); // api 모듈에서 데이터 가져오기
-        setData(result);
+        const result = await fetchData(`/api/item/${data.id}`);
+        setDetailedData({ ...data, ...result });
       } catch (error) {
-        console.error("Error fetching data in Row component:", error);
+        console.error("Error fetching detailed data:", error);
       }
     };
 
-    loadData();
-  }, [fetchUrl]);
+    fetchDetailedData();
+  }, [data.id]);
 
   return (
-    
-    <div className="max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
-      <input />
-      <Link href={linkUrl|| '/'}>
+    <div
+      className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 ${isSelected ? "ring-2 ring-green-500" : ""}`}
+      onClick={onSelect}
+    >
+      <Link href={detailedData.linkUrl || "/"}>
         <Image
           width={400}
           height={330}
           className="rounded-t-lg"
-          src={data?.imageUrl || "https://picsum.photos/400/380"}
+          src={detailedData.imageUrl || "https://picsum.photos/400/380"}
           alt="rowsImage"
         />
       </Link>
       <div className="p-5">
-        <Link href={linkUrl|| '/'}>
+        <Link href={detailedData.linkUrl || "/"}>
           <h5 className="mb-2 text-lg font-medium tracking-tight text-gray-900 dark:text-white">
-            {data?.title || title}
+            {detailedData.title}
           </h5>
         </Link>
         <p className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-400">
-          {data?.content || content}
+          {detailedData.content}
         </p>
-        <p className="text-sm font-medium">
-          {data?.author || "저자명"}
-        </p>
+        <p className="text-sm font-medium">{detailedData.author || "저자명"}</p>
         <Link
-          href={linkUrl|| '/'}
-          className="w-full mt-5 inline-flex items-center rounded-lg bg-green-400 p-3 text- text-sm font-medium text-white hover:bg-green-500 dark:bg-green-400 dark:hover:bg-green-500"
+          href={detailedData.linkUrl || "/"}
+          className="text- mt-5 inline-flex w-full items-center rounded-lg bg-green-400 p-3 text-sm font-medium text-white hover:bg-green-500 dark:bg-green-400 dark:hover:bg-green-500"
         >
           상세보기
           <svg
@@ -67,7 +84,8 @@ export default function Row({ title, content, fetchUrl, linkUrl }: { title: stri
           </svg>
         </Link>
       </div>
-    </div> 
-
+    </div>
   );
-}
+};
+
+export default React.memo(Row);
