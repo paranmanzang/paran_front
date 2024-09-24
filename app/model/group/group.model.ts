@@ -2,7 +2,6 @@ export interface BookModel {
     title: string;          // 도서명 (필수값)
     author: string;         // 글쓴이 (필수값)
     categoryName: string;     // 카테고리 Name (필수값)
-
 }
 
 export interface CategoryModel{

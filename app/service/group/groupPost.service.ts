@@ -3,7 +3,7 @@ import { ExceptionResponseModel } from '../../model/error/error.model';
 import { GroupPostModel, GroupPostResponseModel } from '@/app/model/group/group.model';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8083/api/groups/grouppost',
+    baseURL: 'http://localhost:8084/api/groups/grouppost',
 });
 
 // 게시글 추가 

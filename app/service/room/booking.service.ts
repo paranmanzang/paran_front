@@ -3,7 +3,7 @@ import { ExceptionResponseModel } from '../../model/error/error.model';
 import { BookingModel } from '../../model/room/room';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080/api/rooms/bookings',
+  baseURL: 'http://localhost:8083/api/rooms/bookings',
 });
 
 // 예약 등록

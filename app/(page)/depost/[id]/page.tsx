@@ -1,5 +1,7 @@
-export default function showOne() {
+export default function ShowOne() {
   return (
-    <div>showOne</div>
+    <div>
+       
+    </div>
   )
 }

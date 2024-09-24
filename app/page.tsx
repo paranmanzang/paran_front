@@ -26,12 +26,19 @@ export default function Home() {
               {/* map 사용해서 데이타 props받고 연속 돌리기 넣어줄거임 */}
               {rowData.length > 0 ? (
              rowData.slice(0, max).map((item: any) => (
-              <Row
-                key={item.id}
-                title={item.title}
-                content={item.content}
-                fetchUrl={item.fetchUrl}
-                linkUrl={item.linkUrl}
+             <Row 
+             data={{
+                id: item.id,
+                title: item.title,
+                content: item.content,
+                fetchUrl: item.fetchUrl,
+                linkUrl: item.linkUrl,
+                imageUrl: item.imageUrl, // optional
+                author: item.author, // optional
+              }}
+              onSelect={() => (item.id)}
+              isSelected={item.id}
+              key={item.id}
               />
             ))
           ) : (
