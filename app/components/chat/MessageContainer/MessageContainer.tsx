@@ -1,125 +1,48 @@
+import { ChatMessageModel } from "@/app/model/chat/chat.model";
 import "./MessageContainer.css";
-import Image from "next/image";
-const MessageContainer = () => {
+
+interface MessageContainerProps {
+  messages: ChatMessageModel[]; // props로 메시지 리스트를 받음
+  currentUserNickname: string; // 현재 사용자의 닉네임을 받음
+}
+
+const MessageContainer: React.FC<MessageContainerProps> = ({ messages, currentUserNickname }) => {
   return (
     <div className="message-container min-h-dvh mb-6 px-20 py-10">
-      {/* 상대방 메세지  -  your message*/}
-      {/* 내 메세지 - my-message */}
-      {/* 참여, 나감 알림 메세지 -system message */}
-      <div className="system-message-container">
-        <p className="system-message"> &quot;Hello&quot; 님이 참여하셨습니다</p>
-      </div>
-      <div className="my-message-container">
-        <span className="your-checked">읽음</span>
-        <div className="my-message">메세지요</div>
-      </div>
-      <div className="my-message-container">
-        <span className="your-checked">읽음</span>
-        <div className="my-message">메세지요요요요요</div>
-      </div>
-      <div className="my-message-container">
-        <span className="your-checked">읽음</span>
-        <div className="my-message">
-          메세지지지지지지지지지지지지지지지지지ㅣ지지지지지지
-        </div>
-      </div>
-      <div className="my-message-container">
-        <span className="your-checked">읽음</span>
-        <div className="my-message">메세지입니다다다다</div>
-      </div>
+      {messages.map((message) => {
+        // 시스템 메시지 처리
+        if (message.type === "ENTER" || message.type === "EXIT") {
+          return (
+            <div key={message.id} className="system-message-container">
+              <p className="system-message">{message.message}</p>
+            </div>
+          );
+        }
 
-      <div className="your-message-container">
-        <Image
-          width={24}
-          height={24}
-          src="/"
-          alt="userprofile"
-          className="profile-image bg-green-700"
-          // user profile 넣어두기
-        />
-        <div className="your-message">
-          메세지지지지지지지지지지지지지지지지지ㅣ지지지지지지
-        </div>
-        <span className="my-checked">읽음</span>
-      </div>
+        // 내가 보낸 메시지
+        if (message.nickname === currentUserNickname) {
+          return (
+            <div key={message.id} className="my-message-container">
+              <div className="my-message">{message.message}</div>
+            </div>
+          );
+        }
 
-      <div className="my-message-container">
-        <span className="your-checked">읽음</span>
-        <div className="my-message">메세지입니다다다다</div>
-      </div>
-      <div className="my-message-container">
-        <span className="your-checked">읽음</span>
-        <div className="my-message">메세지입니다다다다</div>
-      </div>
-
-      <div className="your-message-container">
-        <Image
-          width={24}
-          height={24}
-          src="/"
-          className="profile-image bg-green-700"
-          alt="userprofile"
-        />
-        <div className="your-message">메세지요</div>
-        <span className="my-checked">안읽음</span>
-      </div>
-
-      <div className="your-message-container">
-        <Image
-        width={24}
-        height={24}
-        src="/"
-        className="profile-image bg-green-700"
-        alt="userprofile"
-        />
-        <div className="your-message">메세지요</div>
-        <span className="my-checked">안읽음</span>
-      </div>
-      <div className="your-message-container">
-        <Image
-        width={24}
-        height={24}
-        src="/"
-        className="profile-image bg-green-700"
-        alt="userprofile"
-        />
-        <div className="your-message">메세지요</div>
-        <span className="my-checked">안읽음</span>
-      </div>
-      <div className="your-message-container">
-        <Image
-          width={24}
-          height={24}
-          src="/"
-          className="profile-image bg-green-700"
-          alt="userprofile"
-        />
-        <div className="your-message">메세지요</div>
-        <span className="my-checked">안읽음</span>
-      </div>
-      <div className="your-message-container">
-        <Image
-          width={24}
-          height={24}
-          src="/"
-          className="profile-image bg-green-700"
-          alt="userprofile"
-        />
-        <div className="your-message">메세지요</div>
-        <span className="my-checked">안읽음</span>
-      </div>
-      <div className="your-message-container">
-        <Image
-          width={24}
-          height={24}
-          src="/"
-          className="profile-image bg-green-700"
-          alt="userprofile"
-          // user profile 넣어두기
-        />
-        <div className="your-message">메세지요</div>
-        <span className="my-checked">안읽음</span>
-      </div>
+        // 상대방이 보낸 메시지
+        return (
+          <div key={message.id} className="your-message-container">
+            {/* <Image
+              width={24}
+              height={24}
+              src="/"
+              className="profile-image bg-green-700"
+              alt="userprofile"
+            // user profile 넣어두기
+            /> */}
+            <div className="your-message">{message.message}</div>
+          </div>
+        );
+      })}
     </div>
   );
 };

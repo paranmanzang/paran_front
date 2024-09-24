@@ -35,19 +35,24 @@ const InputField = ({
   }, []);
 
   const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && !e.shiftKey) {
       if (!e.shiftKey) {
-        e.preventDefault();
-        sendMessage;
+        e.preventDefault();  
+        sendMessage();      
       }
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();  // form 제출 시 새로고침 방지
+    sendMessage();       // 메시지 전송
   };
 
   // text -> 글자 작성할때 위로 올라가면서 작성 되도록 함.
 
   return (
     <div className="input-area">
-      <form onSubmit={sendMessage} className="input-container">
+      <form onSubmit={handleSubmit} className="input-container">
         <textarea
           id="autoResize"
           rows={1} // 최소 1줄로 시작

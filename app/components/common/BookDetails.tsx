@@ -72,7 +72,6 @@ export default function Details({ bookId }: DetailsProps) {
       <div className="h-[300px] w-full justify-center bg-gray-400">
      <p>메인 상세보기 - {book.title}</p> 
       <p>저자: {book.author}</p>
-      <p>출판사: {book.publisher}</p>
       <p>카테고리: {book.categoryName || '카테고리 없음'}</p>
       <p>좋아요 수: {book.likeBookCount}</p>
       </div>
