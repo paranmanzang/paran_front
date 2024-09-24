@@ -73,3 +73,15 @@ export const getAddressList = async (): Promise<AddressModel> => {
     throw new Error('주소 목록 조회 중 오류 발생');
   }
 };
+
+// 자체 주소 검색
+export const findQuery = async (query: string): Promise<AddressModel[]> => {
+  try {
+    const response = await api.get('/find/' + query);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching address list:', error);
+    throw new Error('주소 목록 검색 중 오류 발생');
+  }
+};
+
