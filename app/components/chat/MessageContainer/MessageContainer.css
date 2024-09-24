@@ -1,8 +1,8 @@
 .message-container{
-  overflow-y: scroll;
-  height: 80%;
   background: #BCF0DA;
   min-width: 94vh;
+  overflow-y: auto;
+  max-height: 400px;
 }
 .system-message-container {
   display: flex;
@@ -61,3 +61,8 @@
   margin-right: 10px;
 }
 
+.message-time {
+  font-size: 0.8rem;
+  color: gray;
+  margin-left: 10px;
+}
