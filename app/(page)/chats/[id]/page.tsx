@@ -1,15 +1,24 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
-import MessageContainer from "@/app/components/chat/MessageContainer/MessageContainer";
 import MyChatList from "@/app/components/chat/MyChatList";
 import PeopleList from "@/app/components/chat/PeopleList";
 import MyProfile from "@/app/components/chat/MyProfile";
+import { ChatMessageModel, ChatUserModel } from "@/app/model/chat/chat.model";
+import { getPeopleList } from "@/app/service/chat/chatUser.service";
+import { getMessageList } from "@/app/service/chat/chatMessage.service";
+import { useRouter } from "next/navigation";
 
 export default function ChatRoom() {
+  const router = useRouter();
+  const roomId = "66f14b991332832511b02fbb"; // 임의로 넣어둠
+  const nickname = "A"; // 임의로 넣어둠
+  const [messages, setMessages] = useState<ChatMessageModel[]>([]);
+  const [chatUsers, setChatUsers] = useState<ChatUserModel[] | null>(null)
+  const unsubscribeRef = useRef<(() => void) | null>(null);
+
   // 팝업 창 상태 관리
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
@@ -24,6 +33,46 @@ export default function ChatRoom() {
     );
   };
 
+  useEffect(() => {
+    const fetchChatUsers = async () => {
+      const result = await getPeopleList({ roomId });
+
+      if (result && Array.isArray(result)) {
+        setChatUsers(result);
+      }
+    };
+
+    fetchChatUsers();
+
+    // SSE로 실시간 메시지 구독
+    const handleNewMessage = (newMessage: ChatMessageModel) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
+    };
+
+    const subscribeMessages = async () => {
+      await getMessageList({
+        roomId,
+        nickname,
+        onMessage: handleNewMessage,
+      });
+    };
+
+    subscribeMessages();
+
+    // 컴포넌트 언마운트 시 SSE 연결 종료
+    return () => {
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current(); // SSE 연결 종료
+      }
+    };
+  }, [roomId]);
+
+  const leaveChat = () => {
+    if (unsubscribeRef.current) {
+      unsubscribeRef.current(); // SSE 연결 종료
+    }
+    router.push("/chats/list"); // 페이지 이동
+  };
   return (
     <div className="relative w-full">
       <div className="fixed left-0 top-0 min-h-screen w-full">
@@ -48,27 +97,25 @@ export default function ChatRoom() {
               <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z"></path>
             </svg>
           </button>
-          <Link
-            href="/chats/list"
+          <button
+            onClick={leaveChat}
             className="mb-1 me-2 rounded-full bg-red-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
           >
             X
-          </Link>
+          </button>
         </div>
         <div className="flex h-dvh justify-center rounded-lg bg-gray-100">
           <section className="relative w-1/5 bg-green-700">
             <MyChatList />
             <ul className="w-full">
-              <PeopleList />
-              <PeopleList />
-              <PeopleList />
-              <PeopleList />
+              {chatUsers?.map((user) => (
+                <PeopleList key={user.nickname} nickname={user.nickname} enterTime={user.enterTime} />))}
             </ul>
             <MyProfile />
           </section>
           <article className="flex w-4/5 flex-col bg-blue-200 ">
             <aside className="w-full">
-              <ChatPage />
+              <ChatPage messages={messages} />
             </aside>
           </article>
         </div>
