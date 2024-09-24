@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+import Naver from '@/app/assets/btnG.png'
 
 export default function Login() {
   return (
@@ -57,9 +59,14 @@ export default function Login() {
       <div className="mx-auto my-4 max-w-lg">
         <button
           type="button"
-          className="mb-2 me-2 rounded-lg bg-green-500 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-500 dark:hover:bg-green-600 dark:focus:ring-green-600"
+          className="mb-2 w-full flex items-center rounded-lg text-[#03c75a] px-5 py-2.5 text-sm font-medium bg-white border-2 border-[#03c75a] hover:bg-[#03c75a] dark:bg-gray-600 dark:hover:bg-gray-600 hover:text-white "
         >
-          네이버로 로그인
+           <Image
+           src={Naver}
+           alt="cat"
+           width={40}
+          />
+        <span className="mx-5">네이버로 로그인</span>
         </button>
       </div>
     </div>

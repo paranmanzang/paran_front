@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ExceptionResponseModel } from '../../model/error/error';
+import { ExceptionResponseModel } from '@/app/model/error/error.model';
 import { AddressModel, AddressUpdateModel } from '../../model/room/room';
 
 const api = axios.create({

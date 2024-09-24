@@ -14,6 +14,7 @@ export default function getPeopleList() {
           src="/"
           alt="userprofile"
           />
+          
           {/* user 상태 온라인 오프라인일 때 구분  */}
           {/* { !onLine ?
             <span className="absolute left-7 top-0  h-3.5 w-3.5 rounded-full border-2 border-white bg-red-400 dark:border-gray-800"></span>

@@ -6,19 +6,17 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "./Nav";
-import paranLogo from "@/app/assets/paranLogo.png"
+import paranLogo from "@/app/assets/paranLogo.png";
 
 export default function Header() {
-  const [isHidden, setIsHidden] = useState(true); 
-  const openHandler = () => {
-
-  }
+  const [isHidden, setIsHidden] = useState(true);
+  const openHandler = () => {};
   const popupOpen = () => {
-    setIsHidden(prevState => !prevState);
+    setIsHidden((prevState) => !prevState);
   };
 
   return (
-    <header className="border-gray-400 bg-white dark:bg-gray-900 border-b shadow-sm">
+    <header className="border-b border-gray-400 bg-white shadow-sm dark:bg-gray-900">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
         <Link
           href="/"
@@ -36,26 +34,38 @@ export default function Header() {
           </span>
         </Link>
 
-        <div className="flex space-x-3 items-center md:order-2 md:space-x-0 rtl:space-x-reverse">
-        <div className="relative">
+        <div className="flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
+          <div className="relative">
             {/* {user.info === admin ?  */}
-          <button
-            type="button"
-            id="popUpBtn"
-            className="mx-3 rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
-            onClick={popupOpen}
-          >
-            <LuBellRing />
-          </button>
-          <ul className={isHidden ?'hidden' : 'absolute z-20 top-10 bg-green-50 rounded-lg'} id="popUp">
-            <li className="py-2 px-4 hover:underline">내용1</li>
-            <li className="py-2 px-4 hover:underline">내용2</li>
-            <li className="py-2 px-4 hover:underline">내용3</li>
-            <li className="py-2 px-4 hover:underline">내용4</li>
-          </ul>
-
-          : 
-          {/*   ''
+            <button
+              type="button"
+              id="popUpBtn"
+              className="mx-3 rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+              onClick={popupOpen}
+            >
+              <LuBellRing />
+            </button>
+            <ul
+              className={
+                isHidden
+                  ? "hidden"
+                  : "absolute top-10 z-20 rounded-lg bg-green-50"
+              }
+              id="popUp"
+            >
+              <li className="px-4 py-2 hover:underline">내용1</li>
+              <li className="px-4 py-2 hover:underline">내용2</li>
+              <li className="px-4 py-2 hover:underline">내용3</li>
+              <li className="px-4 py-2 hover:underline">내용4</li>
+            </ul>
+            <Link
+              href="/users/logout"
+              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+            >
+              로그아웃
+            </Link>
+            :
+            {/*   ''
           } */}
           </div>
           {/* 로그인 되면 로그아웃 버튼으로 변경 */}
@@ -75,20 +85,27 @@ export default function Header() {
               마이페이지
             </Link>
             <button
-            type="button"
-            id="popUpBtn"
-            className="mx-3 rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
-            onClick={popupOpen}
-          >
-            <LuBellRing />
-          </button>
-          <ul className={isHidden ?'hidden' : 'absolute z-20 top-10 right-0 bg-green-50 rounded-lg'} id="popUp">
-            <li className="py-2 px-4 hover:underline">내용1</li>
-            <li className="py-2 px-4 hover:underline">내용2</li>
-            <li className="py-2 px-4 hover:underline">내용3</li>
-            <li className="py-2 px-4 hover:underline">내용4</li>
-          </ul>
-            : 
+              type="button"
+              id="popUpBtn"
+              className="mx-3 rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+              onClick={popupOpen}
+            >
+              <LuBellRing />
+            </button>
+            <ul
+              className={
+                isHidden
+                  ? "hidden"
+                  : "absolute right-0 top-10 z-20 rounded-lg bg-green-50"
+              }
+              id="popUp"
+            >
+              <li className="px-4 py-2 hover:underline">내용1</li>
+              <li className="px-4 py-2 hover:underline">내용2</li>
+              <li className="px-4 py-2 hover:underline">내용3</li>
+              <li className="px-4 py-2 hover:underline">내용4</li>
+            </ul>
+            :
             <Link
               href="/users/login"
               className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
@@ -98,7 +115,6 @@ export default function Header() {
             {/* } */}
           </div>
 
-       
           <button
             data-collapse-toggle="navbar-sticky"
             type="button"
@@ -117,14 +133,14 @@ export default function Header() {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="M1 1h15M1 7h15M1 13h15"
               />
             </svg>
           </button>
-          
+
           <div className="mx-2 px-2">
             <DarkThemeToggle />
           </div>

@@ -1,9 +1,18 @@
+"use client"
+import { useRouter } from 'next/navigation';
 import Link from "next/link";
 import TabBar from "./TabBar";
 import LikeList from "./LikeList";
 import Image from "next/image";
 
 export default function UserProfile() {
+  const router = useRouter();
+
+  const handleGoBack = () => {
+    router.back();
+  };
+
+
   return (
     <div className="mx-auto my-[40px] pt-3 px-6 h-[650px] w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
       <div className="flex mb-10">
@@ -63,6 +72,7 @@ export default function UserProfile() {
           <LikeList />
         </div>
       </div>
+      <button type="button" onClick={handleGoBack} className="m-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-500">뒤로가기</button>
     </div>
   );
 }
