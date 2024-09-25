@@ -1,6 +1,6 @@
 "use client";
 
-import { BookResponseModel, LikeBookModel } from "../../app/modelgroup.model";
+import { BookResponseModel, LikeBookModel } from "@/app/model/group.model";
 import { findOneByBookId } from "@/app/service/group/book.service";
 import { likeBook } from "@/app/service/group/likeBook.service";
 import { useEffect, useState } from "react";
