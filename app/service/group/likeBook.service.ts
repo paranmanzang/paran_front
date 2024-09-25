@@ -1,15 +1,12 @@
-import axios from 'axios';
+import api from '@/app/api/axios';
+import requests from '@/app/api/requests';
 import { ExceptionResponseModel } from '@/app/model/error.model';
 import { BookResponseModel, LikeBookModel } from '@/app/model/group.model';
-
-const api = axios.create({
-    baseURL: 'http://localhost:8084/api/groups/likebook',
-});
 
 // 좋아요
 export const likeBook = async (likeBookModel: LikeBookModel): Promise<Boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.post(`/add`, likeBookModel);
+        const response = await api.post<Boolean | ExceptionResponseModel>(requests.fetchGroups+`/likebook/add`, likeBookModel);
         return response.data
     } catch (error) {
         console.error('Error adding likeBook:', error);
@@ -20,7 +17,7 @@ export const likeBook = async (likeBookModel: LikeBookModel): Promise<Boolean | 
 // 좋아요 취소
 export const removeLikeBook = async (likeBookModel: LikeBookModel): Promise<boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.post('/remove', likeBookModel);
+        const response = await api.delete<boolean | ExceptionResponseModel>(requests.fetchGroups+'/likebook/remove', likeBookModel);
         return response.data;
     } catch (error) {
         console.error('Error adding likeBook:', error);
@@ -29,9 +26,9 @@ export const removeLikeBook = async (likeBookModel: LikeBookModel): Promise<bool
 };
 
 // 좋아요 마이페이지 확인
-export const getLikeRoomList = async (nickname: String): Promise<LikeBookModel[] | BookResponseModel> => {
+export const getLikeRoomList = async (nickname: String, page: number, size: number): Promise<LikeBookModel[] | BookResponseModel> => {
     try {
-        const response = await api.get(`/list/${nickname}`);
+        const response = await api.get<LikeBookModel[] | BookResponseModel>(requests.fetchGroups+`/likebook/list/${nickname}`);
         return response.data;
     } catch (error) {
         console.error('Error finding likeBook:', error);
