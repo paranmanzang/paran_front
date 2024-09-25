@@ -1,6 +1,6 @@
 // components/NaverMap.tsx
 "use client";
-import { AddressModel } from '@/app/model/room/room';
+import { AddressModel } from '@/app/model/room.model';
 import React, { useEffect } from 'react';
 
 interface NaverMapProps {

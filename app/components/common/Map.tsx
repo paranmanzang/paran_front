@@ -3,10 +3,9 @@ import Image from "next/image";
 import NaverMap from "./NaverMap";
 import { findQuery } from "@/app/service/address/address.service";
 import { useState } from "react";
-import { AddressModel } from "@/app/model/room/room";
+import { AddressModel } from "@/app/model/room.model";
 
 export default function Map() {
-  const [mapState, setMapState] = useState(false);
   const [addresses, setAddresses] = useState<AddressModel[]>([{
     id: 0,
     address: "서울 중구 세종대로 110 서울특별시청",
@@ -18,8 +17,6 @@ export default function Map() {
   function search(query: string) {
     findQuery(query).then(data => {
       if (data) {
-        setMapState(true)
-        console.log(data)
         setAddresses(data)
       }
     })
@@ -86,13 +83,6 @@ export default function Map() {
           {/* </form> */}
         </div>
         <div>
-          {/* <Image
-            src="https://picsum.photos/580/850"
-            width={500}
-            height={800}
-            alt="지도api 맛보기로 넣기"
-            className="rounded-lg"
-          /> */}
           <NaverMap addresses={addresses} />
         </div>
       </div>
