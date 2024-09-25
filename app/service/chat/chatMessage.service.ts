@@ -1,13 +1,11 @@
+import api from "@/app/api/axios";
+import requests from "@/app/api/requests";
 import { ChatMessageModel } from "@/app/model/chat.model";
-
-const chatMessageApi = 'http://localhost:8081/api/chats/message'
-
-
 
 export const getMessageList = async ({ roomId, nickname, onMessage }: { roomId: string, nickname: string, onMessage: (message: ChatMessageModel) => void }): Promise<void> => {
     try {
         const eventSource = new EventSource(
-            chatMessageApi + `/${roomId}?nickname=${nickname}`);
+            api+requests.fetchChats + `/message/${roomId}?nickname=${nickname}`);
 
         eventSource.onopen = () => {
             console.log('SSE 연결 성공:', eventSource);
@@ -53,16 +51,15 @@ export const getMessageList = async ({ roomId, nickname, onMessage }: { roomId: 
 
 export const insertMessage = async ({ nickname, roomId, message }: { nickname: string, roomId: string, message: string }): Promise<boolean> => {
     try {
-        const response = await fetch(chatMessageApi, {
-            method: 'POST',
+        const response = await api.post<boolean>(requests.fetchChats+'/message', {
+            message,
+            roomId
+          }, {
             headers: {
-                'Content-Type': 'application/json',
-                'nickname': nickname
-            },
-            body: JSON.stringify({ message: message, roomId: roomId })
+              'nickname': nickname
+            }
         });
-        const result = await response.json();
-        return result;
+        return response.data;
     } catch (error) {
         console.error('채팅 메세지 보내는 중 오류 발생:', error);
         return false;
@@ -71,15 +68,12 @@ export const insertMessage = async ({ nickname, roomId, message }: { nickname: s
 
 export const unReadTotalMessageCount = async ({ nickname }: { nickname: string }): Promise<number> => {
     try {
-        const response = await fetch(chatMessageApi + '/totalunread', {
-            method: 'GET',
+        const response = await api.get<number>(requests.fetchChats + '/message/totalunread', {
             headers: {
-                'Content-Type': 'application/json',
                 'nickname': nickname
             }
         })
-        const result = await response.json();
-        return result;
+        return response.data;
     } catch (error) {
         console.error('총 User가 읽지 않은 메세지 갯수 찾는 중 오류 발생:', error);
         return 0;
