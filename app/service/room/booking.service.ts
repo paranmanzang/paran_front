@@ -80,9 +80,9 @@ export const deleteBooking = async (id: number): Promise<boolean> => {
 };
 
 // 소모임 예약 조회
-export const findByGroupId = async (groupId: number): Promise<BookingModel[]> => {
+export const findByGroupId = async (groupId: number, page: number, size: number): Promise<BookingModel[]> => {
   try {
-    const response = await api.get<BookingModel[]>(requests.fetchRooms + `/groups/list/${groupId}`);
+    const response = await api.get<BookingModel[]>(requests.fetchRooms + `/groups/list/${groupId}`, { params: { page, size } });
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -99,9 +99,9 @@ export const findByGroupId = async (groupId: number): Promise<BookingModel[]> =>
 };
 
 // 공간 예약 조회
-export const findByRoomId = async (roomId: number): Promise<BookingModel[]> => {
+export const findByRoomId = async (roomId: number, page: number, size: number): Promise<BookingModel[]> => {
   try {
-    const response = await api.get<BookingModel[]>(requests.fetchRooms + `/rooms/list/${roomId}`);
+    const response = await api.get<BookingModel[]>(requests.fetchRooms + `/rooms/list/${roomId}`, { params: { page, size } });
     return response.data;
   } catch (error: any) {
     if (error.response) {

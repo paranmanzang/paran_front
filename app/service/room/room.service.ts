@@ -59,10 +59,10 @@ export const deleteRoom = async (id: number): Promise<boolean> => {
         }
     }
 };
-// 단일 공간 조회
-export const findRoomsByUser = async (nickname: string): Promise<RoomModel[]> => {
+// 등록자에 대한 공간 조회
+export const findRoomsByUser = async (nickname: string, page: number, size: number): Promise<RoomModel[]> => {
     try {
-        const response = await api.get<RoomModel[]>(requests.fetchRooms + `/list/${nickname}`);
+        const response = await api.get<RoomModel[]>(requests.fetchRooms + `/list/${nickname}`, { params: { page, size } });
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -79,9 +79,9 @@ export const findRoomsByUser = async (nickname: string): Promise<RoomModel[]> =>
 };
 
 // 전체 공간 조회
-export const findAllRooms = async (): Promise<RoomModel[]> => {
+export const findAllRooms = async (page: number, size: number): Promise<RoomModel[]> => {
     try {
-        const response = await api.get<RoomModel[]>(requests.fetchRooms + '/list');
+        const response = await api.get<RoomModel[]>(requests.fetchRooms + '/list', { params: { page, size } });
         return response.data;
     } catch (error: any) {
         if (error.response) {

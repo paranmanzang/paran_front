@@ -81,9 +81,9 @@ export const findByBooking = async (bookingId: number): Promise<AccountModel> =>
   }
 };
 // 소모임 정보로 결제 리스트 조회
-export const findByGroup = async (groupId: number): Promise<AccountModel> => {
+export const findByGroup = async (groupId: number, page: number, size: number): Promise<AccountModel[]> => {
   try {
-    const response = await api.get<AccountModel>(requests.fetchRooms + `/list/groups/${groupId}`);
+    const response = await api.get<AccountModel[]>(requests.fetchRooms + `/list/groups/${groupId}`, { params: { page, size } });
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -99,9 +99,9 @@ export const findByGroup = async (groupId: number): Promise<AccountModel> => {
   }
 };
 // 공간 정보로 결제 리스트 조회
-export const findByRoom = async (roomId: number): Promise<AccountModel> => {
+export const findByRoom = async (roomId: number, page: number, size: number): Promise<AccountModel[]> => {
   try {
-    const response = await api.get<AccountModel>(requests.fetchRooms + `/list/rooms/${roomId}`);
+    const response = await api.get<AccountModel[]>(requests.fetchRooms + `/list/rooms/${roomId}`, { params: { page, size } });
     return response.data;
   } catch (error: any) {
     if (error.response) {
