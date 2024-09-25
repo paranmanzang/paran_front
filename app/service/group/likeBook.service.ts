@@ -1,10 +1,12 @@
 import api from '@/app/api/axios';
 import requests from '@/app/api/requests';
 import { ExceptionResponseModel } from '@/app/model/error.model';
-import { BookResponseModel, LikeBookModel } from '@/app/model/group.model';
+import { BookResponseModel } from '@/app/model/group/book.model';
+import { LikeBookModel } from '@/app/model/group/book.model';
 
 // 좋아요
-export const likeBook = async (likeBookModel: LikeBookModel): Promise<Boolean | ExceptionResponseModel> => {
+export const likeBook = async (likeBookModel: LikeBookModel
+): Promise<Boolean | ExceptionResponseModel> => {
     try {
         const response = await api.post<Boolean | ExceptionResponseModel>(requests.fetchGroups+`/likebook/add`, likeBookModel);
         return response.data

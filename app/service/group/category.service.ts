@@ -1,6 +1,6 @@
 import api from '@/app/api/axios';
 import requests from '@/app/api/requests';
-import { CategoryModel } from '@/app/model/group.model';
+import { CategoryModel } from '@/app/model/group/category.model';
 
 export const getCategoryList = async (): Promise<CategoryModel[]> => {
     try {

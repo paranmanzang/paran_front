@@ -1,6 +1,6 @@
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
-import { ChatRoomModel } from "@/app/model/chat.model";
+import { ChatRoomModel } from "@/app/model/chat/chat.model";
 
 export const createRoom = async ({ roomName, nickname }: { roomName: string, nickname: string }): Promise<string | Boolean> => {
     try {
@@ -56,12 +56,12 @@ export const updateName = async ({ roomName, roomId, nickname }: { roomName: str
 export const updatePassword = async ({ roomId, password, nickname }: { roomId: string, password: string, nickname: string }): Promise<boolean | string> => {
     try {
         const response = await api.put<boolean | string>(
-            requests.fetchChats + `/room/updatepassword`, 
-            { password, roomId },  
+            requests.fetchChats + `/room/updatepassword`,
+            { password, roomId },
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'nickname': nickname 
+                    'nickname': nickname
                 }
             }
         );

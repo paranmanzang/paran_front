@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 
 import "./MyChatList.css";
-import { ChatRoomModel } from "@/app/model/chat.model";
+import { ChatRoomModel } from "@/app/model/chat/chat.model";
 
 interface ChatRoomListProps {
   chatRooms: ChatRoomModel[] | null
@@ -12,7 +12,7 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
   useEffect(() => {
     const targetElement = document.getElementById("popover-bottom");
     const triggerElement = document.getElementById("popup-button");
-    
+
     if (targetElement && triggerElement) {
       const options = {
         placement: "bottom",
@@ -21,7 +21,7 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
       };
     }
   }, []);
-  
+
   const togglePopover = () => {
     const popover = document.getElementById("popover-bottom");
     if (popover) {
@@ -29,9 +29,9 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
       popover.classList.toggle("opacity-0");
     }
   };
-  
+
   const filteredChatRooms = chatRooms?.filter((room) => room.roomId !== currentChatRoomId);
-  
+
   return (
     <div id="chatHead" className="px-5 py-3">
       <button

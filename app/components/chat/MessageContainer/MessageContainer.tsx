@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ChatMessageModel } from "@/app/model/chat.model";
+import { ChatMessageModel } from "@/app/model/chat/chat.model";
 import "./MessageContainer.css";
 
 interface MessageContainerProps {
@@ -45,15 +45,15 @@ const MessageContainer: React.FC<MessageContainerProps> = ({ messages, currentUs
 
         // 상대방이 보낸 메시지
         return (
-        <>
+          <>
             <p>{message.nickname}</p>
-          <div key={message.id} className="your-message-container">
-            <div className="your-message">
-              <span>{message.message}</span>
-            </div>
+            <div key={message.id} className="your-message-container">
+              <div className="your-message">
+                <span>{message.message}</span>
+              </div>
               <span className="message-time">{message.time}</span>
-          </div>
-        </>    
+            </div>
+          </>
         );
       })}
       <div ref={messageEndRef} /> {/* 스크롤을 마지막으로 이동 */}
