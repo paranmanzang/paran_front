@@ -10,7 +10,7 @@ interface NaverMapProps {
 const NaverMap: React.FC<NaverMapProps> = ({ addresses }) => {
     useEffect(() => {
         const initMap = () => {
-            if (typeof window !== 'undefined' && window.naver) {
+            if (typeof window !== 'undefined' && 'naver' in window) {
                 // var tm128 = new window.naver.maps.Point(latitude, longitude);
                 // var latLng = window.naver.maps.TransCoord.fromTM128ToLatLng(tm128);
                 const mapOptions = {

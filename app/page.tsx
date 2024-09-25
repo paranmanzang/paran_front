@@ -12,6 +12,7 @@ import Carousel from "./components/common/Carousel";
 export default function Home() {
   const [rowData, setRowData] = useState<any[]>([]);
   const [max, setMax] = useState<number>(5);
+
   return (
     <div id="home">
       <section className="artWrap">
