@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
-import requests from './requests';
 
 // 토큰 관리를 위한 함수들
 const getToken = (): string | null => localStorage.getItem('token');
@@ -9,6 +8,7 @@ const removeToken = (): void => localStorage.removeItem('token');
 // axios 인스턴스 생성
 const instance: AxiosInstance = axios.create({
   baseURL: 'http://localhost:8000',
+  headers: { 'Content-Type': 'application/json' },
 });
 
 // 요청 인터셉터
