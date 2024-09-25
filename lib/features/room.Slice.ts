@@ -6,40 +6,40 @@ export const roomSlice = createSlice({
     name: 'room',
     initialState: initialRoomState,
     reducers: {
-        setRooms: (state, action: PayloadAction<RoomModel[]>) => {
+        saveRooms: (state, action: PayloadAction<RoomModel[]>) => {
             state.rooms = action.payload;
         },
-        setCurrentRoom: (state, action: PayloadAction<RoomModel | null>) => {
+        saveCurrentRoom: (state, action: PayloadAction<RoomModel | null>) => {
             state.currentRoom = action.payload;
         },
-        setReviews: (state, action: PayloadAction<ReviewModel[]>) => {
+        saveReviews: (state, action: PayloadAction<ReviewModel[]>) => {
             state.reviews = action.payload;
         },
-        setCurrentReview: (state, action: PayloadAction<ReviewModel | null>) => {
+        saveCurrentReview: (state, action: PayloadAction<ReviewModel | null>) => {
             state.currentReview = action.payload;
         },
-        setBookings: (state, action: PayloadAction<BookingModel[]>) => {
+        saveBookings: (state, action: PayloadAction<BookingModel[]>) => {
             state.bookings = action.payload;
         },
-        setCurrentBooking: (state, action: PayloadAction<BookingModel | null>) => {
+        saveCurrentBooking: (state, action: PayloadAction<BookingModel | null>) => {
             state.currentBooking = action.payload;
         },
-        setAddresses: (state, action: PayloadAction<AddressModel[]>) => {
+        saveAddresses: (state, action: PayloadAction<AddressModel[]>) => {
             state.addresses = action.payload;
         },
-        setCurrentAddress: (state, action: PayloadAction<AddressModel | null>) => {
+        saveCurrentAddress: (state, action: PayloadAction<AddressModel | null>) => {
             state.currentAddress = action.payload;
         },
-        setAccountResult: (state, action: PayloadAction<AccountResultModel | null>) => {
+        saveAccountResult: (state, action: PayloadAction<AccountResultModel | null>) => {
             state.accountResult = action.payload;
         },
-        setAccountCancel: (state, action: PayloadAction<AccountCancelModel | null>) => {
+        saveAccountCancel: (state, action: PayloadAction<AccountCancelModel | null>) => {
             state.accountCancel = action.payload;
         },
-        setLoading: (state, action: PayloadAction<boolean>) => {
+        saveLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
         },
-        setError: (state, action: PayloadAction<string | null>) => {
+        saveError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload;
         },
     },
@@ -61,18 +61,18 @@ export const getError = (state: RootState) => state.room.error;
 
 // 액션 생성자들을 export
 export const {
-    setRooms,
-    setCurrentRoom,
-    setReviews,
-    setCurrentReview,
-    setBookings,
-    setCurrentBooking,
-    setAddresses,
-    setCurrentAddress,
-    setAccountResult,
-    setAccountCancel,
-    setLoading,
-    setError,
+    saveRooms,
+    saveCurrentRoom,
+    saveReviews,
+    saveCurrentReview,
+    saveBookings,
+    saveCurrentBooking,
+    saveAddresses,
+    saveCurrentAddress,
+    saveAccountResult,
+    saveAccountCancel,
+    saveLoading,
+    saveError,
 } = roomSlice.actions;
 
 // 리듀서를 export

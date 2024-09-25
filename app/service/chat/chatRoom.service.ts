@@ -1,21 +1,19 @@
+import api from "@/app/api/axios";
+import requests from "@/app/api/requests";
 import { ChatRoomModel } from "@/app/model/chat.model";
-
-const chatRoomApi = 'http://localhost:8081/api/chats/room'
 
 export const createRoom = async ({ roomName, nickname }: { roomName: string, nickname: string }): Promise<string | Boolean> => {
     try {
-        // API 요청 전송
-        const response = await fetch(chatRoomApi, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'nickname': nickname
-            },
-            body: JSON.stringify({ name: roomName })
-        });
-        const result = await response.json();
+        const response = await api.post<string | Boolean>(requests.fetchChats + '/room',
+            { name: roomName },
+            {
+                headers: {
+                    'nickname': nickname
+                }
+            }
+        );
 
-        return result ? result : false;
+        return response.data;
     } catch (error) {
         const errorMessage = (error as Error).message;
         console.error('방 생성 중 오류 발생:', error);
@@ -25,15 +23,12 @@ export const createRoom = async ({ roomName, nickname }: { roomName: string, nic
 
 export const getChatList = async ({ nickname }: { nickname: string }): Promise<Boolean | ChatRoomModel[]> => {
     try {
-        const response = await fetch(chatRoomApi + '/getchatlist', {
-            method: 'GET',
+        const response = await api.get<Boolean | ChatRoomModel[]>(requests.fetchChats + '/room/getchatlist', {
             headers: {
-                'Content-Type': 'application/json',
                 'nickname': nickname
             }
         });
-        const result = await response.json();
-        return result;
+        return response.data;
     } catch (error) {
         console.error('방 찾기 중 오류 발생:', error);
         return false;
@@ -42,16 +37,15 @@ export const getChatList = async ({ nickname }: { nickname: string }): Promise<B
 
 export const updateName = async ({ roomName, roomId, nickname }: { roomName: string, roomId: string, nickname: string }): Promise<Boolean | String> => {
     try {
-        const response = await fetch(chatRoomApi + '/updatename', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'nickname': nickname
-            },
-            body: JSON.stringify({ name: roomName, roomId: roomId })
-        })
-        const result = await response.json();
-        return result;
+        const response = await api.put<Boolean | String>(requests.fetchChats + '/room/updatename',
+            { name: roomName, roomId: roomId },
+            {
+                headers: {
+                    'nickname': nickname
+                }
+            }
+        )
+        return response.data
     } catch (error) {
         const errorMessage = (error as Error).message;
         console.error('이름 수정 중 오류 발생:', error);
@@ -61,21 +55,18 @@ export const updateName = async ({ roomName, roomId, nickname }: { roomName: str
 
 export const updatePassword = async ({ roomId, password, nickname }: { roomId: string, password: string, nickname: string }): Promise<boolean | string> => {
     try {
-        const response = await fetch(chatRoomApi + `/updatepassword`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'nickname': nickname
-            },
-            body: JSON.stringify([
-                { password: password },
-                { roomId }
-            ])
-        });
+        const response = await api.put<boolean | string>(
+            requests.fetchChats + `/room/updatepassword`, 
+            { password, roomId },  
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'nickname': nickname 
+                }
+            }
+        );
 
-        const result = await response.json();
-
-        return result ? true : false;
+        return response.data
     } catch (error) {
         const errorMessage = (error as Error).message;
         console.error('비밀번호 변경 중 오류 발생:', errorMessage);
@@ -85,15 +76,8 @@ export const updatePassword = async ({ roomId, password, nickname }: { roomId: s
 
 export const deleteRoom = async ({ roomId }: { roomId: string }): Promise<Boolean> => {
     try {
-        const response = await fetch(chatRoomApi + `/${roomId}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
-        const result = await response.json();
-
-        return result ? true : false;
+        const response = await api.delete<Boolean>(requests.fetchChats + `/room/${roomId}`)
+        return response.data;
     } catch (error) {
         console.error('방 삭제 중 오류 발생:', error);
         return false;
@@ -102,15 +86,12 @@ export const deleteRoom = async ({ roomId }: { roomId: string }): Promise<Boolea
 
 export const saveLastReadMessageTime = async ({ roomId, nickname }: { roomId: string, nickname: string }): Promise<Boolean> => {
     try {
-        const response = await fetch(chatRoomApi + `/lastreadtime/${roomId}`, {
-            method: 'POST',
+        const response = await api.post<Boolean>(requests.fetchChats + `/room/lastreadtime/${roomId}`, {
             headers: {
                 'nickname': nickname,
-                'Content-Type': 'application/json'
-            },
+            }
         })
-        const result = await response.json();
-        return result ? true : false;
+        return response.data;
     } catch (error) {
         console.error('마지막 읽은 메세지 시간 저장 중 오류 발생:', error);
         return false;

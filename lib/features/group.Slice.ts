@@ -11,34 +11,33 @@ import {
   GroupPostResponseModel,
   PointResponseModel,
 } from '../../app/model/group.model';
-import { RootState } from '../store';
 
 const groupSlice = createSlice({
   name: 'group',
   initialState: initialGroupState,
   reducers: {
-    setBooks: (state, action: PayloadAction<BookResponseModel[]>) => {
+    saveBooks: (state, action: PayloadAction<BookResponseModel[]>) => {
       state.books = action.payload;
     },
-    setCategories: (state, action: PayloadAction<CategoryModel[]>) => {
+    saveCategories: (state, action: PayloadAction<CategoryModel[]>) => {
       state.categories = action.payload;
     },
-    setGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
+    saveGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
       state.groups = action.payload;
     },
-    setGroupPosts: (state, action: PayloadAction<GroupPostResponseModel[]>) => {
+    saveGroupPosts: (state, action: PayloadAction<GroupPostResponseModel[]>) => {
       state.groupPosts = action.payload;
     },
-    setPoints: (state, action: PayloadAction<PointResponseModel[]>) => {
+    savePoints: (state, action: PayloadAction<PointResponseModel[]>) => {
       state.points = action.payload;
     },
-    setLikedBooks: (state, action: PayloadAction<LikeBookModel[]>) => {
+    saveLikedBooks: (state, action: PayloadAction<LikeBookModel[]>) => {
       state.likedBooks = action.payload;
     },
-    setCurrentGroup: (state, action: PayloadAction<GroupResponseModel | null>) => {
+    saveCurrentGroup: (state, action: PayloadAction<GroupResponseModel | null>) => {
       state.currentGroup = action.payload;
     },
-    setCurrentBook: (state, action: PayloadAction<BookResponseModel | null>) => {
+    saveCurrentBook: (state, action: PayloadAction<BookResponseModel | null>) => {
       state.currentBook = action.payload;
     },
     addGroup: (state, action: PayloadAction<GroupResponseModel>) => {
@@ -56,41 +55,41 @@ const groupSlice = createSlice({
     deleteGroup: (state, action: PayloadAction<number>) => {
       state.groups = state.groups.filter(group => group.id !== action.payload);
     },
-    setLoading: (state, action: PayloadAction<boolean>) => {
+    saveLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    setError: (state, action: PayloadAction<string | null>) => {
+    saveError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
   },
 });
 
-export const getBooks = (state: RootState) => state.group.books;
-export const getCategories = (state: RootState) => state.group.categories;
-export const getGroups = (state: RootState) => state.group.groups;
-export const getGroupPosts = (state: RootState) => state.group.groupPosts;
-export const getPoints = (state: RootState) => state.group.points;
-export const getLikedBooks = (state: RootState) => state.group.likedBooks;
-export const getCurrentGroup = (state: RootState) => state.group.currentGroup;
-export const getCurrentBook = (state: RootState) => state.group.currentBook;
-export const getIsLoading = (state: RootState) => state.group.isLoading;
-export const getError = (state: RootState) => state.group.error;
+export const getBooks = (state: any) => state.books;
+export const getCategories = (state: any) => state.categories;
+export const getGroups = (state: any) => state.groups;
+export const getGroupPosts = (state: any) => state.groupPosts;
+export const getPoints = (state: any) => state.points;
+export const getLikedBooks = (state: any) => state.likedBooks;
+export const getCurrentGroup = (state: any) => state.currentGroup;
+export const getCurrentBook = (state: any) => state.currentBook;
+export const getIsLoading = (state: any) => state.isLoading;
+export const getError = (state: any) => state.error;
 
 export const {
-  setBooks,
-  setCategories,
-  setGroups,
-  setGroupPosts,
-  setPoints,
-  setLikedBooks,
-  setCurrentGroup,
-  setCurrentBook,
+  saveBooks,
+  saveCategories,
+  saveGroups,
+  saveGroupPosts,
+  savePoints,
+  saveLikedBooks,
+  saveCurrentGroup,
+  saveCurrentBook,
   addGroup,
   addGroupPost,
   updateGroup,
   deleteGroup,
-  setLoading,
-  setError,
+  saveLoading,
+  saveError,
 } = groupSlice.actions;
 
 export default groupSlice.reducer;

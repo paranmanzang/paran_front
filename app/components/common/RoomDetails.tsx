@@ -1,6 +1,7 @@
 "use client";
+import api from "@/app/api/axios";
 import { FileModel } from "@/app/model/file.model";
-import { RoomWTimeModel, TimeModel } from "@/app/model/room.model";
+import { RoomWTimeModel, TimeModel, RoomModel } from "@/app/model/room.model";
 import { loadFile, selectFileList } from "@/app/service/File/file.service";
 import { findRoomById } from "@/app/service/room/room.service";
 import { useEffect, useState } from "react";
@@ -11,10 +12,12 @@ interface roomDetailProps {
 export default function Details({ roomId }: roomDetailProps) {
   const [room, setRoom] = useState<RoomWTimeModel>();
   const [files, setFiles] = useState<FileModel[]>();
+
   useEffect(() => {
+    //fetchData();
     findRoomById(roomId).then(data => {
       if (data) {
-        setRoom(data)
+        setRoom(data);
       }
     })
     selectFileList(roomId, 'room').then(data => {
@@ -24,6 +27,13 @@ export default function Details({ roomId }: roomDetailProps) {
     })
     // setFiles(getFiles);
   }, [])
+
+  // const fetchData = async () => {
+  //   const request = await api.get('/list', config={
+  //     setRoom(getRooms);
+  //   });
+  //   request.data;
+  // }
 
   const groupedTimes = room?.times.reduce((acc: Record<string, TimeModel[]>, time) => {
     const { date } = time;

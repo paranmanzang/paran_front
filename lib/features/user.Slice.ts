@@ -1,16 +1,14 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import { initialUserState, UserModel } from "../../app/model/user.model"
-import { RootState } from '../store';
 
 const userSlice = createSlice({
   name: 'user',
   initialState: initialUserState,
   reducers: {
-    setCurrentUser: (state, action: PayloadAction<UserModel | null>) => {
+    saveCurrentUser: (state, action: PayloadAction<UserModel | null>) => {
       state.currentUser = action.payload;
     },
-    setUsers: (state, action: PayloadAction<UserModel[]>) => {
+    saveUsers: (state, action: PayloadAction<UserModel[]>) => {
       state.users = action.payload;
     },
     addUser: (state, action: PayloadAction<UserModel>) => {
@@ -25,29 +23,29 @@ const userSlice = createSlice({
     deleteUser: (state, action: PayloadAction<number>) => {
       state.users = state.users.filter(user => user.id !== action.payload);
     },
-    setLoading: (state, action: PayloadAction<boolean>) => {
+    saveLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
-    setError: (state, action: PayloadAction<string | null>) => {
+    saveError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     },
   },
 });
 
-export const getCurrentUser = (state: RootState) => state.user.currentUser;
-export const getUsers = (state: RootState) => state.user.users;
-export const getIsLoading = (state: RootState) => state.user.isLoading;
-export const getError = (state: RootState) => state.user.error;
+export const getCurrentUser = (state: any) => state.currentUser;
+export const getUsers = (state: any) => state.users;
+export const getIsLoading = (state: any) => state.isLoading;
+export const getError = (state: any) => state.error;
 
 // 액션 생성자들을 export
 export const {
-  setCurrentUser,
-  setUsers,
+  saveCurrentUser,
+  saveUsers,
   addUser,
   updateUser,
   deleteUser,
-  setLoading,
-  setError,
+  saveLoading,
+  saveError,
 } = userSlice.actions;
 
 // 리듀서를 export
