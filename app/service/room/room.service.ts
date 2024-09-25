@@ -1,97 +1,154 @@
 
-//import axios from 'axios';
 import { RoomModel, RoomUpdateModel, RoomWTimeModel } from '../../model/room.model';
 import { ExceptionResponseModel } from '../../model/error.model';
-import axios from '../../api/axios';
-
-// const axios = axios.create({
-//     baseURL: 'http://localhost:8083/api/rooms', // Spring Boot API 기본 URL
-// });
+import api from '../../api/axios';
+import requests from '@/app/api/requests';
 
 // 공간 등록
 export const saveRoom = async (roomModel: RoomModel): Promise<boolean | ExceptionResponseModel> => {
     try {
-        const response = await axios.post('/add', roomModel);
+        const response = await api.post<boolean>(requests.fetchRooms + '/add', roomModel);
         return response.data;
-    } catch (error) {
-        console.error('Error saving room:', error);
-        throw new Error('공간 등록 중 오류 발생');
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
     }
 };
 
 // 공간 수정
 export const updateRoom = async (roomModel: RoomUpdateModel): Promise<boolean | ExceptionResponseModel> => {
     try {
-        const response = await axios.put('/update', roomModel);
+        const response = await api.put<boolean>(requests.fetchRooms + '/update', roomModel);
         return response.data;
-    } catch (error) {
-        console.error('Error updating room:', error);
-        throw new Error('공간 수정 중 오류 발생');
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
     }
 };
-
 // 공간 삭제
 export const deleteRoom = async (id: number): Promise<boolean> => {
     try {
-        const response = await axios.delete(`/delete/${id}`);
+        const response = await api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
         return response.data;
-    } catch (error) {
-        console.error('Error deleting room:', error);
-        throw new Error('공간 삭제 중 오류 발생');
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
     }
 };
-
-// 특정 닉네임의 공간 조회
+// 단일 공간 조회
 export const findRoomsByUser = async (nickname: string): Promise<RoomModel[]> => {
     try {
-        const response = await axios.get(`/list/${nickname}`);
+        const response = await api.get<RoomModel[]>(requests.fetchRooms + `/list/${nickname}`);
         return response.data;
-    } catch (error) {
-        console.error('Error fetching rooms by user:', error);
-        throw new Error('유저 공간 조회 중 오류 발생');
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
     }
 };
 
-// 모든 공간 조회
+// 전체 공간 조회
 export const findAllRooms = async (): Promise<RoomModel[]> => {
     try {
-        const response = await axios.get('/list');
+        const response = await api.get<RoomModel[]>(requests.fetchRooms + '/list');
         return response.data;
-    } catch (error) {
-        console.error('Error fetching all rooms:', error);
-        throw new Error('공간 조회 중 오류 발생');
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
     }
 };
 
-// 단일 공간 조회
+//단일 공간 조회
 export const findRoomById = async (id: number): Promise<RoomWTimeModel> => {
     try {
-        const response = await axios.get(`/one/${id}`);
+        const response = await api.get<RoomWTimeModel>(requests.fetchRooms + `/one/${id}`);
         return response.data;
-    } catch (error) {
-        console.error('Error fetching room by id:', error);
-        throw new Error('단일 공간 조회 중 오류 발생');
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
     }
 };
-
-// 공간 승인
+// 공간승인
 export const confirmRoom = async (id: number): Promise<boolean> => {
     try {
-        const response = await axios.put(`/adminAnswer/${id}`);
+        const response = await api.put<boolean>(requests.fetchRooms + `/adminAnswer/${id}`);
         return response.data;
-    } catch (error) {
-        console.error('Error confirming room:', error);
-        throw new Error('공간 승인 중 오류 발생');
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
     }
 };
 
-// 공간 거절
+//공간거절
 export const rejectRoom = async (id: number): Promise<boolean> => {
     try {
-        const response = await axios.delete(`/adminAnswer/${id}`);
+        const response = await api.delete<boolean>(requests.fetchRooms + `/adminAnswer/${id}`);
         return response.data;
-    } catch (error) {
-        console.error('Error rejecting room:', error);
-        throw new Error('공간 거절 중 오류 발생');
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
     }
 };
