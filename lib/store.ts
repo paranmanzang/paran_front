@@ -5,11 +5,13 @@ import roomSlice from './features/room.Slice';
 import addressSlice from './features/address.Slice';
 import accountSlice from './features/account.Slice';
 import reviewSlice from './features/review.Slice';
-import groupSlice from './features/group.Slice';
+import groupSlice from './features/group/group.Slice';
 import bookingsSlice from './features/bookings.Slice';
 import errorSlice from './features/error.Slice';
-import commentSlice from './features/comment.Slice';
-import chatSlice from './features/chat.Slice';
+import bookSlice from './features/group/book.Slice';
+import categorySlice from './features/group/category.Slice';
+import commentSlice from './features/comment/comment.Slice';
+import chatSlice from './features/chat/chat.Slice';
 
 export const makeStore = () => {
   return configureStore({
@@ -25,6 +27,8 @@ export const makeStore = () => {
       error: errorSlice,
       comment: commentSlice,
       chat: chatSlice,
+      book: bookSlice,
+      category: categorySlice
     },
   });
 };

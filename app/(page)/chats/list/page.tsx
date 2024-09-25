@@ -1,13 +1,13 @@
 "use client";
 import CardRow from "@/app/components/chat/CardRow";
-import { ChatRoomModel } from "@/app/model/chat.model";
+import { ChatRoomModel } from "@/app/model/chat/chat.model";
 import { getChatList } from "@/app/service/chat/chatRoom.service";
 import { useEffect, useState } from "react";
 export default function ChatList() {
 
-  const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null); 
-  const [loading, setLoading] = useState<boolean>(true); 
-  const [error, setError] = useState<boolean>(false); 
+  const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
   const nickname = 'A'; // 임의로 넣어둠
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function ChatList() {
       }
       setLoading(false);
     };
-    fetchChatRooms(); 
+    fetchChatRooms();
   }, [nickname]);
 
   if (loading) {

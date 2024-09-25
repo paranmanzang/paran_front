@@ -1,6 +1,6 @@
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
-import { ChatUserModel } from "@/app/model/chat.model";
+import { ChatUserModel } from "@/app/model/chat/chat.model";
 
 export const invite = async ({ roomId, nickname }: { roomId: string, nickname: string }): Promise<Boolean> => {
     try {

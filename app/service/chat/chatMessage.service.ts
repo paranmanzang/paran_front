@@ -1,11 +1,11 @@
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
-import { ChatMessageModel } from "@/app/model/chat.model";
+import { ChatMessageModel } from "@/app/model/chat/chat.model";
 
 export const getMessageList = async ({ roomId, nickname, onMessage }: { roomId: string, nickname: string, onMessage: (message: ChatMessageModel) => void }): Promise<void> => {
     try {
         const eventSource = new EventSource(
-            api+requests.fetchChats + `/message/${roomId}?nickname=${nickname}`);
+            api + requests.fetchChats + `/message/${roomId}?nickname=${nickname}`);
 
         eventSource.onopen = () => {
             console.log('SSE 연결 성공:', eventSource);
@@ -51,12 +51,12 @@ export const getMessageList = async ({ roomId, nickname, onMessage }: { roomId: 
 
 export const insertMessage = async ({ nickname, roomId, message }: { nickname: string, roomId: string, message: string }): Promise<boolean> => {
     try {
-        const response = await api.post<boolean>(requests.fetchChats+'/message', {
+        const response = await api.post<boolean>(requests.fetchChats + '/message', {
             message,
             roomId
-          }, {
+        }, {
             headers: {
-              'nickname': nickname
+                'nickname': nickname
             }
         });
         return response.data;

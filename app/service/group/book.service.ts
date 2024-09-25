@@ -1,6 +1,6 @@
 import api from '@/app/api/axios';
 import requests from '@/app/api/requests';
-import { BookResponseModel } from '@/app/model/group.model';
+import { BookResponseModel } from '@/app/model/group/book.model';
 
 // 도서명으로 카테고리 조회
 export const findBookList = async (page: number, size: number): Promise<BookResponseModel[]> => {

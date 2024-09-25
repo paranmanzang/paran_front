@@ -1,7 +1,7 @@
 import api from '@/app/api/axios';
 import requests from '@/app/api/requests';
 import { ExceptionResponseModel } from '@/app/model/error.model';
-import { GroupModel, GroupResponseModel, JoiningModel, PointModel, PointResponseModel } from '@/app/model/group.model';
+import { GroupModel, GroupResponseModel, JoiningModel, PointModel, PointResponseModel } from '@/app/model/group/group.model';
 
 
 //전체 그룹 조회

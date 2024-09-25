@@ -4,14 +4,14 @@ import InputField from "../InputField/InputField";
 import './ChatPageStyle.css'
 import MessageContainer from '../MessageContainer/MessageContainer';
 import { insertMessage } from '@/app/service/chat/chatMessage.service';
-import { ChatMessageModel } from '@/app/model/chat.model';
+import { ChatMessageModel } from '@/app/model/chat/chat.model';
 
 interface ChatPageProps {
   messages: ChatMessageModel[];
   roomId: string;
 }
 
-const ChatPage: React.FC<ChatPageProps> = ({ messages,roomId }) => {
+const ChatPage: React.FC<ChatPageProps> = ({ messages, roomId }) => {
   const [message, setMessage] = useState("");
   const isSuccessRef = useRef<boolean | null>(null);
   const nickname = 'A' // 임의로 넣어둠

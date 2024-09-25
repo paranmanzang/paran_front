@@ -1,7 +1,7 @@
 import api from '@/app/api/axios';
 import requests from '@/app/api/requests';
 import { ExceptionResponseModel } from '@/app/model/error.model';
-import { GroupPostModel, GroupPostResponseModel } from '@/app/model/group.model';
+import { GroupPostModel, GroupPostResponseModel } from '@/app/model/group/group.model';
 
 
 // 게시글 추가 
