@@ -118,3 +118,22 @@ export const getAddressList = async (): Promise<AddressModel[]> => {
     }
   }
 };
+
+// 자체 주소 검색
+export const findQuery = async (query: string): Promise<AddressModel[]> => {
+  try {
+    const response = await api.get<AddressModel[]>(`${requests.fetchRooms}/find/${query}`);
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Server Error:', error.response.data);
+      throw new Error('서버에서 오류가 발생했습니다.');
+    } else if (error.request) {
+      console.error('No Response:', error.request);
+      throw new Error('서버 응답이 없습니다.');
+    } else {
+      console.error('Error:', error.message);
+      throw new Error('주소 검색 중 오류 발생');
+    }
+  }
+};
