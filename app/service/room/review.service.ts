@@ -60,9 +60,9 @@ export const deleteReview = async (id: number): Promise<boolean> => {
 };
 
 // 모든 리뷰 조회
-export const getAllReviews = async (): Promise<ReviewModel[]> => {
+export const getAllReviews = async (page: number, size: number): Promise<ReviewModel[]> => {
   try {
-    const response = await api.get<ReviewModel[]>(requests.fetchRooms + '/list');
+    const response = await api.get<ReviewModel[]>(requests.fetchRooms + '/list', { param: { page, size } });
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -79,9 +79,9 @@ export const getAllReviews = async (): Promise<ReviewModel[]> => {
 };
 
 // 공간 기준 리뷰 조회
-export const getReviewsByRoom = async (roomId: number): Promise<ReviewModel[]> => {
+export const getReviewsByRoom = async (roomId: number, page: number, size: number): Promise<ReviewModel[]> => {
   try {
-    const response = await api.get<ReviewModel[]>(requests.fetchRooms + `/list/rooms/${roomId}`);
+    const response = await api.get<ReviewModel[]>(requests.fetchRooms + `/list/rooms/${roomId}`, { param: { page, size } });
     return response.data;
   } catch (error: any) {
     if (error.response) {
