@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import NaverMap from "./NaverMap";
-import { findQuery } from "@/app/service/address/address.service";
+import { findQuery } from "@/app/service/room/address.service";
 import { useState } from "react";
 import { AddressModel } from "@/app/model/room.model";
 

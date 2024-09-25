@@ -1,19 +1,13 @@
-import axios from 'axios';
-import { ExceptionResponseModel } from '@/app/model/error.model';
+import api from '@/app/api/axios';
+import requests from '@/app/api/requests';
 import { CategoryModel } from '@/app/model/group.model';
 
-const api = axios.create({
-    baseURL: 'http://localhost:8084/api/groups/newcategory',
-});
-
-
-// 카테고리 추가
-export const addCategory = async (categoryModel: CategoryModel): Promise<boolean | ExceptionResponseModel> => {
+export const getCategoryList = async (): Promise<CategoryModel[]> => {
     try {
-        const response = await api.post('', categoryModel);
-        return response.data;  // 성공 시 서버에서 받은 데이터를 반환
+        const response = await api.get<CategoryModel[]>(requests.fetchGroups+'/category');
+        return response.data;
     } catch (error: any) {
-        console.error('Error adding category:', error.response?.data || error.message);
-        throw new Error('도서 추가 중 오류 발생');
+        console.error('Error finding category:', error.response?.data || error.message);
+        throw new Error('카테고리 찾는 중 오류 발생');
     }
 };
