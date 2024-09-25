@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { CommentRequestModel, CommentResponseModel } from '../../model/comment/comment.model';
-import { ExceptionResponseModel } from '../../model/error/error.model';
+import { CommentRequestModel, CommentResponseModel } from '../../model/comment.model';
+import { ExceptionResponseModel } from '../../model/error.model';
 
 const api = axios.create({
   baseURL: 'http://localhost:8084/api/comments', // Spring Boot API 주소

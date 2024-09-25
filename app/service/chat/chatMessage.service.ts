@@ -1,4 +1,4 @@
-import { ChatMessageModel } from "@/app/model/chat/chat.model";
+import { ChatMessageModel } from "../../app/modelchat.model";
 
 const chatMessageApi = 'http://localhost:8081/api/chats/message'
 
@@ -35,7 +35,7 @@ export const getMessageList = async ({ roomId, nickname, onMessage }: { roomId: 
             }
         });
 
-        
+
 
         // 오류가 발생했을 때 처리
         eventSource.onerror = (error) => {

@@ -1,4 +1,4 @@
-import { ChatMessageModel } from "@/app/model/chat/chat.model";
+import { ChatMessageModel } from "../../app/modelchat.model";
 import "./MessageContainer.css";
 
 interface MessageContainerProps {
@@ -8,7 +8,7 @@ interface MessageContainerProps {
 
 const MessageContainer: React.FC<MessageContainerProps> = ({ messages, currentUserNickname }) => {
   return (
-    <div className="message-container min-h-dvh mb-6 px-20 py-10">
+    <div className="message-container mb-6 min-h-dvh px-20 py-10">
       {messages.map((message) => {
         // 시스템 메시지 처리
         if (message.type === "ENTER" || message.type === "EXIT") {

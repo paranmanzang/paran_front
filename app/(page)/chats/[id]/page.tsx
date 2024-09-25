@@ -6,7 +6,7 @@ import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
 import MyChatList from "@/app/components/chat/MyChatList";
 import PeopleList from "@/app/components/chat/PeopleList";
 import MyProfile from "@/app/components/chat/MyProfile";
-import { ChatMessageModel, ChatUserModel } from "@/app/model/chat/chat.model";
+import { ChatMessageModel, ChatUserModel } from "../../app/modelchat.model";
 import { getPeopleList } from "@/app/service/chat/chatUser.service";
 import { getMessageList } from "@/app/service/chat/chatMessage.service";
 import { useRouter } from "next/navigation";

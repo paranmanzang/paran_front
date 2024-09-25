@@ -8,7 +8,7 @@ export default function Books() {
 
   return (
     <div>
-      <BookDetails bookId={id}/>
+      <BookDetails bookId={id} />
     </div>
   );
 }

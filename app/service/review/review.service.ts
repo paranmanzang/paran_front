@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ReviewModel, ReviewUpdateModel } from '../../model/review/review';
+import { ReviewModel, ReviewUpdateModel } from '../../model/review.model';
 
 const api = axios.create({
     baseURL: 'http://localhost:8083/api/reviews', 

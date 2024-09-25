@@ -1,12 +1,12 @@
 "use client";
 
-import { BookResponseModel, LikeBookModel } from "@/app/model/group/group.model";
+import { BookResponseModel, LikeBookModel } from "../../app/modelgroup.model";
 import { findOneByBookId } from "@/app/service/group/book.service";
 import { likeBook } from "@/app/service/group/likeBook.service";
 import { useEffect, useState } from "react";
 
 interface DetailsProps {
-  bookId: string; 
+  bookId: string;
 }
 
 export default function Details({ bookId }: DetailsProps) {
@@ -40,7 +40,7 @@ export default function Details({ bookId }: DetailsProps) {
   const handleLikeBook = async () => {
     try {
       const response = await likeBook(likeBookModel);
-      
+
       if (typeof response === 'boolean' && response) {
         alert('책에 성공적으로 좋아요를 추가했습니다!');
       } else {
@@ -70,10 +70,10 @@ export default function Details({ bookId }: DetailsProps) {
   return (
     <div>
       <div className="h-[300px] w-full justify-center bg-gray-400">
-     <p>메인 상세보기 - {book.title}</p> 
-      <p>저자: {book.author}</p>
-      <p>카테고리: {book.categoryName || '카테고리 없음'}</p>
-      <p>좋아요 수: {book.likeBookCount}</p>
+        <p>메인 상세보기 - {book.title}</p>
+        <p>저자: {book.author}</p>
+        <p>카테고리: {book.categoryName || '카테고리 없음'}</p>
+        <p>좋아요 수: {book.likeBookCount}</p>
       </div>
       <div className="my-6 grid min-h-screen grid-cols-2 place-items-center">
         <div className="h-[70%] w-4/5 bg-gray-400"> 안에 내용 넣기</div>

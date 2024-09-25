@@ -1,10 +1,11 @@
-// api/axiosInstance.ts
 import axios from "axios";
 
-// 기본 axios 설정을 정의 (baseURL 설정이나 기본 헤더 추가)
-const axiosInstance = axios.create({
-  baseURL: "https://localhost:8083", // 기본 API URL
-  timeout: 10000, // 요청 시간 제한
+const instance = axios.create({
+  // baseURL: "https://api.themoviedb.org/3",
+  // params: {
+  //   api_key: "224ce10a7d69928d35e14130ac08d7d8",
+  //   language: "ko-KR",
+  // },
 });
 
-export default axiosInstance;
+export default instance;

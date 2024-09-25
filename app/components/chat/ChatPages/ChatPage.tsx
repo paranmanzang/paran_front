@@ -4,7 +4,7 @@ import InputField from "../InputField/InputField";
 import './ChatPageStyle.css'
 import MessageContainer from '../MessageContainer/MessageContainer';
 import { insertMessage } from '@/app/service/chat/chatMessage.service';
-import { ChatMessageModel } from '@/app/model/chat/chat.model';
+import { ChatMessageModel } from '../../app/modelchat.model';
 
 interface ChatPageProps {
   messages: ChatMessageModel[]

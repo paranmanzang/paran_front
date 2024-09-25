@@ -1,4 +1,4 @@
-import { FileDeleteModel, FileModel } from '@/app/model/file/file.model';
+import { FileDeleteModel, FileModel } from '../../app/modelfile.model';
 import axios from 'axios';
 
 const api = axios.create({

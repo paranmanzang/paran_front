@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { fetchData } from "@/app/api/fetchData";
+//import { fetchData } from "@/app/api/fetchData";
 
 interface RowData {
   id: string | number;
@@ -10,8 +10,8 @@ interface RowData {
   content: string;
   fetchUrl: string;
   linkUrl: string;
-  imageUrl?: string; 
-  author?: string;    
+  imageUrl?: string;
+  author?: string;
 }
 
 interface RowProps {
@@ -25,18 +25,18 @@ interface RowProps {
 const Row: React.FC<RowProps> = ({ data, onSelect, isSelected }) => {
   const [detailedData, setDetailedData] = useState(data);
 
-  useEffect(() => {
-    const fetchDetailedData = async () => {
-      try {
-        const result = await fetchData(`/api/item/${data.id}`);
-        setDetailedData({ ...data, ...result });
-      } catch (error) {
-        console.error("Error fetching detailed data:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchDetailedData = async () => {
+  //     try {
+  //       const result = await fetchData(`/api/item/${data.id}`);
+  //       setDetailedData({ ...data, ...result });
+  //     } catch (error) {
+  //       console.error("Error fetching detailed data:", error);
+  //     }
+  //   };
 
-    fetchDetailedData();
-  }, [data.id]);
+  //   fetchDetailedData();
+  // }, [data.id]);
 
   return (
     <div

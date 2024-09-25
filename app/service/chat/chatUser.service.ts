@@ -1,11 +1,11 @@
-import { ChatUserModel } from "@/app/model/chat/chat.model";
+import { ChatUserModel } from "../../app/modelchat.model";
 
 const chatUserApi = 'http://localhost:8081/api/chats/user'
 
 export const invite = async ({ roomId, nickname }: { roomId: string, nickname: string }): Promise<Boolean> => {
     try {
         // API 요청 전송
-        const response = await fetch(chatUserApi+`?roomId=${roomId}`, {
+        const response = await fetch(chatUserApi + `?roomId=${roomId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

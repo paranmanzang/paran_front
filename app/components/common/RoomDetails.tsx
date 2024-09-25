@@ -1,6 +1,6 @@
 "use client";
-import { FileModel } from "@/app/model/file/file.model";
-import { RoomModel, RoomWTimeModel } from "@/app/model/room/room";
+import { FileModel } from "../../app/modelfile.model";
+import { RoomModel, RoomWTimeModel } from "../../app/modelroom.model";
 import { selectFileList } from "@/app/service/File/file.service";
 import { findAllRooms, findRoomById } from "@/app/service/room/room.service";
 import { useEffect, useState } from "react";
@@ -21,6 +21,7 @@ export default function Details() {
         setFiles(data)
       }
     })
+    // setFiles(getFiles);
   }, [])
   return (
     <div>
