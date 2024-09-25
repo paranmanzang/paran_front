@@ -1,15 +1,16 @@
-import axios from 'axios';
 
+import api from '@/app/api/axios';
+import requests from '@/app/api/requests';
 import { AddressModel, AddressUpdateModel } from '@/app/model/room.model';
 
-const api = axios.create({
-  baseURL: 'http://localhost:8083/api/rooms/addresses',
-});
+// const api = axios.create({
+//   baseURL: 'http://localhost:8083/api/rooms/addresses',
+// });
 
 // 주소 검색  --????
 export const searchAddress = async (query: string): Promise<any> => {
   try {
-    const response = await api.get('/search', {
+    const response = await api.get(requests.fetchRooms+'/search', {
       params: { query },
     });
     return response.data;
