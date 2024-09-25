@@ -34,8 +34,3 @@ export type AppStore = ReturnType<typeof makeStore>;
 // RootState와 AppDispatch 타입을 추론합니다.
 export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];
-
-
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-export const useAppDispatch = () => useDispatch<AppDispatch>();
