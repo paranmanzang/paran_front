@@ -1,6 +1,6 @@
 "use client";
-import { FileModel } from "@/app/model/file/file.model";
-import { RoomWTimeModel, TimeModel } from "@/app/model/room/room";
+import { FileModel } from "@/app/model/file.model";
+import { RoomWTimeModel, TimeModel } from "@/app/model/room.model";
 import { loadFile, selectFileList } from "@/app/service/File/file.service";
 import { findRoomById } from "@/app/service/room/room.service";
 import { useEffect, useState } from "react";
@@ -22,6 +22,7 @@ export default function Details({ roomId }: roomDetailProps) {
         setFiles(data)
       }
     })
+    // setFiles(getFiles);
   }, [])
 
   const groupedTimes = room?.times.reduce((acc: Record<string, TimeModel[]>, time) => {

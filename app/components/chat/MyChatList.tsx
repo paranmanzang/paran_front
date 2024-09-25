@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Link from "next/link";
 
 import "./MyChatList.css";
-import { ChatRoomModel } from "@/app/model/chat/chat.model";
+import { ChatRoomModel } from "@/app/model/chat.model";
 
 interface ChatRoomListProps {
   chatRooms: ChatRoomModel[] | null

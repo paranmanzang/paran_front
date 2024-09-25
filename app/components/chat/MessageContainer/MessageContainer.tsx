@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { ChatMessageModel } from "@/app/model/chat/chat.model";
+import { ChatMessageModel } from "@/app/model/chat.model";
 import "./MessageContainer.css";
 
 interface MessageContainerProps {

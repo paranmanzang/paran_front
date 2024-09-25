@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
-import Naver from '@/app/assets/btnG.png'
+import Naver from "../../../assets/btnG.png"
 
 export default function Login() {
+
   return (
     <div className="mx-auto my-6 max-w-lg rounded-lg border p-6 shadow dark:bg-gray-600">
       <form>
