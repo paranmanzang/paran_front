@@ -2,13 +2,12 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialAddressState, AddressModel, AddressUpdateModel } from '../../app/model/address.model';
-import { RootState } from "../store"
 
 const addressSlice = createSlice({
     name: 'address',
     initialState: initialAddressState,
     reducers: {
-        setAddresses: (state, action: PayloadAction<AddressModel[]>) => {
+        saveAddresses: (state, action: PayloadAction<AddressModel[]>) => {
             state.addresses = action.payload;
         },
         addAddress: (state, action: PayloadAction<AddressModel>) => {
@@ -23,32 +22,32 @@ const addressSlice = createSlice({
         deleteAddress: (state, action: PayloadAction<number>) => {
             state.addresses = state.addresses.filter(address => address.id !== action.payload);
         },
-        setCurrentAddress: (state, action: PayloadAction<AddressModel | null>) => {
+        saveCurrentAddress: (state, action: PayloadAction<AddressModel | null>) => {
             state.currentAddress = action.payload;
         },
-        setLoading: (state, action: PayloadAction<boolean>) => {
+        saveLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
         },
-        setError: (state, action: PayloadAction<string | null>) => {
+        saveError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload;
         },
     },
 });
 
-export const getAddresses = (state: RootState) => state.address.addresses;
-export const getCurrentAddress = (state: RootState) => state.address.currentAddress;
-export const getIsLoading = (state: RootState) => state.address.isLoading;
-export const getError = (state: RootState) => state.address.error;
+export const getAddresses = (state: any) => state.addresses;
+export const getCurrentAddress = (state: any) => state.currentAddress;
+export const getIsLoading = (state: any) => state.isLoading;
+export const getError = (state: any) => state.error;
 
 
 export const {
-    setAddresses,
+    saveAddresses,
     addAddress,
     updateAddress,
     deleteAddress,
-    setCurrentAddress,
-    setLoading,
-    setError,
+    saveCurrentAddress,
+    saveLoading,
+    saveError,
 } = addressSlice.actions;
 
 export default addressSlice.reducer;

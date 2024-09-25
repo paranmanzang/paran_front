@@ -2,7 +2,6 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialChatState, ChatRoomModel, ChatUserModel, ChatMessageModel } from '../../app/model/chat.model';
-import { RootState } from '../store'
 
 const chatSlice = createSlice({
     name: 'chat',
@@ -47,12 +46,12 @@ const chatSlice = createSlice({
     },
 });
 
-export const getRooms = (state: RootState) => state.chat.rooms;
-export const getCurrentRoom = (state: RootState) => state.chat.currentRoom;
-export const getUsers = (state: RootState) => state.chat.users;
-export const getMessages = (state: RootState) => state.chat.messages;
-export const getIsLoading = (state: RootState) => state.chat.isLoading;
-export const getError = (state: RootState) => state.chat.error;
+export const getRooms = (state: any) => state.rooms;
+export const getCurrentRoom = (state: any) => state.currentRoom;
+export const getUsers = (state: any) => state.users;
+export const getMessages = (state: any) => state.messages;
+export const getIsLoading = (state: any) => state.isLoading;
+export const getError = (state: any) => state.error;
 
 
 export const {

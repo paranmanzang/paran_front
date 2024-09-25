@@ -8,7 +8,7 @@ const bookingSlice = createSlice({
     name: 'booking',
     initialState: initialBookingState,
     reducers: {
-        setBookings: (state, action: PayloadAction<BookingModel[]>) => {
+        saveBookings: (state, action: PayloadAction<BookingModel[]>) => {
             state.bookings = action.payload;
         },
         addBooking: (state, action: PayloadAction<BookingModel>) => {
@@ -23,13 +23,13 @@ const bookingSlice = createSlice({
         deleteBooking: (state, action: PayloadAction<number>) => {
             state.bookings = state.bookings.filter(booking => booking.id !== action.payload);
         },
-        setCurrentBooking: (state, action: PayloadAction<BookingModel | null>) => {
+        saveCurrentBooking: (state, action: PayloadAction<BookingModel | null>) => {
             state.currentBooking = action.payload;
         },
-        setLoading: (state, action: PayloadAction<boolean>) => {
+        saveLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
         },
-        setError: (state, action: PayloadAction<string | null>) => {
+        saveError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload;
         },
     },
@@ -42,13 +42,13 @@ export const getError = (state: RootState) => state.bookings.error;
 
 
 export const {
-    setBookings,
+    saveBookings,
     addBooking,
     updateBooking,
     deleteBooking,
-    setCurrentBooking,
-    setLoading,
-    setError,
+    saveCurrentBooking,
+    saveLoading,
+    saveError,
 } = bookingSlice.actions;
 
 export default bookingSlice.reducer;

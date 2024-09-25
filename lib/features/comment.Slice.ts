@@ -2,7 +2,6 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialCommentState, CommentResponseModel, CommentRequestModel } from '../../app/model/comment.model';
-import { RootState } from '../store'
 
 const commentSlice = createSlice({
     name: 'comment',
@@ -35,12 +34,12 @@ const commentSlice = createSlice({
     },
 });
 
-export const getSaveComments = (state: RootState) => state.comment.comments
-export const getUpdateComment = (state: RootState) => state.comment.comments
-export const getDeleteComment = (state: RootState) => state.comment.comments
-export const getSaveCurrentComments = (state: RootState) => state.comment.currentComment
-export const getSaveLoading = (state: RootState) => state.comment.isLoading
-export const getSaveError = (state: RootState) => state.comment.error
+export const getSaveComments = (state: any) => state.comments
+export const getUpdateComment = (state: any) => state.comments
+export const getDeleteComment = (state: any) => state.comments
+export const getSaveCurrentComments = (state: any) => state.currentComment
+export const getSaveLoading = (state: any) => state.isLoading
+export const getSaveError = (state: any) => state.error
 
 
 export const {

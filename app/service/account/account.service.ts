@@ -3,8 +3,7 @@ import { AccountCancelModel, AccountResultModel } from '@/app/model/account.mode
 
 const api = axios.create({
     baseURL: 'http://localhost:8083/api/account',
-  });
-
+});
   // 결제 정보 저장 
 export const savePayment = async (model: AccountResultModel): Promise<boolean> => {
     try {

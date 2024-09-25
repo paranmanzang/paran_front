@@ -3,6 +3,7 @@ import { ThemeModeScript } from "flowbite-react";
 import "./globals.css";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
+import StoreProvider from "./StoreProvider";
 
 export const metadata: Metadata = {
   title: "paranmanzang",
@@ -14,7 +15,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
   return (
     <html lang="en">
       <head>
@@ -22,10 +23,12 @@ export default function RootLayout({
         <ThemeModeScript />
       </head>
       <body>
-        <Header />
-        <main className="mb-6 pb-6">{children}</main>
-        <div id="map" style={{ width: "100%", height: "400px" }}></div>
-        <Footer />
+        <StoreProvider >
+          <Header />
+          <main className="mb-6 pb-6">{children}</main>
+          <div id="map" style={{ width: "100%", height: "400px" }}></div>
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );
