@@ -2,7 +2,6 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialFileState, FileModel, FileDeleteModel } from '../../app/model/file.model';
-import { RootState } from '../store';
 
 const fileSlice = createSlice({
     name: 'file',
@@ -32,13 +31,13 @@ const fileSlice = createSlice({
     },
 });
 
-export const getFiles = (state: RootState) => state.file.files
-export const getCurrentFile = (state: RootState) => state.file.currentFile
-export const getFileToDelete = (state: RootState) => state.file.fileToDelete
-export const getAddFile = (state: RootState) => state.file.files
-export const getRemoveFile = (state: RootState) => state.file.files
-export const getLoading = (state: RootState) => state.file.isLoading
-export const getError = (state: RootState) => state.file.error
+export const getFiles = (state:any) => state.files
+export const getCurrentFile = (state:any) => state.currentFile
+export const getFileToDelete = (state:any) => state.fileToDelete
+export const getAddFile = (state:any) => state.files
+export const getRemoveFile = (state:any) => state.files
+export const getLoading = (state:any) => state.isLoading
+export const getError = (state:any) => state.error
 
 
 export const {

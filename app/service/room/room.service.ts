@@ -1,16 +1,17 @@
 
-import axios from 'axios';
+//import axios from 'axios';
 import { RoomModel, RoomUpdateModel, RoomWTimeModel } from '../../model/room.model';
 import { ExceptionResponseModel } from '../../model/error.model';
+import axios from '../../api/axios';
 
-const api = axios.create({
-    baseURL: 'http://localhost:8083/api/rooms', // Spring Boot API 기본 URL
-});
+// const axios = axios.create({
+//     baseURL: 'http://localhost:8083/api/rooms', // Spring Boot API 기본 URL
+// });
 
 // 공간 등록
 export const saveRoom = async (roomModel: RoomModel): Promise<boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.post('/add', roomModel);
+        const response = await axios.post('/add', roomModel);
         return response.data;
     } catch (error) {
         console.error('Error saving room:', error);
@@ -21,7 +22,7 @@ export const saveRoom = async (roomModel: RoomModel): Promise<boolean | Exceptio
 // 공간 수정
 export const updateRoom = async (roomModel: RoomUpdateModel): Promise<boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.put('/update', roomModel);
+        const response = await axios.put('/update', roomModel);
         return response.data;
     } catch (error) {
         console.error('Error updating room:', error);
@@ -32,7 +33,7 @@ export const updateRoom = async (roomModel: RoomUpdateModel): Promise<boolean | 
 // 공간 삭제
 export const deleteRoom = async (id: number): Promise<boolean> => {
     try {
-        const response = await api.delete(`/delete/${id}`);
+        const response = await axios.delete(`/delete/${id}`);
         return response.data;
     } catch (error) {
         console.error('Error deleting room:', error);
@@ -43,7 +44,7 @@ export const deleteRoom = async (id: number): Promise<boolean> => {
 // 특정 닉네임의 공간 조회
 export const findRoomsByUser = async (nickname: string): Promise<RoomModel[]> => {
     try {
-        const response = await api.get(`/list/${nickname}`);
+        const response = await axios.get(`/list/${nickname}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching rooms by user:', error);
@@ -54,7 +55,7 @@ export const findRoomsByUser = async (nickname: string): Promise<RoomModel[]> =>
 // 모든 공간 조회
 export const findAllRooms = async (): Promise<RoomModel[]> => {
     try {
-        const response = await api.get('/list');
+        const response = await axios.get('/list');
         return response.data;
     } catch (error) {
         console.error('Error fetching all rooms:', error);
@@ -65,7 +66,7 @@ export const findAllRooms = async (): Promise<RoomModel[]> => {
 // 단일 공간 조회
 export const findRoomById = async (id: number): Promise<RoomWTimeModel> => {
     try {
-        const response = await api.get(`/one/${id}`);
+        const response = await axios.get(`/one/${id}`);
         return response.data;
     } catch (error) {
         console.error('Error fetching room by id:', error);
@@ -76,7 +77,7 @@ export const findRoomById = async (id: number): Promise<RoomWTimeModel> => {
 // 공간 승인
 export const confirmRoom = async (id: number): Promise<boolean> => {
     try {
-        const response = await api.put(`/adminAnswer/${id}`);
+        const response = await axios.put(`/adminAnswer/${id}`);
         return response.data;
     } catch (error) {
         console.error('Error confirming room:', error);
@@ -87,7 +88,7 @@ export const confirmRoom = async (id: number): Promise<boolean> => {
 // 공간 거절
 export const rejectRoom = async (id: number): Promise<boolean> => {
     try {
-        const response = await api.delete(`/adminAnswer/${id}`);
+        const response = await axios.delete(`/adminAnswer/${id}`);
         return response.data;
     } catch (error) {
         console.error('Error rejecting room:', error);
