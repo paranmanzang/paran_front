@@ -7,7 +7,7 @@ import "./globals.css";
 import Map from "./components/common/Map";
 import RecommendBook from "./components/chat/ChatBot/RecommendBook";
 import Carousel from "./components/common/Carousel";
-import TabButton from "./components/common/Tabbutton";
+import TabButton from "./components/common/TabButton";
 
 export default function Home() {
   const [rowData, setRowData] = useState<any[]>([]);
