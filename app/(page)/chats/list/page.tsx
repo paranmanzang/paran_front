@@ -4,13 +4,19 @@ import { ChatRoomModel } from "../../app/modelchat.model";
 import { getChatList } from "@/app/service/chat/chatRoom.service";
 import { useEffect, useState } from "react";
 export default function ChatList() {
+<<<<<<< HEAD
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
+=======
+  const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null); 
+  const [loading, setLoading] = useState<boolean>(true); 
+  const [error, setError] = useState<boolean>(false); 
+  const nickname = 'A'; // 임의로 넣어둠
+>>>>>>> fd8d7a76a659d99d2fd4d43dcf600d7ee80fed39
 
   useEffect(() => {
     const fetchChatRooms = async () => {
-      const nickname = 'A';
       const result = await getChatList({ nickname });
 
       if (result && Array.isArray(result)) {
@@ -21,8 +27,13 @@ export default function ChatList() {
       setLoading(false);
     };
 
+<<<<<<< HEAD
     fetchChatRooms();
   }, [chatRooms]);
+=======
+    fetchChatRooms(); 
+  }, [nickname]);
+>>>>>>> fd8d7a76a659d99d2fd4d43dcf600d7ee80fed39
 
   if (loading) {
     return <div>로딩 중...</div>;

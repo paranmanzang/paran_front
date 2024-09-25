@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ExceptionResponseModel } from '../../model/error.model';
-import { BookingModel } from '../../model/room.model';
+import { ExceptionResponseModel } from '@/app/model/error.model';
+import { BookingModel } from '@/app/model/room.model';
 
 const api = axios.create({
   baseURL: 'http://localhost:8083/api/rooms/bookings',

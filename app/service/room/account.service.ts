@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AccountCancelModel, AccountResultModel } from '../../model/room.model';
+import { AccountCancelModel, AccountResultModel } from '@/app/model/room.model';
 
 const api = axios.create({
   baseURL: 'http://localhost:8083/api/rooms/account',

@@ -1,4 +1,4 @@
-import { ChatMessageModel } from "../../app/modelchat.model";
+import { ChatMessageModel } from "@/app/model/chat.model";
 
 const chatMessageApi = 'http://localhost:8081/api/chats/message'
 

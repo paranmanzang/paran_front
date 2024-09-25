@@ -6,18 +6,25 @@ import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
 import MyChatList from "@/app/components/chat/MyChatList";
 import PeopleList from "@/app/components/chat/PeopleList";
 import MyProfile from "@/app/components/chat/MyProfile";
+<<<<<<< HEAD
 import { ChatMessageModel, ChatUserModel } from "../../app/modelchat.model";
+=======
+import { ChatMessageModel, ChatRoomModel, ChatUserModel } from "@/app/model/chat/chat.model";
+>>>>>>> fd8d7a76a659d99d2fd4d43dcf600d7ee80fed39
 import { getPeopleList } from "@/app/service/chat/chatUser.service";
 import { getMessageList } from "@/app/service/chat/chatMessage.service";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import { getChatList, saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
 
 export default function ChatRoom() {
   const router = useRouter();
-  const roomId = "66f14b991332832511b02fbb"; // 임의로 넣어둠
+  const params = useParams();
+  const roomId = Array.isArray(params?.id) ? params?.id[0] : params?.id ?? "";
   const nickname = "A"; // 임의로 넣어둠
   const [messages, setMessages] = useState<ChatMessageModel[]>([]);
   const [chatUsers, setChatUsers] = useState<ChatUserModel[] | null>(null)
   const unsubscribeRef = useRef<(() => void) | null>(null);
+  const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null)
 
   // 팝업 창 상태 관리
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
@@ -44,6 +51,16 @@ export default function ChatRoom() {
 
     fetchChatUsers();
 
+    const fetchChatRooms = async () => {
+      const result = await getChatList({ nickname });
+
+      if (result && Array.isArray(result)) {
+        setChatRooms(result);
+      }
+    };
+
+    fetchChatRooms();
+
     // SSE로 실시간 메시지 구독
     const handleNewMessage = (newMessage: ChatMessageModel) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -67,12 +84,21 @@ export default function ChatRoom() {
     };
   }, [roomId]);
 
-  const leaveChat = () => {
+  const leaveChat = async () => {
     if (unsubscribeRef.current) {
       unsubscribeRef.current(); // SSE 연결 종료
     }
+
+    const isSaved = await saveLastReadMessageTime({ roomId, nickname });
+    if (isSaved) {
+      console.log("마지막 읽은 메시지 시간이 저장되었습니다.");
+    } else {
+      console.error("마지막 읽은 메시지 시간 저장에 실패했습니다.");
+    }
+
     router.push("/chats/list"); // 페이지 이동
   };
+
   return (
     <div className="relative w-full">
       <div className="fixed left-0 top-0 min-h-screen w-full">
@@ -106,7 +132,7 @@ export default function ChatRoom() {
         </div>
         <div className="flex h-dvh justify-center rounded-lg bg-gray-100">
           <section className="relative w-1/5 bg-green-700">
-            <MyChatList />
+            <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />
             <ul className="w-full">
               {chatUsers?.map((user) => (
                 <PeopleList key={user.nickname} nickname={user.nickname} enterTime={user.enterTime} />))}
@@ -115,7 +141,7 @@ export default function ChatRoom() {
           </section>
           <article className="flex w-4/5 flex-col bg-blue-200 ">
             <aside className="w-full">
-              <ChatPage messages={messages} />
+              <ChatPage messages={messages} roomId={roomId} />
             </aside>
           </article>
         </div>

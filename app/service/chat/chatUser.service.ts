@@ -1,4 +1,4 @@
-import { ChatUserModel } from "../../app/modelchat.model";
+import { ChatUserModel } from "@/app/model/chat.model";
 
 const chatUserApi = 'http://localhost:8081/api/chats/user'
 

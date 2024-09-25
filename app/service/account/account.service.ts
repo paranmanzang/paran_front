@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AccountCancelModel, AccountResultModel } from '../../model/account.model';
+import { AccountCancelModel, AccountResultModel } from '@/app/model/account.model';
 
 const api = axios.create({
     baseURL: 'http://localhost:8083/api/account',

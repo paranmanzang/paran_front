@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { AddressModel, AddressUpdateModel } from '../../model/room.model';
+import { AddressModel, AddressUpdateModel } from '@/app/model/room.model';
 
 const api = axios.create({
   baseURL: 'http://localhost:8083/api/rooms/addresses',

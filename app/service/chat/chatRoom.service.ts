@@ -1,4 +1,4 @@
-import { ChatRoomModel } from "../../app/modelchat.model";
+import { ChatRoomModel } from "@/app/model/chat.model";
 
 const chatRoomApi = 'http://localhost:8081/api/chats/room'
 
