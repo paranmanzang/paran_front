@@ -1,24 +1,48 @@
+import { ChatMessageModel } from "@/app/model/chat.model";
 
 const chatMessageApi = 'http://localhost:8081/api/chats/message'
 
-export const getMessageList = async ({ roomId, nickname }: { roomId: string, nickname: string }): Promise<void> => {
-    try {
-        // 이벤트 스트림 연결
-        const eventSource = new EventSource(chatMessageApi+`/${roomId}?nickname=${nickname}`);
 
-        // 서버로부터 들어오는 메시지 처리
-        eventSource.onmessage = (event) => {
-            console.log('새로운 메시지:', event.data);
-            // 메시지 데이터를 처리하는 로직을 작성합니다.
+
+export const getMessageList = async ({ roomId, nickname, onMessage }: { roomId: string, nickname: string, onMessage: (message: ChatMessageModel) => void }): Promise<void> => {
+    try {
+        const eventSource = new EventSource(
+            chatMessageApi + `/${roomId}?nickname=${nickname}`);
+
+        eventSource.onopen = () => {
+            console.log('SSE 연결 성공:', eventSource);
         };
+
+        // 과거 메시지를 수신 (past-message 이벤트)
+        eventSource.addEventListener('past-message', (event: MessageEvent) => {
+            try {
+                const parsedData: ChatMessageModel = JSON.parse(event.data);
+                console.log('과거 메시지:', parsedData);
+                onMessage(parsedData);  // 상태 업데이트 콜백 호출
+            } catch (error) {
+                console.error('과거 메시지 파싱 오류:', error);
+            }
+        });
+
+        // 실시간 메시지를 수신 (chat-message 이벤트)
+        eventSource.addEventListener('chat-message', (event: MessageEvent) => {
+            try {
+                const parsedData: ChatMessageModel = JSON.parse(event.data);
+                console.log('실시간 메시지:', parsedData);
+                onMessage(parsedData);  // 상태 업데이트 콜백 호출
+            } catch (error) {
+                console.error('실시간 메시지 파싱 오류:', error);
+            }
+        });
+
+
 
         // 오류가 발생했을 때 처리
         eventSource.onerror = (error) => {
-            console.error('SSE 연결 오류 발생:', error);
-            eventSource.close(); // 연결 종료
+            console.error("SSE 연결 오류 발생:", error);
+            eventSource.close();
         };
 
-        // 컴포넌트가 언마운트될 때 SSE 연결 종료 구현 필요
     } catch (error) {
         const errorMessage = (error as Error).message;
         console.error('SSE 메시지 구독 중 오류 발생:', errorMessage);
@@ -26,9 +50,10 @@ export const getMessageList = async ({ roomId, nickname }: { roomId: string, nic
 };
 
 
-export const insertMessage = async ({ nickname, roomId, message }: { nickname: string, roomId: string, message:string }): Promise<Boolean> => {
+
+export const insertMessage = async ({ nickname, roomId, message }: { nickname: string, roomId: string, message: string }): Promise<boolean> => {
     try {
-        const response = await fetch(chatMessageApi , {
+        const response = await fetch(chatMessageApi, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +69,7 @@ export const insertMessage = async ({ nickname, roomId, message }: { nickname: s
     }
 }
 
-export const unReadTotalMessageCount = async ({nickname }: { nickname: string }): Promise<number> => {
+export const unReadTotalMessageCount = async ({ nickname }: { nickname: string }): Promise<number> => {
     try {
         const response = await fetch(chatMessageApi + '/totalunread', {
             method: 'GET',

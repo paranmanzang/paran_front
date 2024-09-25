@@ -1,7 +1,7 @@
 
 import axios from 'axios';
-import { RoomModel, RoomUpdateModel, RoomWTimeModel } from '../../model/room/room';
-import { ExceptionResponseModel } from '../../model/error/error.model';
+import { RoomModel, RoomUpdateModel, RoomWTimeModel } from '../../model/room.model';
+import { ExceptionResponseModel } from '../../model/error.model';
 
 const api = axios.create({
     baseURL: 'http://localhost:8083/api/rooms', // Spring Boot API 기본 URL

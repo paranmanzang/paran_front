@@ -1,49 +1,51 @@
 "use client";
 import { useState, useEffect } from "react";
-import { fetchData } from "@/app/api/fetchData";
+import axios from "axios";
 import Row from "./Row";
-import { FaBook } from "react-icons/fa";
-import { FaSchool } from "react-icons/fa";
+import { FaBook, FaSchool } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 import { MdMessage } from "react-icons/md";
 import AdminButton from "../user/adminRow/AdminButton";
-import SellerButton from "../user/sellerRow/SellerButton";
 
 export default function SideBar() {
-  const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("All");
-  const [rowData, setRowData] = useState<any[]>([]); // Row 컴포넌트로 전달할 데이터
-  const [max, setMax] = useState<number>(5);
+  const [rowData, setRowData] = useState<any[]>([]); // 빈 배열로 초기화
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
-
-  // 탭 상태에 따라 다른 데이터를 가져오는 함수
   const fetchTabData = async (tab: string) => {
+    setLoading(true);
+    setError(null); // 이전 에러 메시지 초기화
     let url = "";
 
-    // 각 탭에 따라 다른 API URL을 설정
-    if (tab === "Rooms") {
-      url = "/api/rooms/list";
-    } else if (tab === "Groups") {
-      url = "/groups";
-    } else if (tab === "Chats") {
-      url = "/chats";
-    } else if (tab === "Books") {
-      url = "/books";
-    }
+    if (tab === "Rooms") url = "/api/rooms";
+    else if (tab === "Groups") url = "/api/groups/groups";
+    else if (tab === "Chats") url = "/api/chats";
+    else if (tab === "Books") url = "/api/books";
 
-    // axios로 데이터 fetch
     try {
-      const response = await fetchData(url);
-      setRowData(response.data); // API로부터 받아온 데이터를 상태에 저장
-    } catch (error) {
+      const response = await axios.get(url);
+
+      // 데이터가 배열인지 확인 후 설정
+      if (Array.isArray(response.data)) {
+        setRowData(response.data); // 정상적인 배열이면 저장
+      } else {
+        console.error("Received data is not an array:", response.data);
+        setRowData([]); // 배열이 아닌 경우 빈 배열로 설정
+      }
+    } catch (error: any) {
       console.error("Error fetching data:", error);
+      setError("Failed to fetch data"); // 에러 메시지 설정
+    } finally {
+      setLoading(false); // 로딩 상태 업데이트
     }
   };
 
-  // activeTab이 변경될 때마다 데이터를 가져옴
+  const handleRowSelect = (id: string) => {
+    setSelectedId(id);
+  };
+
   useEffect(() => {
     fetchTabData(activeTab);
   }, [activeTab]);
@@ -51,7 +53,7 @@ export default function SideBar() {
   return (
     <div>
       <AdminButton />
-      {/* <SellerButton /> */}
+      {/* <SellerButton id={selectedId || "2"} /> */}
       <div className="relative min-h-screen overflow-x-hidden">
         <aside
           id="default-sidebar"
@@ -133,21 +135,30 @@ export default function SideBar() {
         </aside>
         <div className="absolute top-0 h-full w-[88%] overflow-y-scroll p-8 sm:ml-64">
           <div className="mb-4 grid grid-cols-3 gap-4">
-            {rowData.length > 0 ? (
-              rowData
-            //    .slice(0, max)
-                .map((item: any) => (
-                  <Row
-                    key={item.id}
-                    title={item.title}
-                    content={item.content}
-                    fetchUrl={item.fetchUrl}
-                    linkUrl={item.linkUrl}
-                  />
-                ))
-             ): (
-               <p>Loading...</p>
-             )}
+            {loading ? (
+              <p>Loading...</p>
+            ) : error ? (
+              <p>Error: {error}</p>
+            ) : rowData.length > 0 ? (
+              rowData.map((item: any) => (
+                <Row
+                  data={{
+                    id: item.id,
+                    title: item.title,
+                    content: item.content,
+                    fetchUrl: item.fetchUrl,
+                    linkUrl: item.linkUrl,
+                    imageUrl: item.imageUrl, // optional
+                    author: item.author, // optional
+                  }}
+                  onSelect={() => handleRowSelect(item.id)}
+                  isSelected={selectedId === item.id}
+                  key={item.id}
+                />
+              ))
+            ) : (
+              <p>No data available</p>
+            )}
           </div>
         </div>
       </div>

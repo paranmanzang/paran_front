@@ -6,7 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "./Nav";
-import paranLogo from "@/app/assets/paranLogo.png";
+import paranLogo from "../../assets/paranLogo.png";
 
 export default function Header() {
   const [isHidden, setIsHidden] = useState(true);
@@ -33,6 +33,13 @@ export default function Header() {
             Paranmanzang
           </span>
         </Link>
+
+        <div
+          className="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto"
+          id="navbar-cta"
+        >
+          <Nav />
+        </div>
 
         <div className="flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <div className="relative">
@@ -145,12 +152,7 @@ export default function Header() {
             <DarkThemeToggle />
           </div>
         </div>
-        <div
-          className="hidden w-full items-center justify-between md:order-1 md:flex md:w-auto"
-          id="navbar-cta"
-        >
-          <Nav />
-        </div>
+        
       </div>
     </header>
   );

@@ -1,7 +1,8 @@
 export default function Register() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen py-40">
       <form className="mx-auto max-w-md">
+      <h1 className="text-2xl mb-6">파란만장 서비스와 함께해요!</h1>
         <div className="group relative z-0 mb-5 w-full">
           <input
             type="text"
@@ -35,7 +36,7 @@ export default function Register() {
           </label>
         </div>
         {/* 비밀번호 맞는지 확인 폼 */}
-        {/* <div className="group relative z-0 mb-5 w-full">
+        <div className="group relative z-0 mb-5 w-full">
           <input
             type="password"
             name="repeat_password"
@@ -50,7 +51,7 @@ export default function Register() {
           >
             비밀번호 확인
           </label>
-        </div> */}
+        </div>
         <div className="group relative z-0 mb-5 w-full">
           <input
             type="text"

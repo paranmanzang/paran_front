@@ -1,11 +1,21 @@
 import axios from 'axios';
-import { ExceptionResponseModel } from '../../model/error/error.model';
-import { GroupModel, GroupResponseModel, JoiningModel, PointModel, PointResponseModel } from '@/app/model/group/group.model';
+import { ExceptionResponseModel } from '@/app/model/error.model';
+import { GroupModel, GroupResponseModel, JoiningModel, PointModel, PointResponseModel } from '@/app/model/group.model';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8083/api/groups/groups',
+    baseURL: 'http://localhost:8084/api/groups/groups',
 });
 
+//전체 그룹 조회
+export const getGrouplist = async (): Promise<GroupResponseModel[]> => {
+    try {
+        const response = await api.get(`/grouplist`);
+        return response.data;
+    } catch (error: any) {
+        console.error('Error fetching group list:', error.response?.data || error.message);
+        throw new Error('소모임 조회 중 오류 발생');
+    }
+};
 
 // 참여중인 소모임 조회
 export const getGrouplistByUserNickname = async (nickname: string): Promise<GroupResponseModel[] | ExceptionResponseModel> => {

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { ExceptionResponseModel } from '../../model/error/error.model';
-import { BookResponseModel, LikeBookModel } from '@/app/model/group/group.model';
+import { ExceptionResponseModel } from '@/app/model/error.model';
+import { BookResponseModel, LikeBookModel } from '@/app/model/group.model';
 
 const api = axios.create({
     baseURL: 'http://localhost:8084/api/groups/likebook',
