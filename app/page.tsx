@@ -8,8 +8,11 @@ import Map from "./components/common/Map";
 import RecommendBook from "./components/chat/ChatBot/RecommendBook";
 import Carousel from "./components/common/Carousel";
 import TabButton from "./components/common/TabButton";
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> d2c75c253371737555690cf1186657be8673f7bb
 
 export default function Home() {
   const [rowData, setRowData] = useState<any[]>([]);
