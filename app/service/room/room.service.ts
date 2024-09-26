@@ -62,8 +62,8 @@ export const deleteRoom = async (id: number): Promise<boolean> => {
 // 등록자에 대한 공간 조회
 export const findRoomsByUser = async (nickname: string, page: number, size: number): Promise<RoomModel[]> => {
     try {
-        const response = await api.get<RoomModel[]>(requests.fetchRooms + `/list/${nickname}`, { params: { page, size } });
-        return response.data;
+        const response = await api.get<Page<RoomModel>>(requests.fetchRooms + `/list/${nickname}`, { params: { page, size } });
+        return response.data.content;
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
@@ -80,6 +80,24 @@ export const findRoomsByUser = async (nickname: string, page: number, size: numb
 
 // 전체 공간 조회
 export const findAllRooms = async (page: number, size: number): Promise<RoomModel[]> => {
+    try {
+        const response = await api.get<Page<RoomModel>>(requests.fetchRooms + '/list', { params: { page, size } });
+        return response.data.content;
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
+    }
+};
+// 승인된 공간 조회
+export const findEnabledRooms = async (page: number, size: number): Promise<RoomModel[]> => {
     try {
         const response = await api.get<Page<RoomModel>>(requests.fetchRooms + '/list/Enabled', { params: { page, size } });
         return response.data.content;
