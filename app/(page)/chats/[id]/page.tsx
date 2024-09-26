@@ -5,25 +5,26 @@ import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
 import MyChatList from "@/app/components/chat/MyChatList";
 import PeopleList from "@/app/components/chat/PeopleList";
 import MyProfile from "@/app/components/chat/MyProfile";
-import { ChatMessageModel, LastReadMesaageTimeModel } from "@/app/model/chat/chat.model";
+import { ChatMessageModel, ChatRoomModel, LastReadMesaageTimeModel } from "@/app/model/chat/chat.model";
 import { getPeopleList } from "@/app/service/chat/chatUser.service";
 import { getMessageList } from "@/app/service/chat/chatMessage.service";
 import { useRouter } from "next/navigation";
-import { saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
+import { getChatList, saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import { getCurrentRoom, getError, getIsLoading, getLastReadMesaageTimes, getRooms, getUsers, saveError, saveLoading, saveUsers, addLastReadMessageTimes } from "@/lib/features/chat/chat.Slice";
+import { getCurrentChatRoom, getError, getIsLoading, getLastReadMesaageTimes, getChatUsers, saveError, saveLoading, saveChatUsers, addLastReadMessageTimes} from "@/lib/features/chat/chat.Slice";
 
 export default function ChatRoom() {
   const router = useRouter();
   const nickname = "A"; // 임의로 넣어둠
   const [messages, setMessages] = useState<ChatMessageModel[]>([]);
   const unsubscribeRef = useRef<(() => void) | null>(null);
+  const [chatRooms, setChatRooms] = useState<ChatRoomModel[]>([])
 
   const dispatch = useDispatch<AppDispatch>();
-  const chatRooms = useSelector((state: RootState) => getRooms(state));
-  const chatUsers = useSelector((state: RootState) => getUsers(state));
-  const chatRoom = useSelector((state: RootState) => getCurrentRoom(state))
+  // const chatRooms = useSelector((state: RootState) => getRooms(state));
+  const chatUsers = useSelector((state: RootState) => getChatUsers(state));
+  const chatRoom = useSelector((state: RootState) => getCurrentChatRoom(state))
   const LastReadMesaageTimes = useSelector((state: RootState) => getLastReadMesaageTimes(state));
   const loading = useSelector((state: RootState) => getIsLoading(state));
   const error = useSelector((state: RootState) => getError(state));
@@ -44,10 +45,23 @@ export default function ChatRoom() {
 
   useEffect(() => {
     dispatch(saveLoading(true));
+
+    getChatList({ nickname })
+      .then(result => {
+        if (result && Array.isArray(result)) {
+          setChatRooms(result);
+        } else {
+          dispatch(saveError("채팅방 목록을 불러오는 중 오류가 발생했습니다."));
+        }
+      })
+      .catch((error) => {
+        dispatch(saveError((error as Error).message || "채팅방 유저을 불러오는 중 오류가 발생했습니다."));
+      })
+
     getPeopleList({ roomId })
       .then(result => {
         if (result && Array.isArray(result)) {
-          dispatch(saveUsers(result));
+          dispatch(saveChatUsers(result));
         } else {
           dispatch(saveError("유저 목록을 불러오는 중 오류가 발생했습니다."));
         }

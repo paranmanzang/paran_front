@@ -1,8 +1,8 @@
-import Add from "@/app/components/crud/Add";
-export default function RoomAdd() {
+import RoomAdd from "@/app/components/crud/RoomAdd";
+export default function Add() {
   return (
     <div>
-      <Add />
+      <RoomAdd />
     </div>
   );
 }

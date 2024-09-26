@@ -26,7 +26,7 @@ const ChatRow: React.FC <ChatRowProps> = ({ active, onSelect }) => {
       }`}
       onClick={handleClick}
     >
-      <Link href={`/book/2`}>
+      <Link href={`/books/2`}>
         <Image
           width={400}
           height={330}
@@ -36,7 +36,7 @@ const ChatRow: React.FC <ChatRowProps> = ({ active, onSelect }) => {
         />
       </Link>
       <div className="p-5">
-        <Link href={`/book/2`}>
+        <Link href={`/books/2`}>
           <h5 className={`mb-2 text-lg font-medium tracking-tight ${
             isActive ? 'text-green-600' : 'text-gray-900'
           } dark:text-white`}>
@@ -48,7 +48,7 @@ const ChatRow: React.FC <ChatRowProps> = ({ active, onSelect }) => {
         </p>
         <p className="text-sm font-medium">chatList</p>
         <Link
-          href={`/book/2`}
+          href={`/books/2`}
           className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${
             isActive
               ? 'bg-green-600 hover:bg-green-700'

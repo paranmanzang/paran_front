@@ -23,7 +23,7 @@ export default function roomAdmin() {
             </button>
           </Link>
         </li>
-        <li>
+        {/* <li>
           <Link
             href="/rooms/1"
             className="m-2 inline-flex w-full items-center justify-around border-2 border-green-400 bg-green-50 p-4"
@@ -166,7 +166,7 @@ export default function roomAdmin() {
               상세보기
             </button>
           </Link>
-        </li>
+        </li> */}
       </ul>
       
     </div>
