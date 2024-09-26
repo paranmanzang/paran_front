@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import TabRow from "./TabRow";
 
 export default function TabButton() {
   // 현재 선택된 탭 상태
@@ -65,6 +66,13 @@ export default function TabButton() {
               공간
             </button>
           </li>
+        </ul>
+
+        <ul className="grid h-full grid-cols-2 gap-6 md:grid-cols-3">
+          <li><TabRow /></li>
+          <li><TabRow /></li>
+          <li><TabRow /></li>
+          <li><TabRow /></li>
         </ul>
       </div>
     </div>
