@@ -105,14 +105,16 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
   }
 
   const isBookLiked = likedBooks.some(likedBook => likedBook.id === book?.id);
+  // const isRoomLiked = likedRooms.some(likedRoom => likedRoom.id === room?.id);
+  // const isGroupPostLiked = likedGroupPosts.some(likedGroupPost => likedGroupPost.id === groupPost?.id);
 
   return (
     <>
       <div className="mx-auto flex h-[20px] w-full max-w-lg items-end">
         {isBookLiked ? (
-          // 책이 이미 찜 목록에 있을 경우 다른 버튼이나 메시지 표시
+          // 이미 찜 목록에 있을 경우 다른 버튼이나 메시지 표시
           <button type="button" className="mx-2 rounded-full border px-3 py-2">
-            ✅ 이미 찜한 도서입니다
+            ✅ 이미 찜했습니다
           </button>
         ) : (
           // 책이 찜 목록에 없을 경우 "찜하기" 버튼 표시
