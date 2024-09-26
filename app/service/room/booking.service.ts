@@ -82,8 +82,8 @@ export const deleteBooking = async (id: number): Promise<boolean> => {
 // 소모임 예약 조회
 export const findByGroupId = async (groupId: number, page: number, size: number): Promise<BookingModel[]> => {
   try {
-    const response = await api.get<BookingModel[]>(requests.fetchRooms + `/groups/list/${groupId}`, { params: { page, size } });
-    return response.data;
+    const response = await api.get<Page<BookingModel>>(requests.fetchRooms + `/groups/list/${groupId}`, { params: { page, size } });
+    return response.data.content;
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -101,8 +101,8 @@ export const findByGroupId = async (groupId: number, page: number, size: number)
 // 공간 예약 조회
 export const findByRoomId = async (roomId: number, page: number, size: number): Promise<BookingModel[]> => {
   try {
-    const response = await api.get<BookingModel[]>(requests.fetchRooms + `/rooms/list/${roomId}`, { params: { page, size } });
-    return response.data;
+    const response = await api.get<Page<BookingModel>>(requests.fetchRooms + `/rooms/list/${roomId}`, { params: { page, size } });
+    return response.data.content;
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
