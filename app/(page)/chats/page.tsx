@@ -4,6 +4,7 @@ import ChatDetails from "@/app/components/chat/ChatDetails";
 import Link from "next/link";
 import { Suspense } from "react";
 import { useSearchParams } from 'next/navigation';
+import { ChatRoomModel } from "@/app/model/chat/chat.model";
 
 export default function Chat() {
   return (
@@ -29,15 +30,12 @@ export default function Chat() {
 
 function ChatContent() {
   const searchParams = useSearchParams();
-  const roomId = searchParams.get('roomId') ?? '';
-  const name = searchParams.get('name') ?? '';
-  const userCount = Number(searchParams.get('userCount'));
-  const unReadMessageCount = Number(searchParams.get('unReadMessageCount'));
+  const chatRoom = JSON.parse(searchParams.get('chatRoom') ?? '') as ChatRoomModel ?? '';
 
   return (
     <div className="absolute left-1/2 top-1/2 z-30 mx-auto flex h-[50dvh] w-2/5 translate-x-[-50%] justify-center rounded-lg bg-green-700 p-6 text-white">
       <section>
-        <ChatDetails roomId={roomId} name={name} userCount={userCount} unReadMessageCount={unReadMessageCount} />
+        <ChatDetails chatRoom={chatRoom} />
       </section>
     </div>
   );

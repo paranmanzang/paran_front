@@ -4,7 +4,7 @@ import { CategoryModel } from '@/app/model/group/category.model';
 
 export const getCategoryList = async (): Promise<CategoryModel[]> => {
     try {
-        const response = await api.get<CategoryModel[]>(requests.fetchGroups+'/category');
+        const response = await api.get<CategoryModel[]>(`${requests.fetchGroups}/category`);
         return response.data;
     } catch (error: any) {
         console.error('Error finding category:', error.response?.data || error.message);

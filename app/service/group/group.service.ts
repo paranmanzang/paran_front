@@ -140,7 +140,7 @@ export const addPoint = async (pointModel: PointModel): Promise<Boolean | Except
 // 소모임 포인트 조회
 export const myGroupPoint = async (groupId: number): Promise<PointResponseModel[] | ExceptionResponseModel> => {
     try {
-        const response = await api.get<PointResponseModel[] | ExceptionResponseModel>(requests.fetchGroups+'/groups/mygrouppoint', { params: { groupId } });
+        const response = await api.get<PointResponseModel[] | ExceptionResponseModel>(`${requests.fetchGroups}/groups/mygrouppoint`, { params: { groupId } });
         return response.data;
     } catch (error: any) {
         console.error('Error fetching group point:', error.response?.data || error.message);
@@ -151,7 +151,7 @@ export const myGroupPoint = async (groupId: number): Promise<PointResponseModel[
 // 소모임 포인트 사용
 export const usePoint = async (pointModel: PointModel): Promise<Boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.post<Boolean | ExceptionResponseModel>(requests.fetchGroups+'/groups/usepoint', pointModel);
+        const response = await api.post<Boolean | ExceptionResponseModel>(`${requests.fetchGroups}/groups/usepoint`, pointModel);
         return response.data;
     } catch (error: any) {
         console.error('Error using point:', error.response?.data || error.message);
@@ -162,7 +162,7 @@ export const usePoint = async (pointModel: PointModel): Promise<Boolean | Except
 // 소모임 포인트 취소
 export const cancelPoint = async (pointId: number): Promise<Boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups+'/groups/paymentcancel', { params: { pointId } });
+        const response = await api.delete<Boolean | ExceptionResponseModel>(`${requests.fetchGroups}/groups/paymentcancel`, { params: { pointId } });
         return response.data;
     } catch (error: any) {
         console.error('Error canceling point:', error.response?.data || error.message);
@@ -173,7 +173,7 @@ export const cancelPoint = async (pointId: number): Promise<Boolean | ExceptionR
 // 소모임 승인해야 하는 리스트 찾기
 export const enableGroupList = async (page: number,size:number): Promise<GroupResponseModel[]> => {
     try {
-        const response = await api.get<GroupResponseModel[]>(requests.fetchGroups+'/groups/updateenablelist', { params: { page,size } });
+        const response = await api.get<GroupResponseModel[]>(`${requests.fetchGroups}/groups/updateenablelist`, { params: { page,size } });
         return response.data;
     } catch (error: any) {
         console.error('Error finding enable group:', error.response?.data || error.message);
