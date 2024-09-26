@@ -6,6 +6,9 @@ import { selectFileList } from "@/app/service/File/file.service";
 import { likeBook } from "@/app/service/group/likeBook.service";
 import { useEffect, useState } from "react";
 import DetailButton from "./DetailButton";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import { getCurrentBook } from "@/lib/features/group/book.Slice";
 
 interface DetailsProps {
   bookId: string;
@@ -13,40 +16,12 @@ interface DetailsProps {
 
 export default function Details({ bookId }: DetailsProps) {
   const [images, setImages] = useState<FileModel[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [likeBookModel, setLikeBookModel] = useState<LikeBookModel>({
-    bookId: Number(bookId),
-    nickname: 'A'
-  });
+  const book = useSelector((state: RootState) => getCurrentBook(state));
 
-  useEffect(() => {
-    // bookId에 해당하는 도서 정보를 가져옴
-    const fetchBook = async () => {
-      try {
-        const response = await selectFileList(Number(bookId), "book");
-        if (typeof response === 'boolean' && !response) {
-          throw new Error('책을 찾을 수 없습니다.');
-        }
-        setImages(response as FileModel[]);
-      } catch (error) {
-        setError(error instanceof Error ? error.message : '오류 발생');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBook();
-  }, [bookId]);
 
   // 로딩 중일 때
-  if (loading) {
+  if (book == null) {
     return <div>Loading...</div>;
-  }
-
-  // 오류 발생 시
-  if (error) {
-    return <div>Error: {error}</div>;
   }
 
   // book 데이터가 없을 때
@@ -78,7 +53,7 @@ export default function Details({ bookId }: DetailsProps) {
         </div>
       </div>
       <div className="mx-auto w-full max-w-sm">
-      <DetailButton thisPage={'/books'} displayReview="none" displayReservation="none"/>
+        <DetailButton thisPage={'/books'} displayReview="none" displayReservation="none" />
       </div>
     </div>
   );

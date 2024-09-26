@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Row from "./components/common/Row";
 import Link from "next/link";
