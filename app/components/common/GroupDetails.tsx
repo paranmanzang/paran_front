@@ -1,3 +1,5 @@
+import DetailButton from "./DetailButton";
+
 export default function Details() {
   return (
     <div>
@@ -17,17 +19,7 @@ export default function Details() {
         </div>
       </div>
 
-      <div className="mx-auto flex h-[20px] w-full max-w-sm items-end">
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          🥰 찜하기 🥰
-        </button>
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          예약하기
-        </button>
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          뒤로가기
-        </button>
-      </div>
+      <DetailButton thisPage="/page1" displayReview="none" displayReservation="block" />
     </div>
   );
 }

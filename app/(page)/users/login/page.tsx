@@ -1,8 +1,14 @@
+"use client"
 import Link from "next/link";
 import Image from "next/image";
 import Naver from "../../../assets/btnG.png"
+import { useRouter } from "next/navigation";
 
 export default function Login() {
+  const route = useRouter();
+  const goBack = () => {
+    route.back();
+  }
 
   return (
     <div className="mx-auto my-6 max-w-lg rounded-lg border p-6 shadow dark:bg-gray-600">
@@ -43,13 +49,13 @@ export default function Login() {
         >
           로그인
         </button>
-        <Link
-          href="/"
-          type="submit"
+        <button
+          type="button"
+          onClick={goBack}
           className="w-full rounded-lg border-2 border-green-400 bg-white px-4 py-2.5 text-center text-sm font-medium text-gray-500 hover:bg-green-400 hover:text-white focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-50 dark:hover:bg-green-100 dark:focus:ring-green-200 sm:w-auto"
         >
           뒤로가기
-        </Link>
+        </button>
         <Link href="/users/register" className="mx-3">
           처음이시라면 회원가입{"(*Ü*)ﾉ"}
         </Link>

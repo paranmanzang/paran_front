@@ -1,16 +1,18 @@
 "use client";
 
-import { BookResponseModel, LikeBookModel } from "@/app/model/group.model";
-import { findOneByBookId } from "@/app/service/group/book.service";
+import { FileModel } from "@/app/model/file.model";
+import { BookResponseModel, LikeBookModel } from "@/app/model/group/book.model";
+import { selectFileList } from "@/app/service/File/file.service";
 import { likeBook } from "@/app/service/group/likeBook.service";
 import { useEffect, useState } from "react";
+import DetailButton from "./DetailButton";
 
 interface DetailsProps {
   bookId: string;
 }
 
 export default function Details({ bookId }: DetailsProps) {
-  const [book, setBook] = useState<BookResponseModel | null>(null);
+  const [images, setImages] = useState<FileModel[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [likeBookModel, setLikeBookModel] = useState<LikeBookModel>({
@@ -22,11 +24,11 @@ export default function Details({ bookId }: DetailsProps) {
     // bookId에 해당하는 도서 정보를 가져옴
     const fetchBook = async () => {
       try {
-        const response = await findOneByBookId(Number(bookId));
+        const response = await selectFileList(Number(bookId), "book");
         if (typeof response === 'boolean' && !response) {
           throw new Error('책을 찾을 수 없습니다.');
         }
-        setBook(response as BookResponseModel);
+        setImages(response as FileModel[]);
       } catch (error) {
         setError(error instanceof Error ? error.message : '오류 발생');
       } finally {
@@ -63,17 +65,20 @@ export default function Details({ bookId }: DetailsProps) {
   }
 
   // book 데이터가 없을 때
-  if (!book) {
+  if (!images) {
     return <div>책 정보를 불러올 수 없습니다.</div>;
   }
 
   return (
     <div>
       <div className="h-[300px] w-full justify-center bg-gray-400">
-        <p>메인 상세보기 - {book.title}</p>
+        {images.map(file => (
+          <img key={file.id} src={`http://localhost:8000/api/files/one?path=${file.path}`} alt={file.path} />
+        ))}
+        {/* <p>메인 상세보기 - {book.title}</p>
         <p>저자: {book.author}</p>
         <p>카테고리: {book.categoryName || '카테고리 없음'}</p>
-        <p>좋아요 수: {book.likeBookCount}</p>
+        <p>좋아요 수: {book.likeBookCount}</p> */}
       </div>
       <div className="my-6 grid min-h-screen grid-cols-2 place-items-center">
         <div className="h-[70%] w-4/5 bg-gray-400"> 안에 내용 넣기</div>
@@ -87,17 +92,8 @@ export default function Details({ bookId }: DetailsProps) {
           안에 내용 넣기
         </div>
       </div>
-
-      <div className="mx-auto flex h-[20px] w-full max-w-sm items-end">
-        <button type="button" className="mx-2 rounded-full border px-3 py-2" onClick={handleLikeBook}>
-          🥰 찜하기 🥰
-        </button>
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          예약하기
-        </button>
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          뒤로가기
-        </button>
+      <div className="mx-auto w-full max-w-sm">
+      <DetailButton thisPage={'/books'} displayReview="none" displayReservation="none"/>
       </div>
     </div>
   );
