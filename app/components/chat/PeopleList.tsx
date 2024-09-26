@@ -1,12 +1,12 @@
+import { ChatUserModel } from "@/app/model/chat/chat.model";
 import Image from "next/image";
 import Link from "next/link";
 
 interface PeopleListProps{
-  nickname: string;
-  enterTime: string;
+  chatUser : ChatUserModel
 }
 
-export default function getPeopleList({nickname, enterTime}: PeopleListProps) {
+export default function getPeopleList({chatUser}: PeopleListProps) {
   return (
     <li className="border-b w-full">
 {/* userId 받아서  */}
@@ -28,7 +28,7 @@ export default function getPeopleList({nickname, enterTime}: PeopleListProps) {
           } */}
           
         </div>
-        <p className="inline text-white text-lg font-semibold ">{nickname}</p>
+        <p className="inline text-white text-lg font-semibold ">{chatUser.nickname}</p>
         <span className="text-xs border-white border p-2 rounded-lg text-white hover:bg-green-600">보기</span>
       </Link>
       

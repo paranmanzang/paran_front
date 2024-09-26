@@ -6,7 +6,7 @@ import { ExceptionResponseModel } from '@/app/model/error.model';
 // 댓글 등록
 export const insertComment = async (model: CommentRequestModel, nickname: string): Promise<boolean | ExceptionResponseModel> => {
   try {
-    const response = await api.post<boolean | ExceptionResponseModel>(requests.fetchComments, model, {
+    const response = await api.post<boolean | ExceptionResponseModel>(`${requests.fetchComments}`, model, {
       headers: {
         nickname,
       },
@@ -21,7 +21,7 @@ export const insertComment = async (model: CommentRequestModel, nickname: string
 // 댓글 삭제
 export const deleteComment = async (commentId: number): Promise<boolean> => {
   try {
-    const response = await api.delete<boolean>(requests.fetchComments + `/${commentId}`);
+    const response = await api.delete<boolean>(`${requests.fetchComments}/${commentId}`);
     return response.data;
   } catch (error) {
     console.error('Error deleting comment:', error);
@@ -32,7 +32,7 @@ export const deleteComment = async (commentId: number): Promise<boolean> => {
 // 댓글 수정
 export const updateComment = async (commentId: number, content: string, nickname: string): Promise<boolean> => {
   try {
-    const response = await api.put<boolean>(requests.fetchComments + `/${commentId}`, { content }, {
+    const response = await api.put<boolean>(`${requests.fetchComments}/${commentId}`, { content }, {
       headers: {
         nickname,
       },

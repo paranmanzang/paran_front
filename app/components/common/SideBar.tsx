@@ -6,13 +6,26 @@ import { FaBook, FaSchool } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6";
 import { MdMessage } from "react-icons/md";
 import AdminButton from "../user/adminRow/AdminButton";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { getBooks } from "@/lib/features/group/book.Slice";
+import { getGroups } from "@/lib/features/group/group.Slice";
+import { getRooms } from "@/lib/features/room.Slice";
 
 export default function SideBar() {
+  const nickname = 'A'; // 임의로 넣어둠
+  const dispatch = useDispatch<AppDispatch>();
   const [activeTab, setActiveTab] = useState("All");
   const [rowData, setRowData] = useState<any[]>([]); // 빈 배열로 초기화
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  const books = useSelector((state: RootState) => getBooks(state));
+  const groups = useSelector((state: RootState)=> getGroups(state));
+  // const chats = useSelector((state: RootState) => getChatRooms(state));
+  const rooms = useSelector((state: RootState) => getRooms(state));
+
 
   const fetchTabData = async (tab: string) => {
     setLoading(true);

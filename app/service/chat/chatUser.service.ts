@@ -4,7 +4,7 @@ import { ChatUserModel } from "@/app/model/chat/chat.model";
 
 export const invite = async ({ roomId, nickname }: { roomId: string, nickname: string }): Promise<Boolean> => {
     try {
-        const response = await api.post<Boolean>(requests.fetchChats + `/user?roomId=${roomId}`, {
+        const response = await api.post<Boolean>(`${requests.fetchChats}/user?roomId=${roomId}`, {
             headers: {
                 'nickname': nickname
             }
@@ -19,7 +19,7 @@ export const invite = async ({ roomId, nickname }: { roomId: string, nickname: s
 
 export const getPeopleList = async ({ roomId }: { roomId: string }): Promise<Boolean | ChatUserModel> => {
     try {
-        const response = await api.get<Boolean | ChatUserModel>(requests.fetchChats + `/user/getpoplelist/${roomId}`, {
+        const response = await api.get<Boolean | ChatUserModel>(`${requests.fetchChats}/user/getpoplelist/${roomId}`, {
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -33,7 +33,7 @@ export const getPeopleList = async ({ roomId }: { roomId: string }): Promise<Boo
 
 export const exit = async ({ roomId, nickname }: { roomId: string, nickname: string }): Promise<Boolean> => {
     try {
-        const response = await api.delete<Boolean>(requests.fetchChats + `/user/${roomId}`, {
+        const response = await api.delete<Boolean>(`${requests.fetchChats}/user/${roomId}`, {
             headers: {
                 'nickname': nickname
             }

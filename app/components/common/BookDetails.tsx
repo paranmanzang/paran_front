@@ -5,6 +5,7 @@ import { BookResponseModel, LikeBookModel } from "@/app/model/group/book.model";
 import { selectFileList } from "@/app/service/File/file.service";
 import { likeBook } from "@/app/service/group/likeBook.service";
 import { useEffect, useState } from "react";
+import DetailButton from "./DetailButton";
 
 interface DetailsProps {
   bookId: string;
@@ -37,21 +38,6 @@ export default function Details({ bookId }: DetailsProps) {
 
     fetchBook();
   }, [bookId]);
-
-  const handleLikeBook = async () => {
-    try {
-      const response = await likeBook(likeBookModel);
-
-      if (typeof response === 'boolean' && response) {
-        alert('책에 성공적으로 좋아요를 추가했습니다!');
-      } else {
-        alert('좋아요 추가에 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('좋아요 처리 중 오류 발생:', error);
-      alert('좋아요 처리 중 오류가 발생했습니다.');
-    }
-  };
 
   // 로딩 중일 때
   if (loading) {
@@ -91,17 +77,8 @@ export default function Details({ bookId }: DetailsProps) {
           안에 내용 넣기
         </div>
       </div>
-
-      <div className="mx-auto flex h-[20px] w-full max-w-sm items-end">
-        <button type="button" className="mx-2 rounded-full border px-3 py-2" onClick={handleLikeBook}>
-          🥰 찜하기 🥰
-        </button>
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          예약하기
-        </button>
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          뒤로가기
-        </button>
+      <div className="mx-auto w-full max-w-sm">
+      <DetailButton thisPage={'/books'} displayReview="none" displayReservation="none"/>
       </div>
     </div>
   );

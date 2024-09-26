@@ -16,9 +16,21 @@ const ChatPage: React.FC<ChatPageProps> = ({ messages, roomId }) => {
   const isSuccessRef = useRef<boolean | null>(null);
   const nickname = 'A' // 임의로 넣어둠
 
-  const sendMessage = useCallback(async () => {
-    isSuccessRef.current = await insertMessage({ nickname, roomId, message });
-    setMessage('')
+  const sendMessage = useCallback(() => {
+    insertMessage({ nickname, roomId, message })
+      .then((isSuccess) => {
+        if (isSuccess) {
+          setMessage(''); // 메시지 전송 성공 후 입력창 초기화
+          isSuccessRef.current = true;
+        } else {
+          isSuccessRef.current = false;
+          console.error('메시지 전송 실패');
+        }
+      })
+      .catch((error) => {
+        isSuccessRef.current = false;
+        console.error('메시지 전송 중 오류 발생:', error);
+      });
   }, [nickname, roomId, message]);
 
 

@@ -26,7 +26,6 @@ export default function RootLayout({
         <StoreProvider >
           <Header />
           <main className="mb-6 pb-6">{children}</main>
-          <div id="map" style={{ width: "100%", height: "400px" }}></div>
           <Footer />
         </StoreProvider>
       </body>

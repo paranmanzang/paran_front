@@ -27,9 +27,9 @@ export const getGrouplistByUserNickname = async (nickname: string, page: number,
 };
 
 // 소모임 등록
-export const addGroup = async (groupModel: GroupModel): Promise<Boolean | ExceptionResponseModel> => {
+export const addGroup = async (groupModel: GroupModel): Promise<GroupResponseModel | ExceptionResponseModel> => {
     try {
-        const response = await api.post<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/plusgroup', groupModel);
+        const response = await api.post<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/plusgroup', groupModel);
         return response.data;
     } catch (error: any) {
         console.error('Error adding group:', error.response?.data || error.message);
@@ -38,9 +38,9 @@ export const addGroup = async (groupModel: GroupModel): Promise<Boolean | Except
 };
 
 // 소모임 승인 요청
-export const enableGroup = async (groupId: number): Promise<Boolean | ExceptionResponseModel> => {
+export const enableGroup = async (groupId: number): Promise<GroupResponseModel | ExceptionResponseModel> => {
     try {
-        const response = await api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminanswer', { params: { groupId } });
+        const response = await api.put<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminanswer', { params: { groupId } });
         return response.data;
     } catch (error: any) {
         console.error('Error enabling group:', error.response?.data || error.message);
@@ -60,9 +60,9 @@ export const enableCancelGroup = async (groupId: number): Promise<Boolean | Exce
 };
 
 // 소모임 멤버 승인 취소
-export const disableGroupMember = async (groupId: number, nickname: string): Promise<Boolean | ExceptionResponseModel> => {
+export const disableGroupMember = async (groupId: number, nickname: string): Promise<GroupResponseModel | ExceptionResponseModel> => {
     try {
-        const response = await api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminoutMember', { params: { groupId, nickname } });
+        const response = await api.put<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminoutMember', { params: { groupId, nickname } });
         return response.data;
     } catch (error: any) {
         console.error('Error disabling group member:', error.response?.data || error.message);
@@ -82,9 +82,9 @@ export const getGroupUserById = async (groupId: number): Promise<JoiningModel[]>
 };
 
 // 소모임에 채팅방 추가
-export const updateChatRoomId = async (roomId: number, groupId: number): Promise<Boolean | ExceptionResponseModel> => {
+export const updateChatRoomId = async (roomId: number, groupId: number): Promise<GroupResponseModel | ExceptionResponseModel> => {
     try {
-        const response = await api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/groups/chatroomupdate/${groupId}`, { roomId });
+        const response = await api.put<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/groups/chatroomupdate/${groupId}`, { roomId });
         return response.data;
     } catch (error: any) {
         console.error('Error adding chat RoomId:', error.response?.data || error.message);
@@ -93,9 +93,9 @@ export const updateChatRoomId = async (roomId: number, groupId: number): Promise
 };
 
 // 소모임 멤버 추가
-export const addMember = async (joiningModel: JoiningModel): Promise<Boolean | ExceptionResponseModel> => {
+export const addMember = async (joiningModel: JoiningModel): Promise<JoiningModel | ExceptionResponseModel> => {
     try {
-        const response = await api.post<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/plusmember', joiningModel);
+        const response = await api.post<JoiningModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/plusmember', joiningModel);
         return response.data;
     } catch (error: any) {
         console.error('Error adding member:', error.response?.data || error.message);
@@ -104,9 +104,9 @@ export const addMember = async (joiningModel: JoiningModel): Promise<Boolean | E
 };
 
 // 소모임 멤버 승인
-export const enableGroupMember = async (groupId: number, nickname: string): Promise<Boolean | ExceptionResponseModel> => {
+export const enableGroupMember = async (groupId: number, nickname: string): Promise<JoiningModel | ExceptionResponseModel> => {
     try {
-        const response = await api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminplusMember', { params: { groupId, nickname } });
+        const response = await api.put<JoiningModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminplusMember', { params: { groupId, nickname } });
         return response.data;
     } catch (error: any) {
         console.error('Error enabling group member:', error.response?.data || error.message);
@@ -140,7 +140,7 @@ export const addPoint = async (pointModel: PointModel): Promise<Boolean | Except
 // 소모임 포인트 조회
 export const myGroupPoint = async (groupId: number): Promise<PointResponseModel[] | ExceptionResponseModel> => {
     try {
-        const response = await api.get<PointResponseModel[] | ExceptionResponseModel>(requests.fetchGroups + '/groups/mygrouppoint', { params: { groupId } });
+        const response = await api.get<PointResponseModel[] | ExceptionResponseModel>(`${requests.fetchGroups}/groups/mygrouppoint`, { params: { groupId } });
         return response.data;
     } catch (error: any) {
         console.error('Error fetching group point:', error.response?.data || error.message);
@@ -151,7 +151,7 @@ export const myGroupPoint = async (groupId: number): Promise<PointResponseModel[
 // 소모임 포인트 사용
 export const usePoint = async (pointModel: PointModel): Promise<Boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.post<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/usepoint', pointModel);
+        const response = await api.post<Boolean | ExceptionResponseModel>(`${requests.fetchGroups}/groups/usepoint`, pointModel);
         return response.data;
     } catch (error: any) {
         console.error('Error using point:', error.response?.data || error.message);
@@ -162,7 +162,7 @@ export const usePoint = async (pointModel: PointModel): Promise<Boolean | Except
 // 소모임 포인트 취소
 export const cancelPoint = async (pointId: number): Promise<Boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/paymentcancel', { params: { pointId } });
+        const response = await api.delete<Boolean | ExceptionResponseModel>(`${requests.fetchGroups}/groups/paymentcancel`, { params: { pointId } });
         return response.data;
     } catch (error: any) {
         console.error('Error canceling point:', error.response?.data || error.message);
@@ -173,7 +173,7 @@ export const cancelPoint = async (pointId: number): Promise<Boolean | ExceptionR
 // 소모임 승인해야 하는 리스트 찾기
 export const enableGroupList = async (page: number, size: number): Promise<GroupResponseModel[]> => {
     try {
-        const response = await api.get<Page<GroupResponseModel>>(requests.fetchGroups + '/groups/updateenablelist', { params: { page, size } });
+        const response = await api.get<Page<GroupResponseModel>>(`${requests.fetchGroups}/groups/updateenablelist`, { params: { page, size } });
         return response.data.content;
     } catch (error: any) {
         console.error('Error finding enable group:', error.response?.data || error.message);

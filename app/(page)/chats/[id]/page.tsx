@@ -1,34 +1,41 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 
 import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
 import MyChatList from "@/app/components/chat/MyChatList";
 import PeopleList from "@/app/components/chat/PeopleList";
 import MyProfile from "@/app/components/chat/MyProfile";
-import { ChatMessageModel, ChatRoomModel, ChatUserModel } from "@/app/model/chat/chat.model";
+import { ChatMessageModel, ChatRoomModel, LastReadMesaageTimeModel } from "@/app/model/chat/chat.model";
 import { getPeopleList } from "@/app/service/chat/chatUser.service";
 import { getMessageList } from "@/app/service/chat/chatMessage.service";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { getChatList, saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { getCurrentChatRoom, getError, getIsLoading, getLastReadMesaageTimes, getChatUsers, saveError, saveLoading, saveChatUsers, addLastReadMessageTimes} from "@/lib/features/chat/chat.Slice";
 
 export default function ChatRoom() {
   const router = useRouter();
-  const params = useParams();
-  const roomId = Array.isArray(params?.id) ? params?.id[0] : params?.id ?? "";
   const nickname = "A"; // 임의로 넣어둠
   const [messages, setMessages] = useState<ChatMessageModel[]>([]);
-  const [chatUsers, setChatUsers] = useState<ChatUserModel[] | null>(null)
   const unsubscribeRef = useRef<(() => void) | null>(null);
-  const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null)
+  const [chatRooms, setChatRooms] = useState<ChatRoomModel[]>([])
 
+  const dispatch = useDispatch<AppDispatch>();
+  // const chatRooms = useSelector((state: RootState) => getRooms(state));
+  const chatUsers = useSelector((state: RootState) => getChatUsers(state));
+  const chatRoom = useSelector((state: RootState) => getCurrentChatRoom(state))
+  const LastReadMesaageTimes = useSelector((state: RootState) => getLastReadMesaageTimes(state));
+  const loading = useSelector((state: RootState) => getIsLoading(state));
+  const error = useSelector((state: RootState) => getError(state));
+  const roomId = chatRoom?.roomId ?? '';
   // 팝업 창 상태 관리
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
   // 팝업 열기 및 닫기 함수
   const togglePopUp = () => {
     setIsPopUpOpen(!isPopUpOpen);
-    const url = "/chats/1";
+    const url = `/chats/${roomId}`;
     const popup = window.open(
       url,
       "작은채팅방",
@@ -37,40 +44,46 @@ export default function ChatRoom() {
   };
 
   useEffect(() => {
-    const fetchChatUsers = async () => {
-      const result = await getPeopleList({ roomId });
+    dispatch(saveLoading(true));
 
-      if (result && Array.isArray(result)) {
-        setChatUsers(result);
-      }
-    };
+    getChatList({ nickname })
+      .then(result => {
+        if (result && Array.isArray(result)) {
+          setChatRooms(result);
+        } else {
+          dispatch(saveError("채팅방 목록을 불러오는 중 오류가 발생했습니다."));
+        }
+      })
+      .catch((error) => {
+        dispatch(saveError((error as Error).message || "채팅방 유저을 불러오는 중 오류가 발생했습니다."));
+      })
 
-    fetchChatUsers();
+    getPeopleList({ roomId })
+      .then(result => {
+        if (result && Array.isArray(result)) {
+          dispatch(saveChatUsers(result));
+        } else {
+          dispatch(saveError("유저 목록을 불러오는 중 오류가 발생했습니다."));
+        }
+      })
+      .catch((error) => {
+        dispatch(saveError((error as Error).message || "방 유저을 불러오는 중 오류가 발생했습니다."));
+      })
 
-    const fetchChatRooms = async () => {
-      const result = await getChatList({ nickname });
 
-      if (result && Array.isArray(result)) {
-        setChatRooms(result);
-      }
-    };
-
-    fetchChatRooms();
 
     // SSE로 실시간 메시지 구독
     const handleNewMessage = (newMessage: ChatMessageModel) => {
       setMessages((prevMessages) => [...prevMessages, newMessage]);
     };
 
-    const subscribeMessages = async () => {
-      await getMessageList({
-        roomId,
-        nickname,
-        onMessage: handleNewMessage,
-      });
-    };
+    getMessageList({
+      roomId,
+      nickname,
+      onMessage: handleNewMessage,
+    });
 
-    subscribeMessages();
+    dispatch(saveLoading(false));
 
     // 컴포넌트 언마운트 시 SSE 연결 종료
     return () => {
@@ -78,22 +91,49 @@ export default function ChatRoom() {
         unsubscribeRef.current(); // SSE 연결 종료
       }
     };
-  }, [roomId]);
+  }, [chatRoom, dispatch]);
 
-  const leaveChat = async () => {
+  const leaveChat = () => {
     if (unsubscribeRef.current) {
       unsubscribeRef.current(); // SSE 연결 종료
     }
 
-    const isSaved = await saveLastReadMessageTime({ roomId, nickname });
-    if (isSaved) {
-      console.log("마지막 읽은 메시지 시간이 저장되었습니다.");
-    } else {
-      console.error("마지막 읽은 메시지 시간 저장에 실패했습니다.");
+    if (!chatRoom) {
+      console.error("현재 채팅방 정보가 없습니다.");
+      return;
     }
 
-    router.push("/chats/list"); // 페이지 이동
+    saveLastReadMessageTime({ roomId, nickname })
+      .then((isSaved) => {
+        if (isSaved) {
+          const newLastReadMessageTime: LastReadMesaageTimeModel = {
+            lastReadMessageTime: new Date().toISOString(),
+            chatRoom: chatRoom,
+          };
+
+          // 새로운 마지막 읽은 메시지 시간 추가
+          dispatch(addLastReadMessageTimes(newLastReadMessageTime));
+          console.log("마지막 읽은 메시지 시간이 저장되었습니다.");
+        } else {
+          console.error("마지막 읽은 메시지 시간 저장에 실패했습니다.");
+        }
+      })
+      .catch((error) => {
+        dispatch(saveError("마지막 읽은 메시지 시간 저장 중 오류 발생"));
+        console.error("마지막 읽은 메시지 시간 저장 중 오류 발생:", error);
+      })
+      .finally(() => {
+        router.push("/chats/list"); // 페이지 이동
+      });
   };
+
+  if (loading) {
+    return <div>로딩 중...</div>;
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
 
   return (
     <div className="relative w-full">
@@ -131,7 +171,7 @@ export default function ChatRoom() {
             <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />
             <ul className="w-full">
               {chatUsers?.map((user) => (
-                <PeopleList key={user.nickname} nickname={user.nickname} enterTime={user.enterTime} />))}
+                <PeopleList key={user.nickname} chatUser={user} />))}
             </ul>
             <MyProfile />
           </section>
