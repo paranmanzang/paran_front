@@ -4,7 +4,7 @@ import { ChatRoomModel } from "@/app/model/chat/chat.model";
 
 export const createRoom = async ({ roomName, nickname }: { roomName: string, nickname: string }): Promise<string | Boolean> => {
     try {
-        const response = await api.post<string | Boolean>(requests.fetchChats + '/room',
+        const response = await api.post<string | Boolean>(`${requests.fetchChats}/room`,
             { name: roomName },
             {
                 headers: {
@@ -23,7 +23,7 @@ export const createRoom = async ({ roomName, nickname }: { roomName: string, nic
 
 export const getChatList = async ({ nickname }: { nickname: string }): Promise<Boolean | ChatRoomModel[]> => {
     try {
-        const response = await api.get<Boolean | ChatRoomModel[]>(requests.fetchChats + '/room/getchatlist', {
+        const response = await api.get<Boolean | ChatRoomModel[]>(`${requests.fetchChats}/room/getchatlist`, {
             headers: {
                 'nickname': nickname
             }
@@ -37,7 +37,7 @@ export const getChatList = async ({ nickname }: { nickname: string }): Promise<B
 
 export const updateName = async ({ roomName, roomId, nickname }: { roomName: string, roomId: string, nickname: string }): Promise<Boolean | String> => {
     try {
-        const response = await api.put<Boolean | String>(requests.fetchChats + '/room/updatename',
+        const response = await api.put<Boolean | String>(`${requests.fetchChats}/room/updatename`,
             { name: roomName, roomId: roomId },
             {
                 headers: {
@@ -56,7 +56,7 @@ export const updateName = async ({ roomName, roomId, nickname }: { roomName: str
 export const updatePassword = async ({ roomId, password, nickname }: { roomId: string, password: string, nickname: string }): Promise<boolean | string> => {
     try {
         const response = await api.put<boolean | string>(
-            requests.fetchChats + `/room/updatepassword`,
+            `${requests.fetchChats}/room/updatepassword`,
             { password, roomId },
             {
                 headers: {
@@ -76,7 +76,7 @@ export const updatePassword = async ({ roomId, password, nickname }: { roomId: s
 
 export const deleteRoom = async ({ roomId }: { roomId: string }): Promise<Boolean> => {
     try {
-        const response = await api.delete<Boolean>(requests.fetchChats + `/room/${roomId}`)
+        const response = await api.delete<Boolean>(`${requests.fetchChats}/room/${roomId}`)
         return response.data;
     } catch (error) {
         console.error('방 삭제 중 오류 발생:', error);
@@ -86,7 +86,7 @@ export const deleteRoom = async ({ roomId }: { roomId: string }): Promise<Boolea
 
 export const saveLastReadMessageTime = async ({ roomId, nickname }: { roomId: string, nickname: string }): Promise<Boolean> => {
     try {
-        const response = await api.post<Boolean>(requests.fetchChats + `/room/lastreadtime/${roomId}`, {
+        const response = await api.post<Boolean>(`${requests.fetchChats}/room/lastreadtime/${roomId}`, {
             headers: {
                 'nickname': nickname,
             }

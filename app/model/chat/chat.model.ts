@@ -21,6 +21,11 @@ export interface ChatMessageModel {
     roomId: string;
 }
 
+export interface LastReadMesaageTimeModel {
+    lastReadMessageTime: string;
+    chatRoom: ChatRoomModel
+}
+
 // 상태 인터페이스 정의
 export interface ChatState {
     rooms: ChatRoomModel[];
@@ -29,6 +34,7 @@ export interface ChatState {
     messages: ChatMessageModel[];
     isLoading: boolean;
     error: string | null;
+    lastReadMesaageTimes: LastReadMesaageTimeModel[];
 }
 
 // 초기 상태
@@ -38,5 +44,6 @@ export const initialChatState: ChatState = {
     users: [],
     messages: [],
     isLoading: false,
-    error: null
+    error: null,
+    lastReadMesaageTimes: []
 };
