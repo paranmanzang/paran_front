@@ -7,6 +7,7 @@ import { findRoomById } from "@/app/service/room/room.service";
 import { getTimeList } from "@/app/service/room/time.service";
 import { getCurrentRoom } from "@/lib/features/room.Slice";
 import { useEffect, useState } from "react";
+import DetailButton from "./DetailButton";
 import { useDispatch, useSelector } from "react-redux";
 
 interface roomDetailProps {
@@ -65,17 +66,7 @@ export default function Details({ roomId }: roomDetailProps) {
         </div>
       </div>
 
-      <div className="mx-auto flex h-[20px] w-full max-w-sm items-end">
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          🥰 찜하기 🥰
-        </button>
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          예약하기
-        </button>
-        <button type="button" className="mx-2 rounded-full border px-3 py-2">
-          뒤로가기
-        </button>
-      </div>
+      <DetailButton thisPage="/rooms" displayReview="block" displayReservation="block" />
     </div >
   );
 }
