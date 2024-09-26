@@ -22,10 +22,7 @@ export default function Map() {
     })
   }
   return (
-    <div
-      id="map-wrap"
-      style={{ position: "relative", margin: "100px 0 150px" }}
-    >
+    <div id="map-wrap" className="relative">
       <span
         className="w-200 min-h-60 bg-green-100"
         style={{
@@ -75,7 +72,7 @@ export default function Map() {
             </label>
           </div>
           <button
-            onClick={(event) => { event.preventDefault; search("강남") }}
+            onClick={(event) => { event.preventDefault(); search("강남") }}
             className="w-full rounded-lg bg-green-400 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 dark:bg-green-400 dark:hover:bg-green-400 dark:focus:ring-green-400 sm:w-auto"
           >
             검색
