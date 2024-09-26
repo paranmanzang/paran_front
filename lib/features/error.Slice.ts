@@ -26,7 +26,13 @@ const errorSlice = createSlice({
         },
         saveIsError: (state, action: PayloadAction<boolean>) => {
             state.isError = action.payload;
-        }
+        },
+        saveGlobalLoading: (state, action: PayloadAction<boolean>) => {
+            state.isGlobalLoading = action.payload;
+        },
+        saveGlobalError: (state, action: PayloadAction<string | null>) => {
+            state.globalerror = action.payload;
+        },
     },
 });
 
@@ -42,7 +48,9 @@ export const {
     clearCurrentError,
     addToErrorHistory,
     clearErrorHistory,
-    saveIsError
+    saveIsError,
+    saveGlobalLoading,
+    saveGlobalError
 } = errorSlice.actions;
 
 export default errorSlice.reducer;

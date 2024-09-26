@@ -28,7 +28,7 @@ export interface LikeBookModel {
     nickname: string;
     bookId: number;
     title?: string;
-    autior?: string;
+    author?: string;
     categoryName?: string;
     likeBookCount?: number;
 }

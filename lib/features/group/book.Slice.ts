@@ -41,8 +41,10 @@ export const getError = (state: RootState) => state.book.error;
 
 export const {
   saveBooks,
+  addLikedBook,
   saveCurrentBook,
   saveLikedBooks,
+  deleteLikedBook,
   saveLoading,
   saveError
 } = bookSlice.actions;

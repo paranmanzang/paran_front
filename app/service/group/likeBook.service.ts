@@ -6,9 +6,9 @@ import { LikeBookModel } from '@/app/model/group/book.model';
 
 // 좋아요
 export const likeBook = async (likeBookModel: LikeBookModel
-): Promise<Boolean | ExceptionResponseModel> => {
+): Promise<LikeBookModel | ExceptionResponseModel> => {
     try {
-        const response = await api.post<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/likebook/add`, likeBookModel);
+        const response = await api.post<LikeBookModel | ExceptionResponseModel>(requests.fetchGroups + `/likebook/add`, likeBookModel);
         return response.data
     } catch (error) {
         console.error('Error adding likeBook:', error);

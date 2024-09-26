@@ -1,5 +1,5 @@
 import { ChatRoomModel } from "@/app/model/chat/chat.model"
-import { saveCurrentRoom } from "@/lib/features/chat/chat.Slice";
+import { saveCurrentChatRoom } from "@/lib/features/chat/chat.Slice";
 import { AppDispatch } from "@/lib/store";
 import Link from "next/link"
 import { useDispatch } from "react-redux";
@@ -11,7 +11,7 @@ export default function ChatDetails({chatRoom}:ChatDetailsProps) {
   const dispatch = useDispatch<AppDispatch>();
 
   const handleJoinChat = () => {
-    dispatch(saveCurrentRoom(chatRoom));
+    dispatch(saveCurrentChatRoom(chatRoom));
   };
 
   return (

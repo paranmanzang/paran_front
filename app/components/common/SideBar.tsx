@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { getBooks } from "@/lib/features/group/book.Slice";
 import { getGroups } from "@/lib/features/group/group.Slice";
-import { getChatRooms } from "@/lib/features/chat/chat.Slice";
 import { getRooms } from "@/lib/features/room.Slice";
 
 export default function SideBar() {
@@ -24,7 +23,7 @@ export default function SideBar() {
 
   const books = useSelector((state: RootState) => getBooks(state));
   const groups = useSelector((state: RootState)=> getGroups(state));
-  const chats = useSelector((state: RootState) => getChatRooms(state));
+  // const chats = useSelector((state: RootState) => getChatRooms(state));
   const rooms = useSelector((state: RootState) => getRooms(state));
 
 
