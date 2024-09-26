@@ -81,8 +81,8 @@ export const findRoomsByUser = async (nickname: string, page: number, size: numb
 // 전체 공간 조회
 export const findAllRooms = async (page: number, size: number): Promise<RoomModel[]> => {
     try {
-        const response = await api.get<RoomModel[]>(requests.fetchRooms + '/list', { params: { page, size } });
-        return response.data;
+        const response = await api.get<Page<RoomModel>>(requests.fetchRooms + '/list/Enabled', { params: { page, size } });
+        return response.data.content;
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
