@@ -15,11 +15,15 @@ export interface ErrorState {
     currentError: ExceptionResponseModel | null;
     errorHistory: ExceptionResponseModel[];
     isError: boolean;
+    isGlobalLoading: boolean,
+    globalerror: string | null;
 }
 
 // 초기 상태
 export const initialErrorState: ErrorState = {
     currentError: null,
     errorHistory: [],
-    isError: false
+    isError: false,
+    isGlobalLoading: false,
+    globalerror: null
 };

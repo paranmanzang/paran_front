@@ -39,21 +39,6 @@ export default function Details({ bookId }: DetailsProps) {
     fetchBook();
   }, [bookId]);
 
-  const handleLikeBook = async () => {
-    try {
-      const response = await likeBook(likeBookModel);
-
-      if (typeof response === 'boolean' && response) {
-        alert('책에 성공적으로 좋아요를 추가했습니다!');
-      } else {
-        alert('좋아요 추가에 실패했습니다.');
-      }
-    } catch (error) {
-      console.error('좋아요 처리 중 오류 발생:', error);
-      alert('좋아요 처리 중 오류가 발생했습니다.');
-    }
-  };
-
   // 로딩 중일 때
   if (loading) {
     return <div>Loading...</div>;

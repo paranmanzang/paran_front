@@ -5,9 +5,9 @@ import api from '../../api/axios';
 import requests from '@/app/api/requests';
 
 // 공간 등록
-export const saveRoom = async (roomModel: RoomModel): Promise<boolean | ExceptionResponseModel> => {
+export const saveRoom = async (roomModel: RoomModel): Promise<RoomModel | ExceptionResponseModel> => {
     try {
-        const response = await api.post<boolean>(requests.fetchRooms + '/add', roomModel);
+        const response = await api.post<RoomModel>(requests.fetchRooms + '/add', roomModel);
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -24,9 +24,9 @@ export const saveRoom = async (roomModel: RoomModel): Promise<boolean | Exceptio
 };
 
 // 공간 수정
-export const updateRoom = async (roomModel: RoomUpdateModel): Promise<boolean | ExceptionResponseModel> => {
+export const updateRoom = async (roomModel: RoomUpdateModel): Promise<RoomModel | ExceptionResponseModel> => {
     try {
-        const response = await api.put<boolean>(requests.fetchRooms + '/update', roomModel);
+        const response = await api.put<RoomModel>(requests.fetchRooms + '/update', roomModel);
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -134,9 +134,9 @@ export const findRoomById = async (id: number): Promise<RoomWTimeModel> => {
     }
 };
 // 공간승인
-export const confirmRoom = async (id: number): Promise<boolean> => {
+export const confirmRoom = async (id: number): Promise<RoomModel> => {
     try {
-        const response = await api.put<boolean>(requests.fetchRooms + `/adminAnswer/${id}`);
+        const response = await api.put<RoomModel>(requests.fetchRooms + `/adminAnswer/${id}`);
         return response.data;
     } catch (error: any) {
         if (error.response) {
