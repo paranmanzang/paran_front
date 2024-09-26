@@ -7,7 +7,7 @@ import { GroupPostModel, GroupPostResponseModel } from '@/app/model/group/group.
 // 게시글 추가 
 export const addPost = async (groupPostModel: GroupPostModel): Promise<Boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.post<Boolean | ExceptionResponseModel>(requests.fetchGroups+'/grouppost/addboard', groupPostModel);
+        const response = await api.post<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/addboard', groupPostModel);
         return response.data;
     } catch (error: any) {
         console.error('Error adding post:', error.response?.data || error.message);
@@ -18,7 +18,7 @@ export const addPost = async (groupPostModel: GroupPostModel): Promise<Boolean |
 // 게시글 수정
 export const updatePost = async (groupPostModel: GroupPostModel): Promise<Boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups+'/grouppost/updateboard', groupPostModel);
+        const response = await api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/updateboard', groupPostModel);
         return response.data;
     } catch (error: any) {
         console.error('Error updating post:', error.response?.data || error.message);
@@ -29,7 +29,7 @@ export const updatePost = async (groupPostModel: GroupPostModel): Promise<Boolea
 // 게시글 삭제
 export const deletePost = async (boardId: number): Promise<Boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups+'/grouppost/deleteboard', {
+        const response = await api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/deleteboard', {
             params: { boardId }
         });
         return response.data;
@@ -40,12 +40,12 @@ export const deletePost = async (boardId: number): Promise<Boolean | ExceptionRe
 };
 
 // 내가 속한 그룹의 게시물 목록 조회
-export const getPostsByGroupId = async (groupId: number, page:number, size: number): Promise<GroupPostResponseModel[]> => {
+export const getPostsByGroupId = async (groupId: number, page: number, size: number): Promise<GroupPostResponseModel[]> => {
     try {
-        const response = await api.get<GroupPostResponseModel[]>(requests.fetchGroups+`/grouppost/${groupId}`, {
+        const response = await api.get<Page<GroupPostResponseModel>>(requests.fetchGroups + `/grouppost/${groupId}`, {
             params: { page, size }
         });
-        return response.data;
+        return response.data.content;
     } catch (error: any) {
         console.error('Error fetching posts by groupId:', error.response?.data || error.message);
         throw new Error('게시물 목록 조회 중 오류 발생');
@@ -55,7 +55,7 @@ export const getPostsByGroupId = async (groupId: number, page:number, size: numb
 // 내가 속한 그룹의 게시물 목록 조회
 export const updateViewCount = async (postId: number): Promise<Boolean | ExceptionResponseModel> => {
     try {
-        const response = await api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups+`/grouppost/${postId}`);
+        const response = await api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/grouppost/${postId}`);
         return response.data;
     } catch (error: any) {
         console.error('Error fetching posts by groupId:', error.response?.data || error.message);

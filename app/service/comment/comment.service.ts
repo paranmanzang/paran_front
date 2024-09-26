@@ -47,13 +47,13 @@ export const updateComment = async (commentId: number, content: string, nickname
 // 특정 게시물에 대한 댓글 리스트 가져오기
 export const getCommentListByPostId = async (postId: number, page: number, size: number): Promise<CommentResponseModel[]> => {
   try {
-    const response = await api.get<CommentResponseModel[]>(requests.fetchComments + `/${postId}`, {
+    const response = await api.get<Page<CommentResponseModel>>(requests.fetchComments + `/${postId}`, {
       params: {
         page,
         size
       }
     });
-    return response.data;
+    return response.data.content;
   } catch (error) {
     console.error('Error fetching comment list:', error);
     throw new Error('댓글 리스트 가져오기 중 오류 발생');
