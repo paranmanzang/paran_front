@@ -3,7 +3,8 @@
 // 상태 인터페이스 정의
 export interface GroupState {
     groups: GroupResponseModel[];
-    groupPosts: GroupPostResponseModel[];
+    groupPostsNotice: GroupPostResponseModel[];
+    groupPostsGeneral: GroupPostResponseModel[];
     points: PointResponseModel[];
     currentGroup: GroupResponseModel | null;
     currentGroupPost: GroupPostResponseModel | null;
@@ -14,7 +15,8 @@ export interface GroupState {
 // 초기 상태
 export const initialGroupState: GroupState = {
     groups: [],
-    groupPosts: [],
+    groupPostsNotice: [],
+    groupPostsGeneral: [],
     points: [],
     currentGroup: null,
     currentGroupPost: null,
@@ -35,6 +37,8 @@ export interface GroupModel {
 export interface JoiningModel {
     nickname: string;
     groupId: number;
+    requestAt: string;
+    reponseAt: string;
 }
 
 
@@ -82,6 +86,7 @@ export interface GroupPostModel {
     title: string;
     content: string;
     userGroupId: number;
+    postCategory: string;
 }
 
 export interface GroupPostResponseModel {

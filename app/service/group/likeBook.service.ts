@@ -27,10 +27,15 @@ export const removeLikeBook = async (likeBookModel: LikeBookModel): Promise<bool
 };
 
 // 좋아요 마이페이지 확인
-export const getLikeBookList = async (nickname: String): Promise<LikeBookModel[]> => {
+export const getLikeBookList = async (nickname: String,page: number, size: number): Promise<LikeBookModel[]> => {
     try {
-        const response = await api.get<LikeBookModel[]>(requests.fetchGroups + `/likebook/list/${nickname}`);
-        return response.data;
+        const response = await api.get<Page<LikeBookModel>>(requests.fetchGroups + `/likebook/list/${nickname}`,
+           { params: {
+                page,
+                size
+              }}
+        );
+        return response.data.content;
     } catch (error) {
         console.error('Error finding likeBook:', error);
         throw new Error('내가 좋아하는 책 찾는 중 오류 발생');
