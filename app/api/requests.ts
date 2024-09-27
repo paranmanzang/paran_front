@@ -1,5 +1,8 @@
 const requests = {
-  fetchUsers: "/api/users",
+  fetRegister:'/register',
+  fetchLogin: "/login",
+  fetchLogout: "/logout",
+  fetchUsers:'/api/users',
   fetchRooms: "/api/rooms",
   fetchFiles:'/api/files',
   fetchChats: "/api/chats",
