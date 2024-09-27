@@ -1,6 +1,7 @@
 "use client";
 import { RoomModel } from "@/app/model/room.model";
 import { findAllRooms } from "@/app/service/room/room.service";
+import { get } from "@/app/service/user/login.service";
 import { getRooms, saveCurrentRoom, saveRooms } from "@/lib/features/room.Slice";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -8,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 export default function RoomList() {
     const rooms = useSelector(getRooms)
-    console.log("rooms: ", rooms,rooms.length)
+    console.log("rooms: ", rooms, rooms.length)
     const dispatch = useDispatch();
     const router = useRouter();
 
@@ -18,6 +19,7 @@ export default function RoomList() {
                 dispatch(saveRooms(data))
             }
         })
+        get().then(data => console.log("get data", data))
     }, [dispatch])
 
     const onClick = (id: number | undefined) => {

@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect } from 'react';
 import { AddressModel } from '@/app/model/room.model';
+import { useRouter } from 'next/navigation';
 
 interface NaverMapProps {
     addresses: AddressModel[];
@@ -8,6 +9,10 @@ interface NaverMapProps {
 
 const NaverMap: React.FC<NaverMapProps> = ({ addresses }) => {
     let map: naver.maps.Map; // 'map' 변수를 useEffect 범위 바깥에 선언
+    const router = useRouter();
+    const onCLickToMove = (id: number) => {
+        router.push(`/rooms/${id}`)
+    }
     useEffect(() => {
         const initMap = () => {
             if (typeof window !== 'undefined' && window.naver) {
@@ -31,8 +36,9 @@ const NaverMap: React.FC<NaverMapProps> = ({ addresses }) => {
 
                     const infoWindow = new window.naver.maps.InfoWindow({
                         content: `<div style="width:250px;text-align:center;padding:10px;">
-                                  <b><a href="/rooms/${address.id}">${address.detailAddress}</a></b><br/>
+                                  <b><Link href="/rooms/${address.id}">${address.detailAddress}</Link></b><br/>
                                   ${address.address}
+                                  <buttom type="button" onClick={onCLickToMove(${address.id})}>이동하기</button>
                                   </div>`,
                     });
 
@@ -86,7 +92,7 @@ const NaverMap: React.FC<NaverMapProps> = ({ addresses }) => {
         // 네이버 지도 스크립트가 로드된 후 지도 초기화
         if (!window.naver) {
             const script = document.createElement('script');
-            script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId={YOUR_CLIENT_ID}&submodules=geocoder`;
+            script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2zx8z3y9qn&submodules=geocoder`;
             script.async = true;
             script.onload = initMap;
             document.head.appendChild(script);
