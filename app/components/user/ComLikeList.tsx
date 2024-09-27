@@ -10,13 +10,14 @@ interface ComLikeListProps {
 const ComLikeList: React.FC<ComLikeListProps> = ({ type }) => {
   const [idModalOpen, setIsModalOpen] = useState(false);
   const modalOpen = () => {
-
+     
   }
-  return (
+  
+  return ( 
     <div>
-      {type === "all" && <p>All</p>}
-      {type === "groups" && <p>Groups</p>}
-      {type === "rooms" && <p>Rooms</p>}
+      {type === "all" && <p></p>}
+      {type === "groups" && <p></p>}
+      {type === "rooms" && <p></p>}
       <ul>
         {/* map 으로 돌리기 */}
         <li className="w-full relative">
@@ -25,7 +26,7 @@ const ComLikeList: React.FC<ComLikeListProps> = ({ type }) => {
             <input type="checkbox" id="select" />
           </form>
           <div
-            className=" flex justify-around my-2 rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 "
+            className=" flex justify-around my-2 rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
           >
             <div>
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -42,7 +43,7 @@ const ComLikeList: React.FC<ComLikeListProps> = ({ type }) => {
             room에서만 보이기 
              */}
 
-              <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">예약하기</button>
+              <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">예약요청</button>
               <AccountButton />
 
               {/* <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">참여하기</button> */}

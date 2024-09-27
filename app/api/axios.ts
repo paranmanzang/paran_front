@@ -49,6 +49,7 @@ instance.interceptors.request.use(
     return config;
   },
   (error: AxiosError) => {
+
     console.error('Request error:', error);
     return Promise.reject(error);
   }
@@ -57,6 +58,7 @@ instance.interceptors.request.use(
 // 응답 인터셉터
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
+
     console.log('Response received:', response);
 
     // 로그인 성공 시 accessToken 저장 (예: 로그인 시 토큰 응답 받음)
@@ -104,6 +106,7 @@ instance.interceptors.response.use(
 
 // API 함수들
 export const api = {
+
   get: <T>(url: string, config = {}) => {
     console.log(`GET request to ${url} with config:`, config);
     return instance.get<T>(url, config);

@@ -1,8 +1,24 @@
+"use client"
+import Link from "next/link";
+
 export default function UserUpdate() {
+  const onUpdate = () => {
+    console.log('수정이 완료되었습니다.')
+  }
   return (
-    <div>유저정보 수정으로 왔습니다. 
-      <p>profile Image를 제외하고 다른 부분 업데이트 하기 </p>
-      form 태그만 사용해두고 디테일버튼 컴포넌트로 뒤로가기만 활성화해두기 
+    <div className="max-w-sm mx-auto p-6 my-8 bg-green-100 rounded-lg">
+      <form className="p-2">
+        <div>
+          <label htmlFor="ID" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">아이디</label>
+          <input type="text" id="ID" placeholder="userID" disabled className=" border text-sm rounded-lg  block w-full p-2.5"/>
+        </div>
+        <div className="my-6">
+          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">비밀번호</label>
+          <input type="text" id="password" placeholder="변경할 비밀번호를 입력해주세요" className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"/>
+        </div>
+        <button type="button" onClick={onUpdate} className="p-2 bg-green-400 mx-2 rounded-lg text-white">수정하기</button>
+        <Link href="/">취소</Link>
+      </form>
     </div>
 
   )
