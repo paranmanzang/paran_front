@@ -7,6 +7,7 @@ export default function Add() {
   }
   return (
     <div className="my-8">
+      {/* 어드민 관리로 돌리기 */}
       <form className="max-w-lg mx-auto" onSubmit={onPost}>
       <h1 className="text-xl">책 업로드</h1>
         <div>

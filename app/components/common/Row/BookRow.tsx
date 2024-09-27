@@ -49,6 +49,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
           description
         </p>
         <p className="text-sm font-medium">저자: author</p>
+        <p className="text-sm font-medium">출판사: author</p>
         <Link
           href={`/books/2`}
           className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${

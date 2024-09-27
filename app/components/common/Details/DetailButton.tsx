@@ -127,6 +127,7 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
         )}
         <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
           style={{ display: displayReview }}
+          // 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것
         >
           리뷰보기
         </button>
