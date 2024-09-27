@@ -21,16 +21,16 @@ export default function Login() {
   const useLogin = () => {
     // 로그인 하면 개인 정보 다 가져와야해요~~~~
     useEffect(() => {
-      dispatch(saveGlobalLoading(true));
-      getLikeBookList(nickname)
-        .then(result => {
-          if (result && Array.isArray(result)) {
-            dispatch(saveLikedBooks(result))
-          }
-        })
-      dispatch(saveGlobalLoading(false));
-    }, [dispatch,nickname]);
-  }
+    //   dispatch(saveGlobalLoading(true));
+    //   getLikeBookList(nickname)
+    //     .then(result => {
+    //       if (result && Array.isArray(result)) {
+    //         dispatch(saveLikedBooks(result))
+    //       }
+    //     })
+    //   dispatch(saveGlobalLoading(false));
+    // }, [dispatch,nickname]);
+  })
 
   return (
     <div className="mx-auto my-6 max-w-lg rounded-lg border p-6 shadow dark:bg-gray-600">
@@ -102,3 +102,4 @@ export default function Login() {
     </div>
   );
 }
+};
