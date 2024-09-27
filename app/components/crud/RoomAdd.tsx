@@ -1,37 +1,43 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Alert from "../common/Alert";
 
 export default function RoomAdd() {
   const [formData, setFormData] = useState({
     place: '',
     people: '',
     alone: false,
-    date: '',
+    startDate:'',
+    endDate: '',
     time: [],
     account: ''
   });
 
   const route = useRouter();
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
+  const handleChange = (event: any) => {
+    const { name, value, type, checked } = event.target;
     setFormData(prevState => ({
       ...prevState,
-      [name]: type === 'checkbox' ? 
+      [name]: type === 'checkbox' ?
         (checked ? [...prevState.time, value] : prevState.time.filter(item => item !== value)) :
         type === 'radio' ? value === 'true' :
-        value
+          value
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
     console.log(formData);
     // 데이터 보내기 함수 적으면 됨.
   };
   const goBack = () => {
     route.back()
+  }
+
+  const onCreate = () => {
+    <Alert message={'등록되었습니다.'} isOpen={true} onClose={() => { }} />
   }
 
   return (
@@ -60,8 +66,15 @@ export default function RoomAdd() {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이용가능 날짜</label>
-          <input type="date" id="date" name="date" value={formData.date} onChange={handleChange} className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5" />
+          <h2>이용가능 날짜</h2>
+          <div>
+            <label htmlFor="start-date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">시작일</label>
+            <input type="date" id="start-date" name="start-date" value={formData.startDate} onChange={handleChange} className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5" />
+          </div>
+          <div>
+            <label htmlFor="end-date" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">종료일</label>
+            <input type="date" id="end-date" name="end-date" value={formData.endDate} onChange={handleChange} className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5" />
+          </div>
         </div>
 
         <div className="mb-4">
@@ -75,6 +88,16 @@ export default function RoomAdd() {
                 </label>
               </li>
             ))}
+            <li>
+              <label htmlFor="openTime">영업 시간 [오픈시간]</label>
+              <input type="checkbox"  id='openTime' name="openTime" value='time' onChange={handleChange} className="hidden peer" />
+              <label htmlFor='openTime' className="p-2 text-center text-green-500 bg-white border-2 border-green-200 rounded-lg cursor-pointer dark:hover:text-green-300 dark:border-green-700 peer-checked:border-green-600 hover:text-green-600 dark:peer-checked:text-green-300 peer-checked:text-green-600 hover:bg-green-50 dark:text-green-400 dark:bg-green-800 dark:hover:bg-green-700"/>
+            </li>
+            <li>
+              <label>영업 시간 [오픈시간]</label>
+              <input type="checkbox"  id='openTime' name="openTime" value='time' onChange={handleChange} className="hidden peer" />
+              <label htmlFor='openTime' className="p-2 text-center text-green-500 bg-white border-2 border-green-200 rounded-lg cursor-pointer dark:hover:text-green-300 dark:border-green-700 peer-checked:border-green-600 hover:text-green-600 dark:peer-checked:text-green-300 peer-checked:text-green-600 hover:bg-green-50 dark:text-green-400 dark:bg-green-800 dark:hover:bg-green-700"/>
+            </li>
           </ul>
         </div>
 
@@ -83,7 +106,7 @@ export default function RoomAdd() {
           <input type="text" id="account" name="account" value={formData.account} onChange={handleChange} placeholder="이용금액을 적어주세요" className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5" />
         </div>
 
-        <button type="submit" className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">등록하기</button>
+        <button type="submit" onClick={onCreate} className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">등록하기</button>
         <button type="button" onClick={goBack} className="text-gray-900 bg-green-50 hover:bg-green-100 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 mx-2 border-green-600 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">뒤로가기</button>
       </form>
     </div>

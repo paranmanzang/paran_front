@@ -1,5 +1,6 @@
 "use client"
 import { useRouter } from "next/navigation";
+import CategorySelect from "../common/CategorySelect";
 
 export default function GroupAdd() {
   const route = useRouter();
@@ -10,7 +11,7 @@ export default function GroupAdd() {
     route.back();
   }
   return (
-    <form>
+    <form className="max-w-lg mx-auto p-6 my-8 bg-green-50 rounded-lg">
       <div>
         <label htmlFor="place">모임 이름</label>
         <input type="text" placeholder="공간의 이름을 적어주세요" id="place" />
@@ -23,24 +24,10 @@ export default function GroupAdd() {
         <label htmlFor="leader">모임장을 정해주세요!</label>
         <input type="number" placeholder="모임장의 닉네임을 적어주세요" id="leader" />
       </div>
+      <CategorySelect />
       <div>
-        <label htmlFor="category">모임의 카테고리를 정해주세요</label>
-        <select id="category">
-          <option>1. 사회과학</option>
-          <option>2. 기술과학</option>
-          <option>3. 문학</option>
-          <option>4. 철학</option>
-          <option>5. 예술</option>
-          <option>6. 언어</option>
-          <option>7. 역사</option>
-          <option>8. 종교</option>
-          <option>9. 자연과학</option>
-          <option>10. 기타</option>
-        </select>
-      </div>
-      <div>
-        <button type="button" onClick={createGroup}>모임 개설하기</button>
-        <button type="button" onClick={goBack}>모임 개설 취소하기</button>
+        <button type="button" onClick={createGroup} className="p-2 bg-green-400 rounded-lg text-white">모임 개설하기</button>
+        <button type="button" onClick={goBack} className="p-2 mx-2 bg-green-400 rounded-lg text-white">모임 개설 취소하기</button>
       </div>
       <div>
       </div>

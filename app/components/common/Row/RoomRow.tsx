@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-
+import HeartCheckbox from "./HeartCheckBox";
 interface RoomRowProps {
   active: boolean;
   onSelect: () => void;
@@ -15,11 +15,32 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
     setIsActive(active);
   }, [active]);
 
+
+  const handleLikeChange = (active:boolean) => {
+    console.log('좋아요 상태:', active);
+    // 여기에서 필요한 로직을 수행 (예: API 호출)
+  };
+
+
   const handleClick = (): void => {
     onSelect();
   };
 
   return (
+    <div className="relative max-w-sm">
+       <form className="absolute top-2 w-full px-3">
+        <div className="flex justify-between">
+          {/* 모든 유저  */}
+          <div id="likeBtn">
+          <HeartCheckbox onChange={handleLikeChange} />
+          </div>
+          {/* 어드민 셀러만 보이게 */}
+          <div id="selectBtn">
+            <input id="select" type="checkbox" value="" className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+            <label htmlFor="select" hidden>chatSelect</label>
+          </div>
+        </div>
+      </form>
     <div
       className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 ${
         isActive ? 'ring-2 ring-green-500' : ''
@@ -72,6 +93,7 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
             />
           </svg>
         </Link>
+      </div>
       </div>
     </div>
   );

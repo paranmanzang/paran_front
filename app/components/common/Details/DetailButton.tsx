@@ -59,6 +59,10 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
     setAlertMessage('찜 했습니다.');
     setIsAlertOpen(true);
   }
+  const JoinGroups = () => {
+    setAlertMessage('이 소모임에 참여하시겠습니까? ');
+    setIsAlertOpen(true);
+  }
 
   useEffect(() => {
     dispatch(saveGlobalLoading(true));
@@ -137,6 +141,12 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
           예약하기
         </button>
         <BookingModal isOpen={isModalOpen} onClose={closeModal} />
+
+        <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
+          style={{ display: displayReservation }}
+        >
+          참여하기
+        </button>
 
         <button type="button" onClick={onBack} className="mx-2 rounded-full border px-3 py-2">
           뒤로가기

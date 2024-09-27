@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import "./LikeBtnDefault.css"
+import HeartCheckbox from "./HeartCheckBox";
 
 interface ChatRowProps {
   active: boolean;
@@ -16,6 +16,12 @@ const ChatRow: React.FC<ChatRowProps> = ({ active, onSelect }) => {
     setIsActive(active);
   }, [active]);
 
+
+  const handleLikeChange = (active:boolean) => {
+    console.log('좋아요 상태:', active);
+    // 여기에서 필요한 로직을 수행 (예: API 호출)
+  };
+
   const handleClick = (): void => {
     onSelect();
   };
@@ -26,8 +32,7 @@ const ChatRow: React.FC<ChatRowProps> = ({ active, onSelect }) => {
         <div className="flex justify-between">
           {/* 모든 유저  */}
           <div id="likeBtn">
-            <label htmlFor="like" hidden>likeThat</label>
-            <input type="checkbox" id="like" />
+          <HeartCheckbox onChange={handleLikeChange} />
           </div>
           {/* 어드민 셀러만 보이게 */}
           <div id="selectBtn">
