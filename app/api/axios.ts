@@ -22,7 +22,6 @@ instance.interceptors.request.use(
   },
   (error: AxiosError) => {
     // 요청 에러 처리
-    console.error('Request interceptor error:', error);
     return Promise.reject(error);
   }
 );
@@ -30,20 +29,19 @@ instance.interceptors.request.use(
 // 응답 인터셉터
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
-    console.log('응답 성공');
+    console.log('응답 성공')
     // 응답 성공 시 처리
     return response;
   },
   (error: AxiosError) => {
     //응답 에러 처리 (예: 토큰 만료 시 로그아웃 처리)
-    console.error('Response interceptor error:', error);
     if (error.response?.status === 401) {
       removeToken(); // 토큰 제거
-      console.log('토큰 제거');
+      console.log('토큰 제거')
 
       // 로그아웃 처리 혹은 로그인 페이지로 리다이렉트
       window.location.href = '/login'; 
-      console.log('로그인 페이지로 입장');
+      console.log('토큰 제거')
     }
     return Promise.reject(error);
   }
@@ -51,26 +49,10 @@ instance.interceptors.response.use(
 
 // API 함수들
 export const api = {
-  get: <T>(url: string, config = {}) => 
-    instance.get<T>(url, config).catch(error => {
-      console.error('GET request error:', error);
-      throw error;
-    }),
-  post: <T>(url: string, data = {}, config = {}) => 
-    instance.post<T>(url, data, config).catch(error => {
-      console.error('POST request error:', error);
-      throw error;
-    }),
-  put: <T>(url: string, data = {}, config = {}) => 
-    instance.put<T>(url, data, config).catch(error => {
-      console.error('PUT request error:', error);
-      throw error;
-    }),
-  delete: <T>(url: string, config = {}) => 
-    instance.delete<T>(url, config).catch(error => {
-      console.error('DELETE request error:', error);
-      throw error;
-    }),
+  get: <T>(url: string, config = {} ) => instance.get<T>(url, config),
+  post: <T>(url: string, data = {}, config = {}) => instance.post<T>(url, data, config),
+  put: <T>(url: string, data = {}, config = {}) => instance.put<T>(url, data, config),
+  delete: <T>(url: string, config = {}) => instance.delete<T>(url, config),
 };
 
 export default api;
