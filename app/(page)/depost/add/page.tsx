@@ -1,6 +1,6 @@
 
 export default function Add() {
   return (
-    <div>Add</div>
+    <div>공지사항 추가하기</div>
   )
 }

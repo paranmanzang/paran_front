@@ -18,19 +18,19 @@ export default function Login() {
     route.back();
   }
 
-  const onLogin = () => {
+  const useLogin = () => {
     // 로그인 하면 개인 정보 다 가져와야해요~~~~
     useEffect(() => {
-      dispatch(saveGlobalLoading(true));
-      getLikeBookList(nickname)
-        .then(result => {
-          if (result && Array.isArray(result)) {
-            dispatch(saveLikedBooks(result))
-          }
-        })
-      dispatch(saveGlobalLoading(false));
-    }, [dispatch,nickname]);
-  }
+    //   dispatch(saveGlobalLoading(true));
+    //   getLikeBookList(nickname)
+    //     .then(result => {
+    //       if (result && Array.isArray(result)) {
+    //         dispatch(saveLikedBooks(result))
+    //       }
+    //     })
+    //   dispatch(saveGlobalLoading(false));
+    // }, [dispatch,nickname]);
+  })
 
   return (
     <div className="mx-auto my-6 max-w-lg rounded-lg border p-6 shadow dark:bg-gray-600">
@@ -68,7 +68,7 @@ export default function Login() {
         <button
           type="submit"
           className="mx-2 w-full rounded-lg border-2 border-green-400 bg-green-400 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-green-400 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-400 dark:hover:bg-green-500 dark:focus:ring-green-500 sm:w-auto"
-          onClick={onLogin}
+          onClick={useLogin}
         >
           로그인
         </button>
@@ -102,3 +102,4 @@ export default function Login() {
     </div>
   );
 }
+};

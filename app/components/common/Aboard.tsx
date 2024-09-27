@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Alert from "./Alert";
 
 
 interface AccordionItem {
@@ -82,6 +83,8 @@ export default function About() {
   const [openItems, setOpenItems] = useState<string[]>([]);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
   const [items, setItems] = useState<AccordionItem[]>(accordionItems);
+  const [alertMessage, setAlertMessage] = useState("");
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
   const router = useRouter();
 
   const handleGoBack = () => {
@@ -90,29 +93,34 @@ export default function About() {
 
   const handleDelete = () => {
     if (checkedItems.length === 0) {
-      window.alert("삭제할 항목을 선택해주세요.");
+      setIsAlertOpen(true);
+      setAlertMessage("삭제할 항목을 선택해주세요");
       return;
     }
     
     const newItems = items.filter((item) => !checkedItems.includes(item.id));
     setItems(newItems);
     setCheckedItems([]);
-    window.alert("선택한 항목이 삭제되었습니다.");
+    setIsAlertOpen(true);
+    setAlertMessage("선택한 항목이 삭제되었습니다.");
   };
 
   const handleUpdate = () => {
     if (checkedItems.length === 0) {
-      window.alert("수정할 항목을 선택해주세요.");
+      setIsAlertOpen(true);
+      setAlertMessage("수정할 항목을 선택해주세요.");
       return;
     }
 
     if (checkedItems.length > 1) {
-      window.alert("수정할 항목을 하나만 선택해주세요.");
+      setIsAlertOpen(true);
+      setAlertMessage("수정할 항목을 하나만 선택해주세요.");
       return;
     }
 
     // 선택된 항목의 ID를 쿼리 파라미터로 전달
-    router.push(`/aboard/update?id=${checkedItems[0]}`);
+    //router.push(`/aboard/update?id=${checkedItems[0]}`);
+    router.push(`/aboard/update/2`);
   };
 
   const toggleItem = (id: string) => {
@@ -128,6 +136,7 @@ export default function About() {
   };
 
   return (
+    <>
     <div className="px-[15%] py-[5%]">
       <div className="ms-auto max-w-[20rem]">
         {/* 만약 어드민이라면 */}
@@ -230,7 +239,7 @@ export default function About() {
               </button>
             </h2>
             <div
-              id={`${item.id}-body`}
+              id={`${item.id}`}
               className={openItems.includes(item.id) ? "" : "hidden"}
               aria-labelledby={item.id}
             >
@@ -242,5 +251,12 @@ export default function About() {
         ))}
       </div>
     </div>
+    <Alert 
+    message={alertMessage}
+    isOpen={isAlertOpen}
+    onClose={() => setIsAlertOpen(false)}
+    />
+    </>
+    
   );
 }

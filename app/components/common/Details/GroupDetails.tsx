@@ -1,3 +1,4 @@
+"use client"
 import { useDispatch, useSelector } from "react-redux";
 import DetailButton from "./DetailButton";
 import { AppDispatch, RootState } from "@/lib/store";
@@ -14,7 +15,11 @@ export default function Details() {
   const postCategory = '공지 사항' // '공지 사항' | '자유게시판'
   useEffect(() => {
     dispatch(saveLoading(true));
+<<<<<<< HEAD:app/components/common/GroupDetails.tsx
     getPostsByGroupId(Number(groupId), page, size, postCategory)
+=======
+    getPostsByGroupId(Number(groupId), page, size)
+>>>>>>> 04f7c93aae02e8fd38eeace97c6c9fafcddd80e0:app/components/common/Details/GroupDetails.tsx
       .then(result => {
         if (result && Array.isArray(result)) {
           dispatch(saveGroupPosts(result)); // 소모임 게시판 게시글 저장
@@ -28,7 +33,11 @@ export default function Details() {
       .finally(() => {
         dispatch(saveLoading(false)); // 항상 로딩 종료
       });
+<<<<<<< HEAD:app/components/common/GroupDetails.tsx
   }, [dispatch, groupId, postCategory]);
+=======
+  }, [dispatch, groupId]);
+>>>>>>> 04f7c93aae02e8fd38eeace97c6c9fafcddd80e0:app/components/common/Details/GroupDetails.tsx
 
   return (
     <div>
