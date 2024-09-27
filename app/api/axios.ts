@@ -14,10 +14,10 @@ const instance: AxiosInstance = axios.create({
 // 요청 인터셉터
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // const token = getToken();
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`; // Authorization 헤더에 토큰 추가
-    // }
+    const token = getToken();
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`; // Authorization 헤더에 토큰 추가
+    }
     return config;
   },
   (error: AxiosError) => {
@@ -33,12 +33,12 @@ instance.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
-    // 응답 에러 처리 (예: 토큰 만료 시 로그아웃 처리)
-    // if (error.response?.status === 401) {
-    //   removeToken(); // 토큰 제거
-    //   // 로그아웃 처리 혹은 로그인 페이지로 리다이렉트
-    //   window.location.href = '/login'; 
-    // }
+    //응답 에러 처리 (예: 토큰 만료 시 로그아웃 처리)
+    if (error.response?.status === 401) {
+      removeToken(); // 토큰 제거
+      // 로그아웃 처리 혹은 로그인 페이지로 리다이렉트
+      window.location.href = '/login'; 
+    }
     return Promise.reject(error);
   }
 );
