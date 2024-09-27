@@ -1,42 +1,36 @@
+"use client"
+import { useRouter } from "next/navigation";
+import CategorySelect from "../common/CategorySelect";
+
 export default function GroupAdd() {
+  const route = useRouter();
+  const createGroup = () => {
+    console.log("모임이 개설되었습니다.")
+  }
+  const goBack = () => {
+    route.back();
+  }
   return (
-    <form>
+    <form className="max-w-lg mx-auto p-6 my-8 bg-green-50 rounded-lg">
       <div>
         <label htmlFor="place">모임 이름</label>
         <input type="text" placeholder="공간의 이름을 적어주세요" id="place" />
       </div>
       <div>
-        <label htmlFor="people">정원 수</label>
-        <input type="text" placeholder="인원수를 정해주세요!" id="people" />
-        <option>1 ~ 3</option>
-        <option>4 ~ 7</option>
-        <option>8 ~ 10</option>
+        <label htmlFor="people">모임 최대인원수</label>
+        <input type="number" placeholder="최대인원 수를 정해주세요!" id="people" />
       </div>
       <div>
-        <label htmlFor="alone">싱글 사용여부</label>
-        <input type="radio" id="aloneOk" />
-        <input type="radio" id="aloneNo" />
+        <label htmlFor="leader">모임장을 정해주세요!</label>
+        <input type="number" placeholder="모임장의 닉네임을 적어주세요" id="leader" />
+      </div>
+      <CategorySelect />
+      <div>
+        <button type="button" onClick={createGroup} className="p-2 bg-green-400 rounded-lg text-white">모임 개설하기</button>
+        <button type="button" onClick={goBack} className="p-2 mx-2 bg-green-400 rounded-lg text-white">모임 개설 취소하기</button>
       </div>
       <div>
-        <label htmlFor="alone">이용가능 날짜</label>
-        <input type="date" />
       </div>
-      <div>
-        <label htmlFor="alone">이용가능 시간</label>
-        <ul>
-          <li>
-            <input type="checkbox" id="timeSelect01" value="" className="hidden peer" />
-            <label htmlFor="timeSelect01" className="p-2 text-center text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-green-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">
-              00:00
-            </label>
-          </li>
-        </ul>
-      </div>
-      <div>
-        <label htmlFor="account">이용 금액</label>
-        <input type="text" id="account" placeholder="이용금액을 적어주세요" />
-      </div>
-
     </form>
   )
 }
