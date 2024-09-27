@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation"
 
-export default function page() {
+export default function Account() {
   const route = useRouter();
   const goBack = () => route.back()
   

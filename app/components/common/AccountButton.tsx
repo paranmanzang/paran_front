@@ -1,7 +1,7 @@
 export default function AccountButton() {
   return (
     <div>
-      <button>버튼 로직 넣어주면 됨.</button>
+      <button className="text-sm p-2 bg-green-100 rounded-lg text-gray-900">결제하기</button>
     </div>
   )
 }
