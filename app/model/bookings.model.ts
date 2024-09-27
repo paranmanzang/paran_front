@@ -2,8 +2,8 @@
 export interface BookingModel {
   id?: number;
   enabled: boolean;
-  usingStart: string;
-  usingEnd: string;
+  date: string;
+  usingTime: string[]; //HH:00 형식
   roomId: number;
   groupId: number;
 }

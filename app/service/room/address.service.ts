@@ -122,7 +122,8 @@ export const getAddressList = async (): Promise<AddressModel[]> => {
 // 자체 주소 검색
 export const findQuery = async (query: string): Promise<AddressModel[]> => {
   try {
-    const response = await api.get<AddressModel[]>(`${requests.fetchRooms}/find/${query}`);
+    const response = await api.get<AddressModel[]>(`${requests.fetchRooms}/addresses/find/${query}`);
+    console.log(response.data)
     return response.data;
   } catch (error: any) {
     if (error.response) {
