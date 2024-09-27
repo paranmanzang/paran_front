@@ -11,7 +11,7 @@ export default function LikeList() {
           큰 제목 title
         </h5>
         <p className="font-normal text-gray-700 dark:text-gray-400">
-          작은 글 content
+          작은글
         </p>
       </Link>
   );

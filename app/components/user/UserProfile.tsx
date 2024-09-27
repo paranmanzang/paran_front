@@ -1,8 +1,6 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import Link from "next/link";
-import TabBar from "./TabBar";
-import LikeList from "./LikeList";
 import Image from "next/image";
 
 export default function UserProfile() {

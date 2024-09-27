@@ -53,7 +53,7 @@ export default function Details({ roomId }: roomDetailProps) {
           </p>
         ))}</p>
       </div>
-      <div className="my-6 grid min-h-screen grid-cols-2 place-items-center">=
+      <div className="my-6 grid min-h-screen grid-cols-2 place-items-center">
         <div className="h-[70%] w-4/5 bg-gray-400">안에 내용 넣기</div>
         <div className="h-[70%] w-4/5 bg-gray-400">안에 내용 넣기</div>
         <div className="col-span-2 h-[70%] w-[90%] bg-gray-400">

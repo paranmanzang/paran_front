@@ -1,5 +1,5 @@
 "use client";
-import RoomDetails from "@/app/components/common/RoomDetails";
+import RoomDetails from "@/app/components/common/Details/RoomDetails";
 import { useParams } from "next/navigation";
 
 export default function RoomOne() {

@@ -2,8 +2,8 @@
 "use client"
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import BookingModal from "./BookingModal";
-import Alert from "./Alert";
+import BookingModal from "../BookingModal";
+import Alert from "../Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
 import { addLikedBook, getCurrentBook, getLikedBooks, saveError } from "@/lib/features/group/book.Slice";
@@ -41,7 +41,6 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
   const onBack = () => {
     route.back();
   }
-
   const handleReview = () => {
     route.push(`${thisPage}/review`)
   }
@@ -50,47 +49,53 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
     setIsConfirmOpen(true);
   };
 
-  const likeThis = () => {
-    useEffect(() => {
-      dispatch(saveGlobalLoading(true));
-      switch (thisPage) {
-        case "/book":
-          {
-            const likeBookModel: LikeBookModel = {
-              bookId: Number(book?.id),
-              nickname: nickname
-            };
-            likeBook(likeBookModel)
-              .then(result => {
-                if ('nickname' in result && 'bookId' in result) {
-                  dispatch(addLikedBook(result));
-                } else {
-                  dispatch(saveError("찜 목록에 추가하는 중 오류가 발생했습니다."));
-                }
-              })
-              .finally(() => {
-                dispatch(saveGlobalLoading(false)); // 항상 로딩 종료
-                setAlertMessage('찜 했습니다.');
-                setIsAlertOpen(true);
-              });
-            break;
-          }
-        case "/room":
-          {
-            //sevice 존재하지 않음
-          }
-          break;
-        case "/groupPost":
-          {
-            //sevice 존재하지 않음
-          }
-          break;
-      }
-    }, [dispatch, thisPage]);
+  const Message = () => {
+    setAlertMessage('이미 찜 상품에 있습니다.');
+    setIsAlertOpen(true);
+  }
+
+  const LikeThis = () => {
     dispatch(saveGlobalLoading(false)); // 항상 로딩 종료
     setAlertMessage('찜 했습니다.');
     setIsAlertOpen(true);
   }
+
+  useEffect(() => {
+    dispatch(saveGlobalLoading(true));
+    switch (thisPage) {
+      case "/books":
+        {
+          const likeBookModel: LikeBookModel = {
+            bookId: Number(book?.id),
+            nickname: nickname
+          };
+          likeBook(likeBookModel)
+            .then(result => {
+              if ('nickname' in result && 'bookId' in result) {
+                dispatch(addLikedBook(result));
+              } else {
+                dispatch(saveError("찜 목록에 추가하는 중 오류가 발생했습니다."));
+              }
+            })
+            .finally(() => {
+              dispatch(saveGlobalLoading(false)); // 항상 로딩 종료
+              setAlertMessage('찜 했습니다.');
+              setIsAlertOpen(true);
+            });
+          break;
+        }
+      case "/rooms":
+        {
+          //sevice 존재하지 않음
+        }
+        break;
+      case "/groupPost":
+        {
+          //sevice 존재하지 않음
+        }
+        break;
+    }
+  }, [dispatch, thisPage]);
 
   const handleConfirm = () => {
     setIsConfirmOpen(false);
@@ -104,7 +109,7 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
     openModal();
   }
 
-  const isBookLiked = likedBooks.some(likedBook => likedBook.id === book?.id);
+  const isBookLiked = likedBooks.some(LikedBook => LikedBook.id === book?.id);
   // const isRoomLiked = likedRooms.some(likedRoom => likedRoom.id === room?.id);
   // const isGroupPostLiked = likedGroupPosts.some(likedGroupPost => likedGroupPost.id === groupPost?.id);
 
@@ -113,12 +118,10 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
       <div className="mx-auto flex h-[20px] w-full max-w-lg items-end">
         {isBookLiked ? (
           // 이미 찜 목록에 있을 경우 다른 버튼이나 메시지 표시
-          <button type="button" className="mx-2 rounded-full border px-3 py-2">
-            ✅ 이미 찜했습니다
-          </button>
+          `${Message()}`
         ) : (
           // 책이 찜 목록에 없을 경우 "찜하기" 버튼 표시
-          <button type="button" onClick={likeThis} className="mx-2 rounded-full border px-3 py-2">
+          <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
             🥰 찜하기 🥰
           </button>
         )}

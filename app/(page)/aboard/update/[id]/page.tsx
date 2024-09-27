@@ -51,11 +51,9 @@ export default function update() {
           >
             <option>소설</option>
             <option>만화</option>
-            <option>만화</option>
-            <option>만화</option>
-            <option>만화</option>
-            <option>만화</option>
-            <option>만화</option>
+            <option>SF / 판타지</option>
+            <option>로맨스</option>
+            <option>무협</option>
           </select>
         </div>
         <button type="submit" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-500">수정하기</button>

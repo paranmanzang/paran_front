@@ -35,22 +35,13 @@ export default function Details({ bookId }: DetailsProps) {
         {images.map(file => (
           <img key={file.id} src={`http://localhost:8000/api/files/one?path=${file.path}`} alt={file.path} />
         ))}
-        {/* <p>메인 상세보기 - {book.title}</p>
+        <p>메인 상세보기 - {book.title}</p>
         <p>저자: {book.author}</p>
         <p>카테고리: {book.categoryName || '카테고리 없음'}</p>
-        <p>좋아요 수: {book.likeBookCount}</p> */}
+        <p>좋아요 수: {book.likeBookCount}</p>
       </div>
       <div className="my-6 grid min-h-screen grid-cols-2 place-items-center">
-        <div className="h-[70%] w-4/5 bg-gray-400"> 안에 내용 넣기</div>
-        <div className="h-[70%] w-4/5 bg-gray-400"> 안에 내용 넣기</div>
-        <div className="col-span-2 h-[70%] w-[90%] bg-gray-400">
-          안에 내용 넣기
-        </div>
-        <div className="h-[70%] w-4/5 bg-gray-400"> 안에 내용 넣기</div>
-        <div className="h-[70%] w-4/5 bg-gray-400"> 안에 내용 넣기</div>
-        <div className="col-span-2 h-[70%] w-full bg-gray-400">
-          안에 내용 넣기
-        </div>
+
       </div>
       <div className="mx-auto w-full max-w-sm">
         <DetailButton thisPage={'/books'} displayReview="none" displayReservation="none" />

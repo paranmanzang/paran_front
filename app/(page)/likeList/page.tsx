@@ -1,7 +1,7 @@
 "use client"
 import { useRouter } from "next/navigation";
 import AccountButton from "@/app/components/common/AccountButton";
-export default function likeList() {
+export default function LikeList() {
   const route = useRouter();
   const goBack = () => route.back()
   return (

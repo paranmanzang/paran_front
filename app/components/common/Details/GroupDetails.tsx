@@ -1,3 +1,4 @@
+"use client"
 import { useDispatch, useSelector } from "react-redux";
 import DetailButton from "./DetailButton";
 import { AppDispatch, RootState } from "@/lib/store";
@@ -12,22 +13,22 @@ export default function Details() {
   const page = 5 // 임의 값
   const size = 5 // 임의 값
   useEffect(() => {
-      dispatch(saveLoading(true));
-      getPostsByGroupId( Number(groupId), page, size )
-        .then(result => {
-          if (result && Array.isArray(result)) {
-            dispatch(saveGroupPosts(result)); // 소모임 게시판 게시글 저장
-          } else {
-            dispatch(saveError("소모임 게시판을 불러오는 중 오류가 발생했습니다."));
-          }
-        })
-        .catch((error) => {
-          dispatch(saveError((error as Error).message || "소모임 게시판을 불러오는 중 오류가 발생했습니다."));
-        })
-        .finally(() => {
-          dispatch(saveLoading(false)); // 항상 로딩 종료
-        });
-  }, [dispatch,groupId]);
+    dispatch(saveLoading(true));
+    getPostsByGroupId(Number(groupId), page, size)
+      .then(result => {
+        if (result && Array.isArray(result)) {
+          dispatch(saveGroupPosts(result)); // 소모임 게시판 게시글 저장
+        } else {
+          dispatch(saveError("소모임 게시판을 불러오는 중 오류가 발생했습니다."));
+        }
+      })
+      .catch((error) => {
+        dispatch(saveError((error as Error).message || "소모임 게시판을 불러오는 중 오류가 발생했습니다."));
+      })
+      .finally(() => {
+        dispatch(saveLoading(false)); // 항상 로딩 종료
+      });
+  }, [dispatch, groupId]);
 
   return (
     <div>
