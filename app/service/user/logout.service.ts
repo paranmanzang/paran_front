@@ -2,12 +2,10 @@ import { UserModel } from "@/app/model/user.model";
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
 
-export const logout = async (query: string): Promise<UserModel> => {
+export const logout = async (): Promise<any> => {
   try {
-    const response = await api.post<UserModel>(requests.fetchLogout, {
-      params: { query },
-    });
-    return response.data;
+    const response = await api.post<any>(requests.fetchLogout,);
+    console.log("로그아웃 응답: ", response)
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
