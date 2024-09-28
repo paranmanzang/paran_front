@@ -10,14 +10,16 @@ export default function Update() {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const onUpdate = () => {
-    setMessage('수정이 완료되었습니다.')
-    setIsOpen(true)
+    // 왜 새로고침되는 건지.. bubbling  구조 보기
   }
-  const closeAlert = () => setIsOpen(false);
+
+  const postUpdate = () => {
+
+  }
   return (
     <>
     <div className="h-[80%] my-10">
-      <form className="mx-auto max-w-sm" onSubmit={onUpdate}>
+      <form className="mx-auto max-w-sm" onSubmit={postUpdate}>
         <div className="my-2">
           <label
             htmlFor="title"
@@ -48,14 +50,14 @@ export default function Update() {
           ></textarea>
         </div>
         <CategorySelect />
-        <button type="submit" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-500">수정하기</button>
+        <button type="submit" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-500" onClick={onUpdate}>수정하기</button>
         <Link href="/aboard" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600">뒤로가기</Link>
       </form>
     </div>
     <Alert 
     isOpen={isOpen}
     message={message}
-    onClose={() => closeAlert}
+    onClose={() => setIsOpen(false)}
     />
     </>
   );

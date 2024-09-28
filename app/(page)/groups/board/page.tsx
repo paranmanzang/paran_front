@@ -1,8 +1,9 @@
+import GroupBoard from "@/app/components/common/GroupBoard"
 export default function groupBoard() {
   return (
     <div>
-      groupBoard 보여주기 인스타그램 차용할 거임
-      
+      {/* group에 참여중인 사람만 보일 수 있도록 한다. */}
+      <GroupBoard />
     </div>
   )
 }

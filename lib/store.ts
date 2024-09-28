@@ -12,7 +12,8 @@ import bookSlice from './features/group/book.Slice';
 import categorySlice from './features/group/category.Slice';
 import commentSlice from './features/comment/comment.Slice';
 import chatSlice from './features/chat/chat.Slice';
-
+import authReducer from './features/account.Slice'
+ 
 export const makeStore = () => {
   return configureStore({
     reducer: {
@@ -28,7 +29,8 @@ export const makeStore = () => {
       comment: commentSlice,
       chat: chatSlice,
       book: bookSlice,
-      category: categorySlice
+      category: categorySlice,
+      auth: authReducer,
     },
   });
 };
