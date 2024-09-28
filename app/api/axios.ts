@@ -1,26 +1,19 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
 // 토큰 관리를 위한 함수들
-const getToken = (): string | null => {
-  const token = localStorage.getItem('token');
-  console.log('Retrieved token from localStorage:', token); // 로그 추가
-  return token;
-};
-
-const setToken = (token: string): void => {
-  console.log('Saving token to localStorage:', token); // 로그 추가
-  localStorage.setItem('token', token);
-};
-
-const removeToken = (): void => {
-  console.log('Removing token from localStorage'); // 로그 추가
-  localStorage.removeItem('token');
-};
+const getToken = (): string | null => localStorage.getItem('token');
+const setToken = (token: string): void => localStorage.setItem('token', token);
+const removeToken = (): void => localStorage.removeItem('token');
 
 // 토큰 관리를 위한 함수들
 const getAccessToken = (): string | null => {
   const token = localStorage.getItem('token');
   console.log('Retrieved accessToken from localStorage:', token);
+  return token;
+};
+const getRefreshToken = (): string | null => {
+  const token = localStorage.getItem('refresh');
+  console.log('Retrieved refreshToken from localStorage:', token);
   return token;
 };
 
@@ -44,11 +37,20 @@ const instance: AxiosInstance = axios.create({
 // 요청 인터셉터
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-
     console.log('Request config before adding token:', config);
 
     // 로그인 요청에는 토큰을 추가하지 않음
-    if (config.url !== '/login') {
+    if (config.url === '/login') {
+      const token = getAccessToken();
+      const refreshToken = getRefreshToken();
+      if (token && refreshToken) {
+        config.headers.Authorization = `Bearer ${token}`;
+        console.log('Added accessToken to request headers:', config.headers.Authorization);
+        // Refresh Token을 쿠키에 추가
+        config.headers.Cookie = `refresh ${refreshToken}`;
+        console.log('Added refreshToken to request headers as cookie:', config.headers.Cookie);
+      }
+    } else if (config.url !== '/login') {
       const token = getAccessToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -62,16 +64,15 @@ instance.interceptors.request.use(
     return config;
   },
   (error: AxiosError) => {
-
     console.error('Request error:', error);
     return Promise.reject(error);
   }
+
 );
 
 // 응답 인터셉터
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
-
     console.log('Response received:', response);
 
     // 로그인 성공 시 accessToken 저장 (예: 로그인 시 토큰 응답 받음)
@@ -108,8 +109,8 @@ instance.interceptors.response.use(
         }
       } catch (refreshError) {
         console.error('Refresh token failed:', refreshError);
-        removeAccessToken();
-        window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+        // removeAccessToken();
+        // window.location.href = '/login'; // 로그인 페이지로 리다이렉트
       }
     }
 
@@ -119,7 +120,6 @@ instance.interceptors.response.use(
 
 // API 함수들
 export const api = {
-
   get: <T>(url: string, config = {}) => {
     console.log(`GET request to ${url} with config:`, config);
     return instance.get<T>(url, config);
