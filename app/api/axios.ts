@@ -11,6 +11,11 @@ const getAccessToken = (): string | null => {
   console.log('Retrieved accessToken from localStorage:', token);
   return token;
 };
+const getRefreshToken = (): string | null => {
+  const token = localStorage.getItem('refresh');
+  console.log('Retrieved refreshToken from localStorage:', token);
+  return token;
+};
 
 const setAccessToken = (token: string): void => {
   console.log('Saving accessToken to localStorage:', token);
@@ -35,7 +40,17 @@ instance.interceptors.request.use(
     console.log('Request config before adding token:', config);
 
     // 로그인 요청에는 토큰을 추가하지 않음
-    if (config.url !== '/login') {
+    if (config.url === '/logout') {
+      const token = getAccessToken();
+      const refreshToken = getRefreshToken();
+      if (token && refreshToken) {
+        config.headers.Authorization = `Bearer ${token}`;
+        console.log('Added accessToken to request headers:', config.headers.Authorization);
+        // Refresh Token을 쿠키에 추가
+        config.headers.Cookie = `refresh ${refreshToken}`;
+        console.log('Added refreshToken to request headers as cookie:', config.headers.Cookie);
+      }
+    } else if (config.url !== '/login') {
       const token = getAccessToken();
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -52,6 +67,7 @@ instance.interceptors.request.use(
     console.error('Request error:', error);
     return Promise.reject(error);
   }
+
 );
 
 // 응답 인터셉터
@@ -93,8 +109,8 @@ instance.interceptors.response.use(
         }
       } catch (refreshError) {
         console.error('Refresh token failed:', refreshError);
-        removeAccessToken();
-        window.location.href = '/login'; // 로그인 페이지로 리다이렉트
+        // removeAccessToken();
+        // window.location.href = '/login'; // 로그인 페이지로 리다이렉트
       }
     }
 
