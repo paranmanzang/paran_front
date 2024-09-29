@@ -1,46 +1,124 @@
 // fileSlice.ts
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initialFileState, FileModel, FileDeleteModel } from '../../app/model/file.model';
+import { initialFileState, FileModel, FileDeleteModel, FileType } from '../../app/model/file.model';
+import { RootState } from '../store';  // RootState는 store에서 정의된 타입이어야 함
 
 const fileSlice = createSlice({
     name: 'file',
     initialState: initialFileState,
     reducers: {
-        saveFiles: (state, action: PayloadAction<FileModel[][]>) => {
-            state.files = action.payload;
+        // 여러 파일을 저장 (타입별로 분리해서 저장)
+        saveFiles: (state, action: PayloadAction<FileModel[]>) => {
+            state.userFiles = action.payload.filter(file => file.type === FileType.USER);
+            state.roomFiles = action.payload.filter(file => file.type === FileType.ROOM);
+            state.aboardFiles = action.payload.filter(file => file.type === FileType.ABOARD);
+            state.groupPostFiles = action.payload.filter(file => file.type === FileType.GROUP_POST);
+            state.bookFiles = action.payload.filter(file => file.type === FileType.BOOK);
+
         },
+        // 현재 파일을 저장
         saveCurrentFile: (state, action: PayloadAction<FileModel | null>) => {
             state.currentFile = action.payload;
         },
+        // 삭제할 파일을 저장
         saveFileToDelete: (state, action: PayloadAction<FileDeleteModel | null>) => {
             state.fileToDelete = action.payload;
         },
-        addFile: (state, action: PayloadAction<FileModel[]>) => {
-            state.files.push(action.payload);
-        },
-        removeFile: (state, action: PayloadAction<string>) => {
-            state.files = state.files.map(fileArray =>
-                fileArray.filter(file => file.id !== action.payload)
-            );
 
+        // 새로운 파일 추가 (타입별로 추가)
+        addFile: (state, action: PayloadAction<FileModel>) => {
+            switch (action.payload.type) {
+                case FileType.USER:
+                    state.userFiles.push(action.payload);
+                    break;
+                case FileType.ROOM:
+                    state.roomFiles.push(action.payload);
+                    break;
+                case FileType.ABOARD:
+                    state.aboardFiles.push(action.payload);
+                    break;
+                case FileType.GROUP_POST:
+                    state.groupPostFiles.push(action.payload);
+                    break;
+                case FileType.BOOK:
+                    state.bookFiles.push(action.payload);
+                    break;
+            }
         },
+        // 파일 제거 (ID와 타입으로 파일을 찾아서 제거)
+        removeFile: (state, action: PayloadAction<{ id: string; type: FileType }>) => {
+            const { id, type } = action.payload;
+            switch (type) {
+                case FileType.USER:
+                    state.userFiles = state.userFiles.filter(file => file.id !== id);
+                    break;
+                case FileType.ROOM:
+                    state.roomFiles = state.roomFiles.filter(file => file.id !== id);
+                    break;
+                case FileType.ABOARD:
+                    state.aboardFiles = state.aboardFiles.filter(file => file.id !== id);
+                    break;
+                case FileType.GROUP_POST:
+                    state.groupPostFiles = state.groupPostFiles.filter(file => file.id !== id);
+                    break;
+                case FileType.BOOK:
+                    state.bookFiles = state.bookFiles.filter(file => file.id !== id);
+                    break;
+            }
+        },
+        // 특정 파일 업데이트 (ID와 타입으로 파일을 찾아 업데이트)
+        updateFile: (state, action: PayloadAction<FileModel>) => {
+            const { id, type } = action.payload;
+            const updateFileList = (files: FileModel[]) => {
+                const index = files.findIndex(file => file.id === id);
+                if (index !== -1) {
+                    files[index] = action.payload;
+                }
+            };
+
+            switch (type) {
+                case FileType.USER:
+                    updateFileList(state.userFiles);
+                    break;
+                case FileType.ROOM:
+                    updateFileList(state.roomFiles);
+                    break;
+                case FileType.ABOARD:
+                    updateFileList(state.aboardFiles);
+                    break;
+                case FileType.GROUP_POST:
+                    updateFileList(state.groupPostFiles);
+                    break;
+                case FileType.BOOK:
+                    updateFileList(state.bookFiles);
+                    break;
+            }
+        },
+        // 로딩 상태 업데이트
         upLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
         },
+        // 에러 상태 저장
         endError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload;
         },
     },
 });
 
-export const getFiles = (state: any) => state.files
-export const getCurrentFile = (state: any) => state.currentFile
-export const getFileToDelete = (state: any) => state.fileToDelete
-export const getAddFile = (state: any) => state.files
-export const getRemoveFile = (state: any) => state.files
-export const getLoading = (state: any) => state.isLoading
-export const getError = (state: any) => state.error
+
+// Selectors
+export const getFiles = (state: RootState) => ({
+    userFiles: state.file.userFiles,
+    roomFiles: state.file.roomFiles,
+    aboardFiles: state.file.aboardFiles,
+    groupPostFiles: state.file.groupPostFiles,
+    bookFiles: state.file.bookFiles,
+});
+export const getCurrentFile = (state: RootState) => state.file.currentFile;
+export const getFileToDelete = (state: RootState) => state.file.fileToDelete;
+export const getLoading = (state: RootState) => state.file.isLoading;
+export const getError = (state: RootState) => state.file.error;
 
 
 export const {
@@ -49,6 +127,7 @@ export const {
     saveFileToDelete,
     addFile,
     removeFile,
+    updateFile,
     upLoading,
     endError,
 } = fileSlice.actions;

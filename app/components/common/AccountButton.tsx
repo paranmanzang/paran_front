@@ -92,6 +92,7 @@ export default function AccountButton() {
   };
   return (
     <div>
+      {/* 여기에 결제 버튼 붙여주세요  */}
       <button className="rounded-lg bg-green-100 p-2 text-sm text-gray-900" onClick={requestPayment}>결제하기</button>
     </div>
   )

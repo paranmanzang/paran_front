@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ChatList() {
-  const nickname = 'A'; // 임의로 넣어둠
+  const nickname = 'B'; // 임의로 넣어둠
   const dispatch = useDispatch<AppDispatch>();
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null)
   // const chatRooms = useSelector((state: RootState) => getChatRooms(state));
@@ -32,7 +32,7 @@ export default function ChatList() {
       .finally(() => {
         dispatch(saveLoading(false)); // 항상 로딩 종료
       });
-  }, [dispatch]);
+  }, [nickname]);
 
   if (loading) {
     return <div>로딩 중...</div>;

@@ -22,7 +22,7 @@ const TimeSelect = ({ name, value, onChange, label }) => (
   </div>
 );
 
-export default function RoomAdd() {
+export default function RoomUpdate() {
   const [formData, setFormData] = useState({
     place: '',
     people: '',

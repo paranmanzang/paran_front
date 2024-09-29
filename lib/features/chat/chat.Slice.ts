@@ -14,15 +14,15 @@ const chatSlice = createSlice({
         saveCurrentChatRoom: (state, action: PayloadAction<ChatRoomModel | null>) => {
             state.currentRoom = action.payload;
         },
-        saveChatUsers: (state, action: PayloadAction<ChatUserModel[]>) => {
-            state.users = action.payload;
-        },
-        saveLastReadMesaageTimes: (state, action: PayloadAction<LastReadMesaageTimeModel[]>) => {
-            state.lastReadMesaageTimes = action.payload;
-        },
-        addLastReadMessageTimes: (state, action: PayloadAction<LastReadMesaageTimeModel>) => {
-            state.lastReadMesaageTimes.push(action.payload);
-        },
+        // saveChatUsers: (state, action: PayloadAction<ChatUserModel[]>) => {
+        //     state.users = action.payload;
+        // },
+        // saveLastReadMesaageTimes: (state, action: PayloadAction<LastReadMesaageTimeModel[]>) => {
+        //     state.lastReadMesaageTimes = action.payload;
+        // },
+        // addLastReadMessageTimes: (state, action: PayloadAction<LastReadMesaageTimeModel>) => {
+        //     state.lastReadMesaageTimes.push(action.payload);
+        // },
         // addChatRoom: (state, action: PayloadAction<ChatRoomModel>) => {
         //     state.rooms.push(action.payload);
         // },
@@ -71,10 +71,10 @@ export const {
     // updateRoomInState,
     // addChatUser,
     // removeChatUser,
-    saveLastReadMesaageTimes,
+    // saveLastReadMesaageTimes,
     saveCurrentChatRoom,
-    addLastReadMessageTimes,
-    saveChatUsers,
+    // addLastReadMessageTimes,
+    // saveChatUsers,
     saveLoading,
     saveError,
 } = chatSlice.actions;
