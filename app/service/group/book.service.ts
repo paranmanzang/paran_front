@@ -11,6 +11,7 @@ export const findBookList = async (page: number, size: number): Promise<BookResp
         size
       }
     });
+    console.log(response.data.content)
     return response.data.content;
   } catch (error) {
     console.error('Error fetching category:', error);

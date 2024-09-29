@@ -4,15 +4,17 @@ import Image from "next/image";
 import Naver from "../../../assets/btnG.png"
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { AppDispatch } from "@/lib/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "@/lib/store";
+import { useDispatch, useSelector } from "react-redux";
 import { saveGlobalLoading } from "@/lib/features/error.Slice";
 import { getLikeBookList } from "@/app/service/group/likeBook.service";
-import { saveLikedBooks } from "@/lib/features/group/book.Slice";
+import { getError, getIsLoading, saveLikedBooks } from "@/lib/features/group/book.Slice";
 import { login } from "@/app/service/user/login.service";
 
 export default function Login() {
   const dispatch = useDispatch<AppDispatch>();
+  const loading = useSelector((state: RootState) => getIsLoading(state));
+  const error = useSelector((state: RootState) => getError(state));
   const nickname = 'A' // 임의로 넣어둠
   const route = useRouter();
   const goBack = () => {
@@ -24,17 +26,16 @@ export default function Login() {
       console.log("로그인: ", data)
     })
     // 로그인 하면 개인 정보 다 가져와야해요~~~~
-    // useEffect(() => {
-    //   //   dispatch(saveGlobalLoading(true));
-    //   //   getLikeBookList(nickname)
-    //   //     .then(result => {
-    //   //       if (result && Array.isArray(result)) {
-    //   //         dispatch(saveLikedBooks(result))
-    //   //       }
-    //   //     })
-    //   //   dispatch(saveGlobalLoading(false));
-    //   // }, [dispatch,nickname]);
-    // })
+    useEffect(() => {
+        dispatch(saveGlobalLoading(true));
+        getLikeBookList(nickname)
+          .then(result => {
+            if (result && Array.isArray(result)) {
+              dispatch(saveLikedBooks(result))
+            }
+          })
+        dispatch(saveGlobalLoading(false));
+      }, [dispatch,nickname]);
   }
   return (
     <div className="mx-auto my-6 max-w-lg rounded-lg border p-6 shadow dark:bg-gray-600">

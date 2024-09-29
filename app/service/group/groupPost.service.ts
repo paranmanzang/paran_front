@@ -40,10 +40,10 @@ export const deletePost = async (boardId: number): Promise<Boolean | ExceptionRe
 };
 
 // 내가 속한 그룹의 게시물 목록 조회
-export const getPostsByGroupId = async (groupId: number, page: number, size: number): Promise<GroupPostResponseModel[]> => {
+export const getPostsByGroupId = async (groupId: number, page: number, size: number, postCategory: string): Promise<GroupPostResponseModel[]> => {
     try {
         const response = await api.get<Page<GroupPostResponseModel>>(requests.fetchGroups + `/grouppost/${groupId}`, {
-            params: { page, size }
+            params: { page, size, postCategory }
         });
         return response.data.content;
     } catch (error: any) {
