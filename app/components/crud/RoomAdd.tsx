@@ -3,25 +3,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Alert from "../common/Alert";
 
-const TimeSelect = ({ name, value, onChange, label }) => (
-  <div>
-    <label htmlFor={name} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{label}</label>
-    <select
-      id={name}
-      name={name}
-      value={value}
-      onChange={onChange}
-      className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"
-    >
-      {Array.from({ length: 24 }, (_, i) => (
-        <option key={i} value={`${i.toString().padStart(2, '0')}:00`}>
-          {`${i.toString().padStart(2, '0')}:00`}
-        </option>
-      ))}
-    </select>
-  </div>
-);
-
 export default function RoomAdd() {
   const [formData, setFormData] = useState({
     place: '',
@@ -56,15 +37,6 @@ export default function RoomAdd() {
     route.back()
   }
 
-  const generateTimeOptions = () => {
-    const options = [];
-    for (let i = 0; i < 24; i++) {
-      const hour = i.toString().padStart(2, '0');
-      options.push(`${hour}:00`);
-    }
-    return options;
-  }
-
   const onCreate = () => {
     setIsOpen(true);
   }
@@ -91,24 +63,6 @@ export default function RoomAdd() {
           <div className="flex items-center">
             <input type="radio" id="aloneNo" name="alone" value="false" checked={formData.alone === false} onChange={handleChange} className="w-4 h-4 text-green-600 bg-gray-100 border-gray-300 focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
             <label htmlFor="aloneNo" className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">아니오</label>
-          </div>
-        </div>
-
-        <div className="mb-4">
-          <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이용가능 시간</label>
-          <div className="flex items-center space-x-4">
-            <TimeSelect
-              name="startTime"
-              value={formData.startTime}
-              onChange={handleChange}
-              label="시작 시간"
-            />
-            <TimeSelect
-              name="endTime"
-              value={formData.endTime}
-              onChange={handleChange}
-              label="종료 시간"
-            />
           </div>
         </div>
 

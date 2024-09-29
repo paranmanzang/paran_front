@@ -1,9 +1,9 @@
-import UserProfile from "@/app/components/user/UserProfile";
+import AdminUser from "@/app/components/user/AdminUser";
 export default function getUserId() {
 
   return (
     <div>
-      <UserProfile />
+      <AdminUser />
     </div>
   )
 }

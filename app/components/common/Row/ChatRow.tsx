@@ -53,6 +53,7 @@ const ChatRow: React.FC<ChatRowProps> = ({ active, onSelect }) => {
             className="rounded-t-lg"
             src={"https://picsum.photos/400/380"}
             alt={`cover`}
+            priority
           />
         </Link>
         <div className="p-5">

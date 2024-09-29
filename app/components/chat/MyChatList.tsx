@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 
-import "./MyChatList.css";
+import "./MyChatList.module.css";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
 
 interface ChatRoomListProps {

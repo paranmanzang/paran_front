@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import KakaoChat from "../KakaoChat";
-import "./RecommendBook.css";
+import "./RecommendBook.module.css";
 import { PiRadioButtonDuotone } from "react-icons/pi";
 import { PiRadioButtonFill } from "react-icons/pi";
 import { IoIosSearch } from "react-icons/io";

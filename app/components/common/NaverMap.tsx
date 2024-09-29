@@ -101,7 +101,7 @@ const NaverMap: React.FC<NaverMapProps> = ({ addresses }) => {
         }
     }, [addresses]);
 
-    return <div id="map" style={{ width: '500px', height: '800px' }} />;
+    return <div id="map" style={{ width: '500px', height: '740px' }} />;
 };
 
 export default NaverMap;

@@ -1,4 +1,4 @@
-import "./InputField.css";
+import "./InputField.module.css";
 import React, { useEffect } from "react";
 
 const InputField = ({

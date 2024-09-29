@@ -35,8 +35,8 @@ export default function Map() {
         }}
       ></span>
       <div className="flex w-full justify-center">
-        <div className="mx-3 h-[46rem] w-[30%] rounded-lg border bg-white shadow ">
-          {/* <form className="mx-auto max-w-full p-6" > */}
+        <div className="mx-3 h-[46rem] w-[30%] p-6 rounded-lg border bg-white shadow ">
+          {/* <form className="mx-auto max-w-full " > */}
           <h1 className="text-2xl font-bold ">원하시는 정보를 검색해주세요!</h1>
           <p className="mt-2 text-base">정보를 남겨주시면 친절하게 도와드리겠습니다.</p>
           <div className="group relative z-0 my-8 w-full">

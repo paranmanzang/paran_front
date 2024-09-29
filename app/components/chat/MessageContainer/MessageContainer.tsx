@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { ChatMessageModel } from "@/app/model/chat/chat.model";
-import "./MessageContainer.css";
+import "./MessageContainer.module.css";
 
 interface MessageContainerProps {
   messages: ChatMessageModel[]; // props로 메시지 리스트를 받음

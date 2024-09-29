@@ -81,7 +81,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
   const getBookImage = (bookId: number) => {
     // refId를 사용하여 파일 찾기 (bookId가 아니라 refId로 참조)
     const bookFile = files.bookFiles.find(file => file.refId === bookId);
-    return bookFile ? bookFile.path : "https://via.placeholder.com/400x380"; // 기본 이미지 제공
+    return bookFile ? bookFile.path : "https://picsum.photos/400/380"; // 기본 이미지 제공
   };
 
   return (
@@ -121,8 +121,10 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
                 width={400}
                 height={380}
                 className="rounded-t-lg"
+                //src={"https://picsum.photos/400/380"}
                 src={getBookImage(book.id)} // 파일 경로 적용
                 alt={`cover of ${book.title}`}
+                priority
               />
             </Link>
             <div className="p-5">

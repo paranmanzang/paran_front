@@ -95,6 +95,7 @@ const GroupRow: React.FC<GroupRowProps> = ({ active, onSelect }) => {
                 className="rounded-t-lg"
                 src={group.image || "https://picsum.photos/400/380"}
                 alt={`cover`}
+                priority
               />
             </Link>
             <div className="p-5">
