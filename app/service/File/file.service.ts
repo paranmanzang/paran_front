@@ -3,13 +3,13 @@ import axios from 'axios';
 import qs from 'qs';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8090/api/files', // Spring Boot API 기본 URL
+    baseURL: 'http://localhost:8000/api/files', // Spring Boot API 기본 URL
 });
 
 // 파일 리스트 조회
-export const selectFileList = async (refIdList: number[], type: string): Promise<FileModel[][]> => {
+export const selectFileList = async (refIdList: number[], type: string): Promise<FileModel[]> => {
     try {
-        const response = await api.get<FileModel[][]>('/list', {
+        const response = await api.get<FileModel[]>('/list', {
             params: { type: type, refIdList: refIdList },
             paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' })
         });

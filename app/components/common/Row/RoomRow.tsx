@@ -35,17 +35,16 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
       if (data) {
         dispatch(saveRooms(data))
         const refIdList: number[] = data.map(data => data.id);
-        console.log(refIdList);
-        // selectFileList(refIdList, "room").then(response => {
-        //   console.log("파일: ", response);
-        //   if (response) dispatch(saveFiles(response))
-        // })
+        selectFileList(refIdList, "room").then(response => {
+          console.log(response)
+          if (response) dispatch(saveFiles(response))
+        })
 
       }
     })
 
 
-  }, [active, dispatch]);
+  }, [active, dispatch, page]);
 
 
   const handleLikeChange = (active: boolean) => {
@@ -68,7 +67,7 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
   };
   return (
     <>
-      {files}
+
       {rooms.length > 0 ? (
         rooms.map((room: RoomModel) => (
           <div className="relative max-w-sm" key={room.id}>
@@ -90,17 +89,31 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
                 }`}
               onClick={handleClick}
             >
-              <Link href={`/rooms/2`}>
-                <Image
-                  width={400}
-                  height={330}
-                  className="rounded-t-lg"
-                  src={"https://picsum.photos/400/380"}
-                  alt={`cover`}
-                />
-              </Link>
+              {files.roomFiles.find(({ refId }) => room.id === refId)?.path.includes("default.png") ? (
+                <Link href={`/rooms/${room.id}`}>
+                  <Image
+                    width={400}
+                    height={330}
+                    className="rounded-t-lg"
+                    src={"https://picsum.photos/400/380"}
+                    alt={`cover`}
+                  />
+                </Link>
+              ) : (
+                <Link href={`/rooms/${room.id}`}>
+                  <Image
+                    width={400}
+                    height={330}
+                    className="rounded-t-lg"
+                    src={`http://localhost:8000/api/files/one?path=${files.roomFiles.find(({ refId }) => room.id === refId)?.path
+                      }`}
+                    alt={files.roomFiles.find(({ refId }) => room.id === refId)?.path || "No image available"}
+                  />
+                </Link>
+              )}
+
               <div className="p-5">
-                <Link href={`/rooms/2`}>
+                <Link href={`/rooms/${room.id}`}>
                   <h5 className={`mb-2 text-lg font-medium tracking-tight ${isActive ? 'text-green-600' : 'text-gray-900'
                     } dark:text-white`}>
                     {room.name}
