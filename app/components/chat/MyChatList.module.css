@@ -1,0 +1,45 @@
+.ListOne{
+  display: flex;
+  justify-content: space-around;
+  padding: 10px; 
+  margin: 10px;
+  border-bottom: 1px solid #888;
+}
+
+.number{
+  display: inline-block;
+  padding: 0 10px;
+  background-color: #ffcc00;
+  border-radius: 50%;
+  font-size: 12px;
+  color: #666;
+}
+
+.listUp {
+  visibility: hidden;
+  position: absolute;
+  z-index: 10;
+  display: inline-block;
+  width: 20rem; /* 80 * 0.25rem = 20rem */
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  background-color: #ffffff;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.125rem;
+  color: #6b7280;
+  opacity: 0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  transition: opacity 0.3s ease;
+}
+
+.listUp > * + * {
+  margin-top: 0.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .listUp {
+    border-color: #4b5563;
+    background-color: #1f2937;
+    color: #9ca3af;
+  }
+}

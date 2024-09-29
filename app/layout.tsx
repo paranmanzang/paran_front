@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ThemeModeScript } from "flowbite-react";
 import "./globals.css";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
@@ -15,15 +14,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <head>
-        <title>Paranmanzang</title>
-        <ThemeModeScript />
+        {/* <ThemeModeScript /> */}
       </head>
       <body>
-        <StoreProvider >
+        <StoreProvider>
           <Header />
           <main className="mb-6 pb-6">{children}</main>
           <Footer />

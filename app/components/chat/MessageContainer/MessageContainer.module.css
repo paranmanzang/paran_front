@@ -1,16 +1,19 @@
-.message-container{
+.messageContainer{
   background: #BCF0DA;
   min-width: 94vh;
   overflow-y: auto;
   max-height: 400px;
+  min-height: 100dvh;
+  margin-bottom: 2.25rem;
+  padding:5rem;
 }
-.system-message-container {
+.systemMessageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.system-message {
+.systemMessage {
   background-color: #55667758;
   border-radius: 100px;
   text-align: center;
@@ -18,12 +21,12 @@
   padding: 2px 15px;
   font-size: 14px;
 }
-.my-message-container {
+.myMessageContainer {
   display: flex;
   justify-content: flex-end;
   margin-bottom: 0.938rem;
 }
-.my-message {
+.myMessage {
   background-color: #f7e600;
   border-radius: 8px;
   padding: 8px;
@@ -31,37 +34,37 @@
   font-size: 18px;
 }
 
-.your-message-container {
+.yourMessageContainer {
   display: flex;
   justify-content: flex-start;
   margin-bottom: 1.5rem;
   align-items: center;
 }
-.your-message {
+.yourMessage {
   background-color: white;
   border-radius: 8px;
   padding: 8px;
   max-width: 200px;
   font-size: 18px;
 }
-.your-checked{
+.yourChecked{
  font-size: 14px;
  padding: 10px 10px 0; 
 
 }
-.my-checked{
+.myChecked{
  font-size: 14px;
  padding: 10px 10px 0; 
 }
 
-.profile-image {
+.profileImage {
   width: 38px;
   height: 38px;
   border-radius: 100px;
   margin-right: 10px;
 }
 
-.message-time {
+.messageTime {
   font-size: 0.8rem;
   color: gray;
   margin-left: 10px;

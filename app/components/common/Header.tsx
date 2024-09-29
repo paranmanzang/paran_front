@@ -1,12 +1,12 @@
 "use client";
-import { DarkThemeToggle } from "flowbite-react";
+// import { DarkThemeToggle } from "flowbite";
 import { LuBellRing } from "react-icons/lu";
 
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "./Nav";
-import paranLogo from "../../assets/paranLogo.png";
+import paranLogo from "@/app/assets/paranLogo.png";
 import { logout } from "@/app/service/user/logout.service";
 
 export default function Header() {
@@ -70,7 +70,7 @@ export default function Header() {
               <li className="px-4 py-2 hover:underline">내용4</li>
             </ul>
             <Link
-              href="/users/logout"
+              href="/logout"
               className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
             >
               로그아웃
@@ -83,12 +83,6 @@ export default function Header() {
           {/* 로그인 안되어있으면 로그인 띄우기 */}
           <div className="relative">
             {/* {user.login ?  */}
-            <Link
-              href="/users/logout"
-              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
-            >
-              로그아웃
-            </Link>
             <button onClick={() => onlogout()}
               className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
             >
@@ -158,7 +152,7 @@ export default function Header() {
           </button>
 
           <div className="mx-2 px-2">
-            <DarkThemeToggle />
+            {/* <DarkThemeToggle /> */}
           </div>
         </div>
 

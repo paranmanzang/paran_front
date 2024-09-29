@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Link from "next/link";
 
-import "./MyChatList.css";
+import styles from"./MyChatList.module.css";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
 
 interface ChatRoomListProps {
@@ -44,14 +44,13 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
       </button>
       <ul
         id="popover-bottom"
-        className="listUp invisible absolute z-10 inline-block w-80 space-y-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-lg text-gray-500 opacity-0 shadow-sm transition-opacity
-         dark:border-gray-600 dark:bg-gray-800 dark:text-gray-400"
+        className={styles.listUp} 
       >
         {filteredChatRooms && filteredChatRooms.length > 0 ? (
           filteredChatRooms.map((room) => (
-            <li key={room.roomId} className="ListOne">
+            <li key={room.roomId} className={styles.ListOne}>
               <Link href={`/chats/${room.roomId}`}>{room.name}</Link>
-              <span className="number">{room.unReadMessageCount}</span>
+              <span className={styles.number}>{room.unReadMessageCount}</span>
             </li>
           ))
         ) : (

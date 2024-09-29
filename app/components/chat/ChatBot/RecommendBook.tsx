@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import KakaoChat from "../KakaoChat";
-import "./RecommendBook.css";
+import styles from"./RecommendBook.module.css";
 import { PiRadioButtonDuotone } from "react-icons/pi";
 import { PiRadioButtonFill } from "react-icons/pi";
 import { IoIosSearch } from "react-icons/io";
@@ -46,8 +46,8 @@ export default function RecommendBook() {
   return (
     <div className="relative">
       <div className="fixed bottom-8 right-6 z-30">
-        <div id="targetItem" className={isHidden ? "hidden" : ""}>
-          {answer &&<div id="answerTag">추천 결과: {answer}</div>}
+        <div id={styles.targetItem} className={isHidden ? "hidden" : ""}>
+          {answer &&<div id={styles.answerTag}>추천 결과: {answer}</div>}
           <form onSubmit={handleSubmit}>
             <input
               type="text"
@@ -62,7 +62,7 @@ export default function RecommendBook() {
         </div>
 
         <div className="fixed bottom-6 right-6 z-30">
-          <button type="button" id="triggerBtn" onClick={handleToggle}>
+          <button type="button" id={styles.triggerBtn} onClick={handleToggle}>
             {isHidden ? <PiRadioButtonDuotone /> : <PiRadioButtonFill />}
           </button>
           <KakaoChat />

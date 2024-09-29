@@ -90,9 +90,7 @@ instance.interceptors.response.use(
     const originalRequest = error.config;
 
     // 응답 에러 처리 (예: 토큰 만료 시 로그아웃 처리)
-    if (error.response?.status === 401 && !originalRequest._retry) {
-      originalRequest._retry = true;
-
+    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
       console.warn('401 Unauthorized - attempting to refresh token');
 
       // Refresh token으로 accessToken 재발급 시도
@@ -107,6 +105,7 @@ instance.interceptors.response.use(
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return instance(originalRequest); // 실패했던 요청을 재시도
         }
+        
       } catch (refreshError) {
         console.error('Refresh token failed:', refreshError);
         // removeAccessToken();
