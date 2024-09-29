@@ -27,6 +27,10 @@ export interface AccountCancelModel {
   paymentKey: string;     // 결제 번호
   cancelReason: string;   // 취소 사유
 }
+export interface AmountModel {
+  currency: string;
+  value: number;
+}
 
 // 상태 인터페이스 정의
 interface AccountState {

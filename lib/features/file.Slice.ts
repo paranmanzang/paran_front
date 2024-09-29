@@ -15,6 +15,7 @@ const fileSlice = createSlice({
             state.aboardFiles = action.payload.filter(file => file.type === FileType.ABOARD);
             state.groupPostFiles = action.payload.filter(file => file.type === FileType.GROUP_POST);
             state.bookFiles = action.payload.filter(file => file.type === FileType.BOOK);
+
         },
         // 현재 파일을 저장
         saveCurrentFile: (state, action: PayloadAction<FileModel | null>) => {
@@ -24,6 +25,7 @@ const fileSlice = createSlice({
         saveFileToDelete: (state, action: PayloadAction<FileDeleteModel | null>) => {
             state.fileToDelete = action.payload;
         },
+
         // 새로운 파일 추가 (타입별로 추가)
         addFile: (state, action: PayloadAction<FileModel>) => {
             switch (action.payload.type) {
@@ -104,6 +106,7 @@ const fileSlice = createSlice({
     },
 });
 
+
 // Selectors
 export const getFiles = (state: RootState) => ({
     userFiles: state.file.userFiles,
@@ -116,6 +119,7 @@ export const getCurrentFile = (state: RootState) => state.file.currentFile;
 export const getFileToDelete = (state: RootState) => state.file.fileToDelete;
 export const getLoading = (state: RootState) => state.file.isLoading;
 export const getError = (state: RootState) => state.file.error;
+
 
 export const {
     saveFiles,

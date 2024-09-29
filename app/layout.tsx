@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { ThemeModeScript } from "flowbite-react";
 import "./globals.css";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
@@ -18,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <ThemeModeScript />
+        {/* <ThemeModeScript /> */}
       </head>
       <body>
         <StoreProvider>
