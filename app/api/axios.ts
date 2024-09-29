@@ -40,7 +40,7 @@ instance.interceptors.request.use(
     console.log('Request config before adding token:', config);
 
     // 로그인 요청에는 토큰을 추가하지 않음
-    if (config.url === '/login') {
+    if (config.url === '/logout') {
       const token = getAccessToken();
       const refreshToken = getRefreshToken();
       if (token && refreshToken) {

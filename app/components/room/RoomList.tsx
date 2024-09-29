@@ -19,7 +19,7 @@ export default function RoomList() {
                 dispatch(saveRooms(data))
             }
         })
-        get().then(data => console.log("get data", data))
+        // get().then(data => console.log("get data", data))
     }, [dispatch])
 
     const onClick = (id: number | undefined) => {

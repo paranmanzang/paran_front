@@ -27,7 +27,7 @@ export const getGrouplistByUserNickname = async (nickname: string, page: number,
 };
 
 // 소모임 등록
-export const addGroup = async (groupModel: GroupModel): Promise<GroupResponseModel | ExceptionResponseModel> => {
+export const insertGroup = async (groupModel: GroupModel): Promise<GroupResponseModel | ExceptionResponseModel> => {
     try {
         const response = await api.post<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/plusgroup', groupModel);
         return response.data;

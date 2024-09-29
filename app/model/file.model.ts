@@ -1,7 +1,14 @@
 // fileTypes.ts
+export enum FileType {
+    USER = "user",
+    ROOM = "room",
+    ABOARD = "aBoard",
+    GROUP_POST = "groupPost",
+    BOOK = "book"
+}
 export interface FileModel {
     id: string;
-    type: string;
+    type: FileType;
     path: string;
     refId: number;
     uploadAt: Date;
@@ -11,18 +18,24 @@ export interface FileDeleteModel {
     path: string;
 }
 
-// 상태 인터페이스 정의
 export interface FileState {
-    files: FileModel[];
+    userFiles: FileModel[];
+    roomFiles: FileModel[];
+    aboardFiles: FileModel[];
+    groupPostFiles: FileModel[];
+    bookFiles: FileModel[];
     currentFile: FileModel | null;
     fileToDelete: FileDeleteModel | null;
     isLoading: boolean;
     error: string | null;
 }
 
-// 초기 상태
 export const initialFileState: FileState = {
-    files: [],
+    userFiles: [],
+    roomFiles: [],
+    aboardFiles: [],
+    groupPostFiles: [],
+    bookFiles: [],
     currentFile: null,
     fileToDelete: null,
     isLoading: false,

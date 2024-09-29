@@ -1,43 +1,11 @@
 "use client"
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import DetailButton from "./DetailButton";
-import { AppDispatch, RootState } from "@/lib/store";
-import { getCurrentGroup, saveError, saveGroupPosts, saveLoading } from "@/lib/features/group/group.Slice";
-import { useEffect } from "react";
-import { getPostsByGroupId } from "@/app/service/group/groupPost.service";
+import { getCurrentGroup} from "@/lib/features/group/group.Slice";
+import { RootState } from "@/lib/store";
 
 export default function Details() {
-  const dispatch = useDispatch<AppDispatch>();
   const group = useSelector((state: RootState) => getCurrentGroup(state));
-  const groupId = group?.id ?? ''
-  const page = 5 // 임의 값
-  const size = 5 // 임의 값
-  const postCategory = '공지 사항' // '공지 사항' | '자유게시판'
-  useEffect(() => {
-    dispatch(saveLoading(true));
-<<<<<<< HEAD:app/components/common/GroupDetails.tsx
-    getPostsByGroupId(Number(groupId), page, size, postCategory)
-=======
-    getPostsByGroupId(Number(groupId), page, size)
->>>>>>> 04f7c93aae02e8fd38eeace97c6c9fafcddd80e0:app/components/common/Details/GroupDetails.tsx
-      .then(result => {
-        if (result && Array.isArray(result)) {
-          dispatch(saveGroupPosts(result)); // 소모임 게시판 게시글 저장
-        } else {
-          dispatch(saveError("소모임 게시판을 불러오는 중 오류가 발생했습니다."));
-        }
-      })
-      .catch((error) => {
-        dispatch(saveError((error as Error).message || "소모임 게시판을 불러오는 중 오류가 발생했습니다."));
-      })
-      .finally(() => {
-        dispatch(saveLoading(false)); // 항상 로딩 종료
-      });
-<<<<<<< HEAD:app/components/common/GroupDetails.tsx
-  }, [dispatch, groupId, postCategory]);
-=======
-  }, [dispatch, groupId]);
->>>>>>> 04f7c93aae02e8fd38eeace97c6c9fafcddd80e0:app/components/common/Details/GroupDetails.tsx
 
   return (
     <div>

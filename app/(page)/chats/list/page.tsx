@@ -19,6 +19,7 @@ export default function ChatList() {
     dispatch(saveLoading(true));
     getChatList({ nickname })
       .then(result => {
+        console.log(result)
         if (result && Array.isArray(result)) {
           setChatRooms(result)
         } else {
