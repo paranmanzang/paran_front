@@ -1,7 +1,6 @@
 "use client"
 import React, { useCallback, useRef, useState } from 'react'
 import InputField from "../InputField/InputField";
-import './ChatPageStyle.module.css'
 import MessageContainer from '../MessageContainer/MessageContainer';
 import { insertMessage } from '@/app/service/chat/chatMessage.service';
 import { ChatMessageModel } from '@/app/model/chat/chat.model';

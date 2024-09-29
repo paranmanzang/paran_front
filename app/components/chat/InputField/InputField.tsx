@@ -1,4 +1,4 @@
-import "./InputField.module.css";
+import styles from "./InputField.module.css";
 import React, { useEffect } from "react";
 
 const InputField = ({
@@ -51,8 +51,8 @@ const InputField = ({
   // text -> 글자 작성할때 위로 올라가면서 작성 되도록 함.
 
   return (
-    <div className="input-area">
-      <form onSubmit={handleSubmit} className="input-container">
+    <div className={styles.inputArea}>
+      <form onSubmit={handleSubmit} className={styles.inputContainer}>
         <textarea
           id="autoResize"
           rows={1} // 최소 1줄로 시작
@@ -67,7 +67,7 @@ const InputField = ({
           onKeyDown={handleEnter}
           className="w-[90%] rounded border p-2"
         />
-        <button disabled={message === ""} type="submit" className="send-button">
+        <button disabled={message === ""} type="submit" className={styles.sendButton}>
           <svg
             className="size-5 rotate-45 rtl:-rotate-45 "
             aria-hidden="true"

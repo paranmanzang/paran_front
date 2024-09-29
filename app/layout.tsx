@@ -15,15 +15,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
   return (
     <html lang="en">
       <head>
-        <title>Paranmanzang</title>
         <ThemeModeScript />
       </head>
       <body>
-        <StoreProvider >
+        <StoreProvider>
           <Header />
           <main className="mb-6 pb-6">{children}</main>
           <Footer />

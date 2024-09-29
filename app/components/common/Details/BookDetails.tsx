@@ -9,6 +9,7 @@ import DetailButton from "./DetailButton";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { getCurrentBook } from "@/lib/features/group/book.Slice";
+import Image from "next/image";
 
 interface DetailsProps {
   bookId: string;
@@ -33,7 +34,7 @@ export default function Details({ bookId }: DetailsProps) {
     <div>
       <div className="h-[300px] w-full justify-center bg-gray-400">
         {images.map(file => (
-          <img key={file.id} src={`http://localhost:8000/api/files/one?path=${file.path}`} alt={file.path} />
+          <Image key={file.id} src={`http://localhost:8000/api/files/one?path=${file.path}`} alt={file.path} />
         ))}
         <p>메인 상세보기 - {book.title}</p>
         <p>저자: {book.author}</p>

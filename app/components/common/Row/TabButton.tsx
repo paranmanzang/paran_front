@@ -1,15 +1,17 @@
 "use client";
+
 import { useState } from "react";
 import GroupRow from "./GroupRow";
 import RoomRow from "./RoomRow";
 import BookRow from "./BookRow";
-import ChatRow from "./ChatRow";
+// import ChatRow from "./ChatRow";
 
-export default function TabButton() {
-  // 현재 선택된 탭 상태
-  const [activeTab, setActiveTab] = useState("Groups");
+export default function TabButton({ initialTab }) {
+  // 서버에서 받은 초기 탭 상태를 useState에 반영
+  const [activeTab, setActiveTab] = useState(initialTab || "Groups");
+
   // 탭 클릭 시 상태 변경 함수
-  const handleTabClick = (tab: string) => {
+  const handleTabClick = (tab: any) => {
     setActiveTab(tab);
   };
 
@@ -21,8 +23,8 @@ export default function TabButton() {
         return <RoomRow active={true} onSelect={() => { }} />;
       case "Books":
         return <BookRow active={true} onSelect={() => { }} />;
-      case "Chats":
-        return <ChatRow active={true} onSelect={() => { }} />;
+      // case "Chats":
+      //   return <ChatRow active={true} onSelect={() => { }} />;
       default:
         return null;
     }
@@ -44,7 +46,8 @@ export default function TabButton() {
               소모임
             </button>
           </li>
-          <li className="me-2">
+          {/* 채팅부분은 소모임에 참여가 되어있는 user 만 확인 할 수 있도록 만들어야 함. */}
+          {/* <li className="me-2">
             <button
               type="button"
               className={`inline-block rounded-t-lg border-b-2 p-4 ${activeTab === "Chats"
@@ -55,7 +58,7 @@ export default function TabButton() {
             >
               소모임-채팅
             </button>
-          </li>
+          </li> */}
           <li className="me-2">
             <button
               type="button"
@@ -87,4 +90,16 @@ export default function TabButton() {
       </ul>
     </>
   );
+}
+
+// 서버 사이드에서 탭 상태 초기값을 가져오는 함수
+export async function getServerSideProps(context) {
+  // 서버에서 초기 탭을 결정하는 로직 (필요에 따라 수정)
+  const initialTab = "Groups"; // 기본 값 설정 (예: Groups)
+  
+  return {
+    props: {
+      initialTab, // 초기 탭 값을 클라이언트로 전달
+    },
+  };
 }
