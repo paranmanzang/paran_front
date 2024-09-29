@@ -6,7 +6,7 @@ import { AccountModel } from '@/app/model/account.model';
 // 결제 정보 저장
 export const savePayment = async (model: AccountResultModel): Promise<boolean> => {
   try {
-    const response = await api.post<boolean>(requests.fetchRooms + '/success', model);
+    const response = await api.post<boolean>(requests.fetchRooms + '/accounts/success', model);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -25,7 +25,7 @@ export const savePayment = async (model: AccountResultModel): Promise<boolean> =
 // 주문번호로 결제 정보 조회
 export const findByOrderId = async (orderId: string): Promise<string> => {
   try {
-    const response = await api.get<string>(requests.fetchRooms + '/findPayment', {
+    const response = await api.get<string>(requests.fetchRooms + '/accounts/findPayment', {
       params: { orderId },
     });
     return response.data;
@@ -46,7 +46,7 @@ export const findByOrderId = async (orderId: string): Promise<string> => {
 // 결제 취소
 export const cancelPayment = async (model: AccountCancelModel): Promise<boolean> => {
   try {
-    const response = await api.put<boolean>(requests.fetchRooms + '/cancel', model);
+    const response = await api.put<boolean>(requests.fetchRooms + '/accounts/cancel', model);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -65,7 +65,7 @@ export const cancelPayment = async (model: AccountCancelModel): Promise<boolean>
 // 예약 정보로 결제 정보 조회
 export const findByBooking = async (bookingId: number): Promise<AccountModel> => {
   try {
-    const response = await api.get<AccountModel>(requests.fetchRooms + `/findByBooking/${bookingId}`);
+    const response = await api.get<AccountModel>(requests.fetchRooms + `/accounts/findByBooking/${bookingId}`);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -83,7 +83,7 @@ export const findByBooking = async (bookingId: number): Promise<AccountModel> =>
 // 소모임 정보로 결제 리스트 조회
 export const findByGroup = async (groupId: number, page: number, size: number): Promise<AccountModel[]> => {
   try {
-    const response = await api.get<Page<AccountModel>>(requests.fetchRooms + `/list/groups/${groupId}`, { params: { page, size } });
+    const response = await api.get<Page<AccountModel>>(requests.fetchRooms + `/accounts/list/groups/${groupId}`, { params: { page, size } });
     return response.data.content;
   } catch (error: any) {
     if (error.response) {
@@ -101,7 +101,7 @@ export const findByGroup = async (groupId: number, page: number, size: number): 
 // 공간 정보로 결제 리스트 조회
 export const findByRoom = async (roomId: number, page: number, size: number): Promise<AccountModel[]> => {
   try {
-    const response = await api.get<Page<AccountModel>>(requests.fetchRooms + `/list/rooms/${roomId}`, { params: { page, size } });
+    const response = await api.get<Page<AccountModel>>(requests.fetchRooms + `/accounts/list/rooms/${roomId}`, { params: { page, size } });
     return response.data.content;
   } catch (error: any) {
     if (error.response) {
