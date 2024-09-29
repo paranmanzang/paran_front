@@ -2,15 +2,16 @@
 import Link from "next/link";
 import AccountButton from "@/app/components/common/AccountButton";
 import { useState } from "react";
+import Alert from "../common/Alert";
 
 interface ComLikeListProps {
   type: "all" | "groups" | "rooms";
 }
 
 const ComLikeList: React.FC<ComLikeListProps> = ({ type }) => {
-  const [idModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const modalOpen = () => {
-     
+     setIsModalOpen(true);
   }
   
   return ( 
@@ -44,6 +45,7 @@ const ComLikeList: React.FC<ComLikeListProps> = ({ type }) => {
              */}
 
               <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">예약요청</button>
+              <Alert message={'예약요청이 완료되었습니다.'} isOpen={isModalOpen} onClose={() => {true}}/>
               <AccountButton />
 
               {/* <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">참여하기</button> */}
