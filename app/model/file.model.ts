@@ -13,7 +13,7 @@ export interface FileDeleteModel {
 
 // 상태 인터페이스 정의
 export interface FileState {
-    files: FileModel[];
+    files: FileModel[][];
     currentFile: FileModel | null;
     fileToDelete: FileDeleteModel | null;
     isLoading: boolean;

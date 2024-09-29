@@ -1,14 +1,18 @@
 import { FileDeleteModel, FileModel } from '@/app/model/file.model';
 import axios from 'axios';
+import qs from 'qs';
 
 const api = axios.create({
     baseURL: 'http://localhost:8090/api/files', // Spring Boot API 기본 URL
 });
 
 // 파일 리스트 조회
-export const selectFileList = async (refId: number, type: string): Promise<FileModel[]> => {
+export const selectFileList = async (refIdList: number[], type: string): Promise<FileModel[][]> => {
     try {
-        const response = await api.get('/list/' + refId, { params: { type: type } });
+        const response = await api.get<FileModel[][]>('/list', {
+            params: { type: type, refIdList: refIdList },
+            paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' })
+        });
         return response.data;
     } catch (error) {
         console.error('Error select files:', error);
@@ -26,9 +30,9 @@ export const loadFile = async (path: string): Promise<any> => {
     }
 };
 // 파일 올리기
-export const uploadFile = async (path: string): Promise<any> => {
+export const uploadFile = async (file: any[], type: string, refId: number): Promise<any> => {
     try {
-        const response = await api.post('/upload',);
+        const response = await api.post('/upload', { FormData: { file: file, type: type, refId: refId } });
         return response.data;
     } catch (error) {
         console.error('Error load file:', error);
