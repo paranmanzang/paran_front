@@ -17,7 +17,7 @@ interface RoomRowProps {
   onSelect: () => void;
 }
 
-const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
+const RoomRow = ({ active, onSelect }) => {
   const [isActive, setIsActive] = useState<boolean>(active);
   const rooms = useSelector(getRooms);
   const files = useSelector(getFiles)
@@ -74,7 +74,6 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
   };
   return (
     <>
-
       {rooms.length > 0 ? (
         rooms.map((room: RoomModel) => (
           <div className="relative max-w-sm" key={room.id}>

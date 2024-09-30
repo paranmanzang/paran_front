@@ -9,7 +9,7 @@ interface AlertProps {
   showConfirm?: boolean;
 }
 
-const Alert: React.FC<AlertProps> = ({ message, isOpen, onClose, onConfirm, showConfirm = false }) => {
+const Alert = ({ message, isOpen, onClose, onConfirm, showConfirm = false }) => {
   if (!isOpen) return null;
 
   return (
@@ -44,4 +44,4 @@ const Alert: React.FC<AlertProps> = ({ message, isOpen, onClose, onConfirm, show
   );
 };
 
-export default Alert;
+export default Alert{message, isOpen, onClose, onConfirm, showConfirm = false };

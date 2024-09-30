@@ -19,3 +19,4 @@ export const fileAPI = {
         return api.delete<boolean>('/delete', { data: fileModel });
     }
 }
+

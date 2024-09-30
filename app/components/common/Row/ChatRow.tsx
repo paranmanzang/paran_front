@@ -9,7 +9,7 @@ interface ChatRowProps {
   onSelect: () => void;
 }
 
-const ChatRow: React.FC<ChatRowProps> = ({ active, onSelect }) => {
+const ChatRow = ({ active, onSelect }: ChatRowProps) => {
   const [isActive, setIsActive] = useState<boolean>(active);
 
   useEffect(() => {
