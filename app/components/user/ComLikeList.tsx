@@ -8,7 +8,7 @@ interface ComLikeListProps {
   type: "all" | "groups" | "rooms";
 }
 
-const ComLikeList: React.FC<ComLikeListProps> = ({ type }) => {
+const ComLikeList = ({ type }: ComLikeListProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalOpen = () => {
      setIsModalOpen(true);
