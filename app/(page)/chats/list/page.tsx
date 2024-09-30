@@ -3,13 +3,12 @@ import CardRow from "@/app/components/chat/CardRow";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
 import { getChatList } from "@/app/service/chat/chatRoom.service";
 import { getError, getIsLoading, saveError, saveLoading } from "@/lib/features/chat/chat.Slice";
-import { AppDispatch, RootState } from "@/lib/store";
+import {useAppDispatch} from "@/lib/store";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 export default function ChatList() {
   const nickname = 'A'; // 임의로 넣어둠
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null)
   const loading = getIsLoading;
   const error = getError;

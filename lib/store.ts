@@ -13,6 +13,7 @@ import categorySlice from './features/group/category.Slice';
 import commentSlice from './features/comment/comment.Slice';
 import chatSlice from './features/chat/chat.Slice';
 import authReducer from './features/account.Slice'
+import {useDispatch} from "react-redux";
  
 export const makeStore = () => {
   return configureStore({
@@ -40,3 +41,4 @@ export type AppStore = ReturnType<typeof makeStore>;
 // RootState와 AppDispatch 타입을 추론합니다.
 export type RootState = ReturnType<AppStore['getState']>;
 export type AppDispatch = AppStore['dispatch'];
+export const useAppDispatch: () => AppDispatch = useDispatch;
