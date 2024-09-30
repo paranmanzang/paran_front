@@ -3,25 +3,22 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import HeartCheckbox from "./HeartCheckBox";
-import { AppDispatch, RootState } from "@/lib/store";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+
 import { getError, getGroups, getIsLoading, saveError, saveGroups, saveLoading } from "@/lib/features/group/group.Slice";
-import { getGrouplist } from "@/app/service/group/group.service";
 
 interface GroupRowProps {
   active: boolean;
   onSelect: () => void;
 }
 
-const GroupRow: React.FC<GroupRowProps> = ({ active, onSelect }) => {
+const GroupRow = ({ active, onSelect } : GroupRowProps) => {
   const [isActive, setIsActive] = useState<boolean>(active);
-  const dispatch = useDispatch<AppDispatch>();
-  const groups = useSelector((state: RootState) => getGroups(state))
-  const loading = useSelector((state: RootState) => getIsLoading(state));
-  const error = useSelector((state: RootState) => getError(state));
+  const groups = useSelector(getGroups)
+  const loading = useSelector(getIsLoading);
+  const error = useSelector(getError);
   const page = 5; //임의로 넣어둠
   const size = 5; //임의로 넣어둠
-
 
   const handleLikeChange = (active:boolean) => {
     console.log('좋아요 상태:', active);
@@ -30,22 +27,7 @@ const GroupRow: React.FC<GroupRowProps> = ({ active, onSelect }) => {
 
   useEffect(() => {
     setIsActive(active);
-    dispatch(saveLoading(true));
-    getGrouplist(page, size)
-      .then(result => {
-        if (result && Array.isArray(result)) {
-          dispatch(saveGroups(result));
-        } else {
-          dispatch(saveError("소모임 목록을 불러오는 중 오류가 발생했습니다."));
-        }
-      })
-      .catch((error) => {
-        dispatch(saveError((error as Error).message || "소모임 목록을 불러오는 중 오류가 발생했습니다."));
-      })
-      .finally(() => {
-        dispatch(saveLoading(false)); // 항상 로딩 종료
-      });
-  }, [active, dispatch]);
+  }, []);
 
   const handleClick = (): void => {
     onSelect();
@@ -55,7 +37,7 @@ const GroupRow: React.FC<GroupRowProps> = ({ active, onSelect }) => {
     return <p>Loading...</p>;
   }
 
-  if (error) {
+  if(error) {
     return <p>Error: {error}</p>;
   }
 
