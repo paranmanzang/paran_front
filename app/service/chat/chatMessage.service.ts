@@ -1,7 +1,7 @@
 import requests from "@/app/api/requests";
 import api from "@/app/api/axios";
 import { ChatMessageModel } from "@/app/model/chat/chat.model";
-import chatsAPI from "@/app/api/generate/api.chats";
+import chatsAPI from "@/app/api/generate/chats.api";
 
 export const findMessageList = async ({ roomId, nickname, onMessage }: { roomId: string, nickname: string, onMessage: (message: ChatMessageModel) => void }): Promise<void> => {
     try {
