@@ -10,7 +10,7 @@ interface ChatPageProps {
   roomId: string;
 }
 
-const ChatPage: React.FC<ChatPageProps> = ({ messages, roomId }) => {
+const ChatPage = ({ messages, roomId} : ChatPageProps) => {
   const [message, setMessage] = useState("");
   const isSuccessRef = useRef<boolean | null>(null);
   const nickname = 'A' // 임의로 넣어둠

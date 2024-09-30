@@ -7,7 +7,7 @@ interface MessageContainerProps {
   currentUserNickname: string; // 현재 사용자의 닉네임을 받음
 }
 
-const MessageContainer: React.FC<MessageContainerProps> = ({ messages, currentUserNickname }) => {
+const MessageContainer = ({ messages, currentUserNickname }: MessageContainerProps) => {
   const messageEndRef = useRef<HTMLDivElement | null>(null); // 마지막 메시지를 참조하는 ref
 
   // 새로운 메시지가 올 때마다 자동 스크롤

@@ -58,11 +58,11 @@ instance.interceptors.response.use(
   async (error: AxiosError) => {
     console.error('Response error:', error);
 
-    const originalRequest = error.config;
-
-    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
-      originalRequest._retry = true;
-      console.warn('401 Unauthorized - attempting to refresh token');
+    if (error.response?.status === 401 && error.config && '_retry' in error.config) {
+      if (!error.config._retry) {
+        error.config._retry = true;
+        console.warn('401 Unauthorized - attempting to refresh token');
+     ;
 
       try {
         const refreshResponse = await instance.post('/reissue', {
@@ -75,7 +75,7 @@ instance.interceptors.response.use(
             setRefreshToken(refreshResponse.data.refreshToken);
           }
           instance.defaults.headers.common['Authorization'] = `Bearer ${refreshResponse.data.accessToken}`;
-          return instance(originalRequest);
+          return instance(error.config);
         }
       } catch (refreshError) {
         console.error('Refresh token failed:', refreshError);
@@ -87,7 +87,8 @@ instance.interceptors.response.use(
 
     return Promise.reject(error);
   }
-);
+  }
+)
 
 // API 함수들
 export const api = {

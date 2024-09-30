@@ -4,7 +4,7 @@ interface HeartCheckboxProps {
   onChange?: (isChecked: boolean) => void;
 }
 
-const HeartCheckbox: React.FC<HeartCheckboxProps> = ({ onChange }) => {
+const HeartCheckbox = ({ onChange }: HeartCheckboxProps) => {
   const [isChecked, setIsChecked] = useState(false);
 
   const handleChange = () => {

@@ -12,7 +12,7 @@ interface GroupRowProps {
   onSelect: () => void;
 }
 
-const GroupRow: React.FC<GroupRowProps> = ({ active, onSelect }) => {
+const GroupRow = ({ active, onSelect } : GroupRowProps) => {
   const [isActive, setIsActive] = useState<boolean>(active);
   const groups = useSelector(getGroups)
   const loading = useSelector(getIsLoading);

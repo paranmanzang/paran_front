@@ -25,9 +25,9 @@ export default function SideBar() {
   const [error, setError] = useState<string | null>(null);
 
   const books = getBooks
-  const groups = useSelector((state: RootState) => getGroups(state));
+  const groups = getGroups;
   // const chats = useSelector((state: RootState) => getChatRooms(state));
-  const rooms = useSelector((state: RootState) => getRooms(state));
+  const rooms = getRooms;
 
 
   const fetchTabData = async (tab: string) => {
@@ -35,10 +35,10 @@ export default function SideBar() {
     setError(null); // 이전 에러 메시지 초기화
     let url = "";
 
-    if (tab === "Rooms") url = "/api/rooms";
-    else if (tab === "Groups") url = "/api/groups/groups";
-    else if (tab === "Chats") url = "/api/chats";
-    else if (tab === "Books") url = "/api/books";
+    if (tab === "Rooms") url = `process.env.NEXT_PUBLIC_URL`;
+    else if (tab === "Groups") url = `process.env.NEXT_PUBLIC_URL`;
+    else if (tab === "Chats") url = `process.env.NEXT_PUBLIC_URL`;
+    else if (tab === "Books") url = `process.env.NEXT_PUBLIC_URL`;
 
     try {
       const response = await axios.get(url);

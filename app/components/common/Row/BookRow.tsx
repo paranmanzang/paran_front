@@ -17,7 +17,7 @@ interface BookRowProps {
   onSelect: () => void;
 }
 
-const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
+const BookRow = ({ active, onSelect }: BookRowProps) => {
   const [isActive, setIsActive] = useState<boolean>(active);
   const dispatch = useDispatch<AppDispatch>();
   const books = useSelector((state: RootState) => getBooks(state));
