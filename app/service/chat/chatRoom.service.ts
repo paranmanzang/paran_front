@@ -1,7 +1,9 @@
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
-import {saveError} from "@/lib/features/chat/chat.Slice";
+import {saveError, saveLoading} from "@/lib/features/chat/chat.Slice";
+import {AppDispatch} from "@/lib/store";
+import chatsAPI from "@/app/api/generate/api.chats";
 
 export const createRoom = async ({ roomName, nickname }: { roomName: string, nickname: string }): Promise<string | Boolean> => {
     try {
@@ -22,17 +24,19 @@ export const createRoom = async ({ roomName, nickname }: { roomName: string, nic
     }
 };
 
-export const getChatList = async ({ nickname }: { nickname: string }): Promise<Boolean | ChatRoomModel[]> => {
+export const findChatList = async ({ nickname,dispatch }: { nickname: string, dispatch: AppDispatch }): Promise<ChatRoomModel[]> => {
     try {
-        const response = await api.get<Boolean | ChatRoomModel[]>(`${requests.fetchChats}/room/getchatlist`, {
-            headers: {
-                'nickname': nickname
-            }
-        });
-        return response.data;
+        dispatch(saveLoading(true));
+        const response = await chatsAPI.findChatListAPI(nickname)
+        if (Array.isArray(response.data)) {
+            return response.data;
+        }
     } catch (error) {
-        console.error('방 찾기 중 오류 발생:', error);
-        return false;
+        dispatch(saveError("방 목록을 불러오는 중 오류가 발생했습니다."));
+        console.error("방 목록 불러오기 오류:", error);
+        return [];
+    } finally {
+        dispatch(saveLoading(false));
     }
 }
 
