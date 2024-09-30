@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import HeartCheckbox from "./HeartCheckBox";
-import { AppDispatch, RootState } from "@/lib/store";
+import {AppDispatch, RootState, useAppDispatch} from "@/lib/store";
 import { useDispatch, useSelector } from "react-redux";
 import { getBooks, getError, getIsLoading, saveBooks, saveCurrentBook, saveError, saveLoading } from "@/lib/features/group/book.Slice";
 import { findBookList } from "@/app/service/group/book.service";
@@ -19,11 +19,11 @@ interface BookRowProps {
 
 const BookRow = ({ active, onSelect }: BookRowProps) => {
   const [isActive, setIsActive] = useState<boolean>(active);
-  const dispatch = useDispatch<AppDispatch>();
-  const books = useSelector((state: RootState) => getBooks(state));
-  const loading = useSelector((state: RootState) => getIsLoading(state));
-  const error = useSelector((state: RootState) => getError(state));
-  const files = useSelector((state: RootState) => getFiles(state));
+  const dispatch = useAppDispatch();
+  const books = useSelector(getBooks);
+  const loading = useSelector(getIsLoading);
+  const error = useSelector(getError);
+  const files = useSelector(getFiles);
   const router = useRouter()
 
   const page = 5; // 임의로 넣어둠

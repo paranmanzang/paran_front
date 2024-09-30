@@ -1,19 +1,17 @@
-import {ExceptionResponseModel} from '@/app/model/error.model';
-import {
-    GroupModel,
-    GroupResponseModel,
-    JoiningModel,
-    PointModel,
-    PointResponseModel
-} from '@/app/model/group/group.model';
+import {GroupModel, JoiningModel, PointModel} from '@/app/model/group/group.model';
 import {groupsAPI} from "@/app/api/generate/groups.api";
 import {
-    addGroup, addGroupMember, addPoint, deleteGroup,
+    addGroupMember,
+    addPoint,
+    deleteGroup,
     deleteGroupMember,
     saveError,
     saveGroupMembers,
     saveGroups,
-    saveLoading, savePoints, updateGroup, updatePoint
+    saveLoading,
+    savePoints,
+    updateGroup,
+    updatePoint
 } from "@/lib/features/group/group.Slice";
 import {AppDispatch} from "@/lib/store";
 
@@ -90,7 +88,7 @@ export const disableGroupMember = async (groupId: number, nickname: string, disp
     try {
         dispatch(saveLoading(true));
         const response = await groupsAPI.disableGroupMemberAPI(groupId, nickname)
-        dispatch(deleteGroupMember({ groupId, nickname }));
+        dispatch(deleteGroupMember({groupId, nickname}));
     } catch (error: any) {
         dispatch(saveError("소모임 멤버 승인 취소 중 오류 발생했습니다."));
         console.error('Error disabling group member:', error.response?.data || error.message);
@@ -197,7 +195,7 @@ export const myGroupPoint = async (groupId: number, dispatch: AppDispatch): Prom
     try {
         dispatch(saveLoading(true));
         const response = await groupsAPI.myGroupPointAPI(groupId)
-        if(Array.isArray(response.data)){
+        if (Array.isArray(response.data)) {
             dispatch(savePoints(response.data))
         }
     } catch (error: any) {
@@ -213,7 +211,7 @@ export const usePoint = async (pointModel: PointModel, dispatch: AppDispatch): P
     try {
         dispatch(saveLoading(true));
         const response = await groupsAPI.usePointAPI(pointModel)
-        if('id' in response.data && 'point' in response.data){
+        if ('id' in response.data && 'point' in response.data) {
             dispatch(updatePoint(response.data))
         }
     } catch (error: any) {
@@ -229,7 +227,7 @@ export const cancelPoint = async (pointId: number, dispatch: AppDispatch): Promi
     try {
         dispatch(saveLoading(true));
         const response = await groupsAPI.cancelPointAPI(pointId)
-        if('id' in response.data && 'point' in response.data){
+        if ('id' in response.data && 'point' in response.data) {
             dispatch(updatePoint(response.data))
         }
     } catch (error: any) {

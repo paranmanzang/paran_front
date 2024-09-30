@@ -5,7 +5,7 @@ import { getCurrentGroup} from "@/lib/features/group/group.Slice";
 import { RootState } from "@/lib/store";
 
 export default function Details() {
-  const group = useSelector((state: RootState) => getCurrentGroup(state));
+  const group = useSelector(getCurrentGroup);
 
   return (
     <div>
