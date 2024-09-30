@@ -2,6 +2,7 @@ import { RoomModel, RoomUpdateModel, TimeModel } from "@/app/model/room.model";
 import api from "../axios";
 import requests from "../requests";
 import { BookingModel } from "@/app/model/bookings.model";
+import { dropBooking, findByGroupId, rejectBooking, saveState } from "@/app/service/room/booking.service";
 
 export const roomAPI = {
     saveRoomAPI: (roomModel: RoomModel) => {
@@ -32,8 +33,23 @@ export const roomAPI = {
         return api.get<TimeModel[]>(requests.fetchRooms + `/times/${roomId}`);
     },
 
-    // bookingId
+    // booking
     saveBookingAPI: (bookingModel: BookingModel) => {
-        return api.post<boolean>(requests.fetchRooms + '/add', bookingModel);
-    }
+        return api.post<BookingModel>(requests.fetchRooms + '/add', bookingModel);
+    },
+    saveStateAPI: (id: number) => {
+        return api.put<BookingModel>(requests.fetchRooms + `/state/${id}`);
+    },
+    rejectBookingAPI: (id: number) => {
+        return api.delete<boolean>(requests.fetchRooms + `/state/${id}`);
+    },
+    dropBookingAPI: (id: number) => {
+        return api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
+    },
+    findByGroupIdAPI: (groupId: number, page: number, size: number) => {
+        return api.get<Page<BookingModel>>(requests.fetchRooms + `/groups/list/${groupId}`, { params: { page, size } });
+    },
+    findByRoomIdAPI: (roomId: number, page: number, size: number) => {
+        return api.get<Page<BookingModel>>(requests.fetchRooms + `/rooms/list/${roomId}`, { params: { page, size } });
+    },
 }

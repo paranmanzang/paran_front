@@ -1,10 +1,11 @@
 import api from '../../api/axios';
 import { ExceptionResponseModel } from '@/app/model/error.model';
-import { AddressModel, AddressUpdateModel } from '@/app/model/room.model';
 import requests from '@/app/api/requests';
+import { AddressModel, AddressUpdateModel } from '@/app/model/address.model';
+import { AppDispatch } from '@/lib/store';
 
 // 주소 검색
-export const searchAddress = async (query: string): Promise<AddressModel[]> => {
+export const searchAddress = async (query: string, dispatch: AppDispatch): Promise<void> => {
   try {
     const response = await api.get<AddressModel[]>(requests.fetchRooms + '/search', {
       params: { query },
@@ -25,7 +26,7 @@ export const searchAddress = async (query: string): Promise<AddressModel[]> => {
 };
 
 // 주소 등록
-export const saveAddress = async (addressModel: AddressModel): Promise<boolean | ExceptionResponseModel> => {
+export const saveAddress = async (addressModel: AddressModel, dispatch: AppDispatch): Promise<void> => {
   try {
     const response = await api.post<boolean>(requests.fetchRooms + '/add', addressModel);
     return response.data;
@@ -44,7 +45,7 @@ export const saveAddress = async (addressModel: AddressModel): Promise<boolean |
 };
 
 // 주소 수정
-export const updateAddress = async (addressModel: AddressUpdateModel): Promise<boolean | ExceptionResponseModel> => {
+export const updateAddress = async (addressModel: AddressUpdateModel, dispatch: AppDispatch): Promise<void> => {
   try {
     const response = await api.put<boolean>(requests.fetchRooms + '/update', addressModel);
     return response.data;
@@ -63,7 +64,7 @@ export const updateAddress = async (addressModel: AddressUpdateModel): Promise<b
 };
 
 // 주소 삭제
-export const deleteAddress = async (id: number): Promise<boolean> => {
+export const deleteAddress = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     const response = await api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
     return response.data;
@@ -82,7 +83,7 @@ export const deleteAddress = async (id: number): Promise<boolean> => {
 };
 
 // 단일 주소 조회
-export const findById = async (id: number): Promise<AddressModel> => {
+export const findById = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     const response = await api.get<AddressModel>(requests.fetchRooms + `/one/${id}`);
     return response.data;
@@ -101,7 +102,7 @@ export const findById = async (id: number): Promise<AddressModel> => {
 };
 
 // 전체 주소 목록 조회
-export const getAddressList = async (): Promise<AddressModel[]> => {
+export const getAddressList = async (dispatch: AppDispatch): Promise<void> => {
   try {
     const response = await api.get<AddressModel[]>(requests.fetchRooms + '/list');
     return response.data;
@@ -120,7 +121,7 @@ export const getAddressList = async (): Promise<AddressModel[]> => {
 };
 
 // 자체 주소 검색
-export const findQuery = async (query: string): Promise<AddressModel[]> => {
+export const findQuery = async (query: string, dispatch: AppDispatch): Promise<void> => {
   try {
     const response = await api.get<AddressModel[]>(`${requests.fetchRooms}/addresses/find/${query}`);
     console.log(response.data)
