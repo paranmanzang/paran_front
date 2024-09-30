@@ -10,7 +10,6 @@ interface AlertProps {
 
 const Alert = ({ message, isOpen, onClose, onConfirm, showConfirm = false }: AlertProps) => {
   if (!isOpen) return null;
-
   return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
         <div className="bg-white p-6 rounded-lg shadow-xl">
@@ -42,5 +41,4 @@ const Alert = ({ message, isOpen, onClose, onConfirm, showConfirm = false }: Ale
       </div>
   );
 };
-
 export default Alert;

@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 import { BookResponseModel, initialBookState, LikeBookModel } from '@/app/model/group/book.model';
 
-
 export const bookSlice = createSlice({
   name: 'book',
   initialState: initialBookState,
@@ -50,3 +49,19 @@ export const {
 } = bookSlice.actions;
 
 export default bookSlice.reducer;
+function createAsyncThunk(arg0: string, arg1: ({ page, size }: { page: number; size: number; }, { dispatch }: { dispatch: any; }) => Promise<any>) {
+  throw new Error('Function not implemented.');
+}
+
+function findBookList(page: number, size: number) {
+  throw new Error('Function not implemented.');
+}
+
+function selectFileList(bookIds: any, arg1: string) {
+  throw new Error('Function not implemented.');
+}
+
+function saveFiles(files: any): any {
+  throw new Error('Function not implemented.');
+}
+
