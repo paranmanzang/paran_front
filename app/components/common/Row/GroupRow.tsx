@@ -7,13 +7,13 @@ import LoadingSpinner from "../status/LoadingSpinner";
 import ErrorMessage from "../status/ErrorMessage";
 
 interface GroupRowProps {
-  active: boolean;
-  onSelect: () => void;
+    active: boolean;
+    onSelect: () => void;
 }
 
 const GroupRow = ({ active, onSelect }:GroupRowProps) => {
   const groups = useSelector(getGroups);
-  // error 나 loading  부분은 isFetching 작업을 통해서 최적화 엔드 react query 에서 미리 불러와서 사용할 수 있도록 하자.
+  // error 나 loading  부분은 isFetching 작업을 통해서 최적화 && react query 에서 미리 불러와서 사용할 수 있도록 하자.
   const loading = useSelector(getIsLoading);
   const error = useSelector(getError);
 

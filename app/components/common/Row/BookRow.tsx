@@ -1,14 +1,13 @@
 "use client";
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
 import BookCard from "./BookCard";
-import { Book } from "@/types/book";
+import { BookState } from "@/app/model/group/book.model";
 import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.Slice";
 
 interface BookRowProps {
-  active: boolean;
-  onSelect: () => void;
+    active: boolean;
+    onSelect: () => void;
 }
 
 const BookRow = ({ active, onSelect }: BookRowProps) => {
@@ -21,7 +20,7 @@ const BookRow = ({ active, onSelect }: BookRowProps) => {
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      {books.map((book: Book) => (
+      {books.map((book: BookState) => (
         <BookCard key={book.id} book={book} active={active} />
       ))}
     </div>

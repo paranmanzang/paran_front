@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface ChatRoomLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
   togglePopUp: () => void;
   leaveChat: () => void;
   roomId: string;
 }
 
-const ChatRoomLayout = ({ 
-  children, 
-  togglePopUp, 
-  leaveChat, 
-  roomId 
-} :ChatRoomLayoutProps) => {
+const ChatRoomLayout: React.FC<ChatRoomLayoutProps> = ({
+  children,
+  togglePopUp,
+  leaveChat,
+  roomId
+}) => {
+  const childrenArray = React.Children.toArray(children);
+
   return (
     <div className="relative w-full">
       <div className="fixed left-0 top-0 min-h-screen w-full">
@@ -42,19 +44,20 @@ const ChatRoomLayout = ({
         </div>
         <div className="flex h-dvh justify-center rounded-lg bg-gray-100">
           <section className="relative w-1/5 bg-green-700">
-            {children[0]} {/* MyChatList */}
-            {children[1]} {/* PeopleList */}
-            {children[2]} {/* MyProfile */}
+            {childrenArray[0]} {/* MyChatList */}
+            {childrenArray[1]} {/* PeopleList */}
+            {childrenArray[2]} {/* MyProfile */}
           </section>
-          <article className="flex w-4/5 flex-col bg-blue-200 ">
+
+          <article className="flex w-4/5 flex-col bg-blue-200">
             <aside className="w-full">
-              {children[3]} {/* ChatPage */}
+              {childrenArray[3]} {/* ChatPage */}
             </aside>
           </article>
         </div>
       </div>
-    </div>
-  );
+      </div>
+   );
 };
 
-export default ChatRoomLayout;
+      export default ChatRoomLayout;

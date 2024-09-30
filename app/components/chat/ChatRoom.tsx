@@ -50,14 +50,16 @@ export default function ChatRoom() {
       leaveChat={leaveChat}
       roomId={roomId}
     >
-      <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />
-      <ul className="w-full">
-        {chatUsers.map((user) => (
-          <PeopleList key={user.nickname} chatUser={user} />
-        ))}
-      </ul>
-      <MyProfile />
-      <ChatPage messages={messages} roomId={roomId} />
+      <>
+        <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />
+        <ul className="w-full">
+          {chatUsers.map((user) => (
+            <PeopleList key={user.nickname} chatUser={user} />
+          ))}
+        </ul>
+        <MyProfile />
+        <ChatPage messages={messages} roomId={roomId} />
+      </>
     </ChatRoomLayout>
   );
 }
