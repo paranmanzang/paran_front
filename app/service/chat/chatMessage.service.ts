@@ -1,11 +1,12 @@
 import requests from "@/app/api/requests";
 import api from "@/app/api/axios";
 import { ChatMessageModel } from "@/app/model/chat/chat.model";
+import chatsAPI from "@/app/api/generate/chats.api";
 
-export const getMessageList = async ({ roomId, nickname, onMessage }: { roomId: string, nickname: string, onMessage: (message: ChatMessageModel) => void }): Promise<void> => {
+export const findMessageList = async ({ roomId, nickname, onMessage }: { roomId: string, nickname: string, onMessage: (message: ChatMessageModel) => void }): Promise<void> => {
     try {
         const eventSource = new EventSource(
-              `http://localhost:8000${requests.fetchChats}/message/${roomId}?nickname=${nickname}`
+              `${api}${requests.fetchChats}/message/${roomId}?nickname=${nickname}`
         );
 
         eventSource.onopen = () => {
@@ -53,14 +54,7 @@ export const getMessageList = async ({ roomId, nickname, onMessage }: { roomId: 
 export const insertMessage = async ({ nickname, roomId, message }: { nickname: string, roomId: string, message: string }): Promise<boolean> => {
     try {
         
-        const response = await api.post<boolean>(`${requests.fetchChats}/message`, {
-            message,
-            roomId
-        }, {
-            headers: {
-                'nickname': nickname
-            }
-        });
+        const response = await chatsAPI.insertMessageAPI(nickname,roomId,message)
         return response.data;
     } catch (error) {
         console.error('채팅 메세지 보내는 중 오류 발생:', error);
@@ -70,11 +64,7 @@ export const insertMessage = async ({ nickname, roomId, message }: { nickname: s
 
 export const unReadTotalMessageCount = async ({ nickname }: { nickname: string }): Promise<number> => {
     try {
-        const response = await api.get<number>(`${requests.fetchChats}/message/totalunread`, {
-            headers: {
-                'nickname': nickname
-            }
-        })
+        const response = await chatsAPI.findUnReadTotalMessageCountAPI(nickname)
         return response.data;
     } catch (error) {
         console.error('총 User가 읽지 않은 메세지 갯수 찾는 중 오류 발생:', error);

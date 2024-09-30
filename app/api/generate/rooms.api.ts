@@ -28,6 +28,6 @@ export const roomAPI = {
         return api.delete<boolean>(requests.fetchRooms + `/adminAnswer/${id}`);
     },
     findTimeListAPI: (roomId: number) => {
-return api.get<TimeModel[]>(requests.fetchRooms + `/times/${roomId}`);
+        return api.get<TimeModel[]>(requests.fetchRooms + `/times/${roomId}`);
     }
 }

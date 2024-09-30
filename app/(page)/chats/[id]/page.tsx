@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 
 import { ChatMessageModel, ChatRoomModel, ChatUserModel } from "@/app/model/chat/chat.model";
-import { getPeopleList } from "@/app/service/chat/chatUser.service";
-import { getMessageList } from "@/app/service/chat/chatMessage.service";
-import { getChatList, saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
-import { AppDispatch, RootState } from "@/lib/store";
 import { getCurrentChatRoom, getError, getIsLoading, saveError, saveLoading } from "@/lib/features/chat/chat.Slice";
+import {findChatList, saveLastReadMessageTime} from "@/app/service/chat/chatRoom.service";
+import {findPeopleList} from "@/app/service/chat/chatUser.service";
+import {findMessageList} from "@/app/service/chat/chatMessage.service";
 
 const ChatPage = dynamic(() => import("@/app/components/chat/ChatPages/ChatPage"), { ssr: false });
 const MyChatList = dynamic(() => import("@/app/components/chat/MyChatList"), { ssr: false });
@@ -18,7 +17,7 @@ const MyProfile = dynamic(() => import("@/app/components/chat/MyProfile"), { ssr
 
 export default function ChatRoom() {
   const router = useRouter();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const chatRoom = useSelector(getCurrentChatRoom)
   const loading = useSelector(getIsLoading);
   const error = useSelector(getError);
@@ -53,17 +52,13 @@ export default function ChatRoom() {
       return;
     }
 
-    saveLastReadMessageTime({ roomId, nickname })
+    saveLastReadMessageTime({ roomId, nickname,dispatch })
       .then((isSaved) => {
         if (isSaved) {
           console.log("마지막 읽은 메시지 시간이 저장되었습니다.");
         } else {
           console.error("마지막 읽은 메시지 시간 저장에 실패했습니다.");
         }
-      })
-      .catch((error) => {
-        dispatch(saveError("마지막 읽은 메시지 시간 저장 중 오류 발생"));
-        console.error("마지막 읽은 메시지 시간 저장 중 오류 발생:", error);
       })
       .finally(() => {
         router.push("/chats/list");
@@ -73,51 +68,39 @@ export default function ChatRoom() {
   useEffect(() => {
     dispatch(saveLoading(true));
 
-    const fetchChatData = async () => {
-      try {
-        const [chatRoomsResult, chatUsersResult] = await Promise.all([
-          getChatList({ nickname }),
-          getPeopleList({ roomId })
-        ]);
+    // 비동기 작업을 then() 형식으로 처리
+    Promise.all([
+      findChatList({ nickname, dispatch }),
+      findPeopleList({ roomId,dispatch }),
+    ])
+        .then(([chatRoomsResult, chatUsersResult]) => {
+            setChatRooms(chatRoomsResult);
+            setChatUsers(chatUsersResult);
 
-        if (Array.isArray(chatRoomsResult)) {
-          setChatRooms(chatRoomsResult);
-        } else {
-          throw new Error("채팅방 목록을 불러오는 중 오류가 발생했습니다.");
-        }
+          const handleNewMessage = (newMessage: ChatMessageModel) => {
+            setMessages((prevMessages) => [...prevMessages, newMessage]);
+          };
 
-        if (Array.isArray(chatUsersResult)) {
-          setChatUsers(chatUsersResult);
-        } else {
-          throw new Error("유저 목록을 불러오는 중 오류가 발생했습니다.");
-        }
-
-        const handleNewMessage = (newMessage: ChatMessageModel) => {
-          setMessages((prevMessages) => [...prevMessages, newMessage]);
-        };
-  
-        // getMessageList의 반환 타입에 따라 처리
-        const unsubscribe = await getMessageList({
-          roomId,
-          nickname,
-          onMessage: handleNewMessage,
+          // 메시지 목록 가져오기
+          return findMessageList({
+            roomId,
+            nickname,
+            onMessage: handleNewMessage,
+          });
+        })
+        .then((unsubscribe) => {
+          if (typeof unsubscribe === 'function') {
+            unsubscribeRef.current = unsubscribe;
+          } else {
+            console.error('findMessageList did not return a function');
+          }
+        })
+        .catch((error) => {
+          dispatch(saveError((error as Error).message));
+        })
+        .finally(() => {
+          dispatch(saveLoading(false));
         });
-        
-
-        if (typeof unsubscribe === 'function') {
-          unsubscribeRef.current = unsubscribe;
-        } else {
-          console.error('getMessageList did not return a function');
-        }
-  
-      } catch (error) {
-        dispatch(saveError((error as Error).message));
-      } finally {
-        dispatch(saveLoading(false));
-      }
-    };
-
-    fetchChatData();
 
     return () => {
       if (unsubscribeRef.current) {
