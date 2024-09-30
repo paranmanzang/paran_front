@@ -6,26 +6,30 @@ const setToken = (token: string): void => localStorage.setItem('token', token);
 const removeToken = (): void => localStorage.removeItem('token');
 
 // 토큰 관리를 위한 함수들
-const getAccessToken = (): string | null => {
-  const token = localStorage.getItem('token');
-  console.log('Retrieved accessToken from localStorage:', token);
-  return token;
-};
-const getRefreshToken = (): string | null => {
-  const token = localStorage.getItem('refresh');
-  console.log('Retrieved refreshToken from localStorage:', token);
-  return token;
-};
+// const getAccessToken = (): string | null => {
+//   const token = localStorage.getItem('token');
+//   console.log('Retrieved accessToken from localStorage:', token);
+//   return token;
+// };
+// const getRefreshToken = (): string | null => {
+//   const token = localStorage.getItem('refresh');
+//   console.log('Retrieved refreshToken from localStorage:', token);
+//   return token;
+// };
 
-const setAccessToken = (token: string): void => {
-  console.log('Saving accessToken to localStorage:', token);
-  localStorage.setItem('accessToken', token);
-};
+// const setAccessToken = (token: string): void => {
+//   console.log('Saving accessToken to localStorage:', token);
+//   localStorage.setItem('accessToken', token);
+// };
 
-const removeAccessToken = (): void => {
-  console.log('Removing accessToken from localStorage');
-  localStorage.removeItem('accessToken');
-};
+// const removeAccessToken = (): void => {
+//   console.log('Removing accessToken from localStorage');
+//   localStorage.removeItem('accessToken');
+// };
+// ------------------------------ // 
+// 로컬 스토리지 -> 쿠키로 바꾸기 
+// 쿠키 api로 바꾸기 
+
 
 // axios 인스턴스 생성
 const instance: AxiosInstance = axios.create({

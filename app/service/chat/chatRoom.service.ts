@@ -57,6 +57,7 @@ export const updatePassword = async ({ roomId, password, nickname }: { roomId: s
     try {
         const response = await api.put<boolean | string>(
             `${requests.fetchChats}/room/updatepassword`,
+            // env 로 빼기 .env.local
             { password, roomId },
             {
                 headers: {
@@ -77,6 +78,7 @@ export const updatePassword = async ({ roomId, password, nickname }: { roomId: s
 export const deleteRoom = async ({ roomId }: { roomId: string }): Promise<Boolean> => {
     try {
         const response = await api.delete<Boolean>(`${requests.fetchChats}/room/${roomId}`)
+        //env.local 로 바꾸기
         return response.data;
     } catch (error) {
         console.error('방 삭제 중 오류 발생:', error);

@@ -8,18 +8,7 @@ import { useSelector } from "react-redux";
 import { getCurrentBooking } from "@/lib/features/bookings.Slice";
 import { getCurrentUser } from "@/lib/features/user.Slice";
 import { BookingModel } from "@/app/model/bookings.model";
-
-// RootState 타입 정의 (실제 Redux store 구조에 맞게 수정 필요)
-interface RootState {
-  booking: {
-    currentBooking: BookingModel | null;
-  };
-  user: {
-    currentUser: {
-      nickname: string;
-    } | null;
-  };
-}
+import { RootState } from "@/lib/store";
 
 interface TossPaymentResponse {
   orderId: string;
@@ -82,7 +71,8 @@ export default function AccountButton(): JSX.Element {
           useAppCardOnly: false,
         },
       })
-        .then(function (response: TossPaymentResponse) {
+        .then(
+          function resp(response: TossPaymentResponse) {
           if (response && booking) {
             const model: AccountResultModel = {
               orderId: response.orderId,

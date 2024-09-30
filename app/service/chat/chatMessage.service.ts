@@ -52,6 +52,7 @@ export const getMessageList = async ({ roomId, nickname, onMessage }: { roomId: 
 
 export const insertMessage = async ({ nickname, roomId, message }: { nickname: string, roomId: string, message: string }): Promise<boolean> => {
     try {
+        
         const response = await api.post<boolean>(`${requests.fetchChats}/message`, {
             message,
             roomId
