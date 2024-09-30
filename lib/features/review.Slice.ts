@@ -13,10 +13,10 @@ const reviewSlice = createSlice({
         addReview: (state, action: PayloadAction<ReviewModel>) => {
             state.reviews.push(action.payload);
         },
-        updateReview: (state, action: PayloadAction<ReviewUpdateModel>) => {
+        updateReview: (state, action: PayloadAction<ReviewModel>) => {
             const index = state.reviews.findIndex(review => review.id === action.payload.id);
             if (index !== -1) {
-                state.reviews[index] = { ...state.reviews[index], ...action.payload };
+                state.reviews[index] = action.payload;
             }
         },
         deleteReview: (state, action: PayloadAction<number>) => {
