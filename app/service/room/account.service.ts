@@ -1,7 +1,6 @@
 import api from '../../api/axios';
-import { AccountCancelModel, AccountResultModel } from '@/app/model/room.model';
 import requests from '@/app/api/requests';
-import { AccountModel } from '@/app/model/account.model';
+import { AccountCancelModel, AccountModel, AccountResultModel } from '@/app/model/account.model';
 
 // 결제 정보 저장
 export const savePayment = async (model: AccountResultModel): Promise<boolean> => {
