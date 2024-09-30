@@ -33,7 +33,7 @@ const removeToken = (): void => localStorage.removeItem('token');
 
 // axios 인스턴스 생성
 const instance: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:8000', // 백엔드 API 주소
+  baseURL: 'http://localhost:8000/api', // 백엔드 API 주소
   headers: { 'Content-Type': 'application/json' }, // 기본 헤더 설정
   withCredentials: true
 });

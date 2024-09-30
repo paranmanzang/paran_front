@@ -1,39 +1,30 @@
-// src/hooks/useUser.ts
-import { useState, useEffect } from 'react';
-import { userService } from '@/app/services/user/user.service.ts';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
+import { userService } from '../service/user/user.service';
 
 export const useUser = (id: string) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        setLoading(true);
-        const response = await userService.getUser(id);
-        setUser(response.data);
-      } catch (err) {
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, [id]);
-
-  const updateUser = async (userData: any) => {
-    try {
-      setLoading(true);
-      const response = await userService.updateUser(id, userData);
-      setUser(response.data);
-    } catch (err) {
-      setError(err);
-    } finally {
-      setLoading(false);
+  const { data: user, isLoading, error } = useQuery(
+    ['user', id],
+    () => userService.getUser(id).then(res => res.data),
+    {
+      staleTime: 5 * 60 * 1000, // 5 minutes
     }
-  };
+  );
 
-  return { user, loading, error, updateUser };
+  const updateUser = useMutation(
+    (userData: any) => userService.updateUser(id, userData),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries(['user', id]);
+      },
+    }
+  );
+
+  return {
+    user,
+    isLoading,
+    error,
+    updateUser: updateUser.mutate,
+  };
 };
