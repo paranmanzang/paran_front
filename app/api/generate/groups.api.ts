@@ -1,10 +1,12 @@
 import {ExceptionResponseModel} from "@/app/model/error.model";
 import requests from "@/app/api/requests";
 import api from "@/app/api/axios";
-import {BookResponseModel} from "@/app/model/group/book.model";
+import {BookResponseModel, LikeBookModel} from "@/app/model/group/book.model";
 
 import {
-    GroupModel, GroupPostModel, GroupPostResponseModel,
+    GroupModel,
+    GroupPostModel,
+    GroupPostResponseModel,
     GroupResponseModel,
     JoiningModel,
     PointModel,
@@ -94,20 +96,29 @@ export const groupsAPI = {
         return api.post<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/addboard', groupPostModel);
     },
     updatePostAPI: (groupPostModel: GroupPostModel) => {
-        return  api.put<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/updateboard', groupPostModel);
+        return api.put<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/updateboard', groupPostModel);
     },
     deletePostAPI: (boardId: number) => {
         return api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/deleteboard', {
-            params: { boardId }
+            params: {boardId}
         });
     },
     findPostsByGroupIdAPI: (groupId: number, page: number, size: number, postCategory: string) => {
         return api.get<Page<GroupPostResponseModel>>(requests.fetchGroups + `/grouppost/${groupId}`, {
-            params: { page, size, postCategory }
+            params: {page, size, postCategory}
         });
     },
     updateViewCountAPI: (postId: number) => {
-        return api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/grouppost/${postId}`);
+        return api.put<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/grouppost/${postId}`);
+    },
+    likeBookAPI: (likeBookModel: LikeBookModel) => {
+        return api.post<LikeBookModel | ExceptionResponseModel>(requests.fetchGroups + `/likebook/add`, likeBookModel);
+    },
+    removeLikeBookAPI: (likeBookModel: LikeBookModel) => {
+        return api.delete<boolean | ExceptionResponseModel>(requests.fetchGroups + '/likebook/remove', likeBookModel);
+    },
+    findLikeBookListAPI: (nickname: String) => {
+        return api.get<LikeBookModel[]>(requests.fetchGroups + `/likebook/list/${nickname}`);
     }
 }
 

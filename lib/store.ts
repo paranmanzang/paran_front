@@ -14,6 +14,7 @@ import commentSlice from './features/comment/comment.Slice';
 import chatSlice from './features/chat/chat.Slice';
 import authReducer from './features/account.Slice'
 import {useDispatch} from "react-redux";
+import dataReducer from './features/data.Slice';
  
 export const makeStore = () => {
   return configureStore({
@@ -32,6 +33,7 @@ export const makeStore = () => {
       book: bookSlice,
       category: categorySlice,
       auth: authReducer,
+      data: dataReducer,
     },
   });
 };

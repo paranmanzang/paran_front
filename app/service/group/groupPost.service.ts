@@ -1,7 +1,14 @@
 import {GroupPostModel} from '@/app/model/group/group.model';
 import groupsAPI from "@/app/api/generate/groups.api";
 import {AppDispatch} from "@/lib/store";
-import {addGroupPost, deleteGroupPost, saveError, saveLoading, updateGroupPost} from "@/lib/features/group/group.Slice";
+import {
+    addGroupPost,
+    deleteGroupPost,
+    saveError,
+    saveGroupPosts,
+    saveLoading,
+    updateGroupPost
+} from "@/lib/features/group/group.Slice";
 
 
 // 게시글 추가 
@@ -26,7 +33,7 @@ export const updatePost = async (groupPostModel: GroupPostModel, dispatch: AppDi
     try {
         dispatch(saveLoading(true));
         const response = await groupsAPI.updatePostAPI(groupPostModel)
-        if ('id' in response.data && 'name' in response.data) {
+        if ('boardId' in response.data && 'title' in response.data) {
             dispatch(updateGroupPost(response.data))
         }
     } catch (error: any) {
@@ -43,7 +50,7 @@ export const deletePost = async (boardId: number, dispatch: AppDispatch, postCat
     try {
         dispatch(saveLoading(true));
         const response = await groupsAPI.deletePostAPI(boardId)
-        dispatch(deleteGroupPost(boardId,postCategory))
+        dispatch(deleteGroupPost({id: boardId, postCategory}));
     } catch (error: any) {
         dispatch(saveError("게시글 삭제 중 오류 발생했습니다."));
         console.error('Error deleting post:', error.response?.data || error.message);
@@ -58,7 +65,9 @@ export const findPostsByGroupId = async (groupId: number, page: number, size: nu
     try {
         dispatch(saveLoading(true));
         const response = await groupsAPI.findPostsByGroupIdAPI(groupId, page, size, postCategory)
-        return response.data.content;
+        if (Array.isArray(response.data)) {
+            dispatch(saveGroupPosts(response.data))
+        }
     } catch (error: any) {
         dispatch(saveError("게시물 목록 조회 중 오류 발생했습니다."));
         console.error('Error fetching posts by groupId:', error.response?.data || error.message);
@@ -73,7 +82,9 @@ export const updateViewCount = async (postId: number, dispatch: AppDispatch): Pr
     try {
         dispatch(saveLoading(true));
         const response = await groupsAPI.updateViewCountAPI(postId)
-        return response.data;
+        if ('boardId' in response.data && 'title' in response.data) {
+            dispatch(updateGroupPost(response.data))
+        }
     } catch (error: any) {
         dispatch(saveError("게시물 목록 조회 중 오류 발생했습니다."));
         console.error('Error fetching posts by groupId:', error.response?.data || error.message);
