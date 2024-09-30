@@ -37,7 +37,7 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
       <button
         id="popup-button"
         type="button"
-        className="relative mb-3 me-4 w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-lg font-bold text-gray-100 hover:bg-green-600 dark:hover:bg-green-700"
+        className="relative mb-3 me-4 w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-lg font-bold text-gray-100 hover:bg-green-600"
         onClick={togglePopover}
       >
         참여중인 대화방 이름 {"^"}

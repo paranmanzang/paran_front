@@ -1,14 +1,14 @@
 import Link from "next/link";
 export default function Footer() {
   return (
-    <footer className="bg-white dark:bg-gray-900">
+    <footer className="bg-white">
       <div className="mx-auto w-full max-w-screen-xl">
         <div className="grid grid-cols-2 gap-8 px-4 py-6 md:grid-cols-4 lg:py-8">
           <div>
-            <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
+            <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900">
               Team member
             </h2>
-            <ul className="font-medium text-gray-500 dark:text-gray-400">
+            <ul className="font-medium text-gray-500">
               <li className="mb-4">
                 <Link href="/" className="hover:underline">
                   PO, CHAT, GROUP : 임청하
@@ -32,10 +32,10 @@ export default function Footer() {
             </ul>
           </div>
           <div>
-            <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900 dark:text-white">
+            <h2 className="mb-6 text-sm font-semibold uppercase text-gray-900">
               paranmanzang-project
             </h2>
-            <ul className="font-medium text-gray-500 dark:text-gray-400">
+            <ul className="font-medium text-gray-500">
               <li className="mb-4">
                 <Link href="/" className="hover:underline">
                   Privacy Policy
@@ -54,14 +54,14 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        <div className="bg-white px-4 py-6 dark:bg-gray-900 md:flex md:items-center md:justify-between">
-          <span className="text-sm text-gray-500 dark:text-gray-300 sm:text-center">
+        <div className="bg-white px-4 py-6 md:flex md:items-center md:justify-between">
+          <span className="text-sm text-gray-500 sm:text-center">
             All Rights © 2024 <Link href="/">paranmanzang</Link>.
           </span>
           <div className="mt-4 flex space-x-5 sm:justify-center md:mt-0 rtl:space-x-reverse">
             <Link
               href="https://github.com/paranmanzang/paran"
-              className="text-gray-400 hover:text-gray-900 dark:hover:text-white"
+              className="text-gray-400 hover:text-gray-900"
             >
               <svg
                 className="size-4"

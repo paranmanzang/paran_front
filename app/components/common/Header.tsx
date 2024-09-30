@@ -20,7 +20,7 @@ export default function Header() {
   }
 
   return (
-    <header className="border-b border-gray-400 bg-white shadow-sm dark:bg-gray-900">
+    <header className="border-b border-gray-400 bg-white shadow-sm">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
         <Link
           href="/"
@@ -33,7 +33,7 @@ export default function Header() {
             className="size-8"
             alt="Logo"
           />
-          <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
+          <span className="self-center whitespace-nowrap text-2xl font-semibold">
             Paranmanzang
           </span>
         </Link>
@@ -51,7 +51,7 @@ export default function Header() {
             <button
               type="button"
               id="popUpBtn"
-              className="mx-3 rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+              className="mx-3 rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
               onClick={popupOpen}
             >
               <LuBellRing />
@@ -71,7 +71,7 @@ export default function Header() {
             </ul>
             <Link
               href="/logout"
-              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
             >
               로그아웃
             </Link>
@@ -84,20 +84,20 @@ export default function Header() {
           <div className="relative">
             {/* {user.login ?  */}
             <button onClick={() => onlogout()}
-              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
             >
               로그아웃
             </button>
             <Link
               href="/users/getMyPage"
-              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
             >
               마이페이지
             </Link>
             <button
               type="button"
               id="popUpBtn"
-              className="mx-3 rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+              className="mx-3 rounded-lg bg-green-400 px-3 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
               onClick={popupOpen}
             >
               <LuBellRing />
@@ -118,7 +118,7 @@ export default function Header() {
             :
             <Link
               href="/users/login"
-              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
             >
               로그인
             </Link>
@@ -129,7 +129,7 @@ export default function Header() {
             data-collapse-toggle="navbar-sticky"
             type="button"
             onClick={openHandler}
-            className="inline-flex size-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
+            className="inline-flex size-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
             aria-controls="navbar-sticky"
             aria-expanded="false"
           >
@@ -150,12 +150,7 @@ export default function Header() {
               />
             </svg>
           </button>
-
-          <div className="mx-2 px-2">
-            {/* <DarkThemeToggle /> */}
-          </div>
         </div>
-
       </div>
     </header>
   );

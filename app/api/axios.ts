@@ -88,9 +88,10 @@ instance.interceptors.response.use(
     console.error('Response error:', error);
 
     const originalRequest = error.config;
+    //_retry
 
     // 응답 에러 처리 (예: 토큰 만료 시 로그아웃 처리)
-    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+    if (error.response?.status === 401 && originalRequest && !originalRequest?.baseURL) {
       console.warn('401 Unauthorized - attempting to refresh token');
 
       // Refresh token으로 accessToken 재발급 시도

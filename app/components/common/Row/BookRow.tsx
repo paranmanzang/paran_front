@@ -108,7 +108,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
           </form>
           {/* 책 카드 */}
           <div
-            className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 ${isActive ? "ring-2 ring-green-500" : ""
+            className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${isActive ? "ring-2 ring-green-500" : ""
               }`}
           >
             <Link href={`/books/${book.id}`} passHref>
@@ -138,7 +138,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
                 className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${isActive
                   ? 'bg-green-600 hover:bg-green-700'
                   : 'bg-green-400 hover:bg-green-500'
-                  } dark:bg-green-400 dark:hover:bg-green-500`}
+                  } `}
               >
                 상세보기
                 <svg

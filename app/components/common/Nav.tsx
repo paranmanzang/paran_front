@@ -12,12 +12,12 @@ export default function Nav() {
  
   return (
     <>
-      <ul className="mt-4 flex flex-col items-center rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium text-gray-900 dark:text-gray-400 dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900 rtl:space-x-reverse">
+      <ul className="mt-4 flex flex-col items-center rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium text-gray-900  md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 rtl:space-x-reverse">
             <li>
               <Link
                 href="/List"
                 className={`block rounded py-2 ${
-                activeTab === 'Rooms' ? ' text-green-600 dark:text-green-500 md:hover:text-green-700 md:dark:hover:text-green-500 md:dark:hover:bg-transparent md:hover:bg-transparent' : 'dark:text-white dark:hover:text-white'
+                activeTab === 'Rooms' ? ' text-green-600 md:hover:text-green-700  md:hover:bg-transparent' : ''
                }`}
                onClick={() => handleTabClick('Rooms')}
                 aria-current="page"
@@ -29,7 +29,7 @@ export default function Nav() {
               <Link
                 href="/List"
                 className={`block rounded py-2 ${
-                  activeTab === 'Groups' ? ' text-green-600 dark:text-green-500 md:hover:text-green-700 md:dark:hover:text-green-500  md:dark:hover:bg-transparent md:hover:bg-transparent' : 'dark:text-white dark:hover:text-white'
+                  activeTab === 'Groups' ? ' text-green-600  md:hover:text-green-700  md:hover:bg-transparent' : ''
                  }`}
                  onClick={() => handleTabClick('Groups')}
                   aria-current="page"
@@ -41,7 +41,7 @@ export default function Nav() {
               <Link
                 href="/List"
                 className={`block rounded py-2 ${
-                  activeTab === 'Books' ? ' text-green-600 dark:text-green-500 md:hover:text-green-700 md:dark:hover:text-green-500  md:dark:hover:bg-transparent md:hover:bg-transparent' : 'dark:text-white dark:hover:text-white'
+                  activeTab === 'Books' ? ' text-green-600  md:hover:text-green-700 md:hover:bg-transparent': ''
                  }`}
                  onClick={() => handleTabClick('Books')}
                   aria-current="page"
@@ -53,7 +53,7 @@ export default function Nav() {
               <Link
                 href="/aboard"
                 className={`block rounded py-2 ${
-                  activeTab === 'Aboard' ? ' text-green-600 dark:text-green-500 md:hover:text-green-700 md:dark:hover:text-green-500  md:dark:hover:bg-transparent md:p-0 md:hover:bg-transparent' : 'dark:text-white  dark:hover:text-white'
+                  activeTab === 'Aboard' ? ' text-green-600 md:hover:text-green-700 md:p-0 md:hover:bg-transparent' : ''
                  }`}
                  onClick={() => handleTabClick('Aboard')}
                   aria-current="page"

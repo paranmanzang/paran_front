@@ -12,7 +12,7 @@ export default function Home() {
         <span className="bgEffect"></span>
         <Carousel />
       </section>
-      <main className="flex min-h-screen items-center justify-center gap-2 dark:bg-gray-800">
+      <main className="flex min-h-screen items-center justify-center gap-2">
         <section className="size-90 my-8" id="rowColum">
           <TabButton />
         </section>

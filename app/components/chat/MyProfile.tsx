@@ -52,9 +52,9 @@ export default function MyProfile() {
           data-popover
           id="popover-top"
           role="tooltip"
-          className="invisible absolute bottom-6 -right-24 w-36 z-10 inline-block rounded-lg border border-green-100 bg-white text-sm text-gray-900 opacity-0 shadow-sm transition-opacity dark:border-green-600 dark:bg-green-800 dark:text-green-400"
+          className="invisible absolute bottom-6 -right-24 w-36 z-10 inline-block rounded-lg border border-green-100 bg-white text-sm text-gray-900 opacity-0 shadow-sm transition-opacity"
         >
-          <div className="rounded-t-lg border-b border-green-100 bg-green-50 px-3 py-2 dark:border-green-300 dark:bg-green-700">
+          <div className="rounded-t-lg border-b border-green-100 bg-green-50 px-3 py-2">
             <div className="justify-around flex py-1">
               <button type="button" className="mx-2 border-none">
                 상태 변경
