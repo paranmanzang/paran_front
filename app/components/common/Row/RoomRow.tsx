@@ -12,12 +12,13 @@ import { useSelector } from "react-redux";
 import HeartCheckbox from "./HeartCheckBox";
 import Link from "next/link";
 import Image from "next/image";
+
 interface RoomRowProps {
   active: boolean;
   onSelect: () => void;
 }
 
-const RoomRow = ({ active, onSelect }) => {
+const RoomRow = ({ active, onSelect }:RoomRowProps) => {
   const [isActive, setIsActive] = useState<boolean>(active);
   const rooms = useSelector(getRooms);
   const files = useSelector(getFiles)
