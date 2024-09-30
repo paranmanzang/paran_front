@@ -11,14 +11,13 @@ export default function ChatList() {
   const nickname = 'A'; // 임의로 넣어둠
   const dispatch = useDispatch<AppDispatch>();
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null)
-  const loading = useSelector((state: RootState) => getIsLoading(state));
-  const error = useSelector((state: RootState) => getError(state));
+  const loading = getIsLoading;
+  const error = getError;
 
   useEffect(() => {
     dispatch(saveLoading(true));
     getChatList({ nickname })
       .then(result => {
-        console.log(result)
         if (result && Array.isArray(result)) {
           setChatRooms(result)
         } else {
@@ -32,14 +31,6 @@ export default function ChatList() {
         dispatch(saveLoading(false)); // 항상 로딩 종료
       });
   }, [nickname]);
-
-  if (loading) {
-    return <div>로딩 중...</div>;
-  }
-
-  if (error) {
-    return <div>{error}</div>;
-  }
 
   return (
     <div className="mx-auto my-6 grid w-full max-w-lg grid-cols-2 gap-3">
