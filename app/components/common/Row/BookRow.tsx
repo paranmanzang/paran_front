@@ -5,11 +5,12 @@ import Image from "next/image";
 import HeartCheckbox from "./HeartCheckBox";
 import { AppDispatch, RootState } from "@/lib/store";
 import { useDispatch, useSelector } from "react-redux";
-import { getBooks, getError, getIsLoading, saveBooks, saveError, saveLoading } from "@/lib/features/group/book.Slice";
+import { getBooks, getError, getIsLoading, saveBooks, saveCurrentBook, saveError, saveLoading } from "@/lib/features/group/book.Slice";
 import { findBookList } from "@/app/service/group/book.service";
-import { getFiles, saveFiles } from "@/lib/features/file.Slice"; // 추가: 파일을 저장하는 액션
+import { getFiles, saveCurrentFile, saveFiles } from "@/lib/features/file.Slice"; // 추가: 파일을 저장하는 액션
 import { selectFileList } from "@/app/service/File/file.service";
 import { FileModel, FileType } from "@/app/model/file.model";
+import { useRouter } from "next/navigation";
 
 interface BookRowProps {
   active: boolean;
@@ -23,6 +24,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
   const loading = useSelector((state: RootState) => getIsLoading(state));
   const error = useSelector((state: RootState) => getError(state));
   const files = useSelector((state: RootState) => getFiles(state));
+  const router = useRouter()
 
   const page = 5; // 임의로 넣어둠
   const size = 5; // 임의로 넣어둠
@@ -31,7 +33,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
   const loadBookFiles = (books: any[]) => {
     const bookIds = books.map(book => book.id);
     selectFileList(bookIds, FileType.BOOK)
-      .then(files => 
+      .then(files =>
         dispatch(saveFiles(files)))
       .catch(error => {
         console.error('Error fetching files:', error);
@@ -76,6 +78,22 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
     return bookFile ? `http://localhost:8000/api/files/one?path=${bookFile.path}` : "https://picsum.photos/400/380"; // 기본 이미지 제공
   };
 
+  const onClickToDetail = (currentId: number | undefined) => {
+    if (currentId !== undefined) {
+      const selectedBook = books.find(({ id }) => id === currentId);
+      const selectedFile = files.bookFiles.find(({ refId }) => refId === currentId);
+      if (selectedBook && selectedFile) {
+        dispatch(saveCurrentBook(selectedBook));
+        dispatch(saveCurrentFile(selectedFile));
+        router.push(`/books/${currentId}`);
+      } else {
+        console.error(`Book with ID ${currentId} not found`);
+      }
+    } else {
+      console.error("ID is undefined");
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 gap-4">
       {books.map((book) => (
@@ -83,45 +101,31 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
           <form className="absolute top-2 w-full px-3">
             <div className="flex justify-between">
               {/* 모든 유저가 좋아요 버튼을 볼 수 있음 */}
-              <div id="likeBtn">
+              <div id={`likeBtn-${book.id}`}>
                 <HeartCheckbox onChange={handleLikeChange} />
-              </div>
-              {/* 어드민/셀러 전용 체크박스 */}
-              <div id="selectBtn">
-                <input
-                  id="select"
-                  type="checkbox"
-                  value=""
-                  className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                />
-                <label htmlFor="select" hidden>
-                  chatSelect
-                </label>
               </div>
             </div>
           </form>
-
           {/* 책 카드 */}
           <div
             className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 ${isActive ? "ring-2 ring-green-500" : ""
               }`}
-            onClick={handleClick}
           >
-            <Link href={`/books/${book.id}`}>
+            <Link href={`/books/${book.id}`} passHref>
               <Image
                 width={400}
                 height={380}
-                className="rounded-t-lg"
+                className="rounded-t-lg cursor-pointer"
                 src={getBookImage(book.id)}
                 alt={`cover of ${book.title}`}
                 priority
               />
             </Link>
             <div className="p-5">
-              <Link href={`/books/${book.id}`}>
+              <Link href={`/books/${book.id}`} passHref>
                 <h5
                   className={`mb-2 text-lg font-medium tracking-tight ${isActive ? "text-green-600" : "text-gray-900"
-                    } dark:text-white`}
+                    } dark:text-white cursor-pointer`}
                 >
                   {book.title}
                 </h5>
@@ -129,16 +133,16 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
               <p className="text-sm font-medium">저자: {book.author}</p>
               <p className="text-sm font-medium">출판사: {book.publisher}</p>
               <p className="text-sm font-medium">카테고리: {book.categoryName}</p>
-              <Link
-                href={`/books/${book.id}`}
+              <button
+                onClick={() => onClickToDetail(book.id)}
                 className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${isActive
-                    ? "bg-green-600 hover:bg-green-700"
-                    : "bg-green-400 hover:bg-green-500"
+                  ? 'bg-green-600 hover:bg-green-700'
+                  : 'bg-green-400 hover:bg-green-500'
                   } dark:bg-green-400 dark:hover:bg-green-500`}
               >
                 상세보기
                 <svg
-                  className="ms-2 size-3.5 rtl:rotate-180"
+                  className="ms-2 h-4 w-4 rtl:rotate-180"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -152,7 +156,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
                     d="M1 5h12m0 0L9 1m4 4L9 9"
                   />
                 </svg>
-              </Link>
+              </button>
             </div>
           </div>
         </div>
