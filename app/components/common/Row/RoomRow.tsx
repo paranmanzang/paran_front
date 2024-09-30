@@ -11,6 +11,7 @@ import { RoomModel } from "@/app/model/room.model";
 import { selectFileList } from "@/app/service/File/file.service";
 import { getFiles, saveFiles } from "@/lib/features/file.Slice";
 import { FileType } from "@/app/model/file.model";
+import { RootState } from "@/lib/store";
 interface RoomRowProps {
   active: boolean;
   onSelect: () => void;
@@ -18,8 +19,8 @@ interface RoomRowProps {
 
 const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
   const [isActive, setIsActive] = useState<boolean>(active);
-  const rooms = useSelector(state => getRooms(state));
-  const files = useSelector(state => getFiles(state))
+  const rooms = useSelector((state:RootState) => getRooms(state));
+  const files = useSelector((state:RootState) => getFiles(state))
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -34,7 +35,7 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
     findAllRooms(page, size).then((data: RoomModel[] | undefined) => {
       if (data) {
         dispatch(saveRooms(data));
-        const refIdList: number[]|undefined = data.map(room => room.id);
+        const refIdList: number[] = data.map(room => room.id);
         selectFileList(refIdList, FileType.ROOM).then(response => {
           console.log(response.map(file => file));
           console.log(FileType.ROOM, "파일 응답: ", response.map(file => file.path + ": " + typeof file.path));
