@@ -1,32 +1,39 @@
 "use client";
-import api from "@/app/api/axios";
-import { FileModel } from "@/app/model/file.model";
-import { RoomWTimeModel, TimeModel, RoomModel } from "@/app/model/room.model";
-import { loadFile, selectFileList } from "@/app/service/File/file.service";
-import { findRoomById } from "@/app/service/room/room.service";
+import { TimeModel } from "@/app/model/room.model";
 import { getTimeList } from "@/app/service/room/time.service";
-import { getCurrentRoom } from "@/lib/features/room.Slice";
+import { getCurrentRoom, saveLoading } from "@/lib/features/room.Slice";
 import { useEffect, useState } from "react";
 import DetailButton from "./DetailButton";
-import { useDispatch, useSelector } from "react-redux";
-
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "@/lib/store";
+import { getCurrentFile } from "@/lib/features/file.Slice";
+import Image from "next/image";
+import { FileModel } from "@/app/model/file.model";
 interface roomDetailProps {
   roomId: number;
 }
 export default function Details({ roomId }: roomDetailProps) {
   const [times, setTimes] = useState<TimeModel[]>([])
   const room = useSelector(getCurrentRoom);
+  const file = useSelector(getCurrentFile);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    if (room?.id !== undefined) {
-      getTimeList(room?.id).then(data => {
+    if (room && room.id !== undefined) {
+      getTimeList(room.id, dispatch).then(data => {
         if (data) {
           setTimes(data)
         }
       })
     }
-
-  }, [])
-
+    dispatch(saveLoading(false))
+  }, [dispatch])
+  const getRoomImage = (path: string | undefined) => {
+    if (file !== undefined) {
+      return !path?.includes("default.png") ? `http://localhost:8000/api/files/one?path=${path}` : "https://picsum.photos/400/380"; // 기본 이미지 제공
+    }
+    return "https://picsum.photos/400/380";
+  };
   const groupedTimes = times.reduce((acc: Record<string, TimeModel[]>, time) => {
     const { date } = time;
     if (!acc[date]) {
@@ -55,6 +62,14 @@ export default function Details({ roomId }: roomDetailProps) {
       </div>
       <div className="my-6 grid min-h-screen grid-cols-2 place-items-center">
         <div className="h-[70%] w-4/5 bg-gray-400">안에 내용 넣기</div>
+        <Image
+          width={400}
+          height={380}
+          className="cursor-pointer rounded-t-lg"
+          src={getRoomImage(file?.path)}
+          alt={`cover of ${room?.title}`}
+          priority
+        />
         <div className="h-[70%] w-4/5 bg-gray-400">안에 내용 넣기</div>
         <div className="col-span-2 h-[70%] w-[90%] bg-gray-400">
           안에 내용 넣기

@@ -46,24 +46,24 @@ const fileSlice = createSlice({
                     break;
             }
         },
-        // 파일 제거 (ID와 타입으로 파일을 찾아서 제거)
-        removeFile: (state, action: PayloadAction<{ id: string; type: FileType }>) => {
-            const { id, type } = action.payload;
+        // 파일 제거 (path와 타입으로 파일을 찾아서 제거)
+        removeFile: (state, action: PayloadAction<{ path: string; type: FileType }>) => {
+            const { path, type } = action.payload;
             switch (type) {
                 case FileType.USER:
-                    state.userFiles = state.userFiles.filter(file => file.id !== id);
+                    state.userFiles = state.userFiles.filter(file => file.path !== path);
                     break;
                 case FileType.ROOM:
-                    state.roomFiles = state.roomFiles.filter(file => file.id !== id);
+                    state.roomFiles = state.roomFiles.filter(file => file.path !== path);
                     break;
                 case FileType.ABOARD:
-                    state.aboardFiles = state.aboardFiles.filter(file => file.id !== id);
+                    state.aboardFiles = state.aboardFiles.filter(file => file.path !== path);
                     break;
                 case FileType.GROUP_POST:
-                    state.groupPostFiles = state.groupPostFiles.filter(file => file.id !== id);
+                    state.groupPostFiles = state.groupPostFiles.filter(file => file.path !== path);
                     break;
                 case FileType.BOOK:
-                    state.bookFiles = state.bookFiles.filter(file => file.id !== id);
+                    state.bookFiles = state.bookFiles.filter(file => file.path !== path);
                     break;
             }
         },

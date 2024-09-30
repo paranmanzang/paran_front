@@ -1,17 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { getRooms, saveCurrentRoom, saveError, saveLoading } from "@/lib/features/room.Slice";
+import { useRouter } from "next/navigation";
+import { RoomModel } from "@/app/model/room.model";
+import { getFiles, saveCurrentFile, saveFiles, upLoading } from "@/lib/features/file.Slice";
+import { useAppDispatch } from "@/lib/store";
+import { findEnabledRooms } from "@/app/service/room/room.service";
+import { FileType } from "@/app/model/file.model";
+import { selectFileList } from "@/app/service/File/file.service";
+import { useSelector } from "react-redux";
+import HeartCheckbox from "./HeartCheckBox";
 import Link from "next/link";
 import Image from "next/image";
-import HeartCheckbox from "./HeartCheckBox";
-import { useDispatch, useSelector } from "react-redux";
-import { getRooms, saveCurrentRoom, saveRooms } from "@/lib/features/room.Slice";
-import { useRouter } from "next/navigation";
-import { findAllRooms } from "@/app/service/room/room.service";
-import { RoomModel } from "@/app/model/room.model";
-import { selectFileList } from "@/app/service/File/file.service";
-import { getFiles, saveFiles } from "@/lib/features/file.Slice";
-import { FileType } from "@/app/model/file.model";
-import { RootState } from "@/lib/store";
 interface RoomRowProps {
   active: boolean;
   onSelect: () => void;
@@ -19,12 +19,11 @@ interface RoomRowProps {
 
 const RoomRow = ({ active, onSelect }) => {
   const [isActive, setIsActive] = useState<boolean>(active);
-  const rooms = useSelector((state:RootState) => getRooms(state));
-  const files = useSelector((state:RootState) => getFiles(state))
-  const dispatch = useDispatch();
+  const rooms = useSelector(getRooms);
+  const files = useSelector(getFiles)
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
-  console.log("get파일: ", files)
   // 페이지네이션 정보
   const size: number = 25;
   const [page, setPage] = useState<number>(0);
@@ -32,36 +31,41 @@ const RoomRow = ({ active, onSelect }) => {
   useEffect(() => {
     setIsActive(active);
 
-    findAllRooms(page, size).then((data: RoomModel[] | undefined) => {
-      if (data) {
-        dispatch(saveRooms(data));
-        const refIdList: number[] = data.map(room => room.id);
-        selectFileList(refIdList, FileType.ROOM).then(response => {
-          console.log(response.map(file => file));
-          console.log(FileType.ROOM, "파일 응답: ", response.map(file => file.path + ": " + typeof file.path));
-          console.log("파일 filter: ", response.filter(files => files.type === FileType.ROOM));
-          if (response) dispatch(saveFiles(response));
-        });
-      }
-    });
+    findEnabledRooms(page, size, dispatch)
+    loadRoomFiles(rooms)
+    dispatch(saveLoading(false))
+
   }, [active, dispatch, page]);
 
-
+  const loadRoomFiles = (rooms: any[]) => {
+    const roomIds = rooms.map(book => book.id);
+    selectFileList(roomIds, FileType.ROOM, dispatch)
+    dispatch(upLoading(false))
+  };
   const handleLikeChange = (active: boolean) => {
     console.log('좋아요 상태:', active);
     // 여기에서 필요한 로직을 수행 (예: API 호출)
   };
 
-
   const handleClick = (): void => {
     onSelect();
   };
 
-  const onClickToDetail = (currentId: number | null): void => {
-    if (currentId !== null) {
+  // 특정 공간에 맞는 파일을 찾는 함수
+  const getRoomImage = (roomId: number | undefined) => {
+    if (roomId !== undefined) {
+      const roomFile = files.roomFiles.find(file => file.refId === roomId);
+      return roomFile ? `http://localhost:8000/api/files/one?path=${roomFile.path}` : "https://picsum.photos/400/380"; // 기본 이미지 제공
+    }
+    return "https://picsum.photos/400/380";
+  };
+
+  const onClickToDetail = (currentId: number | undefined): void => {
+    if (currentId !== undefined) {
       const currentRoom = rooms.find(({ id }) => id === currentId);
       if (currentRoom) {
         dispatch(saveCurrentRoom(currentRoom));
+        dispatch(saveCurrentFile(files.roomFiles.find(({ refId }) => refId === currentId) ?? null));
         router.push(`/rooms/${currentId}`);
       }
     } else {
@@ -91,24 +95,15 @@ const RoomRow = ({ active, onSelect }) => {
                 }`}
               onClick={handleClick}
             >
-              <Link href={`/rooms/${room.id}`}>
-                {files.roomFiles.find(({ refId }) => room.id === refId)?.id ? (
-                  <Image
-                    width={400}
-                    height={330}
-                    className="rounded-t-lg"
-                    src={`http://localhost:8000/api/files/one?path=${files.roomFiles.find(({ refId }) => room.id === refId)?.path}`}
-                    alt={files.roomFiles.find(({ refId }) => room.id === refId)?.path || "default image"}
-                  />
-                ) : (
-                  <Image
-                    width={400}
-                    height={330}
-                    className="rounded-t-lg"
-                    src={"https://picsum.photos/400/330"}
-                    alt="default image"
-                  />
-                )}
+              <Link href={`/rooms/${room.id}`} passHref>
+                <Image
+                  width={400}
+                  height={380}
+                  className="cursor-pointer rounded-t-lg"
+                  src={getRoomImage(room.id)}
+                  alt={`cover of ${room.title}`}
+                  priority
+                />
               </Link>
 
 

@@ -1,9 +1,22 @@
-// src/services/userService.ts
-import api from '../axios';
+import { FileDeleteModel, FileModel } from "@/app/model/file.model";
+import api from "../axios";
+import qs from "qs";
 
-export const FilesService = {
-  getFiles: (id: string) => api.get(`/files/${id}`),
-  createFiles: (userData: any) => api.post('/files', userData),
-  updateFiles: (id: string, userData: any) => api.put(`/files/${id}`, userData),
-  deleteFiles: (id: string) => api.delete(`/files/${id}`),
-};
+export const fileAPI = {
+    findFileListAPI: (refIdList: number[], type: string) => {
+        return api.get<FileModel[]>('/list', {
+            params: { type: type, refIdList: refIdList },
+            paramsSerializer: (params: any) => qs.stringify(params, { arrayFormat: 'repeat' })
+        });
+    },
+    loadFileAPI: (path: string) => {
+        return api.get('/one', { params: { path: path } });
+    },
+    uploadFilesAPI: (file: any[], type: string, refId: number) => {
+        return api.post<FileModel>('/upload', { FormData: { file: file, type: type, refId: refId } });
+    },
+    deleteFileAPI: (fileModel: FileDeleteModel) => {
+        return api.delete<boolean>('/delete', { data: fileModel });
+    }
+}
+
