@@ -1,9 +1,7 @@
-import api from "@/app/api/axios";
-import requests from "@/app/api/requests";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
 import {saveError, saveLoading} from "@/lib/features/chat/chat.Slice";
 import {AppDispatch} from "@/lib/store";
-import chatsAPI from "@/app/api/generate/api.chats";
+import chatsAPI from "@/app/api/generate/chats.api";
 
 export const createRoom = async ({ roomName, nickname }: { roomName: string, nickname: string }): Promise<string | Boolean> => {
     try {
@@ -68,12 +66,13 @@ export const deleteRoom = async ({ roomId }: { roomId: string }): Promise<Boolea
     }
 }
 
-export const saveLastReadMessageTime = async ({ roomId, nickname }: { roomId: string, nickname: string }): Promise<Boolean> => {
+export const saveLastReadMessageTime = async ({ roomId, nickname,dispatch }: { roomId: string, nickname: string, dispatch: AppDispatch }): Promise<Boolean> => {
     try {
         const response = await chatsAPI.saveChatRoomLastReadMessageTimeAPI(roomId,nickname)
         return response.data;
     } catch (error) {
         console.error('마지막 읽은 메세지 시간 저장 중 오류 발생:', error);
+        dispatch(saveError("마지막 읽은 메시지 시간 저장 중 오류 발생"));
         return false;
     }
 }
