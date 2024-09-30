@@ -8,10 +8,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function ChatList() {
-  const nickname = 'B'; // 임의로 넣어둠
+  const nickname = 'A'; // 임의로 넣어둠
   const dispatch = useDispatch<AppDispatch>();
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null)
-  // const chatRooms = useSelector((state: RootState) => getChatRooms(state));
   const loading = useSelector((state: RootState) => getIsLoading(state));
   const error = useSelector((state: RootState) => getError(state));
 

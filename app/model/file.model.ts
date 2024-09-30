@@ -8,8 +8,8 @@ export enum FileType {
 }
 export interface FileModel {
     id: string;
-    type: string;
-    path: string;
+    type: FileType;
+    path: string;  
     refId: number;
     uploadAt: Date;
 }

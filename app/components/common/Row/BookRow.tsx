@@ -22,28 +22,21 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
   const books = useSelector((state: RootState) => getBooks(state));
   const loading = useSelector((state: RootState) => getIsLoading(state));
   const error = useSelector((state: RootState) => getError(state));
-  const files = useSelector((state: RootState) => getFiles(state)); // 파일 상태 가져오기
+  const files = useSelector((state: RootState) => getFiles(state));
 
   const page = 5; // 임의로 넣어둠
   const size = 5; // 임의로 넣어둠
 
   // 책 리스트와 각 책에 연결된 파일을 로드하는 함수
   const loadBookFiles = (books: any[]) => {
-    const fileListPromises = books.map(book =>
-      selectFileList(book.id, FileType.BOOK)
-        .then(files => files) // 파일 리스트만 반환
-        .catch(error => {
-          console.error(`Error fetching files for book ${book.id}:`, error);
-          return []; // 에러 발생 시 빈 배열 반환
-        })
-    );
-
-    // 파일 리스트 로딩 완료 후 상태에 저장 (파일만 저장)
-    return Promise.all(fileListPromises).then(results => {
-      const allFiles: FileModel[] = results.flat(); // 배열을 평탄화하여 FileModel[]로 변환
-      dispatch(saveFiles(allFiles)); // 불러온 파일 리스트를 상태에 저장
-      return results;
-    });
+    const bookIds = books.map(book => book.id);
+    selectFileList(bookIds, FileType.BOOK)
+      .then(files => 
+        dispatch(saveFiles(files)))
+      .catch(error => {
+        console.error('Error fetching files:', error);
+        return []; // 에러 발생 시 빈 배열 반환
+      })
   };
 
   useEffect(() => {
@@ -79,9 +72,8 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
 
   // 특정 책에 맞는 파일을 찾는 함수
   const getBookImage = (bookId: number) => {
-    // refId를 사용하여 파일 찾기 (bookId가 아니라 refId로 참조)
     const bookFile = files.bookFiles.find(file => file.refId === bookId);
-    return bookFile ? bookFile.path : "https://picsum.photos/400/380"; // 기본 이미지 제공
+    return bookFile ? `http://localhost:8000/api/files/one?path=${bookFile.path}` : "https://picsum.photos/400/380"; // 기본 이미지 제공
   };
 
   return (
@@ -111,9 +103,8 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
 
           {/* 책 카드 */}
           <div
-            className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 ${
-              isActive ? "ring-2 ring-green-500" : ""
-            }`}
+            className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 ${isActive ? "ring-2 ring-green-500" : ""
+              }`}
             onClick={handleClick}
           >
             <Link href={`/books/${book.id}`}>
@@ -121,8 +112,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
                 width={400}
                 height={380}
                 className="rounded-t-lg"
-                //src={"https://picsum.photos/400/380"}
-                src={getBookImage(book.id)} // 파일 경로 적용
+                src={getBookImage(book.id)}
                 alt={`cover of ${book.title}`}
                 priority
               />
@@ -130,9 +120,8 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
             <div className="p-5">
               <Link href={`/books/${book.id}`}>
                 <h5
-                  className={`mb-2 text-lg font-medium tracking-tight ${
-                    isActive ? "text-green-600" : "text-gray-900"
-                  } dark:text-white`}
+                  className={`mb-2 text-lg font-medium tracking-tight ${isActive ? "text-green-600" : "text-gray-900"
+                    } dark:text-white`}
                 >
                   {book.title}
                 </h5>
@@ -142,11 +131,10 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
               <p className="text-sm font-medium">카테고리: {book.categoryName}</p>
               <Link
                 href={`/books/${book.id}`}
-                className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${
-                  isActive
+                className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${isActive
                     ? "bg-green-600 hover:bg-green-700"
                     : "bg-green-400 hover:bg-green-500"
-              } dark:bg-green-400 dark:hover:bg-green-500`}
+                  } dark:bg-green-400 dark:hover:bg-green-500`}
               >
                 상세보기
                 <svg
