@@ -10,6 +10,7 @@ import { findAllRooms } from "@/app/service/room/room.service";
 import { RoomModel } from "@/app/model/room.model";
 import { selectFileList } from "@/app/service/File/file.service";
 import { getFiles, saveFiles } from "@/lib/features/file.Slice";
+import { FileType } from "@/app/model/file.model";
 interface RoomRowProps {
   active: boolean;
   onSelect: () => void;
@@ -22,28 +23,26 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
   const dispatch = useDispatch();
   const router = useRouter();
 
+  console.log("get파일: ", files)
   // 페이지네이션 정보
-  const size: number = 5;
+  const size: number = 25;
   const [page, setPage] = useState<number>(0);
-
-
 
   useEffect(() => {
     setIsActive(active);
 
-    findAllRooms(page, size).then(data => {
+    findAllRooms(page, size).then((data: RoomModel[] | undefined) => {
       if (data) {
-        dispatch(saveRooms(data))
-        const refIdList: number[] = data.map(data => data.id);
-        selectFileList(refIdList, "room").then(response => {
-          console.log(response)
-          if (response) dispatch(saveFiles(response))
-        })
-
+        dispatch(saveRooms(data));
+        const refIdList: number[]|undefined = data.map(room => room.id);
+        selectFileList(refIdList, FileType.ROOM).then(response => {
+          console.log(response.map(file => file));
+          console.log(FileType.ROOM, "파일 응답: ", response.map(file => file.path + ": " + typeof file.path));
+          console.log("파일 filter: ", response.filter(files => files.type === FileType.ROOM));
+          if (response) dispatch(saveFiles(response));
+        });
       }
-    })
-
-
+    });
   }, [active, dispatch, page]);
 
 
@@ -57,12 +56,15 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
     onSelect();
   };
 
-  const onClickToDetail = (currentId: number | undefined) => {
-    if (currentId !== undefined) {
-      dispatch(saveCurrentRoom(rooms.find(({ id }) => id === currentId)))
-      router.push(`/rooms/${currentId}`);
+  const onClickToDetail = (currentId: number | null): void => {
+    if (currentId !== null) {
+      const currentRoom = rooms.find(({ id }) => id === currentId);
+      if (currentRoom) {
+        dispatch(saveCurrentRoom(currentRoom));
+        router.push(`/rooms/${currentId}`);
+      }
     } else {
-      console.error("ID is undefined");
+      console.error("ID is null");
     }
   };
   return (
@@ -89,28 +91,26 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
                 }`}
               onClick={handleClick}
             >
-              {files.roomFiles.find(({ refId }) => room.id === refId)?.path.includes("default.png") ? (
-                <Link href={`/rooms/${room.id}`}>
+              <Link href={`/rooms/${room.id}`}>
+                {files.roomFiles.find(({ refId }) => room.id === refId)?.id ? (
                   <Image
                     width={400}
                     height={330}
                     className="rounded-t-lg"
-                    src={"https://picsum.photos/400/380"}
-                    alt={`cover`}
+                    src={`http://localhost:8000/api/files/one?path=${files.roomFiles.find(({ refId }) => room.id === refId)?.path}`}
+                    alt={files.roomFiles.find(({ refId }) => room.id === refId)?.path || "default image"}
                   />
-                </Link>
-              ) : (
-                <Link href={`/rooms/${room.id}`}>
+                ) : (
                   <Image
                     width={400}
                     height={330}
                     className="rounded-t-lg"
-                    src={`http://localhost:8000/api/files/one?path=${files.roomFiles.find(({ refId }) => room.id === refId)?.path
-                      }`}
-                    alt={files.roomFiles.find(({ refId }) => room.id === refId)?.path || "No image available"}
+                    src={"https://picsum.photos/400/330"}
+                    alt="default image"
                   />
-                </Link>
-              )}
+                )}
+              </Link>
+
 
               <div className="p-5">
                 <Link href={`/rooms/${room.id}`}>
