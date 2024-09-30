@@ -1,13 +1,15 @@
 
-import { RoomModel, RoomUpdateModel, RoomWTimeModel } from '../../model/room.model';
+import { RoomModel, RoomUpdateModel } from '../../model/room.model';
 import { ExceptionResponseModel } from '../../model/error.model';
-import api from '../../api/axios';
-import requests from '@/app/api/requests';
+import { AppDispatch } from '@/lib/store';
+import { saveLoading } from '@/lib/features/room.Slice';
+import { roomAPI } from '@/app/api/generate/api.rooms';
 
 // 공간 등록
-export const saveRoom = async (roomModel: RoomModel): Promise<RoomModel | ExceptionResponseModel> => {
+export const saveRoom = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<RoomModel | ExceptionResponseModel> => {
     try {
-        const response = await api.post<RoomModel>(requests.fetchRooms + '/add', roomModel);
+        dispatch(saveLoading(true))
+        const response = await roomAPI.saveRoomAPI(roomModel)
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -24,9 +26,10 @@ export const saveRoom = async (roomModel: RoomModel): Promise<RoomModel | Except
 };
 
 // 공간 수정
-export const updateRoom = async (roomModel: RoomUpdateModel): Promise<RoomModel | ExceptionResponseModel> => {
+export const updateRoom = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): Promise<RoomModel | ExceptionResponseModel> => {
     try {
-        const response = await api.put<RoomModel>(requests.fetchRooms + '/update', roomModel);
+        dispatch(saveLoading(true))
+        const response = await roomAPI.updateRoomAPI(roomModel)
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -42,9 +45,10 @@ export const updateRoom = async (roomModel: RoomUpdateModel): Promise<RoomModel 
     }
 };
 // 공간 삭제
-export const deleteRoom = async (id: number): Promise<boolean> => {
+export const deleteRoom = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
     try {
-        const response = await api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
+        dispatch(saveLoading(true))
+        const response = await roomAPI.deleteRoomAPI(id);
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -60,9 +64,10 @@ export const deleteRoom = async (id: number): Promise<boolean> => {
     }
 };
 // 등록자에 대한 공간 조회
-export const findRoomsByUser = async (nickname: string, page: number, size: number): Promise<RoomModel[]> => {
+export const findRoomsByUser = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<RoomModel[]> => {
     try {
-        const response = await api.get<Page<RoomModel>>(requests.fetchRooms + `/list/${nickname}`, { params: { page, size } });
+        dispatch(saveLoading(true))
+        const response = await roomAPI.findRoomsByUserAPI(nickname, page, size);
         return response.data.content;
     } catch (error: any) {
         if (error.response) {
@@ -78,10 +83,11 @@ export const findRoomsByUser = async (nickname: string, page: number, size: numb
     }
 };
 
-// 전체 공간 조회
-export const findAllRooms = async (page: number, size: number): Promise<RoomModel[]> => {
+// 전체 공간 조회 
+export const findAllRooms = async (page: number, size: number, dispatch: AppDispatch): Promise<RoomModel[]> => {
     try {
-        const response = await api.get<Page<RoomModel>>(requests.fetchRooms + '/list', { params: { page, size } });
+        dispatch(saveLoading(true))
+        const response = await roomAPI.findRoomListAPI(page, size)
         return response.data.content;
     } catch (error: any) {
         if (error.response) {
@@ -97,9 +103,10 @@ export const findAllRooms = async (page: number, size: number): Promise<RoomMode
     }
 };
 // 승인된 공간 조회
-export const findEnabledRooms = async (page: number, size: number): Promise<RoomModel[]> => {
+export const findEnabledRooms = async (page: number, size: number, dispatch: AppDispatch): Promise<RoomModel[]> => {
     try {
-        const response = await api.get<Page<RoomModel>>(requests.fetchRooms + '/list/Enabled', { params: { page, size } });
+        dispatch(saveLoading(true))
+        const response = await roomAPI.findEnabledRoomsAPI(page, size)
         return response.data.content;
     } catch (error: any) {
         if (error.response) {
@@ -115,28 +122,11 @@ export const findEnabledRooms = async (page: number, size: number): Promise<Room
     }
 };
 
-//단일 공간 조회
-export const findRoomById = async (id: number): Promise<RoomWTimeModel> => {
-    try {
-        const response = await api.get<RoomWTimeModel>(requests.fetchRooms + `/one/${id}`);
-        return response.data;
-    } catch (error: any) {
-        if (error.response) {
-            console.error('Server Error:', error.response.data);
-            throw new Error('서버에서 오류가 발생했습니다.');
-        } else if (error.request) {
-            console.error('No Response:', error.request);
-            throw new Error('서버 응답이 없습니다.');
-        } else {
-            console.error('Error:', error.message);
-            throw new Error('요청 설정 중 오류가 발생했습니다.');
-        }
-    }
-};
 // 공간승인
-export const confirmRoom = async (id: number): Promise<RoomModel> => {
+export const confirmRoom = async (id: number, dispatch: AppDispatch): Promise<RoomModel> => {
     try {
-        const response = await api.put<RoomModel>(requests.fetchRooms + `/adminAnswer/${id}`);
+        dispatch(saveLoading(true))
+        const response = await roomAPI.confirmRoomAPI(id)
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -155,7 +145,7 @@ export const confirmRoom = async (id: number): Promise<RoomModel> => {
 //공간거절
 export const rejectRoom = async (id: number): Promise<boolean> => {
     try {
-        const response = await api.delete<boolean>(requests.fetchRooms + `/adminAnswer/${id}`);
+        const response = await roomAPI.rejectRoomAPI(id);
         return response.data;
     } catch (error: any) {
         if (error.response) {

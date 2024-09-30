@@ -1,4 +1,7 @@
+import { fileAPI } from '@/app/api/generate/api.files';
 import { FileDeleteModel, FileModel } from '@/app/model/file.model';
+import { upLoading } from '@/lib/features/file.Slice';
+import { AppDispatch } from '@/lib/store';
 import axios from 'axios';
 import qs from 'qs';
 
@@ -7,12 +10,10 @@ const api = axios.create({
 });
 
 // 파일 리스트 조회
-export const selectFileList = async (refIdList: number[], type: string): Promise<FileModel[]> => {
+export const selectFileList = async (refIdList: number[], type: string, dispatch: AppDispatch): Promise<FileModel[]> => {
     try {
-        const response = await api.get<FileModel[]>('/list', {
-            params: { type: type, refIdList: refIdList },
-            paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' })
-        });
+        dispatch(upLoading(true))
+        const response = await fileAPI.findFileListAPI(refIdList, type);
         return response.data;
     } catch (error) {
         console.error('Error select files:', error);
@@ -20,9 +21,10 @@ export const selectFileList = async (refIdList: number[], type: string): Promise
     }
 };
 // 파일 불러오기
-export const loadFile = async (path: string): Promise<any> => {
+export const loadFile = async (path: string, dispatch: AppDispatch): Promise<any> => {
     try {
-        const response = await api.get('/one', { params: { path: path } });
+        dispatch(upLoading(true))
+        const response = await fileAPI.loadFileAPI(path);
         return response.data;
     } catch (error) {
         console.error('Error load file:', error);
@@ -30,9 +32,10 @@ export const loadFile = async (path: string): Promise<any> => {
     }
 };
 // 파일 올리기
-export const uploadFile = async (file: any[], type: string, refId: number): Promise<any> => {
+export const uploadFile = async (file: any[], type: string, refId: number, dispatch: AppDispatch): Promise<any> => {
     try {
-        const response = await api.post('/upload', { FormData: { file: file, type: type, refId: refId } });
+        dispatch(upLoading(true))
+        const response = await fileAPI.uploadFilesAPI(file, type, refId)
         return response.data;
     } catch (error) {
         console.error('Error load file:', error);
@@ -41,9 +44,10 @@ export const uploadFile = async (file: any[], type: string, refId: number): Prom
 };
 
 // 파일 삭제
-export const deleteFile = async (fileDeleteModel: FileDeleteModel): Promise<boolean> => {
+export const deleteFile = async (fileDeleteModel: FileDeleteModel, dispatch: AppDispatch): Promise<boolean> => {
     try {
-        const response = await api.delete('/delete', { data: fileDeleteModel });
+        dispatch(upLoading(true))
+        const response = await fileAPI.deleteFileAPI(fileDeleteModel)
         return response.data;
     } catch (error) {
         console.error('Error load file:', error);
