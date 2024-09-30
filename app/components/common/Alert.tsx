@@ -1,4 +1,3 @@
-// components/Alert.tsx
 import React from 'react';
 
 interface AlertProps {
@@ -9,9 +8,8 @@ interface AlertProps {
   showConfirm?: boolean;
 }
 
-const Alert = ({ message, isOpen, onClose, onConfirm, showConfirm = false }) => {
+export default function  Alert ({ message, isOpen, onClose, onConfirm, showConfirm = false } : AlertProps) {
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
       <div className="bg-white p-6 rounded-lg shadow-xl">
@@ -43,5 +41,3 @@ const Alert = ({ message, isOpen, onClose, onConfirm, showConfirm = false }) => 
     </div>
   );
 };
-
-export default Alert{message, isOpen, onClose, onConfirm, showConfirm = false };

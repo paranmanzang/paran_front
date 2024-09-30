@@ -17,8 +17,8 @@ const GroupRow = ({ active, onSelect } : GroupRowProps) => {
   const groups = useSelector(getGroups)
   const loading = useSelector(getIsLoading);
   const error = useSelector(getError);
-  const page = 5; //임의로 넣어둠
-  const size = 5; //임의로 넣어둠
+  // const page = 5; //임의로 넣어둠
+  // const size = 5; //임의로 넣어둠
 
   const handleLikeChange = (active:boolean) => {
     console.log('좋아요 상태:', active);
@@ -33,10 +33,11 @@ const GroupRow = ({ active, onSelect } : GroupRowProps) => {
     onSelect();
   };
 
+  //isFetching 사용해서 쓸것임. -> 굳이 백엔드에 계속 접속해서 loading 을 할 필요가 없음.
   if (loading) {
     return <p>Loading...</p>;
   }
-
+  //isFetching 사용해서 쓸것임. -> 굳이 백엔드에 계속 접속해서 loading 을 할 필요가 없음.
   if(error) {
     return <p>Error: {error}</p>;
   }
@@ -75,7 +76,7 @@ const GroupRow = ({ active, onSelect } : GroupRowProps) => {
                 width={400}
                 height={330}
                 className="rounded-t-lg"
-                src={group.image || "https://picsum.photos/400/380"}
+                src={group.image || "process.env.NEXT_PUBLIC_IMAGE_DEFAULT"}
                 alt={`cover`}
                 priority
               />

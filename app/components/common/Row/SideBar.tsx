@@ -24,10 +24,16 @@ export default function SideBar() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const books = getBooks
   const groups = getGroups;
   // const chats = useSelector((state: RootState) => getChatRooms(state));
   const rooms = getRooms;
+
+  const books = () => {
+    const dispatch = useDispatch<AppDispatch>();
+  
+    useEffect(() => {
+      dispatch(fetchBooks({ page: 1, size: 10 }));
+    }, [dispatch]);
 
 
   const fetchTabData = async (tab: string) => {

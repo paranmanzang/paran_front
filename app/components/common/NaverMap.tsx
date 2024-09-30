@@ -7,7 +7,7 @@ interface NaverMapProps {
     addresses: AddressModel[];
 }
 
-const NaverMap = ({ addresses: NaverMapProps }) => {
+const NaverMap = ({ addresses } : NaverMapProps) => {
     let map: naver.maps.Map; // 'map' 변수를 useEffect 범위 바깥에 선언
     const router = useRouter();
     const onCLickToMove = (id: number) => {

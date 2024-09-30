@@ -37,6 +37,8 @@ const RoomRow = ({ active, onSelect }) => {
 
   }, [active, dispatch, page]);
 
+  
+
   const loadRoomFiles = (rooms: any[]) => {
     const roomIds = rooms.map(book => book.id);
     selectFileList(roomIds, FileType.ROOM, dispatch)
@@ -55,9 +57,9 @@ const RoomRow = ({ active, onSelect }) => {
   const getRoomImage = (roomId: number | undefined) => {
     if (roomId !== undefined) {
       const roomFile = files.roomFiles.find(file => file.refId === roomId);
-      return roomFile ? `http://localhost:8000/api/files/one?path=${roomFile.path}` : "https://picsum.photos/400/380"; // 기본 이미지 제공
+      return roomFile ? `process.env.NEXT_PUBLIC_FILE_URL/one?path=${roomFile.path}` : "process.env.NEXT_PUBLIC_IMAGE_DEFAULT"; // 기본 이미지 제공 
     }
-    return "https://picsum.photos/400/380";
+    return "process.env.NEXT_PUBLIC_IMAGE_DEFAULT";
   };
 
   const onClickToDetail = (currentId: number | undefined): void => {
@@ -66,7 +68,7 @@ const RoomRow = ({ active, onSelect }) => {
       if (currentRoom) {
         dispatch(saveCurrentRoom(currentRoom));
         dispatch(saveCurrentFile(files.roomFiles.find(({ refId }) => refId === currentId) ?? null));
-        router.push(`/rooms/${currentId}`);
+        router.push(`process.env.NEXT_PUBLIC_ROOM_URL${currentId}`);
       }
     } else {
       console.error("ID is null");
