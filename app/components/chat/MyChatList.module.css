@@ -35,11 +35,3 @@
 .listUp > * + * {
   margin-top: 0.5rem;
 }
-
-@media (prefers-color-scheme: dark) {
-  .listUp {
-    border-color: #4b5563;
-    background-color: #1f2937;
-    color: #9ca3af;
-  }
-}

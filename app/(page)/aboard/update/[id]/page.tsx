@@ -58,7 +58,7 @@ export default function Update() {
     <div className="min-h-[80vh] my-10">
       <form className="mx-auto max-w-sm" onSubmit={handleSubmit}>
         <div className="my-2">
-          <label htmlFor="title" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          <label htmlFor="title" className="mb-2 block text-sm font-medium text-gray-900">
             제목
           </label>
           <input
@@ -68,12 +68,12 @@ export default function Update() {
             value={formData.title}
             onChange={handleInputChange}
             placeholder="제목을 입력해주세요"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-400 focus:ring-green-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-400 dark:focus:ring-green-400"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-400 focus:ring-green-400"
             required
           />
         </div>
         <div className="my-2">
-          <label htmlFor="content" className="mb-2 block text-sm font-medium text-gray-900 dark:text-white">
+          <label htmlFor="content" className="mb-2 block text-sm font-medium text-gray-900">
             내용
           </label>
           <textarea
@@ -82,16 +82,16 @@ export default function Update() {
             rows={4}
             value={formData.content}
             onChange={handleInputChange}
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-400 focus:ring-green-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-400 dark:focus:ring-green-400"
+            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-400 focus:ring-green-400"
             placeholder="내용을 작성해주세요"
             required
           ></textarea>
         </div>
         <CategorySelect onChange={handleCategoryChange} />
-        <button type="submit" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-500">
+        <button type="submit" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500">
           수정하기
         </button>
-        <Link href="/aboard" className="mx-2 inline-block rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600">
+        <Link href="/aboard" className="mx-2 inline-block rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300">
           뒤로가기
         </Link>
       </form>

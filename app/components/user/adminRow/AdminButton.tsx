@@ -1,15 +1,23 @@
 "use client"
 import { useRouter } from "next/navigation"
 import styles from "./AdminButton.module.css"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Alert from "@/app/components/common/Alert";
 
+type getPageProps = {
+  pageUrl: string,
+  name: string
+}
+// {getPage : getPageProps} , ${getPage.pageUrl}
 export default function AdminButton() {
+  useEffect(() => {
+    // dispatchEvent.arguments.
+  })
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const route = useRouter();
   const handleUpdate = () => {
-    route.push('/rooms/update');
+    route.push(`/rooms/update`);
   }
   const handleAlertClose = () => {
     setIsAlertOpen(false);
@@ -22,7 +30,7 @@ export default function AdminButton() {
     Message();
   }
   const moveToPage = () => {
-    route.push('/rooms/add');
+    //route.push(`${getPage.pageUrl}/add`);
   }
 
   return (

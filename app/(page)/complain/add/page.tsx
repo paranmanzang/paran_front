@@ -17,11 +17,11 @@ export default function Add() {
       {/* form 에 데이터 옮기는 로직 만들기  */}
       <form>
         <div>
-          <label htmlFor="complainTitle" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">불편사항</label>
+          <label htmlFor="complainTitle" className="block mb-2 text-sm font-medium text-gray-900">불편사항</label>
           <input type="text" placeholder="신고접수사항을 적어주세요" id="complainTitle" className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5" />
         </div>
         <div className="my-6">
-        <label htmlFor="complainContent" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">신고접수내용</label>
+        <label htmlFor="complainContent" className="block mb-2 text-sm font-medium text-gray-900">신고접수내용</label>
         <input type="text"  placeholder="신고접수내용을 적어주세요" id="complainContent" className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5" />
         </div>
         <button type="button" className="p-2 mx-2 bg-green-500 text-white rounded-lg" onClick={postComplain}>접수</button>

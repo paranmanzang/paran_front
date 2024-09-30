@@ -11,6 +11,7 @@ import { RoomModel } from "@/app/model/room.model";
 import { selectFileList } from "@/app/service/File/file.service";
 import { getFiles, saveFiles } from "@/lib/features/file.Slice";
 import { FileType } from "@/app/model/file.model";
+import { RootState } from "@/lib/store";
 interface RoomRowProps {
   active: boolean;
   onSelect: () => void;
@@ -18,8 +19,8 @@ interface RoomRowProps {
 
 const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
   const [isActive, setIsActive] = useState<boolean>(active);
-  const rooms = useSelector(state => getRooms(state));
-  const files = useSelector(state => getFiles(state))
+  const rooms = useSelector((state:RootState) => getRooms(state));
+  const files = useSelector((state:RootState) => getFiles(state))
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -28,26 +29,21 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
   const size: number = 25;
   const [page, setPage] = useState<number>(0);
 
-
-
   useEffect(() => {
     setIsActive(active);
 
-    findAllRooms(page, size).then(data => {
+    findAllRooms(page, size).then((data: RoomModel[] | undefined) => {
       if (data) {
-        dispatch(saveRooms(data))
-        const refIdList: number[] = data.map(data => data.id);
+        dispatch(saveRooms(data));
+        const refIdList: number[] = data.map(room => room.id);
         selectFileList(refIdList, FileType.ROOM).then(response => {
-          console.log(response.map(file => file))
-          console.log(FileType.ROOM, "파일 응답: ", response.map(file => file.path + ": " + typeof file.path))
-          console.log("파일 filter: ", response.filter(files => files.type === FileType.ROOM))
-          if (response) dispatch(saveFiles(response))
-        })
-
+          console.log(response.map(file => file));
+          console.log(FileType.ROOM, "파일 응답: ", response.map(file => file.path + ": " + typeof file.path));
+          console.log("파일 filter: ", response.filter(files => files.type === FileType.ROOM));
+          if (response) dispatch(saveFiles(response));
+        });
       }
-    })
-
-
+    });
   }, [active, dispatch, page]);
 
 
@@ -61,12 +57,15 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
     onSelect();
   };
 
-  const onClickToDetail = (currentId: number | undefined) => {
-    if (currentId !== undefined) {
-      dispatch(saveCurrentRoom(rooms.find(({ id }) => id === currentId)))
-      router.push(`/rooms/${currentId}`);
+  const onClickToDetail = (currentId: number | null): void => {
+    if (currentId !== null) {
+      const currentRoom = rooms.find(({ id }) => id === currentId);
+      if (currentRoom) {
+        dispatch(saveCurrentRoom(currentRoom));
+        router.push(`/rooms/${currentId}`);
+      }
     } else {
-      console.error("ID is undefined");
+      console.error("ID is null");
     }
   };
   return (
@@ -83,13 +82,13 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
                 </div>
                 {/* 어드민 셀러만 보이게 */}
                 <div id="selectBtn">
-                  <input id="select" type="checkbox" value="" className="size-6 rounded border-gray-300 bg-gray-100 text-green-600 focus:ring-2 focus:ring-green-500 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-green-600" />
+                  <input id="select" type="checkbox" value="" className="size-6 rounded border-gray-300 bg-gray-100 text-green-600 focus:ring-2 focus:ring-green-500 " />
                   <label htmlFor="select" hidden>chatSelect</label>
                 </div>
               </div>
             </form>
             <div
-              className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 ${isActive ? 'ring-2 ring-green-500' : ''
+              className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${isActive ? 'ring-2 ring-green-500' : ''
                 }`}
               onClick={handleClick}
             >
@@ -117,11 +116,11 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
               <div className="p-5">
                 <Link href={`/rooms/${room.id}`}>
                   <h5 className={`mb-2 text-lg font-medium tracking-tight ${isActive ? 'text-green-600' : 'text-gray-900'
-                    } dark:text-white`}>
+                    } `}>
                     {room.name}
                   </h5>
                 </Link>
-                <p className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-400">
+                <p className="mb-3 text-sm font-medium text-gray-700 ">
                   {room.price.toLocaleString("ko-kr")}원
                 </p>
                 <p className="text-sm font-medium">판매자: {room.nickname}</p>
@@ -129,7 +128,7 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
                   className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${isActive
                     ? 'bg-green-600 hover:bg-green-700'
                     : 'bg-green-400 hover:bg-green-500'
-                    } dark:bg-green-400 dark:hover:bg-green-500`}
+                    } `}
                 >
                   상세보기
                   <svg

@@ -7,28 +7,46 @@ import { AccountResultModel, AmountModel } from "@/app/model/account.model";
 import { useSelector } from "react-redux";
 import { getCurrentBooking } from "@/lib/features/bookings.Slice";
 import { getCurrentUser } from "@/lib/features/user.Slice";
+import { BookingModel } from "@/app/model/bookings.model";
 
-export default function AccountButton() {
+// RootState 타입 정의 (실제 Redux store 구조에 맞게 수정 필요)
+interface RootState {
+  booking: {
+    currentBooking: BookingModel | null;
+  };
+  user: {
+    currentUser: {
+      nickname: string;
+    } | null;
+  };
+}
+
+interface TossPaymentResponse {
+  orderId: string;
+  paymentKey: string;
+  amount: {
+    value: number;
+  };
+}
+
+export default function AccountButton(): JSX.Element {
   // 입력 받은 값
   const orderName: string = "1회 모임";
   const amountValue: number = 5000;
-  const booking = useSelector(state => getCurrentBooking(state))
-  const user = useSelector(state => getCurrentUser(state))
-  // const booking = { id: 245, groupId: 1, roomId: 12, date: "2024-09-27", usingTime: ["10:00"], enabled: true }
+  const booking = useSelector((state: RootState) => getCurrentBooking(state));
+  const user = useSelector((state: RootState) => getCurrentUser(state));
   const usePoint: number = 0;
-  const [payment, setPayment] = useState<TossPaymentsPayment | null>(null)
+  const [payment, setPayment] = useState<TossPaymentsPayment | null>(null);
   const [amount] = useState<AmountModel>({
     currency: "KRW",
     value: amountValue,
   });
 
   useEffect(() => {
-    async function fetchPayment() {
+    async function fetchPayment(): Promise<void> {
       try {
         const tossPayments = await loadTossPayments("test_ck_mBZ1gQ4YVX9QGM06mRNRrl2KPoqN");
-
         const payment = tossPayments.payment({ customerKey: ANONYMOUS });
-
         setPayment(payment);
       } catch (error) {
         console.error("Error fetching payment:", error);
@@ -36,12 +54,13 @@ export default function AccountButton() {
     }
     fetchPayment();
   }, []);
-  const requestPayment = async () => {
+
+  const requestPayment = async (): Promise<void> => {
     if (!payment) {
       console.error("Payment instance is not initialized.");
       return;
     }
-    const today = new Date()
+    const today = new Date();
     const orderDate = "".concat(
       today.getFullYear().toString(),
       (today.getMonth() + 1).toString().padStart(2, '0'),
@@ -54,7 +73,7 @@ export default function AccountButton() {
         amount: amount,
         orderId: orderDate + v4().substring(0, 50),
         orderName: orderName,
-        customerName: user.nickname,
+        customerName: user?.nickname || "",
         windowTarget: "iframe",
         card: {
           useEscrow: false,
@@ -63,37 +82,33 @@ export default function AccountButton() {
           useAppCardOnly: false,
         },
       })
-        .then(function (response: any) {
-
-          if (response) {
-            const model: AccountResultModel =
-            {
+        .then(function (response: TossPaymentResponse) {
+          if (response && booking) {
+            const model: AccountResultModel = {
               orderId: response.orderId,
               paymentKey: response.paymentKey,
               amount: response.amount.value,
               orderName: orderName,
-              roomId: booking?.roomId,
-              groupId: booking?.groupId,
-              bookingId: booking?.id,
+              roomId: booking.roomId,
+              groupId: booking.groupId,
+              bookingId: booking.id,
               usePoint: usePoint,
-
-            }
-            savePayment(model).then((response) => {
-              if (response) {
+            };
+            savePayment(model).then((paymentResponse) => {
+              if (paymentResponse) {
                 console.log("결제 성공");
               }
-            })
+            });
           }
-        })
-
+        });
     } catch (error) {
       console.error("Payment request failed:", error);
     }
   };
+
   return (
     <div>
-      {/* 여기에 결제 버튼 붙여주세요  */}
       <button className="rounded-lg bg-green-100 p-2 text-sm text-gray-900" onClick={requestPayment}>결제하기</button>
     </div>
-  )
+  );
 }

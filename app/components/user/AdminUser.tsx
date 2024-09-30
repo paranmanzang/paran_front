@@ -20,7 +20,7 @@ export default function AdminUser() {
   }
 
   return (
-    <div className="mx-auto my-[40px] py-3 px-6 h-auto w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800">
+    <div className="mx-auto my-[40px] py-3 px-6 h-auto w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow">
       <div className="flex mb-10">
       {/* 유저 이미지 */}
         <div className="flex flex-col items-center ml-3">
@@ -34,23 +34,23 @@ export default function AdminUser() {
         </div>
         {/* 유저정보 */}
         <div className="flex items-center">
-          <ul className="text-sm dark:text-white">
+          <ul className="text-sm">
             <li className="flex items-center">
               닉네임
-              <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900 dark:text-white">
+              <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
                 spongeBOB
               </h5>
             </li>
             <li className="flex items-center">
               유저 포인트
-              <h5 className="mb-2 ml-6 flex items-end text-xl font-medium text-gray-900 dark:text-white">
+              <h5 className="mb-2 ml-6 flex items-end text-xl font-medium text-gray-900">
                 10
-                <p className="text-sm dark:text-white">점</p>
+                <p className="text-sm">점</p>
               </h5>
             </li>
             <li className="flex items-center">
               유저 등급
-              <h5 className="mb-2 ml-6 flex items-end text-xl font-medium text-gray-900 dark:text-white">
+              <h5 className="mb-2 ml-6 flex items-end text-xl font-medium text-gray-900">
                 seller
               </h5>
             </li>
@@ -59,10 +59,10 @@ export default function AdminUser() {
       </div>
 {/* 버튼 */}
       <div className="flex items-center justify-center">
-      <button type="button" onClick={handlePageUserJoin} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white dark:bg-green-600 dark:hover:bg-green-500">등록정보</button>
-        <button type="button" onClick={handlePageUserUpdate} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white dark:bg-green-600 dark:hover:bg-green-500">회원등급 수정</button>
-        <button type="button" onClick={handlePage} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white dark:bg-green-600 dark:hover:bg-green-500">회원강제탈퇴</button>
-        <button type="button" onClick={handleGoBack} className="m-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-500 dark:bg-green-600 dark:hover:bg-green-500 hover:text-white">뒤로가기</button>
+      <button type="button" onClick={handlePageUserJoin} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white">등록정보</button>
+        <button type="button" onClick={handlePageUserUpdate} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white">회원등급 수정</button>
+        <button type="button" onClick={handlePage} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white">회원강제탈퇴</button>
+        <button type="button" onClick={handleGoBack} className="m-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-500 hover:text-white">뒤로가기</button>
       </div>
     </div>
   );

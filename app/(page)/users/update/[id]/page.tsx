@@ -9,11 +9,11 @@ export default function UserUpdate() {
     <div className="max-w-sm mx-auto p-6 my-8 bg-green-100 rounded-lg">
       <form className="p-2">
         <div>
-          <label htmlFor="ID" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">아이디</label>
+          <label htmlFor="ID" className="block mb-2 text-sm font-medium text-gray-900">아이디</label>
           <input type="text" id="ID" placeholder="userID" disabled className=" border text-sm rounded-lg  block w-full p-2.5"/>
         </div>
         <div className="my-6">
-          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">비밀번호</label>
+          <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">비밀번호</label>
           <input type="text" id="password" placeholder="변경할 비밀번호를 입력해주세요" className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5"/>
         </div>
         <button type="button" onClick={onUpdate} className="p-2 bg-green-400 mx-2 rounded-lg text-white">수정하기</button>

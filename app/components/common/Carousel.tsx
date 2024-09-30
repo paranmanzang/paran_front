@@ -63,7 +63,7 @@ export default function Carousel() {
   const renderButton = (btn: { text: string; link: string }) => (
     <button
       onClick={handleButtonClick}
-      className="inline-flex items-center justify-center rounded-lg bg-green-400 px-5 py-2.5 text-center text-base font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-300 dark:focus:ring-green-700"
+      className="inline-flex items-center justify-center rounded-lg bg-green-400 px-5 py-2.5 text-center text-base font-medium text-white hover:bg-green-500 focus:ring-4 focus:ring-green-300"
     >
       {btn.text}
       <svg
@@ -113,11 +113,11 @@ export default function Carousel() {
               index === currentSlide ? "opacity-100" : "opacity-0"
             }`}
           >
-            <h2 className="text-4xl font-extrabold dark:text-gray-900">
+            <h2 className="text-4xl font-extrabold">
               {item.title}
             </h2>
             <p className="my-2 text-lg text-gray-500">{item.string}</p>
-            <p className="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">
+            <p className="mb-4 text-lg font-normal text-gray-500">
               {item.text}
             </p>
             {renderButton(item.btn)}

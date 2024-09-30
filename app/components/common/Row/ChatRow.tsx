@@ -36,13 +36,13 @@ const ChatRow: React.FC<ChatRowProps> = ({ active, onSelect }) => {
           </div>
           {/* 어드민 셀러만 보이게 */}
           <div id="selectBtn">
-            <input id="select" type="checkbox" value="" className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+            <input id="select" type="checkbox" value="" className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500" />
             <label htmlFor="select" hidden>chatSelect</label>
           </div>
         </div>
       </form>
       <div
-        className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 ${isActive ? 'ring-2 ring-green-500' : ''
+        className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow  ${isActive ? 'ring-2 ring-green-500' : ''
           }`}
         onClick={handleClick}
       >
@@ -59,11 +59,11 @@ const ChatRow: React.FC<ChatRowProps> = ({ active, onSelect }) => {
         <div className="p-5">
           <Link href={`/books/2`}>
             <h5 className={`mb-2 text-lg font-medium tracking-tight ${isActive ? 'text-green-600' : 'text-gray-900'
-              } dark:text-white`}>
+              } `}>
               title
             </h5>
           </Link>
-          <p className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-400">
+          <p className="mb-3 text-sm font-medium text-gray-700">
             content
           </p>
           <p className="text-sm font-medium">chatList</p>
@@ -72,7 +72,7 @@ const ChatRow: React.FC<ChatRowProps> = ({ active, onSelect }) => {
             className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${isActive
               ? 'bg-green-600 hover:bg-green-700'
               : 'bg-green-400 hover:bg-green-500'
-              } dark:bg-green-400 dark:hover:bg-green-500`}
+              } `}
           >
             상세보기
             <svg
