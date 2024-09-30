@@ -1,13 +1,15 @@
 import { ReviewModel, ReviewUpdateModel } from '@/app/model/review.model';
-import api from '../../api/axios';
-import requests from '@/app/api/requests';
 import { AppDispatch } from '@/lib/store';
+import { roomAPI } from '@/app/api/generate/rooms.api';
+import { addReview, deleteReview, saveLoading, saveReviews, updateReview } from '@/lib/features/review.Slice';
 
 // 리뷰 등록
-export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch): Promise<boolean> => {
+export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch): Promise<void> => {
   try {
-    const response = await api.post<boolean>(requests.fetchRooms + '/add', reviewModel);
-    return response.data;
+    dispatch(saveLoading(true))
+    const response = await roomAPI.saveReviewAPI(reviewModel);
+    dispatch(addReview(response.data))
+
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -23,10 +25,11 @@ export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch
 };
 
 // 리뷰 수정
-export const updateReview = async (reviewModel: ReviewUpdateModel, dispatch: AppDispatch): Promise<boolean> => {
+export const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: AppDispatch): Promise<void> => {
   try {
-    const response = await api.put<boolean>(requests.fetchRooms + '/update', reviewModel);
-    return response.data;
+    dispatch(saveLoading(true))
+    const response = await roomAPI.modifidReviewAPI(reviewModel);
+    dispatch(updateReview(response.data))
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -42,9 +45,11 @@ export const updateReview = async (reviewModel: ReviewUpdateModel, dispatch: App
 };
 
 // 리뷰 삭제
-export const deleteReview = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
+export const dropReview = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
   try {
-    const response = await api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
+    dispatch(saveLoading(true))
+    const response = await roomAPI.dropReviewAPI(id)
+    dispatch(deleteReview(id))
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -61,10 +66,11 @@ export const deleteReview = async (id: number, dispatch: AppDispatch): Promise<b
 };
 
 // 모든 리뷰 조회
-export const getAllReviews = async (page: number, size: number, dispatch: AppDispatch): Promise<ReviewModel[]> => {
+export const getAllReviews = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
-    const response = await api.get<Page<ReviewModel>>(requests.fetchRooms + '/list', { param: { page, size } });
-    return response.data.content;
+    dispatch(saveLoading(true))
+    const response = await roomAPI.findAllReviewAPI(page, size)
+    dispatch(saveReviews(response.data.content))
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -80,10 +86,29 @@ export const getAllReviews = async (page: number, size: number, dispatch: AppDis
 };
 
 // 공간 기준 리뷰 조회
-export const getReviewsByRoom = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<ReviewModel[]> => {
+export const getReviewsByRoom = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
-    const response = await api.get<Page<ReviewModel>>(requests.fetchRooms + `/list/rooms/${roomId}`, { param: { page, size } });
-    return response.data.content;
+    dispatch(saveLoading(true))
+    const response = await roomAPI.findReviewByRoomAPI(roomId, page, size)
+    dispatch(saveReviews(response.data.content))
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Server Error:', error.response.data);
+      throw new Error('서버에서 오류가 발생했습니다.');
+    } else if (error.request) {
+      console.error('No Response:', error.request);
+      throw new Error('서버 응답이 없습니다.');
+    } else {
+      console.error('Error:', error.message);
+      throw new Error('공간 리뷰 조회 중 오류 발생');
+    }
+  }
+};
+export const getReviewsByUser = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+  try {
+    dispatch(saveLoading(true))
+    const response = await roomAPI.findReviewByUserAPI(nickname, page, size)
+    dispatch(saveReviews(response.data.content))
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);

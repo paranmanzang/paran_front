@@ -36,14 +36,6 @@ export const roomSlice = createSlice({
 // Selector 함수들
 export const getRooms = (state: RootState) => state.room.rooms;
 export const getCurrentRoom = (state: RootState) => state.room.currentRoom;
-export const getReviews = (state: RootState) => state.room.reviews;
-export const getCurrentReview = (state: RootState) => state.room.currentReview;
-export const getBookings = (state: RootState) => state.room.bookings;
-export const getCurrentBooking = (state: RootState) => state.room.currentBooking;
-export const getAddresses = (state: RootState) => state.room.addresses;
-export const getCurrentAddress = (state: RootState) => state.room.currentAddress;
-export const getAccountResult = (state: RootState) => state.room.accountResult;
-export const getAccountCancel = (state: RootState) => state.room.accountCancel;
 export const getIsLoading = (state: RootState) => state.room.isLoading;
 export const getError = (state: RootState) => state.room.error;
 
