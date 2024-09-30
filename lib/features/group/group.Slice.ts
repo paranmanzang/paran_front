@@ -28,49 +28,47 @@ const groupSlice = createSlice({
       state.currentGroup = action.payload;
     },
     saveGroupPosts: (state, action: PayloadAction<GroupPostResponseModel[]>) => {
-      // categoryName에 따라 posts를 분리하여 저장
-      const noticePosts = action.payload.filter(post => post.postCategory === '공지 사항');
-      const generalPosts = action.payload.filter(post => post.postCategory !== '공지 사항');
-  
-      state.groupPostsNotice = [...noticePosts];  // notice 카테고리
-      state.groupPostsGeneral = [...generalPosts]; // 나머지 카테고리
+      state.groupPostsNotices = action.payload.filter(post => post.postCategory === '공지 사항');
+      state.groupPostsGenerals = action.payload.filter(post => post.postCategory !== '공지 사항');
     },
     addGroupPost: (state, action: PayloadAction<GroupPostResponseModel>) => {
-      // categoryName에 따라 적절한 배열에 추가
-      if (action.payload.postCategory === '공지 사항') {
-        state.groupPostsNotice = [...state.groupPostsNotice, action.payload];
-      } else {
-        state.groupPostsGeneral = [...state.groupPostsGeneral, action.payload];
+      switch (action.payload.postCategory) {
+        case '공지 사항':
+          state.groupPostsNotices.push(action.payload);
+          break;
+        case '자유 게시판':
+          state.groupPostsGenerals.push(action.payload);
+          break;
       }
     },
     updateGroupPost: (state, action: PayloadAction<GroupPostResponseModel>) => {
-      if (action.payload.postCategory === '공지 사항') {
-        const index = state.groupPostsNotice.findIndex(post => post.id === action.payload.id);
+
+      const { id, postCategory } = action.payload;
+      const updatePostList = (posts: GroupPostResponseModel[]) => {
+        const index = posts.findIndex(post => post.id === id);
         if (index !== -1) {
-          state.groupPostsNotice = [
-            ...state.groupPostsNotice.slice(0, index),
-            action.payload,
-            ...state.groupPostsNotice.slice(index + 1),
-          ];
+          posts[index] = action.payload;
         }
-      } else {
-        const index = state.groupPostsGeneral.findIndex(post => post.id === action.payload.id);
-        if (index !== -1) {
-          state.groupPostsGeneral = [
-            ...state.groupPostsGeneral.slice(0, index),
-            action.payload,
-            ...state.groupPostsGeneral.slice(index + 1),
-          ];
-        }
+      };
+
+      switch (postCategory) {
+        case '공지 사항':
+          updatePostList(state.groupPostsNotices);
+          break;
+        case '자유 게시판':
+          updatePostList(state.groupPostsGenerals);
+          break;
       }
     },
-    deleteGroupPost: (state, action: PayloadAction<{ id: number; categoryName: string }>) => {
-      const { id, categoryName } = action.payload;
-  
-      if (categoryName === '공지 사항') {
-        state.groupPostsNotice = state.groupPostsNotice.filter(post => post.id !== id);
-      } else {
-        state.groupPostsGeneral = state.groupPostsGeneral.filter(post => post.id !== id);
+    deleteGroupPost: (state, action: PayloadAction<{ id: number; postCategory: string }>) => {
+      const { id, postCategory } = action.payload;
+      switch (postCategory) {
+          case '공지 사항':
+              state.groupPostsNotices = state.groupPostsNotices.filter(post => post.id !== id);
+              break;
+          case '자유 게시판':
+              state.groupPostsGenerals = state.groupPostsGenerals.filter(post => post.id !== id);
+              break;
       }
     },
     saveCurrentGroupPost: (state, action: PayloadAction<GroupPostResponseModel | null>) => {
@@ -99,10 +97,11 @@ const groupSlice = createSlice({
     },
   },
 });
-
+export const getGroupPosts = (state: RootState) => ({
+  groupPostsNotice: state.group.groupPostsNotices,
+  groupPostsGeneral: state.group.groupPostsGenerals,
+});
 export const getGroups = (state: RootState) => state.group.groups;
-export const getGroupPostsNotice = (state: RootState) => state.group.groupPostsNotice;
-export const getGroupPostsGeneral = (state: RootState) => state.group.groupPostsGeneral;
 export const getPoints = (state: RootState) => state.group.points;
 export const getCurrentGroup = (state: RootState) => state.group.currentGroup;
 export const getCurrentGroupPost = (state: RootState) => state.group.currentGroupPost;

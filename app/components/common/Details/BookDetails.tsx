@@ -21,7 +21,6 @@ export default function Details() {
       <Image
             src={`http://localhost:8000/api/files/one?path=${file.path}`}
             alt={book.title}
-            layout="responsive" 
             width={400}
             height={380}
           />

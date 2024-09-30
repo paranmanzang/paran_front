@@ -52,7 +52,7 @@ export const getPostsByGroupId = async (groupId: number, page: number, size: num
     }
 };
 
-// 내가 속한 그룹의 게시물 목록 카운트 조회
+// 내가 속한 그룹의 게시물 목록 카운트 수정
 export const updateViewCount = async (postId: number): Promise<Boolean | ExceptionResponseModel> => {
     try {
         const response = await api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/grouppost/${postId}`);

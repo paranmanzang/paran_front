@@ -96,8 +96,8 @@ instance.interceptors.response.use(
 
       // Refresh token으로 accessToken 재발급 시도
       try {
-        const refreshResponse = await instance.post('/refresh-token', {}, {
-          withCredentials: true, // 쿠키에 저장된 refreshToken을 사용
+        const refreshResponse = await instance.post('/reissue', {}, {
+          withCredentials: true,
         });
 
         if (refreshResponse.status === 200) {
@@ -106,7 +106,7 @@ instance.interceptors.response.use(
           originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
           return instance(originalRequest); // 실패했던 요청을 재시도
         }
-        
+
       } catch (refreshError) {
         console.error('Refresh token failed:', refreshError);
         // removeAccessToken();
