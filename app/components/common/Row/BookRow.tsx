@@ -100,7 +100,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
                   id="select"
                   type="checkbox"
                   value=""
-                  className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 focus:ring-2"
                 />
                 <label htmlFor="select" hidden>
                   chatSelect
@@ -111,7 +111,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
 
           {/* 책 카드 */}
           <div
-            className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow dark:border-gray-700 dark:bg-gray-800 ${
+            className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${
               isActive ? "ring-2 ring-green-500" : ""
             }`}
             onClick={handleClick}
@@ -132,7 +132,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
                 <h5
                   className={`mb-2 text-lg font-medium tracking-tight ${
                     isActive ? "text-green-600" : "text-gray-900"
-                  } dark:text-white`}
+                  } `}
                 >
                   {book.title}
                 </h5>
@@ -146,7 +146,7 @@ const BookRow: React.FC<BookRowProps> = ({ active, onSelect }) => {
                   isActive
                     ? "bg-green-600 hover:bg-green-700"
                     : "bg-green-400 hover:bg-green-500"
-              } dark:bg-green-400 dark:hover:bg-green-500`}
+              } `}
               >
                 상세보기
                 <svg

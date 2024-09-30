@@ -84,13 +84,13 @@ export default function SideBar() {
   return (
     <div>
       {/* 이부분의 props 를 변경해줘야 함. */}
-      <AdminButton />
+      <AdminButton getPage={'', ''} />
       {/* <AdminButton page={'rooms'}/> */}
       {/* <SellerButton page={}/> */}
       <div className="flex min-h-screen w-full">
         <aside
           id="default-sidebar"
-          className="w-64 bg-green-100 dark:bg-gray-800"
+          className="w-64 bg-green-100"
           aria-label="Sidebar"
         >
           <div className="h-full overflow-y-auto px-3 py-4">
@@ -104,16 +104,16 @@ export default function SideBar() {
                 <li key={item.name}>
                   <button
                     type="button"
-                    className={`group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200 dark:text-white dark:hover:bg-gray-700 ${activeTab === item.name
-                        ? "bg-green-200 text-green-600 dark:bg-gray-700 dark:text-green-500"
-                        : "border-transparent hover:border-gray-300 hover:text-gray-600 dark:hover:text-gray-300"
+                    className={`group flex w-full items-center rounded-lg p-2 text-base text-gray-900 transition duration-75 hover:bg-green-200  ${activeTab === item.name
+                        ? "bg-green-200 text-green-600 "
+                        : "border-transparent hover:border-gray-300 hover:text-gray-600 "
                       }`}
                     onClick={() => setActiveTab(item.name)}
                   >
                     {item.icon}
                     <span className="ms-3 flex-1 whitespace-nowrap">{item.label}</span>
                     {item.name === "Chats" && (
-                      <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                      <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800">
                         3{/* 채팅방 갯수 ? */}
                       </span>
                     )}

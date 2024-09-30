@@ -12,7 +12,7 @@ export default function AccountButton() {
   // 입력 받은 값
   const orderName: string = "1회 모임";
   const amountValue: number = 5000;
-  const booking = useSelector(state => getCurrentBooking(state))
+  const booking = useSelector(state => getCurrentBooking(state?))
   const user = useSelector(state => getCurrentUser(state))
   // const booking = { id: 245, groupId: 1, roomId: 12, date: "2024-09-27", usingTime: ["10:00"], enabled: true }
   const usePoint: number = 0;

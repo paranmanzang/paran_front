@@ -1,99 +1,51 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import dynamic from 'next/dynamic';
 
-import ChatPage from "@/app/components/chat/ChatPages/ChatPage";
-import MyChatList from "@/app/components/chat/MyChatList";
-import PeopleList from "@/app/components/chat/PeopleList";
-import MyProfile from "@/app/components/chat/MyProfile";
-import { ChatMessageModel, ChatRoomModel, ChatUserModel, LastReadMesaageTimeModel } from "@/app/model/chat/chat.model";
+import { ChatMessageModel, ChatRoomModel, ChatUserModel } from "@/app/model/chat/chat.model";
 import { getPeopleList } from "@/app/service/chat/chatUser.service";
 import { getMessageList } from "@/app/service/chat/chatMessage.service";
-import { useRouter } from "next/navigation";
 import { getChatList, saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
-import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/lib/store";
-import { getCurrentChatRoom, getError, getIsLoading,saveError, saveLoading, } from "@/lib/features/chat/chat.Slice";
+import { getCurrentChatRoom, getError, getIsLoading, saveError, saveLoading } from "@/lib/features/chat/chat.Slice";
+
+const ChatPage = dynamic(() => import("@/app/components/chat/ChatPages/ChatPage"), { ssr: false });
+const MyChatList = dynamic(() => import("@/app/components/chat/MyChatList"), { ssr: false });
+const PeopleList = dynamic(() => import("@/app/components/chat/PeopleList"), { ssr: false });
+const MyProfile = dynamic(() => import("@/app/components/chat/MyProfile"), { ssr: false });
 
 export default function ChatRoom() {
   const router = useRouter();
-  const nickname = "A"; // 임의로 넣어둠
-  const [messages, setMessages] = useState<ChatMessageModel[]>([]);
-  const unsubscribeRef = useRef<(() => void) | null>(null);
-  const [chatRooms, setChatRooms] = useState<ChatRoomModel[]>([])
-  const [chatUsers, setChatUsers] = useState<ChatUserModel[]>([])
-
   const dispatch = useDispatch<AppDispatch>();
-  const chatRoom = useSelector((state: RootState) => getCurrentChatRoom(state))
+  const chatRoom = useSelector((state: RootState) => getCurrentChatRoom(state));
   const loading = useSelector((state: RootState) => getIsLoading(state));
   const error = useSelector((state: RootState) => getError(state));
+
+  const nickname = "A"; // TODO: 실제 사용자 닉네임으로 대체
   const roomId = chatRoom?.roomId ?? '';
-  // 팝업 창 상태 관리
+
+  const [messages, setMessages] = useState<ChatMessageModel[]>([]);
+  const [chatRooms, setChatRooms] = useState<ChatRoomModel[]>([]);
+  const [chatUsers, setChatUsers] = useState<ChatUserModel[]>([]);
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
 
-  // 팝업 열기 및 닫기 함수
-  const togglePopUp = () => {
-    setIsPopUpOpen(!isPopUpOpen);
+  const unsubscribeRef = useRef<(() => void) | null>(null);
+
+  const togglePopUp = useCallback(() => {
+    setIsPopUpOpen((prev) => !prev);
     const url = `/chats/${roomId}`;
-    const popup = window.open(
+    window.open(
       url,
       "작은채팅방",
       "toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=0, resizable=0, width=500, height=800, top=30, left=30",
     );
-  };
+  }, [roomId]);
 
-  useEffect(() => {
-    dispatch(saveLoading(true));
-
-    getChatList({ nickname })
-      .then(result => {
-        if (result && Array.isArray(result)) {
-          setChatRooms(result);
-        } else {
-          dispatch(saveError("채팅방 목록을 불러오는 중 오류가 발생했습니다."));
-        }
-      })
-      .catch((error) => {
-        dispatch(saveError((error as Error).message || "채팅방 유저을 불러오는 중 오류가 발생했습니다."));
-      })
-
-    getPeopleList({ roomId })
-      .then(result => {
-        if (result && Array.isArray(result)) {
-          setChatUsers(result);
-        } else {
-          dispatch(saveError("유저 목록을 불러오는 중 오류가 발생했습니다."));
-        }
-      })
-      .catch((error) => {
-        dispatch(saveError((error as Error).message || "방 유저을 불러오는 중 오류가 발생했습니다."));
-      })
-
-
-
-    // SSE로 실시간 메시지 구독
-    const handleNewMessage = (newMessage: ChatMessageModel) => {
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-    };
-
-    getMessageList({
-      roomId,
-      nickname,
-      onMessage: handleNewMessage,
-    });
-
-    dispatch(saveLoading(false));
-
-    // 컴포넌트 언마운트 시 SSE 연결 종료
-    return () => {
-      if (unsubscribeRef.current) {
-        unsubscribeRef.current(); // SSE 연결 종료
-      }
-    };
-  }, [chatRoom, dispatch]);
-
-  const leaveChat = () => {
+  const leaveChat = useCallback(() => {
     if (unsubscribeRef.current) {
-      unsubscribeRef.current(); // SSE 연결 종료
+      unsubscribeRef.current();
     }
 
     if (!chatRoom) {
@@ -114,9 +66,79 @@ export default function ChatRoom() {
         console.error("마지막 읽은 메시지 시간 저장 중 오류 발생:", error);
       })
       .finally(() => {
-        router.push("/chats/list"); // 페이지 이동
+        router.push("/chats/list");
       });
-  };
+  }, [chatRoom, dispatch, nickname, roomId, router]);
+
+  useEffect(() => {
+    dispatch(saveLoading(true));
+
+    const fetchChatData = async () => {
+      try {
+        const [chatRoomsResult, chatUsersResult] = await Promise.all([
+          getChatList({ nickname }),
+          getPeopleList({ roomId })
+        ]);
+
+        if (Array.isArray(chatRoomsResult)) {
+          setChatRooms(chatRoomsResult);
+        } else {
+          throw new Error("채팅방 목록을 불러오는 중 오류가 발생했습니다.");
+        }
+
+        if (Array.isArray(chatUsersResult)) {
+          setChatUsers(chatUsersResult);
+        } else {
+          throw new Error("유저 목록을 불러오는 중 오류가 발생했습니다.");
+        }
+
+        const handleNewMessage = (newMessage: ChatMessageModel) => {
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+        };
+  
+        // getMessageList의 반환 타입에 따라 처리
+        const unsubscribe = await getMessageList({
+          roomId,
+          nickname,
+          onMessage: handleNewMessage,
+        });
+        
+
+        if (typeof unsubscribe === 'function') {
+          unsubscribeRef.current = unsubscribe;
+        } else {
+          console.error('getMessageList did not return a function');
+        }
+  
+      } catch (error) {
+        dispatch(saveError((error as Error).message));
+      } finally {
+        dispatch(saveLoading(false));
+      }
+    };
+
+    fetchChatData();
+
+    return () => {
+      if (unsubscribeRef.current) {
+        unsubscribeRef.current();
+      }
+    };
+  }, [chatRoom, dispatch, nickname, roomId]);
+
+  const memoizedChatPage = useMemo(() => (
+    <ChatPage messages={messages} roomId={roomId} />
+  ), [messages, roomId]);
+
+  const memoizedMyChatList = useMemo(() => (
+    <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />
+  ), [chatRooms, roomId]);
+
+  const memoizedPeopleList = useMemo(() => (
+    chatUsers.map((user) => (
+      <PeopleList key={user.nickname} chatUser={user} />
+    ))
+  ), [chatUsers]);
 
   if (loading) {
     return <div>로딩 중...</div>;
@@ -129,18 +151,14 @@ export default function ChatRoom() {
   return (
     <div className="relative w-full">
       <div className="fixed left-0 top-0 min-h-screen w-full">
-        <div
-          id="chatHead"
-          className="mt-1 flex justify-end bg-gray-100 text-black opacity-90"
-        >
-          {/* PopUp 버튼 - 모바일에서는 안보이도록 후처리 */}
+        <div id="chatHead" className="mt-1 flex justify-end bg-gray-100 text-black opacity-90">
           <button
             type="button"
             onClick={togglePopUp}
-            className="mb-1 me-2 rounded-full bg-green-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-900 "
+            className="mb-1 me-2 rounded-full bg-green-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300"
           >
             <svg
-              className="size-4 text-white dark:text-white"
+              className="size-4 text-white"
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               fill="currentColor"
@@ -152,23 +170,22 @@ export default function ChatRoom() {
           </button>
           <button
             onClick={leaveChat}
-            className="mb-1 me-2 rounded-full bg-red-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+            className="mb-1 me-2 rounded-full bg-red-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300"
           >
             X
           </button>
         </div>
         <div className="flex h-dvh justify-center rounded-lg bg-gray-100">
           <section className="relative w-1/5 bg-green-700">
-            <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />
+            {memoizedMyChatList}
             <ul className="w-full">
-              {chatUsers?.map((user) => (
-                <PeopleList key={user.nickname} chatUser={user} />))}
+              {memoizedPeopleList}
             </ul>
             <MyProfile />
           </section>
           <article className="flex w-4/5 flex-col bg-blue-200 ">
             <aside className="w-full">
-              <ChatPage messages={messages} roomId={roomId} />
+              {memoizedChatPage}
             </aside>
           </article>
         </div>

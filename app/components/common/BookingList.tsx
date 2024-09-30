@@ -19,7 +19,7 @@ export default function BookingList() {
             <div className="flex justify-between">
               {/* 어드민 셀러만 보이게 */}
               <div id="selectBtn">
-                <input id="select" type="checkbox" value="" className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500 dark:focus:ring-green-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                <input id="select" type="checkbox" value="" className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500" />
                 <label htmlFor="select" hidden>Select</label>
               </div>
             </div>
@@ -31,7 +31,7 @@ export default function BookingList() {
                   방넘버
                 </h5>
               </Link>
-              <p className="mb-3 text-sm font-medium text-gray-700 dark:text-gray-400">
+              <p className="mb-3 text-sm font-medium text-gray-700">
                 이방이 뭐가좋으냐면 다좋아요
               </p>
               <p className="text-sm font-medium">예약 리스트입니다다다다다다</p>

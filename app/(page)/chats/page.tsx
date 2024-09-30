@@ -12,7 +12,7 @@ export default function Chat() {
       <div id="btn-wrap">
         <Link
           href="/" // 내가 접속했던 곳으로 그대로 뱉어주기
-          className="absolute right-10 top-[-2.4rem] z-30 mb-2 me-2 rounded-full bg-red-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+          className="absolute right-10 top-[-2.4rem] z-30 mb-2 me-2 rounded-full bg-red-700 px-3 py-1.5 text-center text-sm font-medium text-white hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300"
         >
           X
         </Link>

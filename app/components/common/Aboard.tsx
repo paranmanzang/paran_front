@@ -20,12 +20,12 @@ const accordionItems: AccordionItem[] = [
     category: "전체",
     content: (
       <>
-        <p className="mb-2 text-gray-500 dark:text-gray-400">
+        <p className="mb-2 text-gray-500">
           책을 사랑하고 취미로 읽으시는 분들이 모여 소모임과 공간대여를 통해
           자유롭게 의견을 나누고 책을 더 좋아하게 되었으면 좋겠다는 취지로
           만들어진 서비스입니다.
         </p>
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-gray-500">
           파란만장 서비스를 경험해보고 싶으신 분들은{" "}
           <Link href="/" className="bg-green-400 text-white hover:underline">
             지금 시작해보기
@@ -42,11 +42,11 @@ const accordionItems: AccordionItem[] = [
     category: "",
     content: (
       <>
-        <p className="mb-2 text-gray-500 dark:text-gray-400">
+        <p className="mb-2 text-gray-500">
           현재 책 구매 서비스는 제공하고 있지 않습니다. 파란만장은 독서 모임과
           공간 대여에 중점을 두고 있습니다.
         </p>
-        <p className="text-gray-500 dark:text-gray-400">
+        <p className="text-gray-500">
           하지만 향후 서비스 확장 시 고려해볼 수 있는 기능입니다. 여러분의
           의견을 환영합니다!
         </p>
@@ -59,15 +59,15 @@ const accordionItems: AccordionItem[] = [
     category: "",
     content: (
       <>
-        <p className="mb-2 text-gray-500 dark:text-gray-400">
+        <p className="mb-2 text-gray-500">
           공간 예약은 웹사이트나 모바일 앱을 통해 간단히 할 수 있습니다. 원하는
           날짜와 시간을 선택하고, 필요한 인원수를 입력한 후 예약 버튼을 클릭하면
           됩니다.
         </p>
-        <p className="mb-2 text-gray-500 dark:text-gray-400">
+        <p className="mb-2 text-gray-500">
           예약 과정에 대해 더 자세히 알고 싶다면, 다음 링크를 참고해주세요:
         </p>
-        <ul className="list-disc ps-5 text-gray-500 dark:text-gray-400">
+        <ul className="list-disc ps-5 text-gray-500">
           <li>
             <Link href="/" className="bg-green-400 text-white hover:underline">
               예약 방법 안내
@@ -143,7 +143,7 @@ export default function About() {
         {}
         <Link
           href="/aboard/add"
-          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
         >
           등록
         </Link>
@@ -151,27 +151,27 @@ export default function About() {
           type="button"
 // /          href="/aboard/2/update"
           onClick={handleUpdate}
-          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
         >
           수정
         </button>
         <button
           type="button"
           onClick={handleDelete}
-          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
         >
           삭제
         </button>
         <button
           type="button"
           onClick={handleGoBack}
-          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-500 dark:focus:ring-green-600"
+          className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
         >
           뒤로가기
         </button>
       </div>
 
-      <blockquote className="mb-6 text-xl font-semibold italic text-gray-900 dark:text-gray-700">
+      <blockquote className="mb-6 text-xl font-semibold italic text-gray-900">
         <p>&ldquo;Paranmanzang 서비스를 이용해주셔서 감사합니다.&rdquo;</p>
       </blockquote>
 
@@ -181,9 +181,9 @@ export default function About() {
             <h2 id={item.id}>
               <button
                 type="button"
-                className={`flex w-full items-center justify-between gap-3 border border-gray-200 p-5 font-medium text-gray-500 hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 dark:border-gray-400 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:ring-gray-700 rtl:text-right ${
+                className={`flex w-full items-center justify-between gap-3 border border-gray-200 p-5 font-medium text-gray-500 hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 rtl:text-right ${
                   openItems.includes(item.id)
-                    ? "bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white"
+                    ? "bg-gray-100 text-gray-900"
                     : ""
                 }`}
                 onClick={() => toggleItem(item.id)}
@@ -198,7 +198,7 @@ export default function About() {
                       type="checkbox"
                       checked={checkedItems.includes(item.id)}
                       onChange={() => handleCheckboxChange(item.id)}
-                      className="size-4 rounded border-gray-300 bg-gray-100 text-green-400 dark:border-gray-600 dark:bg-gray-700"
+                      className="size-4 rounded border-gray-300 bg-gray-100 text-green-400"
                     />
                   </div>
 
@@ -215,7 +215,7 @@ export default function About() {
                     ></path>
                   </svg>
                   {item.title}
-                  <span className="ms-3 inline-flex items-center justify-center rounded-full bg-green-100 px-2 text-sm font-medium text-green-800 dark:bg-gray-700 dark:text-gray-300">
+                  <span className="ms-3 inline-flex items-center justify-center rounded-full bg-green-100 px-2 text-sm font-medium text-green-800">
                     {item.category}
                   </span>
                 </span>
@@ -243,7 +243,7 @@ export default function About() {
               className={openItems.includes(item.id) ? "" : "hidden"}
               aria-labelledby={item.id}
             >
-              <div className="border border-b-0 border-gray-200 p-5 dark:border-gray-700 dark:bg-gray-900">
+              <div className="border border-b-0 border-gray-200 p-5">
                 {item.content}
               </div>
             </div>

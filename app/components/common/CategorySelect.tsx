@@ -11,13 +11,13 @@ export default function CategorySelect({ onChange }: CategorySelectProps) {
     <div className="my-2">
       <label
         htmlFor="categories"
-        className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+        className="mb-2 block text-sm font-medium text-gray-900"
       >
         카테고리
       </label>
       <select
         id="categories"
-        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-400 focus:ring-green-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-green-400 dark:focus:ring-green-400"
+        className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-400 focus:ring-green-400"
         onChange={handleChange}
       >
         <option value="사회과학">사회과학</option>
