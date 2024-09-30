@@ -19,9 +19,9 @@ const MyProfile = dynamic(() => import("@/app/components/chat/MyProfile"), { ssr
 export default function ChatRoom() {
   const router = useRouter();
   const dispatch = useDispatch<AppDispatch>();
-  const chatRoom = useSelector((state: RootState) => getCurrentChatRoom(state));
-  const loading = useSelector((state: RootState) => getIsLoading(state));
-  const error = useSelector((state: RootState) => getError(state));
+  const chatRoom = useSelector(getCurrentChatRoom)
+  const loading = useSelector(getIsLoading);
+  const error = useSelector(getError);
 
   const nickname = "A"; // TODO: 실제 사용자 닉네임으로 대체
   const roomId = chatRoom?.roomId ?? '';
