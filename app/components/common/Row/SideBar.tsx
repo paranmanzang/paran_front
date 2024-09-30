@@ -8,9 +8,6 @@ import {FaBook, FaSchool} from "react-icons/fa";
 import {FaUserGroup} from "react-icons/fa6";
 import {MdMessage} from "react-icons/md";
 import AdminButton from "../../user/adminRow/AdminButton";
-import {getBooks} from "@/lib/features/group/book.Slice";
-import {getGroups} from "@/lib/features/group/group.Slice";
-import {getRooms} from "@/lib/features/room.Slice";
 import axios from "@/app/api/axios";
 
 export default function SideBar() {
@@ -20,11 +17,6 @@ export default function SideBar() {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-
-    const books = getBooks;
-    const groups = getGroups;
-    // const chats = useSelector((state: RootState) => getChatRooms(state));
-    const rooms = getRooms;
 
 
     const fetchTabData = async (tab: string) => {

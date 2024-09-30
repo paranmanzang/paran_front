@@ -15,7 +15,6 @@ export const likeBook = async (likeBookModel: LikeBookModel, dispatch: AppDispat
     } catch (error) {
         dispatch(saveError("좋아요 중 오류 발생했습니다."));
         console.error('Error adding likeBook:', error);
-        throw new Error('좋아요 중 오류 발생');
     } finally {
         dispatch(saveLoading(false));
     }
@@ -32,7 +31,6 @@ export const removeLikeBook = async (likeBookModel: LikeBookModel, dispatch: App
     } catch (error) {
         dispatch(saveError("좋아요 취소 중 오류 발생했습니다."));
         console.error('Error adding likeBook:', error);
-        throw new Error('좋아요 취소 중 오류 발생');
     } finally {
         dispatch(saveLoading(false));
     }
@@ -47,7 +45,6 @@ export const findLikeBookList = async (nickname: String, dispatch: AppDispatch):
     } catch (error) {
         dispatch(saveError("내가 좋아하는 책 찾는 중 오류 발생했습니다."));
         console.error('Error finding likeBook:', error);
-        throw new Error('내가 좋아하는 책 찾는 중 오류 발생');
     } finally {
         dispatch(saveLoading(false));
     }

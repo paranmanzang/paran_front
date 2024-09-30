@@ -1,13 +1,13 @@
 "use client";
-import React, { useEffect } from 'react';
-import { AddressModel } from '@/app/model/room.model';
-import { useRouter } from 'next/navigation';
+import React, {useEffect} from 'react';
+import {useRouter} from 'next/navigation';
+import {AddressModel} from "@/app/model/address.model";
 
 interface NaverMapProps {
     addresses: AddressModel[];
 }
 
-const NaverMap = ({ addresses: NaverMapProps }) => {
+const NaverMap = ({addresses}: NaverMapProps) => {
     let map: naver.maps.Map; // 'map' 변수를 useEffect 범위 바깥에 선언
     const router = useRouter();
     const onCLickToMove = (id: number) => {
@@ -101,7 +101,7 @@ const NaverMap = ({ addresses: NaverMapProps }) => {
         }
     }, [addresses]);
 
-    return <div id="map" style={{ width: '500px', height: '740px' }} />;
+    return <div id="map" style={{width: '500px', height: '740px'}}/>;
 };
 
 export default NaverMap;

@@ -22,7 +22,6 @@ export default function GroupBoard() {
         if (!groupId) {
             return;
         }
-
         findPostsByGroupId(Number(groupId), page, size, selectedCategory, dispatch)
     }, [dispatch, groupId, selectedCategory]);
 
@@ -38,11 +37,7 @@ export default function GroupBoard() {
                     .finally(() => {
                         router.push(`/groups/board/${currentId}`);
                     });
-            } else {
-                console.error(`Post with ID ${currentId} not found`);
             }
-        } else {
-            console.error("ID is undefined");
         }
     };
 
