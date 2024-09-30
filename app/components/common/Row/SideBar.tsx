@@ -24,7 +24,7 @@ export default function SideBar() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const books = useSelector((state: RootState) => getBooks(state));
+  const books = getBooks
   const groups = useSelector((state: RootState) => getGroups(state));
   // const chats = useSelector((state: RootState) => getChatRooms(state));
   const rooms = useSelector((state: RootState) => getRooms(state));
@@ -84,7 +84,7 @@ export default function SideBar() {
   return (
     <div>
       {/* 이부분의 props 를 변경해줘야 함. */}
-      <AdminButton getPage={'', ''} />
+      <AdminButton />
       {/* <AdminButton page={'rooms'}/> */}
       {/* <SellerButton page={}/> */}
       <div className="flex min-h-screen w-full">
