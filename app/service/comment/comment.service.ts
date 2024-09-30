@@ -3,6 +3,7 @@ import requests from '@/app/api/requests';
 import { CommentRequestModel, CommentResponseModel } from '@/app/model/comment/comment.model';
 import { ExceptionResponseModel } from '@/app/model/error.model';
 
+
 // 댓글 등록
 export const insertComment = async (model: CommentRequestModel, nickname: string): Promise<boolean | ExceptionResponseModel> => {
   try {

@@ -100,24 +100,3 @@ export const saveLastReadMessageTime = async ({ roomId, nickname }: { roomId: st
         return false;
     }
 }
-
-export const saveLastReadMessageTime = async ({ roomId, nickname }: { roomId: string, nickname: string }, dispatch: AppDispatch, router: any): Promise<void> => {
-    try {
-        const response = await api.post<Boolean>(`${requests.fetchChats}/room/lastreadtime/${roomId}`, {
-            headers: {
-                'nickname': nickname,
-            },
-        });
-
-        if (response.data) {
-            console.log("마지막 읽은 메시지 시간이 저장되었습니다.");
-        } else {
-            console.error("마지막 읽은 메시지 시간 저장에 실패했습니다.");
-        }
-    } catch (error) {
-        dispatch(saveError("마지막 읽은 메시지 시간 저장 중 오류 발생"));
-        console.error("마지막 읽은 메시지 시간 저장 중 오류 발생:", error);
-    } finally {
-        router.push("/chats/list");
-    }
-};
