@@ -13,7 +13,7 @@ export const fileAPI = {
         return api.get('/one', { params: { path: path } });
     },
     uploadFilesAPI: (file: any[], type: string, refId: number) => {
-        return api.post('/upload', { FormData: { file: file, type: type, refId: refId } });
+        return api.post<FileModel>('/upload', { FormData: { file: file, type: type, refId: refId } });
     },
     deleteFileAPI: (fileModel: FileDeleteModel) => {
         return api.delete<boolean>('/delete', { data: fileModel });

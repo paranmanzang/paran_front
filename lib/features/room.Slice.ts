@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initialRoomState, RoomModel, ReviewModel, BookingModel, AddressModel, AccountResultModel, AccountCancelModel } from '../../app/model/room.model';
+import { initialRoomState, RoomModel } from '../../app/model/room.model';
 import { RootState } from '../store';
 
 export const roomSlice = createSlice({
@@ -12,36 +12,24 @@ export const roomSlice = createSlice({
         saveCurrentRoom: (state, action: PayloadAction<RoomModel | null>) => {
             state.currentRoom = action.payload;
         },
-        saveReviews: (state, action: PayloadAction<ReviewModel[]>) => {
-            state.reviews = action.payload;
-        },
-        saveCurrentReview: (state, action: PayloadAction<ReviewModel | null>) => {
-            state.currentReview = action.payload;
-        },
-        saveBookings: (state, action: PayloadAction<BookingModel[]>) => {
-            state.bookings = action.payload;
-        },
-        saveCurrentBooking: (state, action: PayloadAction<BookingModel | null>) => {
-            state.currentBooking = action.payload;
-        },
-        saveAddresses: (state, action: PayloadAction<AddressModel[]>) => {
-            state.addresses = action.payload;
-        },
-        saveCurrentAddress: (state, action: PayloadAction<AddressModel | null>) => {
-            state.currentAddress = action.payload;
-        },
-        saveAccountResult: (state, action: PayloadAction<AccountResultModel | null>) => {
-            state.accountResult = action.payload;
-        },
-        saveAccountCancel: (state, action: PayloadAction<AccountCancelModel | null>) => {
-            state.accountCancel = action.payload;
-        },
         saveLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
         },
         saveError: (state, action: PayloadAction<string | null>) => {
             state.error = action.payload;
         },
+        addRoom: (state, action: PayloadAction<RoomModel>) => {
+            state.rooms.push(action.payload)
+        },
+        updateRoom: (state, action: PayloadAction<RoomModel>) => {
+            const index = state.rooms.findIndex(room => room.id === action.payload.id)
+            if (index !== -1) {
+                state.rooms[index] = action.payload;
+            }
+        },
+        removeRoom: (state, action: PayloadAction<number>) => {
+            state.rooms.filter(room => room.id !== action.payload)
+        }
     },
 });
 
@@ -63,16 +51,11 @@ export const getError = (state: RootState) => state.room.error;
 export const {
     saveRooms,
     saveCurrentRoom,
-    saveReviews,
-    saveCurrentReview,
-    saveBookings,
-    saveCurrentBooking,
-    saveAddresses,
-    saveCurrentAddress,
-    saveAccountResult,
-    saveAccountCancel,
     saveLoading,
     saveError,
+    addRoom,
+    updateRoom,
+    removeRoom,
 } = roomSlice.actions;
 
 // 리듀서를 export

@@ -31,14 +31,8 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
   useEffect(() => {
     setIsActive(active);
 
-    findEnabledRooms(page, size, dispatch).then(result => {
-      if (result && Array.isArray(result)) {
-        return loadRoomFiles(result);
-      } else {
-        dispatch(saveError("공간 목록이 존재하지 않습니다."))
-      }
-    })
-
+    findEnabledRooms(page, size, dispatch)
+    loadRoomFiles(rooms)
     dispatch(saveLoading(false))
 
   }, [active, dispatch, page]);
@@ -46,12 +40,6 @@ const RoomRow: React.FC<RoomRowProps> = ({ active, onSelect }) => {
   const loadRoomFiles = (rooms: any[]) => {
     const roomIds = rooms.map(book => book.id);
     selectFileList(roomIds, FileType.ROOM, dispatch)
-      .then(files =>
-        dispatch(saveFiles(files)))
-      .catch(error => {
-        console.error('Error fetching files:', error);
-        return []; // 에러 발생 시 빈 배열 반환
-      })
     dispatch(upLoading(false))
   };
   const handleLikeChange = (active: boolean) => {

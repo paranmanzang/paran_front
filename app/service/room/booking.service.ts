@@ -1,12 +1,13 @@
+import { roomAPI } from '@/app/api/generate/rooms.api';
 import api from '../../api/axios';
 import requests from '@/app/api/requests';
 import { ExceptionResponseModel } from '@/app/model/error.model';
-import { BookingModel } from '@/app/model/room.model';
+import { BookingModel } from '@/app/model/bookings.model';
 
 // 예약 등록
 export const saveBooking = async (bookingModel: BookingModel): Promise<boolean | ExceptionResponseModel> => {
   try {
-    const response = await api.post<boolean>(requests.fetchRooms + '/add', bookingModel);
+    const response = await roomAPI.saveBookingAPI(bookingModel);
     return response.data;
   } catch (error: any) {
     if (error.response) {

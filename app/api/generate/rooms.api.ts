@@ -1,6 +1,7 @@
 import { RoomModel, RoomUpdateModel, TimeModel } from "@/app/model/room.model";
 import api from "../axios";
 import requests from "../requests";
+import { BookingModel } from "@/app/model/bookings.model";
 
 export const roomAPI = {
     saveRoomAPI: (roomModel: RoomModel) => {
@@ -29,5 +30,10 @@ export const roomAPI = {
     },
     findTimeListAPI: (roomId: number) => {
         return api.get<TimeModel[]>(requests.fetchRooms + `/times/${roomId}`);
+    },
+
+    // bookingId
+    saveBookingAPI: (bookingModel: BookingModel) => {
+        return api.post<boolean>(requests.fetchRooms + '/add', bookingModel);
     }
 }
