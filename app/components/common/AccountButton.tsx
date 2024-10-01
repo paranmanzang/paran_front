@@ -7,7 +7,6 @@ import { AccountResultModel, AmountModel } from "@/app/model/account.model";
 import { useSelector } from "react-redux";
 import { getCurrentBooking } from "@/lib/features/bookings.Slice";
 import { getCurrentUser } from "@/lib/features/user.Slice";
-import { BookingModel } from "@/app/model/bookings.model";
 import { RootState } from "@/lib/store";
 
 interface TossPaymentResponse {
@@ -81,7 +80,7 @@ export default function AccountButton(): JSX.Element {
               orderName: orderName,
               roomId: booking.roomId,
               groupId: booking.groupId,
-              bookingId: booking.id,
+              bookingId: booking.id ?? 0,
               usePoint: usePoint,
             };
             savePayment(model).then((paymentResponse) => {

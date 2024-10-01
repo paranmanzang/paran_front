@@ -23,9 +23,13 @@ export default function ChatAdd() {
     route.back();
   }
 
+  const onCreate = () => {
+    
+  }
+
   return (
-    <div className="w-full">
-      <form onSubmit={} className="max-w-lg mx-auto bg-green-50 p-6 my-60 rounded-lg">
+    <div>
+      <form onSubmit={onCreate} className="max-w-lg mx-auto bg-green-50 p-6 my-60 rounded-lg">
         <div className="grid gird-cols ">
           <label htmlFor="chatTitle">채팅방의 제목을 입력해주세요</label>
           <input type="text" placeholder="채팅방의 제목을 입력해주세요" id="chatTitle" className="rounded-lg my-3" onChange={handleChange} value={formData.title} name="title"/>

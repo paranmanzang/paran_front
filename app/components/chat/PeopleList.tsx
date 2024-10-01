@@ -31,7 +31,6 @@ export default function getPeopleList({chatUser}: PeopleListProps) {
         <p className="inline text-white text-lg font-semibold ">{chatUser.nickname}</p>
         <span className="text-xs border-white border p-2 rounded-lg text-white hover:bg-green-600">보기</span>
       </Link>
-      
     </li>
   );
 }
