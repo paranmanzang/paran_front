@@ -37,32 +37,6 @@ export default function DetailButton({thisPage, displayReview, displayReservatio
     const room = useSelector(getCurrentRoom);
     const groupPost = useSelector(getCurrentGroupPost);
 
-    const onBack = () => {
-        route.back();
-    }
-    const handleReview = () => {
-        route.push(`${thisPage}/review`)
-    }
-    const handleAlertClose = () => {
-        setIsAlertOpen(false);
-        setIsConfirmOpen(true);
-    };
-
-    const Message = () => {
-        setAlertMessage('이미 찜 상품에 있습니다.');
-        setIsAlertOpen(true);
-    }
-
-    const LikeThis = () => {
-        dispatch(saveGlobalLoading(false)); // 항상 로딩 종료
-        setAlertMessage('찜 했습니다.');
-        setIsAlertOpen(true);
-    }
-    const JoinGroups = () => {
-        setAlertMessage('이 소모임에 참여하시겠습니까? ');
-        setIsAlertOpen(true);
-    }
-
     useEffect(() => {
         dispatch(saveGlobalLoading(true));
         switch (thisPage) {
@@ -89,6 +63,29 @@ export default function DetailButton({thisPage, displayReview, displayReservatio
         }
     }, [dispatch, thisPage]);
 
+    const onBack = () => {
+        route.back();
+    }
+    const handleReview = () => {
+        route.push(`${thisPage}/review`)
+    }
+    const handleAlertClose = () => {
+        setIsAlertOpen(false);
+        setIsConfirmOpen(true);
+    };
+    const Message = () => {
+        setAlertMessage('이미 찜 상품에 있습니다.');
+        setIsAlertOpen(true);
+    }
+    const LikeThis = () => {
+        dispatch(saveGlobalLoading(false)); // 항상 로딩 종료
+        setAlertMessage('찜 했습니다.');
+        setIsAlertOpen(true);
+    }
+    const JoinGroups = () => {
+        setAlertMessage('이 소모임에 참여하시겠습니까? ');
+        setIsAlertOpen(true);
+    }
     const handleConfirm = () => {
         setIsConfirmOpen(false);
         route.push('/likeList');
@@ -96,14 +93,13 @@ export default function DetailButton({thisPage, displayReview, displayReservatio
     const handleCancel = () => {
         setIsConfirmOpen(false);
     };
-
     const handleAccount = () => {
         openModal();
     }
 
     const isBookLiked = likedBooks.some(LikedBook => LikedBook.id === book?.id);
-    // const isRoomLiked = likedRooms.some(likedRoom => likedRoom.id === room?.id);
-    // const isGroupPostLiked = likedGroupPosts.some(likedGroupPost => likedGroupPost.id === groupPost?.id);
+    //const isRoomLiked = likedRooms.some(likedRoom => likedRoom.id === room?.id);
+    //const isGroupPostLiked = likedGroupPosts.some(likedGroupPost => likedGroupPost.id === groupPost?.id);
 
     return (
         <>
