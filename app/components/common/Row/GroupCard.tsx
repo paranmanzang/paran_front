@@ -1,8 +1,9 @@
 import React from "react";
-import Link from "next/link";
-import Image from "next/image";
 import HeartCheckbox from "./HeartCheckBox";
 import SelectCheckBox from "./SelectCheckBox";
+import { useAppDispatch } from "@/lib/store";
+import { useRouter } from "next/navigation";
+import { saveCurrentGroup } from "@/lib/features/group/group.Slice";
 
 interface GroupCardProps {
   group: any; // 타입을 더 구체적으로 정의할 수 있습니다.
@@ -11,9 +12,16 @@ interface GroupCardProps {
 }
 
 const GroupCard = ({ group, active, onSelect }: GroupCardProps) => {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
   const handleLikeChange = (isLiked: boolean) => {
     console.log('좋아요 상태:', isLiked);
     // 여기에서 필요한 로직을 수행 (예: API 호출)
+  };
+
+  const onClickToDetail = () => {
+    dispatch(saveCurrentGroup(group));
+    router.push(`/groups/${group.id}`);
   };
 
   return (
@@ -25,29 +33,15 @@ const GroupCard = ({ group, active, onSelect }: GroupCardProps) => {
         </div>
       </form>
       <div
-        className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${
-          active ? 'ring-2 ring-green-500' : ''
-        }`}
+        className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${active ? 'ring-2 ring-green-500' : ''
+          }`}
         onClick={onSelect}
       >
-        <Link href={`/groups/${group.id}`}>
-          <Image
-            width={400}
-            height={330}
-            className="rounded-t-lg"
-            src={group.image || process.env.NEXT_PUBLIC_IMAGE_DEFAULT}
-            alt={`cover of ${group.title}`}
-            priority
-          />
-        </Link>
         <div className="p-5">
-          <Link href={`/groups/${group.id}`}>
-            <h5 className={`mb-2 text-lg font-medium tracking-tight ${
-              active ? 'text-green-600' : 'text-gray-900'
+          <h5 className={`mb-2 text-lg font-medium tracking-tight ${active ? 'text-green-600' : 'text-gray-900'
             }`}>
-              {group.title || "Group Title"}
-            </h5>
-          </Link>
+            {group.title || "Group Title"}
+          </h5>
           <p className="mb-3 text-sm font-medium text-gray-700">
             {group.content || "Group Content"}
           </p>
@@ -60,11 +54,10 @@ const GroupCard = ({ group, active, onSelect }: GroupCardProps) => {
               </span>
             </p>
           </div>
-          <Link
-            href={`/groups/${group.id}`}
-            className={`mt-5 inline-flex w-full items-center justify-center rounded-lg p-3 text-sm font-medium text-white ${
-              active ? 'bg-green-600 hover:bg-green-700' : 'bg-green-400 hover:bg-green-500'
-            }`}
+          <button
+            onClick={onClickToDetail}
+            className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${active ? 'bg-green-600 hover:bg-green-700' : 'bg-green-400 hover:bg-green-500'
+              }`}
           >
             상세보기
             <svg
@@ -82,7 +75,7 @@ const GroupCard = ({ group, active, onSelect }: GroupCardProps) => {
                 d="M1 5h12m0 0L9 1m4 4L9 9"
               />
             </svg>
-          </Link>
+          </button>
         </div>
       </div>
     </div>

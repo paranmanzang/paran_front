@@ -6,28 +6,37 @@ import { useRouter } from "next/router";
 import HeartCheckbox from "./HeartCheckBox";
 import { saveCurrentBook } from "@/lib/features/group/book.Slice";
 import { saveCurrentFile } from "@/lib/features/file.Slice";
-import { BookState } from "@/app/model/group/book.model";
-import { useBookImage } from "@/app/hooks/useBookImage";
-import { useAppDispatch } from "@/lib/store";
+import { BookResponseModel } from "@/app/model/group/book.model";
+import { FileModel } from "@/app/model/file.model";
+import { likeBook, removeLikeBook } from "@/app/service/group/likeBook.service";
 
 interface BookCardProps {
-  book: BookState;
+  book: BookResponseModel;
   active: boolean;
+  file: FileModel;
 }
 
-const BookCard = ({ book, active }: BookCardProps) => {
+const BookCard = ({ book, active, file }: BookCardProps) => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const bookImage = useBookImage(book.id);
+  const nickname = 'A' // 임의로 넣어둠
 
-  const handleLikeChange = (active: boolean) => {
-    console.log("좋아요 상태:", active);
-    // 여기에서 필요한 로직을 수행 (예: API 호출)
+  const handleLikeChange = (active: boolean, bookId: number, dispatch: any, nickname: string) => {
+    switch (active) {
+      case true:
+        console.log("좋아요 상태: 활성화");
+        likeBook({ bookId, nickname }, dispatch);
+        break;
+      case false:
+        console.log("좋아요 상태: 비활성화");
+        removeLikeBook({ bookId, nickname }, dispatch);
+        break;
+    }
   };
 
   const onClickToDetail = () => {
-    useAppDispatch(saveCurrentBook(book));
-    useAppDispatch(saveCurrentFile({ refId: book.id, path: bookImage }));
+    dispatch(saveCurrentBook(book));
+    dispatch(saveCurrentFile(file));
     router.push(`/books/${book.id}`);
   };
 
@@ -36,35 +45,31 @@ const BookCard = ({ book, active }: BookCardProps) => {
       <form className="absolute top-2 w-full px-3">
         <div className="flex justify-between">
           <div id={`likeBtn-${book.id}`}>
-            <HeartCheckbox onChange={handleLikeChange} />
+            <HeartCheckbox
+              onChange={(active) => handleLikeChange(active, book.id, dispatch, nickname)} />
           </div>
         </div>
       </form>
       <div className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${active ? "ring-2 ring-green-500" : ""}`}>
-        <Link href={`/books/${book.id}`} passHref>
-          <Image
-            width={400}
-            height={380}
-            className="rounded-t-lg cursor-pointer"
-            src={bookImage}
-            alt={`cover of ${book.title}`}
-            priority
-          />
-        </Link>
+        <Image
+          width={400}
+          height={380}
+          className="rounded-t-lg cursor-pointer"
+          src={file.path === process.env.NEXT_PUBLIC_IMAGE_DEFAULT ? process.env.NEXT_PUBLIC_IMAGE_DEFAULT : `http://localhost:8000/api/files/one?path=${file.path}`}
+          alt={`cover of ${book.title}`}
+          priority
+        />
         <div className="p-5">
-          <Link href={`/books/${book.id}`} passHref>
-            <h5 className={`mb-2 text-lg font-medium tracking-tight ${active ? "text-green-600" : "text-gray-900"} dark:text-white cursor-pointer`}>
-              {book.title}
-            </h5>
-          </Link>
+          <h5 className={`mb-2 text-lg font-medium tracking-tight ${active ? "text-green-600" : "text-gray-900"} dark:text-white cursor-pointer`}>
+            {book.title}
+          </h5>
           <p className="text-sm font-medium">저자: {book.author}</p>
           <p className="text-sm font-medium">출판사: {book.publisher}</p>
           <p className="text-sm font-medium">카테고리: {book.categoryName}</p>
           <button
             onClick={onClickToDetail}
-            className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${
-              active ? 'bg-green-600 hover:bg-green-700' : 'bg-green-400 hover:bg-green-500'
-            }`}
+            className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${active ? 'bg-green-600 hover:bg-green-700' : 'bg-green-400 hover:bg-green-500'
+              }`}
           >
             상세보기
             <svg

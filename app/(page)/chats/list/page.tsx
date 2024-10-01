@@ -8,7 +8,7 @@ import {useSelector} from "react-redux";
 import {getError, getIsLoading} from "@/lib/features/chat/chat.Slice";
 
 export default function ChatList() {
-  const nickname = 'A'; // 임의로 넣어둠
+  const nickname = 'J'; // 임의로 넣어둠
   const dispatch = useAppDispatch();
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null)
   const loding = useSelector(getIsLoading)

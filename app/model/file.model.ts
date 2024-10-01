@@ -9,10 +9,18 @@ export enum FileType {
 export interface FileModel {
     id: string;
     type: FileType;
-    path: string;  
+    path: string;
     refId: number;
     uploadAt: Date;
 }
+
+export const defaultFile = (fileType: FileType, refId: number) => ({
+    id: '파일이 없어요',
+    type: fileType,
+    path: process.env.NEXT_PUBLIC_IMAGE_DEFAULT || '/images/default.png',
+    refId: refId,
+    uploadAt: new Date(),
+});
 
 export interface FileDeleteModel {
     path: string;
