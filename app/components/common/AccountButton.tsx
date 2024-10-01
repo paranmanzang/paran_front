@@ -1,8 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ANONYMOUS, loadTossPayments, TossPaymentsPayment } from "@tosspayments/tosspayments-sdk";
+import { TossPaymentsPayment } from "@tosspayments/tosspayments-sdk";
 import { v4 } from "uuid";
-import { savePayment } from "@/app/service/room/account.service";
+import { loadTossPaymentsSet, savePayment } from "@/app/service/room/account.service";
 import { AccountResultModel, AmountModel } from "@/app/model/account.model";
 import { useSelector } from "react-redux";
 import { getCurrentBooking } from "@/lib/features/bookings.Slice";
@@ -18,11 +18,12 @@ interface TossPaymentResponse {
 }
 
 export default function AccountButton(): JSX.Element {
+  const dispatch = useAppDispatch();
   // 입력 받은 값
   const orderName: string = "1회 모임";
   const amountValue: number = 5000;
-  const booking = useSelector((state: RootState) => getCurrentBooking(state));
-  const user = useSelector((state: RootState) => getCurrentUser(state));
+  const booking = useSelector(getCurrentBooking);
+  const user = useSelector(getCurrentUser);
   const usePoint: number = 0;
   const [payment, setPayment] = useState<TossPaymentsPayment | null>(null);
   const [amount] = useState<AmountModel>({
@@ -33,15 +34,18 @@ export default function AccountButton(): JSX.Element {
   useEffect(() => {
     async function fetchPayment(): Promise<void> {
       try {
-        const tossPayments = await loadTossPayments("test_ck_mBZ1gQ4YVX9QGM06mRNRrl2KPoqN");
-        const payment = tossPayments.payment({ customerKey: ANONYMOUS });
-        setPayment(payment);
+        loadTossPaymentsSet(dispatch).then(data => {
+          if (data) {
+            setPayment(data)
+          }
+        })
+        dispatch(saveLoading(false))
       } catch (error) {
         console.error("Error fetching payment:", error);
       }
     }
     fetchPayment();
-  }, []);
+  }, [dispatch]);
 
   const requestPayment = async (): Promise<void> => {
     if (!payment) {
