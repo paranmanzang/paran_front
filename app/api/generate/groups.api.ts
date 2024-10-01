@@ -105,7 +105,8 @@ export const groupsAPI = {
     },
     findLikeBookListAPI: (nickname: String) => {
         return api.get<LikeBookModel[]>(requests.fetchGroups + `/likebook/list/${nickname}`);
-    }
+    },
+    
 }
 
 export default groupsAPI;

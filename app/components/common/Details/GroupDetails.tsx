@@ -1,9 +1,22 @@
 "use client"
-import {useSelector} from "react-redux";
-import {getCurrentGroup} from "@/lib/features/group/group.Slice";
+import { useSelector } from "react-redux";
+import { getCurrentGroup, getGroupMembers } from "@/lib/features/group/group.Slice";
+import { useAppDispatch } from "@/lib/store";
+import { useEffect } from "react";
+import { findGroupUserById } from "@/app/service/group/group.service";
 
 export default function Details() {
+    const dispatch = useAppDispatch()
     const group = useSelector(getCurrentGroup);
+    const users = useSelector(getGroupMembers)
+    useEffect(() => {
+        if (group?.id !== undefined) {
+            findGroupUserById(group.id, dispatch);
+        }
+    }, [group?.id, dispatch]);
+
+    console.log(group)
+    console.log(users)
 
     return (
         <div>

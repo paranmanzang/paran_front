@@ -36,6 +36,7 @@ export interface GroupModel {
 
 export interface JoiningModel {
     nickname: string;
+    enabled: boolean;
     groupId: number;
     requestAt: string;
     responseAt: string;

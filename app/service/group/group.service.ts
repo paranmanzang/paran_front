@@ -1,4 +1,4 @@
-import {GroupModel, JoiningModel, PointModel} from '@/app/model/group/group.model';
+import {GroupModel, JoiningModel} from '@/app/model/group/group.model';
 import {groupsAPI} from "@/app/api/generate/groups.api";
 import {
     addGroupMember,

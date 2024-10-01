@@ -6,6 +6,7 @@ interface UserState {
   friends: FriendModel[];
   adminPosts: AdminPostModel[];
   declarationPosts: DeclarationPostModel[];
+  checkedIds: CkeckedIdModel[];
   isLoading: boolean;
   error: string | null;
 }
@@ -18,9 +19,20 @@ export const initialUserState: UserState = {
   friends: [],
   adminPosts: [],
   declarationPosts: [],
+  checkedIds: [],
   isLoading: false,
   error: null
 };
+
+export enum CheckType {
+  ROOM = "room",
+  GROUP = "group"
+}
+
+export interface CkeckedIdModel {
+  id: number;
+  type: CheckType;
+}
 
 export interface UserModel {
   id?: number;
@@ -40,7 +52,7 @@ export interface AdminPostModel {
   lastModifiedDate: string; // 글 수정 시간 (필수, "yyyy-MM-dd HH:mm" 형식)
 }
 
-export interface DeclarationPostModel{
+export interface DeclarationPostModel {
   id?: number; // 신고게시판 ID (선택)
   title: string; // 제목 (필수)
   content: string; // 신고 내용 (필수)
@@ -48,7 +60,7 @@ export interface DeclarationPostModel{
   declarer: string; // 신고자 (필수)
 }
 
-export interface FriendModel{
+export interface FriendModel {
   id?: number; // 친구 ID(선택)
   responseUser: string; // 친구 요청 수신자
   requestUser: string; // 친구 요청 발신자
@@ -56,13 +68,13 @@ export interface FriendModel{
   responseAt: string; // 요청 수락 시간
 }
 
-export interface LikePostModel{
+export interface LikePostModel {
   id?: number; //게시물 좋아요 ID(선택)
   postId: number; //게시물 ID(필수)
   nickname: string; // 닉네임(필수)
 }
 
-export interface LikeRoomModel{
+export interface LikeRoomModel {
   id?: number; //공간 좋아요 ID(선택)
   roomId: number; // 공간 ID(필수)
   nickname: string; //닉네임 (필수)
