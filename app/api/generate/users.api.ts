@@ -6,12 +6,7 @@ import {AdminPostModel, DeclarationPostModel, FriendModel, LikePostModel, LikeRo
 import {ExceptionResponseModel} from "@/app/model/error.model";
 
 
-export const userAPI = {
-  getUser: (id: string) => api.get(`${requests.fetchUsers}/users/${id}`),
-  createUser: (userData: any) => api.post('/users', userData),
-  updateUser: (id: string, userData: any) => api.put(`/users/${id}`, userData),
-  deleteUser: (id: string) => api.delete(`/users/${id}`),
-
+export const usersAPI = {
   findAdminPostAPI: (page: number, size: number) => {
     return api.get<Page<AdminPostModel>>(`${requests.fetchUsers}/aboard/list`, {
       params: {
@@ -101,4 +96,4 @@ export const userAPI = {
   }
 }
 
-export default userAPI;
+export default usersAPI;
