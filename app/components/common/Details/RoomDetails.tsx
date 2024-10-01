@@ -30,9 +30,9 @@ export default function Details({ roomId }: roomDetailProps) {
   }, [dispatch])
   const getRoomImage = (path: string | undefined) => {
     if (file !== undefined) {
-      return !path?.includes("default.png") ? `http://localhost:8000/api/files/one?path=${path}` : "https://picsum.photos/400/380"; // 기본 이미지 제공
+      return !path?.includes("default.png") ? `http://localhost:8000/api/files/one?path=${path}` : process.env.NEXT_PUBLIC_IMAGE_DEFAULT; // 기본 이미지 제공
     }
-    return "https://picsum.photos/400/380";
+    return process.env.NEXT_PUBLIC_;
   };
   const groupedTimes = times.reduce((acc: Record<string, TimeModel[]>, time) => {
     const { date } = time;

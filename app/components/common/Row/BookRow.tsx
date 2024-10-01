@@ -21,6 +21,7 @@ const BookRow = ({ active, onSelect }: BookRowProps) => {
   const files = useSelector(getFiles);
   const isLoading = useSelector(getIsLoading);
   const error = useSelector(getError);
+
   const page = 5; // 임의로 넣어둠
   const size = 5; // 임의로 넣어둠
 
