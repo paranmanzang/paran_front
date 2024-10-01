@@ -77,7 +77,7 @@ export default function AccountButton(): JSX.Element {
         },
       })
         .then(
-          function resp(response: TossPaymentResponse) {
+          function resp(response: TossPaymentResponse | void) {
             if (response && booking) {
               const model: AccountResultModel = {
                 orderId: response.orderId,
@@ -86,7 +86,7 @@ export default function AccountButton(): JSX.Element {
                 orderName: orderName,
                 roomId: booking.roomId,
                 groupId: booking.groupId,
-                bookingId: booking.id,
+                bookingId: booking.id ?? 0,
                 usePoint: usePoint,
               };
               savePayment(model, dispatch).then((paymentResponse) => {

@@ -5,6 +5,7 @@ import { BookingModel } from "@/app/model/bookings.model";
 import { ReviewModel, ReviewUpdateModel } from "@/app/model/review.model";
 import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
 import { AccountCancelModel, AccountModel, AccountResultModel } from "@/app/model/account.model";
+import { AddressModel, AddressUpdateModel } from "@/app/model/address.model";
 
 export const roomAPI = {
     saveRoomAPI: (roomModel: RoomModel) => {
@@ -95,5 +96,27 @@ export const roomAPI = {
     },
     findByGroupAPI: (groupId: number, page: number, size: number) => {
         return api.get<Page<AccountModel>>(requests.fetchRooms + `/accounts/list/groups/${groupId}`, { params: { page, size } });
+    },
+
+    // address
+    searchAddressAPI: (query: string) => {
+        return api.get<AddressModel[]>(requests.fetchRooms + '/search', {
+            params: { query },
+        });
+    },
+    insertAddressAPI: (addressModel: AddressModel) => {
+        return api.post<AddressModel>(requests.fetchRooms + '/add', addressModel);
+    },
+    modifidAddressAPI: (addressModel: AddressUpdateModel) => {
+        return api.put<AddressModel>(requests.fetchRooms + '/update', addressModel);
+    },
+    dropAddressAPI: (id: number) => {
+        return api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
+    },
+    findByAddressesAPI: () => {
+        return api.get<AddressModel[]>(requests.fetchRooms + '/list');
+    },
+    findByQueryAPI: (query: string) => {
+        return api.get<AddressModel[]>(`${requests.fetchRooms}/addresses/find/${query}`);
     }
 }

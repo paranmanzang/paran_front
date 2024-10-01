@@ -3,7 +3,7 @@ import Image from "next/image";
 import NaverMap from "./NaverMap";
 import { findQuery } from "@/app/service/room/address.service";
 import { useState } from "react";
-import { AddressModel } from "@/app/model/room.model";
+import { AddressModel } from "@/app/model/address.model";
 
 export default function Map() {
   const [addresses, setAddresses] = useState<AddressModel[]>([{
