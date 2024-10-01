@@ -13,7 +13,7 @@ import {
 
 
 export const groupsAPI = {
-    findBookListAPI(page: number, size: number) {
+    findBookList(page: number, size: number) {
         return api.get<Page<BookResponseModel>>(`${requests.fetchGroups}/books`, {
             params: {
                 page,
@@ -21,10 +21,10 @@ export const groupsAPI = {
             }
         });
     },
-    findGroupListAPI(page: number, size: number){
+    findGroupList(page: number, size: number){
         return api.get<Page<GroupResponseModel>>(requests.fetchGroups + '/groups/grouplist', {params: {page, size}});
     },
-    findGroupListByNicknameAPI(nickname: string, page: number, size: number){
+    findGroupListByNickname(nickname: string, page: number, size: number){
         return api.get<Page<GroupResponseModel>>(requests.fetchGroups + '/groups/mygrouplist', {
             params: {
                 nickname,
@@ -33,16 +33,16 @@ export const groupsAPI = {
             }
         });
     },
-    insertGroupAPI(groupModel: GroupModel){
+    insertGroup(groupModel: GroupModel){
         return api.post<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/plusgroup', groupModel);
     },
-    enableGroupAPI(groupId: number){
+    enableGroup(groupId: number){
         return api.put<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminanswer', {params: {groupId}});
     },
-    enableCancelGroupAPI(groupId: number){
+    enableCancelGroup(groupId: number){
         return api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminoutGroup', {params: {groupId}});
     },
-    disableGroupMemberAPI(groupId: number, nickname: string){
+    disableGroupMember(groupId: number, nickname: string){
         return api.put<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminoutMember', {
             params: {
                 groupId,
@@ -50,16 +50,16 @@ export const groupsAPI = {
             }
         });
     },
-    findGroupUserByIdAPI(groupId: number){
+    findGroupUserById(groupId: number){
         return api.get<JoiningModel[]>(requests.fetchGroups + `/groups/userlist/${groupId}`);
     },
-    updateChatRoomIdAPI(roomId: number, groupId: number){
+    updateChatRoomId(roomId: number, groupId: number){
         return api.put<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/groups/chatroomupdate/${groupId}`, {roomId});
     },
-    addMemberAPI(joiningModel: JoiningModel){
+    addMember(joiningModel: JoiningModel){
         return api.post<JoiningModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/plusmember', joiningModel);
     },
-    enableGroupMemberAPI(groupId: number, nickname: string){
+    enableGroupMember(groupId: number, nickname: string){
         return api.put<JoiningModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/adminplusMember', {
             params: {
                 groupId,
@@ -67,10 +67,11 @@ export const groupsAPI = {
             }
         });
     },
-    deleteGroupAPI(groupId: number){
+    deleteGroup(groupId: number){
         return api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/deleteGroup', {params: {groupId}});
     },
-    enableGroupListAPI(page: number, size: number){
+    
+    enableGroupList(page: number, size: number){
         return api.get<Page<GroupResponseModel>>(`${requests.fetchGroups}/groups/updateenablelist`, {
             params: {
                 page,
@@ -78,34 +79,39 @@ export const groupsAPI = {
             }
         });
     },
-    insertPostAPI(groupPostModel: GroupPostModel){
+    insertPost(groupPostModel: GroupPostModel){
         return api.post<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/addboard', groupPostModel);
     },
-    updatePostAPI(groupPostModel: GroupPostModel){
+    updatePost(groupPostModel: GroupPostModel){
         return api.put<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/updateboard', groupPostModel);
     },
-    deletePostAPI(boardId: number){
+    deletePost(boardId: number){
         return api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/grouppost/deleteboard', {
             params: {boardId}
         });
     },
-    findPostsByGroupIdAPI(groupId: number, page: number, size: number, postCategory: string){
+    findPostsByGroupId(groupId: number, page: number, size: number, postCategory: string){
         return api.get<Page<GroupPostResponseModel>>(requests.fetchGroups + `/grouppost/${groupId}`, {
             params: {page, size, postCategory}
         });
     },
-    updateViewCountAPI(postId: number){
+    updateViewCount(postId: number){
         return api.put<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/grouppost/${postId}`);
     },
-    likeBookAPI(likeBookModel: LikeBookModel){
-        return api.post<LikeBookModel | ExceptionResponseModel>(requests.fetchGroups + `/likebook/add`, likeBookModel);
-    },
-    removeLikeBookAPI(likeBookModel: LikeBookModel) {
+    likeBook(likeBookModel: LikeBookModel){
+        return api.post<LikeBookModel | ExceptionResponseModel>(requests.fetchGroups + `/likebook/add`, likeBookModel);}
+ 
+    removeLikeBook(likeBookModel: LikeBookModel){
         return api.delete<boolean | ExceptionResponseModel>(requests.fetchGroups + '/likebook/remove', likeBookModel);
     },
-    findLikeBookListAPI(nickname: String){
+
+    findLikeBookList(nickname: String){
         return api.get<LikeBookModel[]>(requests.fetchGroups + `/likebook/list/${nickname}`);
-    }
+    },
+    exitGroup(nickname: String, groupId:number){
+        return api.delete<boolean>(requests.fetchGroups + `/groups/exitgroup/${groupId}`,{nickname});
+    },
+
 }
 
 export default groupsAPI;

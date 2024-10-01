@@ -4,24 +4,24 @@ import {ExceptionResponseModel} from "@/app/model/error.model";
 import {CommentRequestModel, CommentResponseModel} from "@/app/model/comment/comment.model";
 
 export const commentsAPI = {
-  insertCommentAPI: (model: CommentRequestModel, nickname: string) => {
+  insert(model: CommentRequestModel, nickname: string){
     return api.post<boolean | ExceptionResponseModel>(`${requests.fetchComments}`, model, {
       headers: {
         nickname,
       },
     });
   },
-  deleteCommentAPI: (commentId: number) => {
+  delete(commentId: number){
     return api.delete<boolean>(`${requests.fetchComments}/${commentId}`);
   },
-  updateCommentAPI: (commentId: number, content: string, nickname: string) => {
+  update(commentId: number, content: string, nickname: string){
     return api.put<boolean>(`${requests.fetchComments}/${commentId}`, { content }, {
       headers: {
         nickname,
       },
     });
   },
-  findCommentListByPostIdAPI: (postId: number, page: number, size: number) => {
+  findListByPostId(postId: number, page: number, size: number){
     return api.get<Page<CommentResponseModel>>(requests.fetchComments + `/${postId}`, {
       params: {
         page,
