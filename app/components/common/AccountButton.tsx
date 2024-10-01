@@ -6,7 +6,7 @@ import { savePayment } from "@/app/service/room/account.service";
 import { AccountResultModel, AmountModel } from "@/app/model/account.model";
 import { useSelector } from "react-redux";
 import { getCurrentBooking } from "@/lib/features/bookings.Slice";
-import { getCurrentUser } from "@/lib/features/user.Slice";
+import { getCurrentUser } from "@/lib/features/users/user.Slice";
 import { BookingModel } from "@/app/model/bookings.model";
 import { RootState } from "@/lib/store";
 
