@@ -10,30 +10,30 @@ export default function BellService() {
   }
   return (
     //item 실시간 알림 구현하기 
-    <li>
+    <li className="max-w-sm mx-auto">
         {/* {item.map( */}
         <div className="flex justify-around p-2">
-          <p>{} title</p>
-          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs">더보기</button>
+          <p>{} 채팅방 요청</p>
+          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs ml-4">더보기</button>
         </div>
         <div className="flex justify-around p-2">
-          <p>{} title</p>
-          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs">더보기</button>
+          <p>{} 채팅방 요청</p>
+          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs ml-4">더보기</button>
         </div>
         <div className="flex justify-around p-2">
-          <p>{} title</p>
-          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs">더보기</button>
+          <p>{} 소모임 승인요청</p>
+          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs ml-4">더보기</button>
         </div>
         <div className="flex justify-around p-2">
-          <p>{} title</p>
-          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs">더보기</button>
+          <p>{} 소모임 승인요청</p>
+          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs ml-4">더보기</button>
         </div>
         <div className="flex justify-around p-2">
-          <p>{} title</p>
-          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs">더보기</button>
+          <p>{} 소모임 승인요청</p>
+          <button type="button" onClick={onMovePage} className="p-1 bg-green-400 text-xs ml-4">더보기</button>
         </div>
         <div>
-          ...dmfh cjflgkrl 
+          ...더보기 
         </div>
         {/* )} */}
       </li>
