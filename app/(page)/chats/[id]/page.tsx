@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 
 import { ChatMessageModel, ChatRoomModel, ChatUserModel } from "@/app/model/chat/chat.model";
 import { getCurrentChatRoom, getError, getIsLoading, saveError, saveLoading } from "@/lib/features/chat/chat.Slice";
-import {findChatList, saveLastReadMessageTime} from "@/app/service/chat/chatRoom.service";
-import {findPeopleList} from "@/app/service/chat/chatUser.service";
-import {findMessageList} from "@/app/service/chat/chatMessage.service";
+import { findChatList, saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
+import { findPeopleList } from "@/app/service/chat/chatUser.service";
+import { findMessageList } from "@/app/service/chat/chatMessage.service";
+import { useAppDispatch } from "@/lib/store";
 
 const ChatPage = dynamic(() => import("@/app/components/chat/ChatPages/ChatPage"), { ssr: false });
 const MyChatList = dynamic(() => import("@/app/components/chat/MyChatList"), { ssr: false });
@@ -17,14 +18,13 @@ const MyProfile = dynamic(() => import("@/app/components/chat/MyProfile"), { ssr
 
 export default function ChatRoom() {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const chatRoom = useSelector(getCurrentChatRoom)
   const loading = useSelector(getIsLoading);
   const error = useSelector(getError);
 
-  const nickname = "A"; // TODO: 실제 사용자 닉네임으로 대체
+  const nickname = "J"; // TODO: 실제 사용자 닉네임으로 대체
   const roomId = chatRoom?.roomId ?? '';
-
   const [messages, setMessages] = useState<ChatMessageModel[]>([]);
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[]>([]);
   const [chatUsers, setChatUsers] = useState<ChatUserModel[]>([]);
@@ -52,7 +52,7 @@ export default function ChatRoom() {
       return;
     }
 
-    saveLastReadMessageTime({ roomId, nickname,dispatch })
+    saveLastReadMessageTime({ roomId, nickname, dispatch })
       .then((isSaved) => {
         if (isSaved) {
           console.log("마지막 읽은 메시지 시간이 저장되었습니다.");
@@ -66,62 +66,65 @@ export default function ChatRoom() {
   }, [chatRoom, dispatch, nickname, roomId, router]);
 
   useEffect(() => {
-    dispatch(saveLoading(true));
 
-    // 비동기 작업을 then() 형식으로 처리
-    Promise.all([
-      findChatList({ nickname, dispatch }),
-      findPeopleList({ roomId,dispatch }),
-    ])
-        .then(([chatRoomsResult, chatUsersResult]) => {
-            setChatRooms(chatRoomsResult);
-            setChatUsers(chatUsersResult);
+    Promise.all([findChatList({ nickname, dispatch }), findPeopleList({ roomId, dispatch })])
+      .then(([chatRoomsResult, chatUsersResult]) => {
+        if (chatRoomsResult && chatUsersResult) {
+          setChatRooms(chatRoomsResult);
+          setChatUsers(chatUsersResult);
 
-          const handleNewMessage = (newMessage: ChatMessageModel) => {
-            setMessages((prevMessages) => [...prevMessages, newMessage]);
-          };
+          console.log('유저:', chatUsersResult);
+          console.log('방:', JSON.stringify(chatRoomsResult, null, 2));
+        }
 
-          // 메시지 목록 가져오기
-          return findMessageList({
-            roomId,
-            nickname,
-            onMessage: handleNewMessage,
-          });
-        })
-        .then((unsubscribe) => {
-          if (typeof unsubscribe === 'function') {
-            unsubscribeRef.current = unsubscribe;
-          } else {
-            console.error('findMessageList did not return a function');
-          }
-        })
-        .catch((error) => {
-          dispatch(saveError((error as Error).message));
-        })
-        .finally(() => {
-          dispatch(saveLoading(false));
+        const handleNewMessage = (newMessage: ChatMessageModel) => {
+          setMessages((prevMessages) => [...prevMessages, newMessage]);
+        };
+
+        // 메시지 목록 가져오기
+        return findMessageList({
+          roomId,
+          nickname,
+          onMessage: handleNewMessage,
         });
+      })
+      .then((unsubscribe) => {
+        if (typeof unsubscribe === "function") {
+          unsubscribeRef.current = unsubscribe;
+        } else {
+          console.error("findMessageList did not return a function");
+        }
+      })
+      .catch((error) => {
+        dispatch(saveError((error as Error).message));
+      })
+      .finally(() => {
+        dispatch(saveLoading(false));
+      });
 
     return () => {
       if (unsubscribeRef.current) {
         unsubscribeRef.current();
       }
     };
-  }, [chatRoom, dispatch, nickname, roomId]);
+  }, [chatRoom, dispatch, nickname]);
 
-  const memoizedChatPage = useMemo(() => (
-    <ChatPage messages={messages} roomId={roomId} />
-  ), [messages, roomId]);
+  const memoizedChatPage = useMemo(() => {
+    console.log("Rendering ChatPage with messages and roomId:", messages, roomId);
+    return <ChatPage messages={messages} roomId={roomId} />;
+  }, [messages, roomId]);
 
-  const memoizedMyChatList = useMemo(() => (
-    <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />
-  ), [chatRooms, roomId]);
+  const memoizedMyChatList = useMemo(() => {
+    console.log("Rendering MyChatList with chatRooms and roomId:", chatRooms, roomId);
+    return <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />;
+  }, [chatRooms, roomId]);
 
-  const memoizedPeopleList = useMemo(() => (
-    chatUsers.map((user) => (
+  const memoizedPeopleList = useMemo(() => {
+    console.log("Rendering PeopleList with chatUsers:", chatUsers);
+    return chatUsers.map((user) => (
       <PeopleList key={user.nickname} chatUser={user} />
-    ))
-  ), [chatUsers]);
+    ));
+  }, [chatUsers]);
 
   if (loading) {
     return <div>로딩 중...</div>;
