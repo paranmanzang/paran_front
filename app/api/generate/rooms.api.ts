@@ -3,6 +3,8 @@ import api from "../axios";
 import requests from "../requests";
 import { BookingModel } from "@/app/model/bookings.model";
 import { ReviewModel, ReviewUpdateModel } from "@/app/model/review.model";
+import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
+import { AccountCancelModel, AccountModel, AccountResultModel } from "@/app/model/account.model";
 
 export const roomAPI = {
     saveRoomAPI: (roomModel: RoomModel) => {
@@ -71,5 +73,27 @@ export const roomAPI = {
     },
     findReviewByUserAPI: (nickname: string, page: number, size: number) => {
         return api.get<Page<ReviewModel>>(requests.fetchRooms + `/list/rooms/${nickname}`, { param: { page, size } });
+    },
+
+    // account
+    loadTossPaymentsAPI: () => {
+        return loadTossPayments("test_ck_mBZ1gQ4YVX9QGM06mRNRrl2KPoqN");
+    },
+    savePaymentAPI: (model: AccountResultModel) => {
+        return api.post<boolean>(requests.fetchRooms + '/accounts/success', model);
+    },
+    findByOrderIdAPI: (orderId: string) => {
+        return api.get<string>(requests.fetchRooms + '/accounts/findPayment', {
+            params: { orderId },
+        });
+    },
+    cancelPaymentAPI: (model: AccountCancelModel) => {
+        return api.put<boolean>(requests.fetchRooms + '/accounts/cancel', model);
+    },
+    findByBookingAPI: (bookingId: number, page: number, size: number) => {
+        return api.get<AccountModel>(requests.fetchRooms + `/accounts/findByBooking/${bookingId}`, { params: { page, size } });
+    },
+    findByGroupAPI: (groupId: number, page: number, size: number) => {
+        return api.get<Page<AccountModel>>(requests.fetchRooms + `/accounts/list/groups/${groupId}`, { params: { page, size } });
     }
 }

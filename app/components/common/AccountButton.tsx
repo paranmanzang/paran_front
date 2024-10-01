@@ -1,14 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
-import { ANONYMOUS, loadTossPayments, TossPaymentsPayment } from "@tosspayments/tosspayments-sdk";
+import { TossPaymentsPayment } from "@tosspayments/tosspayments-sdk";
 import { v4 } from "uuid";
-import { savePayment } from "@/app/service/room/account.service";
+import { loadTossPaymentsSet, savePayment } from "@/app/service/room/account.service";
 import { AccountResultModel, AmountModel } from "@/app/model/account.model";
 import { useSelector } from "react-redux";
 import { getCurrentBooking } from "@/lib/features/bookings.Slice";
 import { getCurrentUser } from "@/lib/features/user.Slice";
-import { BookingModel } from "@/app/model/bookings.model";
-import { RootState } from "@/lib/store";
+import { } from "@/app/model/bookings.model";
+import { useAppDispatch } from "@/lib/store";
+import { saveLoading } from "@/lib/features/account.Slice";
 
 interface TossPaymentResponse {
   orderId: string;
@@ -19,11 +20,12 @@ interface TossPaymentResponse {
 }
 
 export default function AccountButton(): JSX.Element {
+  const dispatch = useAppDispatch();
   // 입력 받은 값
   const orderName: string = "1회 모임";
   const amountValue: number = 5000;
-  const booking = useSelector((state: RootState) => getCurrentBooking(state));
-  const user = useSelector((state: RootState) => getCurrentUser(state));
+  const booking = useSelector(getCurrentBooking);
+  const user = useSelector(getCurrentUser);
   const usePoint: number = 0;
   const [payment, setPayment] = useState<TossPaymentsPayment | null>(null);
   const [amount] = useState<AmountModel>({
@@ -34,15 +36,18 @@ export default function AccountButton(): JSX.Element {
   useEffect(() => {
     async function fetchPayment(): Promise<void> {
       try {
-        const tossPayments = await loadTossPayments("test_ck_mBZ1gQ4YVX9QGM06mRNRrl2KPoqN");
-        const payment = tossPayments.payment({ customerKey: ANONYMOUS });
-        setPayment(payment);
+        loadTossPaymentsSet(dispatch).then(data => {
+          if (data) {
+            setPayment(data)
+          }
+        })
+        dispatch(saveLoading(false))
       } catch (error) {
         console.error("Error fetching payment:", error);
       }
     }
     fetchPayment();
-  }, []);
+  }, [dispatch]);
 
   const requestPayment = async (): Promise<void> => {
     if (!payment) {
@@ -73,24 +78,24 @@ export default function AccountButton(): JSX.Element {
       })
         .then(
           function resp(response: TossPaymentResponse) {
-          if (response && booking) {
-            const model: AccountResultModel = {
-              orderId: response.orderId,
-              paymentKey: response.paymentKey,
-              amount: response.amount.value,
-              orderName: orderName,
-              roomId: booking.roomId,
-              groupId: booking.groupId,
-              bookingId: booking.id,
-              usePoint: usePoint,
-            };
-            savePayment(model).then((paymentResponse) => {
-              if (paymentResponse) {
-                console.log("결제 성공");
-              }
-            });
-          }
-        });
+            if (response && booking) {
+              const model: AccountResultModel = {
+                orderId: response.orderId,
+                paymentKey: response.paymentKey,
+                amount: response.amount.value,
+                orderName: orderName,
+                roomId: booking.roomId,
+                groupId: booking.groupId,
+                bookingId: booking.id,
+                usePoint: usePoint,
+              };
+              savePayment(model, dispatch).then((paymentResponse) => {
+                if (paymentResponse) {
+                  console.log("결제 성공");
+                }
+              });
+            }
+          });
     } catch (error) {
       console.error("Payment request failed:", error);
     }
