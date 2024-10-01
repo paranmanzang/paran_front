@@ -43,13 +43,13 @@ export const roomAPI = {
     // review
     saveReviewAPI(reviewModel: ReviewModel){return api.post<ReviewModel>(requests.fetchRooms + '/reviews/add', reviewModel);},
     
-    modifidReviewAPI(reviewModel: ReviewUpdateModel){return api.put<ReviewModel>(requests.fetchRooms + '/reviews/update', reviewModel);},
+    modify(reviewModel: ReviewUpdateModel){return api.put<ReviewModel>(requests.fetchRooms + '/reviews/update', reviewModel);},
     
-    dropReviewAPI(id: number){return api.delete<boolean>(requests.fetchRooms + `/reviews/delete/${id}`);},
+    drop(id: number){return api.delete<boolean>(requests.fetchRooms + `/reviews/delete/${id}`);},
     
     findAllReviewAPI(page: number, size: number){return api.get<Page<ReviewModel>>(requests.fetchRooms + '/reviews/list', { param: { page, size } });},
     
-    findReviewBy(roomId: number, page: number, size: number){return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/list/rooms/${roomId}`, { param: { page, size } });},
+    findReviewByRoomAPI(roomId: number, page: number, size: number){return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/list/rooms/${roomId}`, { param: { page, size } });},
     
     findReviewByUserAPI(nickname: string, page: number, size: number){return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/list/rooms/${nickname}`, { param: { page, size } });},
 

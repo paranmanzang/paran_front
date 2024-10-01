@@ -6,6 +6,7 @@ import { FaBook, FaSchool,  } from "react-icons/fa";
 import {FaUserGroup} from "react-icons/fa6"
 import { MdMessage } from "react-icons/md";
 import SellerButton from "../../user/seller/SellerButton";
+import getUserId from "@/app/(page)/users/[id]/page";
 
 const tabs = [
   { name: "Groups", icon: <FaUserGroup />, label: "우리들의 모임" },
@@ -19,7 +20,10 @@ export default function SideBar() {
 
   return (
     <div>
-      <SellerButton/>
+      {getUserId == 'seller' ?
+         <SellerButton/> 
+         :
+      }
       <div className="flex min-h-screen w-full">
         <aside id="default-sidebar" className="w-64 bg-green-100" aria-label="Sidebar">
           <div className="h-full overflow-y-auto px-3 py-4">

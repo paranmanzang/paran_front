@@ -8,7 +8,7 @@ export const likeBook = async (likeBookModel: LikeBookModel, dispatch: AppDispat
 ): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.likeBookAPI(likeBookModel)
+        const response = await groupsAPI.likeBook(likeBookModel)
         if ('id' in response.data && 'nickname' in response.data) {
             dispatch(addLikedBook(response.data))
         }
@@ -24,7 +24,7 @@ export const likeBook = async (likeBookModel: LikeBookModel, dispatch: AppDispat
 export const removeLikeBook = async (likeBookModel: LikeBookModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.removeLikeBookAPI(likeBookModel)
+        const response = await groupsAPI.removeLikeBook(likeBookModel)
         if (likeBookModel.id !== undefined) {
             dispatch(deleteLikedBook(likeBookModel.id));
         }
@@ -40,7 +40,7 @@ export const removeLikeBook = async (likeBookModel: LikeBookModel, dispatch: App
 export const findLikeBookList = async (nickname: String, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.findLikeBookListAPI(nickname)
+        const response = await groupsAPI.findLikeBookList(nickname)
         dispatch(saveLikedBooks(response.data))
     } catch (error) {
         dispatch(saveError("내가 좋아하는 책 찾는 중 오류 발생했습니다."));

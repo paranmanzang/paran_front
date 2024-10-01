@@ -28,7 +28,7 @@ export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch
 export const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.modifidReviewAPI(reviewModel);
+    const response = await roomAPI.modify(reviewModel);
     dispatch(updateReview(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -48,7 +48,7 @@ export const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: A
 export const dropReview = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.dropReviewAPI(id)
+    const response = await roomAPI.drop(id)
     dispatch(deleteReview(id))
     return response.data;
   } catch (error: any) {

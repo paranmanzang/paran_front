@@ -70,7 +70,7 @@ export const groupsAPI = {
     deleteGroup(groupId: number){
         return api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/deleteGroup', {params: {groupId}});
     },
-    
+
     enableGroupList(page: number, size: number){
         return api.get<Page<GroupResponseModel>>(`${requests.fetchGroups}/groups/updateenablelist`, {
             params: {
@@ -99,12 +99,11 @@ export const groupsAPI = {
         return api.put<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/grouppost/${postId}`);
     },
     likeBook(likeBookModel: LikeBookModel){
-        return api.post<LikeBookModel | ExceptionResponseModel>(requests.fetchGroups + `/likebook/add`, likeBookModel);}
- 
+        return api.post<LikeBookModel | ExceptionResponseModel>(requests.fetchGroups + `/likebook/add`, likeBookModel);
+    },
     removeLikeBook(likeBookModel: LikeBookModel){
         return api.delete<boolean | ExceptionResponseModel>(requests.fetchGroups + '/likebook/remove', likeBookModel);
     },
-
     findLikeBookList(nickname: String){
         return api.get<LikeBookModel[]>(requests.fetchGroups + `/likebook/list/${nickname}`);
     },

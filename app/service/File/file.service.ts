@@ -7,7 +7,7 @@ import {AppDispatch} from '@/lib/store';
 export const selectFileList = async (refIdList: number[], type: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(upLoading(true))
-        const response = await fileAPI.findFileListAPI(refIdList, type);
+        const response = await fileAPI.findAll(refIdList, type);
         dispatch(saveFiles(response.data))
     } catch (error) {
         console.error('Error select files:', error);
@@ -19,7 +19,7 @@ export const selectFileList = async (refIdList: number[], type: string, dispatch
 export const uploadFile = async (file: any[], type: string, refId: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(upLoading(true))
-        const response = await fileAPI.uploadFilesAPI(file, type, refId)
+        const response = await fileAPI.upload(file, type, refId)
         dispatch(addFile(response.data))
     } catch (error) {
         console.error('Error load file:', error);
@@ -31,7 +31,7 @@ export const uploadFile = async (file: any[], type: string, refId: number, dispa
 export const deleteFile = async (fileDeleteModel: FileDeleteModel, type: FileType, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(upLoading(true))
-        const response = await fileAPI.deleteFileAPI(fileDeleteModel)
+        const response = await fileAPI.delete(fileDeleteModel)
         dispatch(removeFile({path: fileDeleteModel.path, type}));
     } catch (error) {
         console.error('Error load file:', error);

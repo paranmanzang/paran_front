@@ -6,7 +6,7 @@ interface UserState {
   friends: FriendModel[];
   adminPosts: AdminPostModel[];
   declarationPosts: DeclarationPostModel[];
-  checkedIds: CkeckedIdModel[];
+  checkedNames: CheckedNamesModel[];
   isLoading: boolean;
   error: string | null;
 }
@@ -19,7 +19,7 @@ export const initialUserState: UserState = {
   friends: [],
   adminPosts: [],
   declarationPosts: [],
-  checkedIds: [],
+  checkedNames: [],
   isLoading: false,
   error: null
 };
@@ -29,8 +29,9 @@ export enum CheckType {
   GROUP = "group"
 }
 
-export interface CkeckedIdModel {
+export interface CheckedNamesModel {
   id: number;
+  nickname: string; 
   type: CheckType;
 }
 
