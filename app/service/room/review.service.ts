@@ -1,13 +1,13 @@
 import { ReviewModel, ReviewUpdateModel } from '@/app/model/review.model';
 import { AppDispatch } from '@/lib/store';
-import { roomAPI } from '@/app/api/generate/rooms.api';
 import { addReview, deleteReview, saveLoading, saveReviews, updateReview } from '@/lib/features/review.Slice';
+import { reviewAPI } from '@/app/api/generate/reviews.api';
 
 // 리뷰 등록
 export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.saveReviewAPI(reviewModel);
+    const response = await reviewAPI.save(reviewModel);
     dispatch(addReview(response.data))
 
   } catch (error: any) {
@@ -28,7 +28,7 @@ export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch
 export const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.modify(reviewModel);
+    const response = await reviewAPI.update(reviewModel);
     dispatch(updateReview(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -48,7 +48,7 @@ export const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: A
 export const dropReview = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.drop(id)
+    const response = await reviewAPI.delete(id)
     dispatch(deleteReview(id))
     return response.data;
   } catch (error: any) {
@@ -69,7 +69,7 @@ export const dropReview = async (id: number, dispatch: AppDispatch): Promise<boo
 export const getAllReviews = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.findAllReviewAPI(page, size)
+    const response = await reviewAPI.findAll(page, size)
     dispatch(saveReviews(response.data.content))
   } catch (error: any) {
     if (error.response) {
@@ -89,7 +89,7 @@ export const getAllReviews = async (page: number, size: number, dispatch: AppDis
 export const getReviewsByRoom = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.findReviewByRoomAPI(roomId, page, size)
+    const response = await reviewAPI.findRoom(roomId, page, size)
     dispatch(saveReviews(response.data.content))
   } catch (error: any) {
     if (error.response) {
@@ -107,7 +107,7 @@ export const getReviewsByRoom = async (roomId: number, page: number, size: numbe
 export const getReviewsByUser = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.findReviewByUserAPI(nickname, page, size)
+    const response = await reviewAPI.findUser(nickname, page, size)
     dispatch(saveReviews(response.data.content))
   } catch (error: any) {
     if (error.response) {

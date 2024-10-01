@@ -1,15 +1,15 @@
-import { roomAPI } from '@/app/api/generate/rooms.api';
 import api from '../../api/axios';
 import requests from '@/app/api/requests';
 import { AccountCancelModel, AccountModel, AccountResultModel } from '@/app/model/account.model';
 import { AppDispatch } from '@/lib/store';
 import { ANONYMOUS, TossPaymentsPayment } from '@tosspayments/tosspayments-sdk';
 import { saveLoading } from '@/lib/features/account.Slice';
+import { accountAPI } from '@/app/api/generate/accounts.api';
 
 export const loadTossPaymentsSet = async (dispath: AppDispatch): Promise<TossPaymentsPayment> => {
   try {
     dispath(saveLoading(true))
-    const response = await roomAPI.loadTossPaymentsAPI();
+    const response = await accountAPI.load();
     return response.payment({ customerKey: ANONYMOUS });
   } catch (error: any) {
     if (error.response) {
@@ -28,7 +28,7 @@ export const loadTossPaymentsSet = async (dispath: AppDispatch): Promise<TossPay
 export const savePayment = async (model: AccountResultModel, dispath: AppDispatch): Promise<boolean> => {
   try {
     dispath(saveLoading(true))
-    const response = await roomAPI.savePaymentAPI(model);
+    const response = await accountAPI.save(model);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -48,7 +48,7 @@ export const savePayment = async (model: AccountResultModel, dispath: AppDispatc
 export const findByOrderId = async (orderId: string, dispath: AppDispatch): Promise<string> => {
   try {
     dispath(saveLoading(true))
-    const response = await roomAPI.findByOrderIdAPI(orderId)
+    const response = await accountAPI.findOrderId(orderId)
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -68,7 +68,7 @@ export const findByOrderId = async (orderId: string, dispath: AppDispatch): Prom
 export const cancelPayment = async (model: AccountCancelModel, dispath: AppDispatch): Promise<boolean> => {
   try {
     dispath(saveLoading(true))
-    const response = await roomAPI.cancelPaymentAPI(model)
+    const response = await accountAPI.cancel(model)
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -88,7 +88,7 @@ export const cancelPayment = async (model: AccountCancelModel, dispath: AppDispa
 export const findByBooking = async (bookingId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel> => {
   try {
     dispath(saveLoading(true))
-    const response = await roomAPI.findByBookingAPI(bookingId, page, size);
+    const response = await accountAPI.findBooking(bookingId, page, size);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -107,7 +107,7 @@ export const findByBooking = async (bookingId: number, page: number, size: numbe
 export const findByGroup = async (groupId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel[]> => {
   try {
     dispath(saveLoading(true))
-    const response = await roomAPI.findByGroupAPI(groupId, page, size);
+    const response = await accountAPI.findGroup(groupId, page, size);
     return response.data.content;
   } catch (error: any) {
     if (error.response) {
