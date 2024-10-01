@@ -6,7 +6,7 @@ import chatsAPI from "@/app/api/generate/chats.api";
 export const createRoom = async ({ roomName, nickname,dispatch }: { roomName: string, nickname: string,dispatch: AppDispatch }): Promise<string | Boolean> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.createChatRoomAPI(roomName,nickname)
+        const response = await chatsAPI.createChatRoom(roomName,nickname)
         return response.data;
     } catch (error) {
         const errorMessage = (error as Error).message;
@@ -21,7 +21,7 @@ export const createRoom = async ({ roomName, nickname,dispatch }: { roomName: st
 export const findChatList = async ({ nickname,dispatch }: { nickname: string, dispatch: AppDispatch }): Promise<ChatRoomModel[]> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.findChatListAPI(nickname)
+        const response = await chatsAPI.findChatList(nickname)
         if (Array.isArray(response.data)) {
             return response.data;
         }else {
@@ -39,7 +39,7 @@ export const findChatList = async ({ nickname,dispatch }: { nickname: string, di
 export const updateName = async ({ roomName, roomId, nickname,dispatch }: { roomName: string, roomId: string, nickname: string,dispatch: AppDispatch }): Promise<Boolean | String> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.updateChatRoomNameAPI( roomName, roomId, nickname)
+        const response = await chatsAPI.updateChatRoomName( roomName, roomId, nickname)
         return response.data
     } catch (error) {
         const errorMessage = (error as Error).message;
@@ -54,7 +54,7 @@ export const updateName = async ({ roomName, roomId, nickname,dispatch }: { room
 export const updatePassword = async ({ roomId, password, nickname,dispatch }: { roomId: string, password: string, nickname: string,dispatch: AppDispatch }): Promise<boolean | string> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.updateChatRoomPasswordAPI(roomId, password, nickname )
+        const response = await chatsAPI.updateChatRoomPassword(roomId, password, nickname )
         return response.data
     } catch (error) {
         const errorMessage = (error as Error).message;
@@ -69,7 +69,7 @@ export const updatePassword = async ({ roomId, password, nickname,dispatch }: { 
 export const deleteRoom = async ({ roomId,dispatch }: { roomId: string,dispatch: AppDispatch }): Promise<Boolean> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.deleteChatRoomAPI(roomId)
+        const response = await chatsAPI.deleteChatRoom(roomId)
         return response.data;
     } catch (error) {
         console.error('방 삭제 중 오류 발생:', error);
@@ -83,7 +83,7 @@ export const deleteRoom = async ({ roomId,dispatch }: { roomId: string,dispatch:
 export const saveLastReadMessageTime = async ({ roomId, nickname,dispatch }: { roomId: string, nickname: string, dispatch: AppDispatch }): Promise<Boolean> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.saveChatRoomLastReadMessageTimeAPI(roomId,nickname)
+        const response = await chatsAPI.saveChatRoomLastReadMessageTime(roomId,nickname)
         return response.data;
     } catch (error) {
         console.error('마지막 읽은 메세지 시간 저장 중 오류 발생:', error);

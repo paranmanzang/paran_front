@@ -9,7 +9,7 @@ import { roomAPI } from '@/app/api/generate/rooms.api';
 export const saveRoom = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.saveRoomAPI(roomModel)
+        const response = await roomAPI.save(roomModel)
         dispatch(addRoom(response.data))
     } catch (error: any) {
         if (error.response) {
@@ -29,7 +29,7 @@ export const saveRoom = async (roomModel: RoomModel, dispatch: AppDispatch): Pro
 export const modifidRoom = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.updateRoomAPI(roomModel)
+        const response = await roomAPI.update(roomModel)
         dispatch(updateRoom(response.data));
     } catch (error: any) {
         if (error.response) {
@@ -48,7 +48,7 @@ export const modifidRoom = async (roomModel: RoomUpdateModel, dispatch: AppDispa
 export const deleteRoom = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.deleteRoomAPI(id);
+        const response = await roomAPI.delete(id);
         dispatch(removeRoom(id))
         return response.data;
     } catch (error: any) {
@@ -68,7 +68,7 @@ export const deleteRoom = async (id: number, dispatch: AppDispatch): Promise<boo
 export const findRoomsByUser = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.findRoomsByUserAPI(nickname, page, size);
+        const response = await roomAPI.findUser(nickname, page, size);
         dispatch(saveRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {
@@ -88,7 +88,7 @@ export const findRoomsByUser = async (nickname: string, page: number, size: numb
 export const findAllRooms = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.findRoomListAPI(page, size)
+        const response = await roomAPI.findAll(page, size)
         dispatch(saveRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {
@@ -107,7 +107,7 @@ export const findAllRooms = async (page: number, size: number, dispatch: AppDisp
 export const findEnabledRooms = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.findEnabledRoomsAPI(page, size)
+        const response = await roomAPI.findEnabled(page, size)
         dispatch(saveRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {
@@ -127,7 +127,7 @@ export const findEnabledRooms = async (page: number, size: number, dispatch: App
 export const confirmRoom = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.confirmRoomAPI(id)
+        const response = await roomAPI.confirm(id)
         dispatch(updateRoom(response.data))
     } catch (error: any) {
         if (error.response) {
@@ -146,7 +146,7 @@ export const confirmRoom = async (id: number, dispatch: AppDispatch): Promise<vo
 //공간거절
 export const rejectRoom = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
-        const response = await roomAPI.rejectRoomAPI(id);
+        const response = await roomAPI.reject(id);
         dispatch(removeRoom(id))
     } catch (error: any) {
         if (error.response) {

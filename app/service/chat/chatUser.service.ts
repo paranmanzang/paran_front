@@ -6,7 +6,7 @@ import {AppDispatch} from "@/lib/store";
 export const invite = async ({ roomId, nickname,dispatch }: { roomId: string, nickname: string,dispatch: AppDispatch }): Promise<Boolean> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.inviteChatRoomAPI(roomId,nickname)
+        const response = await chatsAPI.inviteChatRoom(roomId,nickname)
         return response.data;
     } catch (error) {
         console.error('방 초대 중 오류 발생:', error);
@@ -20,7 +20,7 @@ export const invite = async ({ roomId, nickname,dispatch }: { roomId: string, ni
 export const findPeopleList = async ({ roomId,dispatch }: { roomId: string,dispatch: AppDispatch }): Promise<ChatUserModel[]> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.findChatRoomPeopleListAPI(roomId)
+        const response = await chatsAPI.findChatRoomPeopleList(roomId)
         if (Array.isArray(response.data)) {
             return response.data;
         }else {
@@ -38,7 +38,7 @@ export const findPeopleList = async ({ roomId,dispatch }: { roomId: string,dispa
 export const exit = async ({ roomId, nickname,dispatch }: { roomId: string, nickname: string,dispatch: AppDispatch }): Promise<Boolean> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.exitChatRoomAPI(roomId,nickname)
+        const response = await chatsAPI.exitChatRoom(roomId,nickname)
         return response.data;
     } catch (error) {
         console.error('방 나가는 중 오류 발생:', error);

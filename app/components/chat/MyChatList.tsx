@@ -7,6 +7,10 @@ import { useRouter } from "next/navigation";
 import { saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
 import { useAppDispatch } from "@/lib/store";
 import { saveCurrentChatRoom } from "@/lib/features/chat/chat.Slice";
+import { getCurrentUser } from "@/lib/features/users/user.Slice";
+import { useSelector } from "react-redux";
+
+
 
 interface ChatRoomListProps {
   chatRooms: ChatRoomModel[] | null;
@@ -19,7 +23,7 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
   const [isPopoverVisible, setIsPopoverVisible] = useState(false);
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const nickname = 'J'
+  const nickname = useSelector(getCurrentUser);
 
   // Popover를 토글하는 함수
   const togglePopover = () => {

@@ -1,6 +1,4 @@
 import { roomAPI } from '@/app/api/generate/rooms.api';
-import api from '../../api/axios';
-import requests from '@/app/api/requests';
 import { BookingModel } from '@/app/model/bookings.model';
 import { AppDispatch } from '@/lib/store';
 import { addBooking, deleteBooking, saveBookings, saveLoading, updateBooking } from '@/lib/features/bookings.Slice';
@@ -9,7 +7,7 @@ import { addBooking, deleteBooking, saveBookings, saveLoading, updateBooking } f
 export const saveBooking = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.saveBookingAPI(bookingModel);
+    const response = await roomAPI.saveBooking(bookingModel);
     dispatch(addBooking(response.data))
   } catch (error: any) {
     if (error.response) {
