@@ -9,7 +9,7 @@ import {saveError, saveLoading} from "@/lib/features/comment/comment.Slice";
 export const insertComment = async (model: CommentRequestModel, nickname: string,dispatch: AppDispatch): Promise<boolean | ExceptionResponseModel> => {
   try {
     dispatch(saveLoading(true));
-    const response = await commentsAPI.insertCommentAPI(model,nickname)
+    const response = await commentsAPI.insert(model,nickname)
     return response.data;
   } catch (error) {
     dispatch(saveError("댓글 등록 중 오류 발생했습니다."));
@@ -24,7 +24,7 @@ export const insertComment = async (model: CommentRequestModel, nickname: string
 export const deleteComment = async (commentId: number,dispatch: AppDispatch): Promise<boolean> => {
   try {
     dispatch(saveLoading(true));
-    const response = await commentsAPI.deleteCommentAPI(commentId)
+    const response = await commentsAPI.delete(commentId)
     return response.data;
   } catch (error) {
     dispatch(saveError("댓글 삭제 중 오류 발생했습니다."));
@@ -39,7 +39,7 @@ export const deleteComment = async (commentId: number,dispatch: AppDispatch): Pr
 export const updateComment = async (commentId: number, content: string, nickname: string,dispatch: AppDispatch): Promise<boolean> => {
   try {
     dispatch(saveLoading(true));
-    const response = await commentsAPI.updateCommentAPI(commentId,content,nickname)
+    const response = await commentsAPI.update(commentId,content,nickname)
     return response.data;
   } catch (error) {
     dispatch(saveError("댓글 수정 중 오류 발생했습니다."));
@@ -54,7 +54,7 @@ export const updateComment = async (commentId: number, content: string, nickname
 export const findCommentListByPostId = async (postId: number, page: number, size: number,dispatch: AppDispatch): Promise<CommentResponseModel[]> => {
   try {
     dispatch(saveLoading(true));
-    const response = await commentsAPI.findCommentListByPostIdAPI(postId,page,size)
+    const response = await commentsAPI.findListByPostId(postId,page,size)
     return response.data.content;
   } catch (error) {
     dispatch(saveError("댓글 리스트 가져오기 중 오류 발생했습니다."));

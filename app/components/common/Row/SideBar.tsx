@@ -2,16 +2,17 @@
 import { useState } from "react";
 import SideBarTab from "./SideBarTab";
 import ContentArea from "./ContentArea";
-import AdminButton from "../../user/adminRow/AdminButton";
 import { FaBook, FaSchool,  } from "react-icons/fa";
 import {FaUserGroup} from "react-icons/fa6"
 import { MdMessage } from "react-icons/md";
+import SellerButton from "../../user/seller/SellerButton";
+import getUserId from "@/app/(page)/users/[id]/page";
 
 const tabs = [
   { name: "Groups", icon: <FaUserGroup />, label: "우리들의 모임" },
   { name: "Rooms", icon: <FaSchool />, label: "우리들의 공간" },
   { name: "Books", icon: <FaBook />, label: "우리들의 책" },
-  { name: "Chats", icon: <MdMessage />, label: "모임채팅 보기" },
+  { name: "Chats", icon: <MdMessage />, label: "참여중인 채팅보기" },
 ];
 
 export default function SideBar() {
@@ -19,7 +20,10 @@ export default function SideBar() {
 
   return (
     <div>
-      <AdminButton />
+      {getUserId == 'seller' ?
+         <SellerButton/> 
+         :
+      }
       <div className="flex min-h-screen w-full">
         <aside id="default-sidebar" className="w-64 bg-green-100" aria-label="Sidebar">
           <div className="h-full overflow-y-auto px-3 py-4">

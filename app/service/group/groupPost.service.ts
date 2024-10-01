@@ -15,7 +15,7 @@ import {
 export const insertPost = async (groupPostModel: GroupPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.insertPostAPI(groupPostModel)
+        const response = await groupsAPI.insertPost(groupPostModel)
         if ('id' in response.data && 'name' in response.data) {
             dispatch(addGroupPost(response.data))
         }
@@ -32,7 +32,7 @@ export const insertPost = async (groupPostModel: GroupPostModel, dispatch: AppDi
 export const updatePost = async (groupPostModel: GroupPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.updatePostAPI(groupPostModel)
+        const response = await groupsAPI.updatePost(groupPostModel)
         if ('boardId' in response.data && 'title' in response.data) {
             dispatch(updateGroupPost(response.data))
         }
@@ -49,7 +49,7 @@ export const updatePost = async (groupPostModel: GroupPostModel, dispatch: AppDi
 export const deletePost = async (boardId: number, dispatch: AppDispatch, postCategory: string): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.deletePostAPI(boardId)
+        const response = await groupsAPI.deletePost(boardId)
         dispatch(deleteGroupPost({id: boardId, postCategory}));
     } catch (error: any) {
         dispatch(saveError("게시글 삭제 중 오류 발생했습니다."));
@@ -64,7 +64,7 @@ export const deletePost = async (boardId: number, dispatch: AppDispatch, postCat
 export const findPostsByGroupId = async (groupId: number, page: number, size: number, postCategory: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.findPostsByGroupIdAPI(groupId, page, size, postCategory)
+        const response = await groupsAPI.findPostsByGroupId(groupId, page, size, postCategory)
         if (Array.isArray(response.data)) {
             dispatch(saveGroupPosts(response.data))
         }
@@ -81,7 +81,7 @@ export const findPostsByGroupId = async (groupId: number, page: number, size: nu
 export const updateViewCount = async (postId: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.updateViewCountAPI(postId)
+        const response = await groupsAPI.updateViewCount(postId)
         if ('boardId' in response.data && 'title' in response.data) {
             dispatch(updateGroupPost(response.data))
         }

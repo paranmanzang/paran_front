@@ -6,7 +6,6 @@ export interface GroupState {
     groupMembers: { [groupId: number]: JoiningModel[] };
     groupPostsNotices: GroupPostResponseModel[];
     groupPostsGenerals: GroupPostResponseModel[];
-    points: PointResponseModel[];
     currentGroup: GroupResponseModel | null;
     currentGroupPost: GroupPostResponseModel | null;
     isLoading: boolean;
@@ -19,7 +18,6 @@ export const initialGroupState: GroupState = {
     groupMembers: [],
     groupPostsNotices: [],
     groupPostsGenerals: [],
-    points: [],
     currentGroup: null,
     currentGroupPost: null,
     isLoading: false,
@@ -38,6 +36,7 @@ export interface GroupModel {
 
 export interface JoiningModel {
     nickname: string;
+    enabled: boolean;
     groupId: number;
     requestAt: string;
     responseAt: string;
@@ -54,33 +53,6 @@ export interface GroupResponseModel {
     detail: string;
     nickname: string;
     chatRoomId: string;
-}
-
-
-
-export interface PointModel {
-    pointId?: number;
-    groupId: number;
-    point: number;
-}
-
-export interface PointDetailResponseModel {
-    id: number;
-    status: string;
-    point: number;
-    expirationAt: string;
-    transactionAt: string;
-    parentPointId: number;
-}
-
-
-export interface PointResponseModel {
-    id: number;
-    createAt: string;
-    detail: string;
-    point: number;
-    groupId: number;
-    pointDetails: PointDetailResponseModel[];
 }
 
 export interface GroupPostModel {

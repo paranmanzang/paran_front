@@ -1,6 +1,7 @@
 import React from 'react';
 
-const SelectCheckbox= () => {
+
+const SelectCheckbox = () => {
   return (
     <div id="selectBtn">
       <input
@@ -15,4 +16,4 @@ const SelectCheckbox= () => {
   );
 };
 
-export default SelectCheckbox;
+export default SelectCheckbox; 

@@ -1,0 +1,10 @@
+.visible {
+    visibility: visible;
+    opacity: 100;
+}
+  
+  .invisible {
+    visibility: hidden;
+    opacity: 0;
+  }
+  

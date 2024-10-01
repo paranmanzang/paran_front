@@ -14,10 +14,6 @@ interface GroupCardProps {
 const GroupCard = ({ group, active, onSelect }: GroupCardProps) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const handleLikeChange = (isLiked: boolean) => {
-    console.log('좋아요 상태:', isLiked);
-    // 여기에서 필요한 로직을 수행 (예: API 호출)
-  };
 
   const onClickToDetail = () => {
     dispatch(saveCurrentGroup(group));
@@ -25,11 +21,9 @@ const GroupCard = ({ group, active, onSelect }: GroupCardProps) => {
   };
 
   return (
-    <div className="relative max-w-sm">
-      <form className="absolute top-2 w-full px-3">
-        <div className="flex justify-between">
-          <HeartCheckbox onChange={handleLikeChange} />
-          <SelectCheckBox />
+    <div className="max-w-sm">
+      <form className="relative top-2">
+        <div className="absolute flex w-full px-4 justify-end">
         </div>
       </form>
       <div
@@ -40,19 +34,15 @@ const GroupCard = ({ group, active, onSelect }: GroupCardProps) => {
         <div className="p-5">
           <h5 className={`mb-2 text-lg font-medium tracking-tight ${active ? 'text-green-600' : 'text-gray-900'
             }`}>
-            {group.title || "Group Title"}
+            {group.name || "Group Title"}
           </h5>
           <p className="mb-3 text-sm font-medium text-gray-700">
-            {group.content || "Group Content"}
+            {group.detail || "Group Content"}
           </p>
-          <div className="w-full flex justify-between">
-            <p className="text-sm font-medium">소모임 : {group.name}</p>
-            <p className="text-sm font-medium">
-              카테고리
-              <span className="font-xs bg-green-400 p-2 text-white rounded-full ml-2">
-                {group.categoryName}
-              </span>
-            </p>
+          <div className="w-full">
+            <span className="text-xs bg-green-400 p-1 text-white rounded-full my-4">
+              {group.categoryName}
+            </span>
           </div>
           <button
             onClick={onClickToDetail}

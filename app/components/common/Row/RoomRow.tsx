@@ -60,7 +60,7 @@ const RoomRow = ({ active, onSelect }:RoomRowProps) => {
       const roomFile = files.roomFiles.find(file => file.refId === roomId);
       return roomFile ? `process.env.NEXT_PUBLIC_FILE_URL/one?path=${roomFile.path}` : "process.env.NEXT_PUBLIC_IMAGE_DEFAULT"; // 기본 이미지 제공 
     }
-    return "process.env.NEXT_PUBLIC_IMAGE_DEFAULT";
+    return process.env.NEXT_PUBLIC_IMAGE_DEFAULT;
   };
 
   const onClickToDetail = (currentId: number | undefined): void => {

@@ -11,7 +11,7 @@ interface ChatPageProps {
     roomId: string;
 }
 
-const ChatPage: React.FC<ChatPageProps> = ({messages, roomId}) => {
+const ChatPage = ({messages, roomId}: ChatPageProps) => {
     const dispatch = useDispatch();
     const [message, setMessage] = useState("");
     const isSuccessRef = useRef<boolean | null>(null);

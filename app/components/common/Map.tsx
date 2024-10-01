@@ -78,7 +78,7 @@ export default function Map() {
           {/* </form> */}
         </div>
         <div>
-          <NaverMap addresses={addresses} />
+          <NaverMap/>
         </div>
       </div>
     </div>

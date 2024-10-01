@@ -17,7 +17,7 @@ export default function ChatRoom() {
   const dispatch = useDispatch();
   const chatRoom = useSelector(getCurrentChatRoom);
   const loading = useSelector(getIsLoading);
-  const error = useSelector(getError);
+  const error = useSelector(getError); 
 
   const nickname = "A"; // TODO: 실제 사용자 닉네임으로 대체
   const roomId = chatRoom?.roomId ?? '';
