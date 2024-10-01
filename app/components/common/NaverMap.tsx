@@ -1,13 +1,15 @@
 "use client";
-import React, {useEffect} from 'react';
-import {useRouter} from 'next/navigation';
-import {AddressModel} from "@/app/model/address.model";
 
-interface NaverMapProps {
-    addresses: AddressModel[];
-}
+import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { getAddresses } from '@/lib/features/address.Slice';
+import { AddressModel } from '@/app/model/address.model';
 
-const NaverMap = ({addresses}: NaverMapProps) => {
+
+const NaverMap = () => {
+    const addresses = useSelector(getAddresses)
+
     let map: naver.maps.Map; // 'map' 변수를 useEffect 범위 바깥에 선언
     const router = useRouter();
     const onCLickToMove = (id: number) => {
@@ -28,7 +30,7 @@ const NaverMap = ({addresses}: NaverMapProps) => {
                 let markerList: naver.maps.Marker[] = [];
                 let infoWindows: naver.maps.InfoWindow[] = [];
 
-                addresses.forEach((address, index) => {
+                addresses.forEach((address: AddressModel, index: number) => {
                     const marker = new window.naver.maps.Marker({
                         position: new window.naver.maps.LatLng(address.latitude, address.longitude),
                         map: map,
@@ -101,7 +103,7 @@ const NaverMap = ({addresses}: NaverMapProps) => {
         }
     }, [addresses]);
 
-    return <div id="map" style={{width: '500px', height: '740px'}}/>;
+    return <div id="map" style={{ width: '500px', height: '740px' }} />;
 };
 
 export default NaverMap;

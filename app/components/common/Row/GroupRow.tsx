@@ -31,7 +31,7 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
   if (error) return <ErrorMessage message={error} />;
 
   return (
-    <div className="group-list grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div>
       {groups.map((group) => (
         <GroupCard
           key={group.id}

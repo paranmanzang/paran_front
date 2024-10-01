@@ -7,7 +7,7 @@ import { AccountResultModel, AmountModel } from "@/app/model/account.model";
 import { useSelector } from "react-redux";
 import { getCurrentBooking } from "@/lib/features/bookings.Slice";
 import { getCurrentUser } from "@/lib/features/user.Slice";
-import { RootState, useAppDispatch } from "@/lib/store";
+import {  useAppDispatch } from "@/lib/store";
 import { saveLoading } from "@/lib/features/account.Slice";
 
 interface TossPaymentResponse {
@@ -77,24 +77,24 @@ export default function AccountButton(): JSX.Element {
       })
         .then(
           function resp(response: TossPaymentResponse | void) {
-          if (response && booking) {
-            const model: AccountResultModel = {
-              orderId: response.orderId,
-              paymentKey: response.paymentKey,
-              amount: response.amount.value,
-              orderName: orderName,
-              roomId: booking.roomId,
-              groupId: booking.groupId,
-              bookingId: booking.id ?? 0,
-              usePoint: usePoint,
-            };
-            savePayment(model).then((paymentResponse) => {
-              if (paymentResponse) {
-                console.log("결제 성공");
-              }
-            });
-          }
-        });
+            if (response && booking) {
+              const model: AccountResultModel = {
+                orderId: response.orderId,
+                paymentKey: response.paymentKey,
+                amount: response.amount.value,
+                orderName: orderName,
+                roomId: booking.roomId,
+                groupId: booking.groupId,
+                bookingId: booking.id ?? 0,
+                usePoint: usePoint,
+              };
+              savePayment(model, dispatch).then((paymentResponse) => {
+                if (paymentResponse) {
+                  console.log("결제 성공");
+                }
+              });
+            }
+          });
     } catch (error) {
       console.error("Payment request failed:", error);
     }

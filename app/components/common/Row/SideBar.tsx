@@ -11,7 +11,7 @@ const tabs = [
   { name: "Groups", icon: <FaUserGroup />, label: "우리들의 모임" },
   { name: "Rooms", icon: <FaSchool />, label: "우리들의 공간" },
   { name: "Books", icon: <FaBook />, label: "우리들의 책" },
-  { name: "Chats", icon: <MdMessage />, label: "모임채팅 보기" },
+  // { name: "Chats", icon: <MdMessage />, label: "모임채팅 보기" },
 ];
 
 export default function SideBar() {
