@@ -13,6 +13,7 @@ interface ChatRoomListProps {
   currentChatRoomId: string;
 }
 
+
 export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomListProps) {
   // Popover의 가시성을 관리하는 상태
   const [isPopoverVisible, setIsPopoverVisible] = useState(false);
@@ -54,7 +55,6 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
       >
         참여중인 대화방 이름 {"^"}
       </button>
-
       {/* Popover List */}
       <ul
         id="popover-bottom"

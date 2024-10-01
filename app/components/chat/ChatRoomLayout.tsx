@@ -12,7 +12,7 @@ export default function ChatRoomLayout ({
   togglePopUp,
   leaveChat,
   roomId
-}:ChatRoomLayoutProps) {
+}: ChatRoomLayoutProps) {
   const childrenArray = React.Children.toArray(children);
 
   return (

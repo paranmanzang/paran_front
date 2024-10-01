@@ -105,4 +105,53 @@ export default function AccountButton(): JSX.Element {
             <button className="rounded-lg bg-green-100 p-2 text-sm text-gray-900" onClick={requestPayment}>결제하기</button>
         </div>
     );
+<<<<<<< HEAD
+    try {
+      // 카드결제
+      await payment.requestPayment({
+        method: "CARD",
+        amount: amount,
+        orderId: orderDate + v4().substring(0, 50),
+        orderName: orderName,
+        customerName: user?.nickname || "",
+        windowTarget: "iframe",
+        card: {
+          useEscrow: false,
+          flowMode: "DEFAULT",
+          useCardPoint: false,
+          useAppCardOnly: false,
+        },
+      })
+        .then(
+          function resp(response: TossPaymentResponse) {
+          if (response && booking) {
+            const model: AccountResultModel = {
+              orderId: response.orderId,
+              paymentKey: response.paymentKey,
+              amount: response.amount.value,
+              orderName: orderName,
+              roomId: booking.roomId,
+              groupId: booking.groupId,
+              bookingId: booking.id ?? 0,
+              usePoint: usePoint,
+            };
+            savePayment(model).then((paymentResponse) => {
+              if (paymentResponse) {
+                console.log("결제 성공");
+              }
+            });
+          }
+        });
+    } catch (error) {
+      console.error("Payment request failed:", error);
+    }
+  };
+
+  return (
+    <div>
+      <button className="rounded-lg bg-green-100 p-2 text-sm text-gray-900" onClick={requestPayment}>결제하기</button>
+    </div>
+  );
+=======
+>>>>>>> 7bb3ef08e1d0d7a7cb4a9411338324dcd248443a
 }
