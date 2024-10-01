@@ -1,6 +1,8 @@
-import { UserModel } from "@/app/model/user.model";
+import { UserModel } from "@/app/model/user/user.model";
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
+
+
 
 export const login = async (username: string, password: string): Promise<UserModel> => {
   try {
@@ -40,6 +42,23 @@ export const get = async (): Promise<UserModel> => {
       console.error('Error:', error.message);
       throw new Error('주소 검색 중 오류 발생');
     }
+  }
+};
+export const oauth = async (): Promise<void> => {
+  try {
+     window.location.href = process.env.NEXT_PUBLIC_OAUTH_URL;
+    // 외부 URL인 경우
+    // if (resp.startsWith('http') || resp.startsWith('https')) {
+    //   window.location.href = resp;
+    // } else {
+    //   // 내부 경로인 경우
+    //   await router.push(resp);
+    // }
+
+
+  } catch (error: any) {
+    console.error('OAuth redirection failed:', error);
+    throw new Error('OAuth 인증 중 오류가 발생했습니다.');
   }
 };
 
