@@ -2,16 +2,13 @@ import {GroupModel, JoiningModel, PointModel} from '@/app/model/group/group.mode
 import {groupsAPI} from "@/app/api/generate/groups.api";
 import {
     addGroupMember,
-    addPoint,
     deleteGroup,
     deleteGroupMember,
     saveError,
     saveGroupMembers,
     saveGroups,
     saveLoading,
-    savePoints,
     updateGroup,
-    updatePoint
 } from "@/lib/features/group/group.Slice";
 import {AppDispatch} from "@/lib/store";
 
@@ -169,70 +166,6 @@ export const dropGroup = async (groupId: number, dispatch: AppDispatch): Promise
     } catch (error: any) {
         dispatch(saveError("소모임 삭제 중 오류 발생했습니다."));
         console.error('Error deleting group:', error.response?.data || error.message);
-    } finally {
-        dispatch(saveLoading(false));
-    }
-};
-
-// 소모임 포인트 적립
-export const insertPoint = async (pointModel: PointModel, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.addPointAPI(pointModel)
-        if ('id' in response.data && 'point' in response.data) {
-            dispatch(addPoint(response.data))
-        }
-    } catch (error: any) {
-        dispatch(saveError("소모임 포인트 적립 중 오류 발생했습니다."));
-        console.error('Error adding point:', error.response?.data || error.message);
-    } finally {
-        dispatch(saveLoading(false));
-    }
-};
-
-// 소모임 포인트 조회
-export const myGroupPoint = async (groupId: number, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.myGroupPointAPI(groupId)
-        if (Array.isArray(response.data)) {
-            dispatch(savePoints(response.data))
-        }
-    } catch (error: any) {
-        dispatch(saveError("소모임 포인트 조회 중 오류 발생했습니다."));
-        console.error('Error fetching group point:', error.response?.data || error.message);
-    } finally {
-        dispatch(saveLoading(false));
-    }
-};
-
-// 소모임 포인트 사용
-export const usePoint = async (pointModel: PointModel, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.usePointAPI(pointModel)
-        if ('id' in response.data && 'point' in response.data) {
-            dispatch(updatePoint(response.data))
-        }
-    } catch (error: any) {
-        dispatch(saveError("소모임 포인트 사용 중 오류 발생했습니다."));
-        console.error('Error using point:', error.response?.data || error.message);
-    } finally {
-        dispatch(saveLoading(false));
-    }
-};
-
-// 소모임 포인트 취소
-export const cancelPoint = async (pointId: number, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.cancelPointAPI(pointId)
-        if ('id' in response.data && 'point' in response.data) {
-            dispatch(updatePoint(response.data))
-        }
-    } catch (error: any) {
-        dispatch(saveError("소모임 포인트 취소 중 오류 발생했습니다."));
-        console.error('Error canceling point:', error.response?.data || error.message);
     } finally {
         dispatch(saveLoading(false));
     }

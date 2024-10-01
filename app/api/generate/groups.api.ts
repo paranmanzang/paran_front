@@ -9,8 +9,6 @@ import {
     GroupPostResponseModel,
     GroupResponseModel,
     JoiningModel,
-    PointModel,
-    PointResponseModel
 } from "@/app/model/group/group.model";
 
 
@@ -71,18 +69,6 @@ export const groupsAPI = {
     },
     deleteGroupAPI: (groupId: number) => {
         return api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/deleteGroup', {params: {groupId}});
-    },
-    addPointAPI: (pointModel: PointModel) => {
-        return api.post<PointResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/pointup', pointModel);
-    },
-    myGroupPointAPI: (groupId: number) => {
-        return api.get<PointResponseModel[] | ExceptionResponseModel>(`${requests.fetchGroups}/groups/mygrouppoint`, {params: {groupId}});
-    },
-    usePointAPI: (pointModel: PointModel) => {
-        return api.post<PointResponseModel | ExceptionResponseModel>(`${requests.fetchGroups}/groups/usepoint`, pointModel);
-    },
-    cancelPointAPI: (pointId: number) => {
-        return api.delete<PointResponseModel | ExceptionResponseModel>(`${requests.fetchGroups}/groups/paymentcancel`, {params: {pointId}});
     },
     enableGroupListAPI: (page: number, size: number) => {
         return api.get<Page<GroupResponseModel>>(`${requests.fetchGroups}/groups/updateenablelist`, {

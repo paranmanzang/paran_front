@@ -99,21 +99,6 @@ const groupSlice = createSlice({
     saveCurrentGroupPost: (state, action: PayloadAction<GroupPostResponseModel | null>) => {
       state.currentGroupPost = action.payload;
     },
-    savePoints: (state, action: PayloadAction<PointResponseModel[]>) => {
-      state.points = action.payload;
-    },
-    addPoint: (state, action: PayloadAction<PointResponseModel>) => {
-      state.points.push(action.payload);
-    },
-    updatePoint: (state, action: PayloadAction<PointResponseModel>) => {
-      const index = state.points.findIndex(point => point.id === action.payload.id);
-      if (index !== -1) {
-        state.points[index] = action.payload;
-      }
-    },
-    deletePoint: (state, action: PayloadAction<number>) => {
-      state.points = state.points.filter(point => point.id !== action.payload);
-    },
     saveLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
@@ -128,7 +113,6 @@ export const getGroupPosts = (state: RootState) => ({
 });
 export const getGroups = (state: RootState) => state.group.groups;
 export const getGroupMembers = (state: RootState) => state.group.groupMembers;
-export const getPoints = (state: RootState) => state.group.points;
 export const getCurrentGroup = (state: RootState) => state.group.currentGroup;
 export const getCurrentGroupPost = (state: RootState) => state.group.currentGroupPost;
 export const getIsLoading = (state: RootState) => state.group.isLoading;
@@ -146,10 +130,6 @@ export const {
   addGroupPost,
   updateGroupPost,
   deleteGroupPost,
-  savePoints,
-  addPoint,
-  updatePoint,
-  deletePoint,
   saveCurrentGroup,
   saveCurrentGroupPost,
   saveLoading,
