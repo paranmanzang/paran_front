@@ -51,7 +51,7 @@ export default function ChatRoom() {
       roomId={roomId}
     >
       <>
-        <MyChatList chatRooms={chatRooms} togglePopUp currentChatRoomId={roomId} />
+        <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />
         <ul className="w-full">
           {chatUsers.map((user) => (
             <PeopleList key={user.nickname} chatUser={user} />

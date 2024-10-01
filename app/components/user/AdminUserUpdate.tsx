@@ -3,8 +3,12 @@ import { useState } from "react"
 import Alert from "../common/Alert"
 export default function AdminUserUpdate() {
   const [isOpen, setIsOpen] = useState(false);
+  const [FormData, setFormData] = useState([0]);
   const userUpdate = () => {
     setIsOpen(true)
+  }
+  const onSetRank = () => {
+    setFormData([1]);
   }
 
   return (
@@ -17,17 +21,13 @@ export default function AdminUserUpdate() {
               </h5>
             </li>
             <li className="flex items-center">
-              유저 포인트
-              <h5 className="mb-2 ml-6 flex items-end text-xl font-medium text-gray-900">
-                10
-                <p className="text-sm">점</p>
-              </h5>
-            </li>
-            <li className="flex items-center">
               유저 등급
-              <h5 className="mb-2 ml-6 flex items-end text-xl font-medium text-gray-900">
-                seller
-              </h5>
+              <form onSubmit={onSetRank}>
+                <select id="selectRank">
+                  <option>노랑 회원 - 판매자</option>
+                  <option>초록 회원 - 일반</option>
+                </select>
+              </form>
             </li>
           </ul>
           <div>

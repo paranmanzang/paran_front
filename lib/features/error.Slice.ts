@@ -1,5 +1,4 @@
 // errorSlice.ts
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ErrorState, initialErrorState, ExceptionResponseModel } from '../../app/model/error.model';
 
@@ -41,7 +40,6 @@ export const getClearError = (state: any) => { state.currentError, state.isError
 export const getAddToError = (state: any) => state.errorHistory
 export const getErrorHistory = (state: any) => state.errorHistory
 export const getSaveError = (state: any) => state.isError
-
 
 export const {
     saveCurrentError,

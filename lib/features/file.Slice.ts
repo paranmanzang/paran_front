@@ -1,5 +1,4 @@
 // fileSlice.ts
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialFileState, FileModel, FileDeleteModel, FileType } from '../../app/model/file.model';
 import { RootState } from '../store';  // RootState는 store에서 정의된 타입이어야 함
@@ -15,7 +14,6 @@ const fileSlice = createSlice({
             state.aboardFiles = action.payload.filter(file => file.type === FileType.ABOARD);
             state.groupPostFiles = action.payload.filter(file => file.type === FileType.GROUP_POST);
             state.bookFiles = action.payload.filter(file => file.type === FileType.BOOK);
-
         },
         // 현재 파일을 저장
         saveCurrentFile: (state, action: PayloadAction<FileModel | null>) => {
@@ -106,7 +104,6 @@ const fileSlice = createSlice({
     },
 });
 
-
 // Selectors
 export const getFiles = (state: RootState) => ({
     userFiles: state.file.userFiles,
@@ -119,7 +116,6 @@ export const getCurrentFile = (state: RootState) => state.file.currentFile;
 export const getFileToDelete = (state: RootState) => state.file.fileToDelete;
 export const getLoading = (state: RootState) => state.file.isLoading;
 export const getError = (state: RootState) => state.file.error;
-
 
 export const {
     saveFiles,
