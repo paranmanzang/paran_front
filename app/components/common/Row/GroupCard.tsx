@@ -25,9 +25,9 @@ const GroupCard = ({ group, active, onSelect }: GroupCardProps) => {
   };
 
   return (
-    <div className="relative max-w-sm">
-      <form className="absolute top-2 w-full px-3">
-        <div className="flex justify-between">
+    <div className="max-w-sm">
+      <form className="relative top-2">
+        <div className="absolute flex w-full px-4 justify-between">
           <HeartCheckbox onChange={handleLikeChange} />
           <SelectCheckBox />
         </div>
@@ -45,14 +45,11 @@ const GroupCard = ({ group, active, onSelect }: GroupCardProps) => {
           <p className="mb-3 text-sm font-medium text-gray-700">
             {group.content || "Group Content"}
           </p>
-          <div className="w-full flex justify-between">
+          <div className="w-full">
             <p className="text-sm font-medium">소모임 : {group.name}</p>
-            <p className="text-sm font-medium">
-              카테고리
-              <span className="font-xs bg-green-400 p-2 text-white rounded-full ml-2">
+              <span className="text-xs bg-green-400 p-1 text-white rounded-full my-4">
                 {group.categoryName}
               </span>
-            </p>
           </div>
           <button
             onClick={onClickToDetail}

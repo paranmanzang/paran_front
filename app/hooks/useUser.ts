@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { RootState } from "@/lib/store";
+import userService from '@/app/service/user/user.service'
 
 export const useUser = (id: string) => {
   const queryClient = useQueryClient();

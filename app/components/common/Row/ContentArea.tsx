@@ -2,7 +2,7 @@ import React from 'react';
 import GroupRow from "./GroupRow";
 import RoomRow from "./RoomRow";
 import BookRow from "./BookRow";
-import ChatRow from "./ChatRow";
+// import ChatRow from "./ChatRow";
 
 interface ContentAreaProps {
   activeTab: string;
@@ -17,8 +17,8 @@ const ContentArea = ({ activeTab }:ContentAreaProps) => {
         return <RoomRow active={true} onSelect={() => {}} />;
       case "Books":
         return <BookRow active={true} onSelect={() => {}}/>;
-      case "Chats":
-        return <ChatRow active={true} onSelect={() => {}} />;
+      // case "Chats":
+      //   return <ChatRow active={true} onSelect={() => {}} />;
       default:
         return null;
     }
