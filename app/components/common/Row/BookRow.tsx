@@ -30,14 +30,14 @@ const BookRow = ({ active, onSelect }: BookRowProps) => {
     const bookIds = books.map(book => book.id);
     selectFileList(bookIds, FileType.BOOK, dispatch)
   }, [active, dispatch]);
-  
+
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="grid grid-cols-1 gap-4">
       {books.map((book) => (
-        <BookCard key={book.id} book={book} active={active} file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)}/>
+        <BookCard key={book.id} book={book} active={active} file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)} />
       ))}
     </div>
   );

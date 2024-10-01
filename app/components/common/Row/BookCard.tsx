@@ -1,5 +1,5 @@
+"use Client"
 import React from "react";
-import Link from "next/link";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import HeartCheckbox from "./HeartCheckBox";
@@ -34,7 +34,8 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
     }
   };
 
-  const onClickToDetail = () => {
+  const onClickToDetail = (e: React.MouseEvent) => {
+    e.stopPropagation();
     dispatch(saveCurrentBook(book));
     dispatch(saveCurrentFile(file));
     router.push(`/books/${book.id}`);
@@ -42,14 +43,6 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
 
   return (
     <div className="relative max-w-sm">
-      <form className="absolute top-2 w-full px-3">
-        <div className="flex justify-between">
-          <div id={`likeBtn-${book.id}`}>
-            <HeartCheckbox
-              onChange={(active) => handleLikeChange(active, book.id, dispatch, nickname)} />
-          </div>
-        </div>
-      </form>
       <div className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${active ? "ring-2 ring-green-500" : ""}`}>
         <Image
           width={400}
@@ -64,11 +57,17 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
             {book.title}
           </h5>
           <p className="text-sm font-medium">저자: {book.author}</p>
-          <p className="text-sm font-medium">카테고리: {book.categoryName}</p>
+          <div className="w-full">
+            <span className="text-xs bg-green-400 p-1 text-white rounded-full my-4">
+              {book.categoryName}
+            </span>
+          </div>
           <button
-            onClick={onClickToDetail}
-            className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${active ? 'bg-green-600 hover:bg-green-700' : 'bg-green-400 hover:bg-green-500'
-              }`}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClickToDetail(e);
+            }}
+            className="mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white bg-green-600 hover:bg-green-700"
           >
             상세보기
             <svg

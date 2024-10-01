@@ -19,7 +19,7 @@ export const defaultFile = (fileType: FileType, refId: number) => ({
     type: fileType,
     path: process.env.NEXT_PUBLIC_IMAGE_DEFAULT || '/images/default.png',
     refId: refId,
-    uploadAt: new Date(),
+    uploadAt:new Date(),
 });
 
 export interface FileDeleteModel {
