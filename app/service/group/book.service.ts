@@ -1,20 +1,17 @@
-import api from '@/app/api/axios';
-import requests from '@/app/api/requests';
-import { BookResponseModel } from '@/app/model/group/book.model';
+import groupsAPI from "@/app/api/generate/groups.api";
+import {AppDispatch} from "@/lib/store";
+import {saveBooks, saveError, saveLoading} from "@/lib/features/group/book.Slice";
 
-// 도서명으로 카테고리 조회
-export const findBookList = async (page: number, size: number): Promise<BookResponseModel[]> => {
-  try {
-    const response = await api.get<Page<BookResponseModel>>(`${requests.fetchGroups}/books`, {
-      params: {
-        page,
-        size
-      }
-    });
-    console.log(response.data.content)
-    return response.data.content;
-  } catch (error) {
-    console.error('Error fetching category:', error);
-    throw new Error('카테고리 조회 중 오류 발생');
-  }
+// 도서 조회
+export const findBookList = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+    try {
+        dispatch(saveLoading(true));
+        const response = await groupsAPI.findBookListAPI(page, size)
+        dispatch(saveBooks(response.data.content))
+    } catch (error) {
+        dispatch(saveError("도서 조회 중 오류 발생했습니다."));
+        console.error('Error fetching bookList:', error);
+    } finally {
+        dispatch(saveLoading(false));
+    }
 };

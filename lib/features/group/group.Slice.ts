@@ -1,6 +1,12 @@
 // groupSlice.ts
 
-import { GroupPostResponseModel, GroupResponseModel, initialGroupState, PointResponseModel } from '@/app/model/group/group.model';
+import {
+  GroupPostResponseModel,
+  GroupResponseModel,
+  initialGroupState,
+  JoiningModel,
+  PointResponseModel
+} from '@/app/model/group/group.model';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
@@ -12,8 +18,21 @@ const groupSlice = createSlice({
     saveGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
       state.groups = action.payload;
     },
+    saveGroupMembers: (state, action: PayloadAction<JoiningModel[]>) => {
+      if (action.payload.length > 0) {
+        const groupId = action.payload[0].groupId;
+        state.groupMembers[groupId] = action.payload;
+      }
+    },
     addGroup: (state, action: PayloadAction<GroupResponseModel>) => {
       state.groups.push(action.payload);
+    },
+    addGroupMember: (state, action: PayloadAction<JoiningModel>) => {
+      const { groupId } = action.payload;
+      if (!state.groupMembers[groupId]) {
+        state.groupMembers[groupId] = [];
+      }
+      state.groupMembers[groupId].push(action.payload);
     },
     updateGroup: (state, action: PayloadAction<GroupResponseModel>) => {
       const index = state.groups.findIndex(group => group.id === action.payload.id);
@@ -23,6 +42,12 @@ const groupSlice = createSlice({
     },
     deleteGroup: (state, action: PayloadAction<number>) => {
       state.groups = state.groups.filter(group => group.id !== action.payload);
+    },
+    deleteGroupMember: (state, action: PayloadAction<{ groupId: number; nickname: string }>) => {
+      const { groupId, nickname } = action.payload;
+      if (state.groupMembers[groupId]) {
+        state.groupMembers[groupId] = state.groupMembers[groupId].filter(user => user.nickname !== nickname);
+      }
     },
     saveCurrentGroup: (state, action: PayloadAction<GroupResponseModel | null>) => {
       state.currentGroup = action.payload;
@@ -102,6 +127,7 @@ export const getGroupPosts = (state: RootState) => ({
   groupPostsGeneral: state.group.groupPostsGenerals,
 });
 export const getGroups = (state: RootState) => state.group.groups;
+export const getGroupMembers = (state: RootState) => state.group.groupMembers;
 export const getPoints = (state: RootState) => state.group.points;
 export const getCurrentGroup = (state: RootState) => state.group.currentGroup;
 export const getCurrentGroupPost = (state: RootState) => state.group.currentGroupPost;
@@ -110,6 +136,9 @@ export const getError = (state: RootState) => state.group.error
 
 export const {
   saveGroups,
+  saveGroupMembers,
+  addGroupMember,
+  deleteGroupMember,
   addGroup,
   updateGroup,
   deleteGroup,
