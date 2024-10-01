@@ -1,5 +1,4 @@
 "use client";
-// import { DarkThemeToggle } from "flowbite";
 import { LuBellRing } from "react-icons/lu";
 
 import { useState } from "react";
@@ -8,10 +7,10 @@ import Image from "next/image";
 import Nav from "./Nav";
 import paranLogo from "@/app/assets/paranLogo.png";
 import { logout } from "@/app/service/user/logout.service";
+import BellService from "./BellService";
 
 export default function Header() {
   const [isHidden, setIsHidden] = useState(true);
-  const openHandler = () => { };
   const popupOpen = () => {
     setIsHidden((prevState) => !prevState);
   };
@@ -64,10 +63,7 @@ export default function Header() {
               }
               id="popUp"
             >
-              <li className="px-4 py-2 hover:underline">내용1</li>
-              <li className="px-4 py-2 hover:underline">내용2</li>
-              <li className="px-4 py-2 hover:underline">내용3</li>
-              <li className="px-4 py-2 hover:underline">내용4</li>
+              <BellService />
             </ul>
             <Link
               href="/logout"
@@ -110,10 +106,7 @@ export default function Header() {
               }
               id="popUp"
             >
-              <li className="px-4 py-2 hover:underline">내용1</li>
-              <li className="px-4 py-2 hover:underline">내용2</li>
-              <li className="px-4 py-2 hover:underline">내용3</li>
-              <li className="px-4 py-2 hover:underline">내용4</li>
+             <BellService />
             </ul>
             :
             <Link
@@ -124,34 +117,8 @@ export default function Header() {
             </Link>
             {/* } */}
           </div>
-
-          <button
-            data-collapse-toggle="navbar-sticky"
-            type="button"
-            onClick={openHandler}
-            className="inline-flex size-10 items-center justify-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-            aria-controls="navbar-sticky"
-            aria-expanded="false"
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="size-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 17 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M1 1h15M1 7h15M1 13h15"
-              />
-            </svg>
-          </button>
         </div>
       </div>
     </header>
-  );
+  )
 }
