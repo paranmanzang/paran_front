@@ -72,7 +72,7 @@ export default function AccountButton(): JSX.Element {
         },
       })
         .then(
-          function resp(response: TossPaymentResponse | void) {
+          function resp(response: TossPaymentResponse) {
           if (response && booking) {
             const model: AccountResultModel = {
               orderId: response.orderId,

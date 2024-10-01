@@ -7,12 +7,12 @@ interface ChatRoomLayoutProps {
   roomId: string;
 }
 
-const ChatRoomLayout: React.FC<ChatRoomLayoutProps> = ({
+const ChatRoomLayout = ({
   children,
   togglePopUp,
   leaveChat,
   roomId
-}) => {
+}: ChatRoomLayoutProps) => {
   const childrenArray = React.Children.toArray(children);
 
   return (

@@ -1,33 +1,21 @@
-import React, { useEffect } from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
-import styles from"./MyChatList.module.css";
+import styles from "./MyChatList.module.css";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
 
 interface ChatRoomListProps {
-  chatRooms: ChatRoomModel[] | null
-  currentChatRoomId: string
+  chatRooms: ChatRoomModel[] | null;
+  currentChatRoomId: string;
 }
-export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomListProps) {
-  useEffect(() => {
-    const targetElement = document.getElementById("popover-bottom");
-    const triggerElement = document.getElementById("popup-button");
 
-    if (targetElement && triggerElement) {
-      const options = {
-        placement: "bottom",
-        triggerType: "click",
-        offset: 10,
-      };
-    }
-  }, []);
+export default function MyChatList({ chatRooms, currentChatRoomId }: ChatRoomListProps) {
+  const [isPopoverVisible, setIsPopoverVisible] = useState(false);
 
+  // Popover를 토글하는 함수
   const togglePopover = () => {
-    const popover = document.getElementById("popover-bottom");
-    if (popover) {
-      popover.classList.toggle("invisible");
-      popover.classList.toggle("opacity-0");
-    }
+    setIsPopoverVisible((prev) => !prev);
   };
 
   const filteredChatRooms = chatRooms?.filter((room) => room.roomId !== currentChatRoomId);
@@ -42,10 +30,13 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
       >
         참여중인 대화방 이름 {"^"}
       </button>
-      <ul
-        id="popover-bottom"
-        className={styles.listUp} 
-      >
+      {isPopoverVisible && (
+        <ul
+          id="popover-bottom"
+          className={`${styles.ListUp} transition-opacity duration-300 ease-in-out ${
+            isPopoverVisible ? "opacity-100" : "opacity-0"
+          }`}
+        >
         {filteredChatRooms && filteredChatRooms.length > 0 ? (
           filteredChatRooms.map((room) => (
             <li key={room.roomId} className={styles.ListOne}>
@@ -57,6 +48,7 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
           <p>다른 채팅방이 없습니다</p>
         )}
       </ul>
+      )}
     </div>
   );
 }

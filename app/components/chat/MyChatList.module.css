@@ -15,7 +15,7 @@
   color: #666;
 }
 
-.listUp {
+.ListUp {
   visibility: hidden;
   position: absolute;
   z-index: 10;
@@ -32,6 +32,6 @@
   transition: opacity 0.3s ease;
 }
 
-.listUp > * + * {
+.ListUp > * + * {
   margin-top: 0.5rem;
 }

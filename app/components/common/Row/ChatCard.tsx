@@ -43,7 +43,7 @@ const ChatCard = ({ chat, active, onSelect }: ChatCardProps) => {
             width={400}
             height={330}
             className="rounded-t-lg"
-            src={chat.imageUrl || "https://picsum.photos/400/380"}
+            src={chat.imageUrl || process.env.NEXT_PUBLIC_IMAGE_DEFAULT}
             alt={`chat cover`}
             priority
           />
