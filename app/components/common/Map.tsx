@@ -1,25 +1,23 @@
 "use client";
 import Image from "next/image";
 import NaverMap from "./NaverMap";
-import { findQuery } from "@/app/service/room/address.service";
-import { useState } from "react";
-import { AddressModel } from "@/app/model/address.model";
+import { findQuery, getAddressList } from "@/app/service/room/address.service";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/lib/store";
+import { useSelector } from "react-redux";
+import { getAddresses, saveLoading } from "@/lib/features/address.Slice";
 
 export default function Map() {
-  const [addresses, setAddresses] = useState<AddressModel[]>([{
-    id: 0,
-    address: "서울 중구 세종대로 110 서울특별시청",
-    detailAddress: "서울특별시청",
-    latitude: 37.566535,
-    longitude: 126.9779692,
-    roomId: 0,
-  }]);
+  const dispatch = useAppDispatch()
+  const addresses = useSelector(getAddresses)
+
+  useEffect(() => {
+    getAddressList(dispatch)
+    dispatch(saveLoading(false))
+  }, [dispatch])
   function search(query: string) {
-    findQuery(query).then(data => {
-      if (data) {
-        setAddresses(data)
-      }
-    })
+    findQuery(query, dispatch)
+    dispatch(saveLoading(false))
   }
   return (
     <div id="map-wrap" className="relative">
@@ -35,7 +33,7 @@ export default function Map() {
         }}
       ></span>
       <div className="flex w-full justify-center">
-        <div className="mx-3 h-[46rem] w-[30%] p-6 rounded-lg border bg-white shadow ">
+        <div className="mx-3 h-[46rem] w-[30%] rounded-lg border bg-white p-6 shadow ">
           {/* <form className="mx-auto max-w-full " > */}
           <h1 className="text-2xl font-bold ">원하시는 정보를 검색해주세요!</h1>
           <p className="mt-2 text-base">정보를 남겨주시면 친절하게 도와드리겠습니다.</p>
