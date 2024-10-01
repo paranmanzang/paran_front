@@ -9,8 +9,6 @@ import {
     GroupPostResponseModel,
     GroupResponseModel,
     JoiningModel,
-    PointModel,
-    PointResponseModel
 } from "@/app/model/group/group.model";
 
 
