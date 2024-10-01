@@ -9,7 +9,7 @@ export const likePost = async (likePostModel: LikePostModel, dispatch: AppDispat
 ): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.addLikePostAPI(likePostModel)
+        const response = await userAPI.addLikePost(likePostModel)
         if ('id' in response.data && 'nickname' in response.data) {
             dispatch(addLikedPost(response.data))
         }
@@ -25,7 +25,7 @@ export const likePost = async (likePostModel: LikePostModel, dispatch: AppDispat
 export const removeLikePost = async (likePostModel: LikePostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.removeLikePostAPI(likePostModel)
+        const response = await userAPI.removeLikePost(likePostModel)
         if (likePostModel.id !== undefined) {
             dispatch(deleteLikedPost(likePostModel.id));
         }
@@ -41,7 +41,7 @@ export const removeLikePost = async (likePostModel: LikePostModel, dispatch: App
 export const findLikePostList = async (nickname: String, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findLikePostListAPI(nickname)
+        const response = await userAPI.findLikePostList(nickname)
         dispatch(saveLikedPosts(response.data))
     } catch (error) {
         dispatch(saveError("좋아요 한 게시물을 찾는 중 오류 발생했습니다."));

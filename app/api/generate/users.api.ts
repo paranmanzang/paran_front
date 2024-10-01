@@ -7,12 +7,12 @@ import {ExceptionResponseModel} from "@/app/model/error.model";
 
 
 export const userAPI = {
-  getUser: (id: string) => api.get(`${requests.fetchUsers}/users/${id}`),
-  createUser: (userData: any) => api.post('/users', userData),
-  updateUser: (id: string, userData: any) => api.put(`/users/${id}`, userData),
-  deleteUser: (id: string) => api.delete(`/users/${id}`),
+  get(id: string) {return api.get(`${requests.fetchUsers}/users/${id}`)},
+  create(userData: any){return api.post('/users', userData)},
+  update(id: string, userData: any){return api.put(`/users/${id}`, userData)},
+  delete(id: string){return api.delete(`/users/${id}`)},
 
-  findAdminPostAPI: (page: number, size: number) => {
+  findAdminPost(page: number, size: number){
     return api.get<Page<AdminPostModel>>(`${requests.fetchUsers}/aboard/list`, {
       params: {
         page,
@@ -21,7 +21,7 @@ export const userAPI = {
     });
   },
 
-  findAdminPostByNicknameAPI: (page: number, size: number, nickname: string) => {
+  findAdminPostByNickname(page: number, size: number, nickname: string){
     return api.get<Page<AdminPostModel>>(`${requests.fetchUsers}/aboard/myList/${nickname}`, {
       params: {
         page,
@@ -29,23 +29,23 @@ export const userAPI = {
       }
     });
   },
-  findAdminPostDetailAPI:(id:number)=>{
+  findAdminPostDetail(id:number){
     return api.get<AdminPostModel[]>(requests.fetchUsers + `/aboard/list/${id}`);
   },
-  insertAdminPostAPI: (adminPostModel: AdminPostModel) => {
+  insertAdminPost(adminPostModel: AdminPostModel){
     return api.post<AdminPostModel | ExceptionResponseModel>(requests.fetchUsers + '/aboard/add', adminPostModel);
   },
-  updateAdminPostAPI: (id:number, adminPostModel: AdminPostModel) => {
+  updateAdminPost(id:number, adminPostModel: AdminPostModel){
     return api.put<AdminPostModel | ExceptionResponseModel>(requests.fetchUsers + `/aboard/update/${id}`, adminPostModel);
   },
-  deleteAdminPostAPI: (id: number) => {
+  deleteAdminPost(id: number){
     return api.delete<Boolean | ExceptionResponseModel>(`/aboard/delete/${id}`);
   },
-  findAdminPostViewCountAPI:(id:number) => {
+  findAdminPostViewCount(id:number){
     return api.get<number>(requests.fetchUsers + `aboard/viewcount/${id}`);
   },
 
-  findDeclarationPostAPI: (page: number, size: number) => {
+  findDeclarationPost(page: number, size: number){
     return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/depost/getList`, {
       params: {
         page,
@@ -54,7 +54,7 @@ export const userAPI = {
     });
   },
 
-  findDeclarationPostByNicknameAPI: (page: number, size: number, nickname: string) => {
+  findDeclarationPostByNickname(page: number, size: number, nickname: string){
     return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/depost/getList/${nickname}`, {
       params: {
         page,
@@ -63,40 +63,40 @@ export const userAPI = {
     });
   },
 
-  findDeclarationPostDetailAPI:(id:number)=>{
+  findDeclarationPostDetail(id:number){
     return api.get<DeclarationPostModel[]>(requests.fetchUsers + `/aboard/list/${id}`);
   },
-  insertDeclarationPostAPI:(declarationPostModel : DeclarationPostModel)=>{
+  insertDeclarationPost(declarationPostModel : DeclarationPostModel){
     return api.post<DeclarationPostModel|ExceptionResponseModel>(requests.fetchUsers + `/depost/add`,declarationPostModel);
   },
-  deleteDeclarationPostAPI:(id:number) =>{
+  deleteDeclarationPost(id:number){
     return api.delete<Boolean | ExceptionResponseModel>(`depost/delete/${id}`)
   },
-  addLikePostAPI: (likePostModel: LikePostModel) => {
+  addLikePost(likePostModel: LikePostModel){
     return api.post<LikePostModel | ExceptionResponseModel>(requests.fetchUsers + `/likeposts/add`, likePostModel);
   },
-  removeLikePostAPI: (likePostModel: LikePostModel) => {
+  removeLikePost(likePostModel: LikePostModel){
     return api.delete<boolean | ExceptionResponseModel>(requests.fetchUsers + '/likeposts/remove', likePostModel);
   },
-  findLikePostListAPI: (nickname: String) => {
+  findLikePostList(nickname: String){
     return api.get<LikePostModel[]>(requests.fetchUsers + `/likeposts/list/${nickname}`);
   },
-  addLikeRoomAPI: (likeRoomModel: LikeRoomModel) => {
+  addLikeRoom(likeRoomModel: LikeRoomModel){
     return api.post<LikeRoomModel | ExceptionResponseModel>(requests.fetchUsers + `/likeRoom/add`, likeRoomModel);
   },
-  removeLikeRoomAPI: (likeRoomModel: LikeRoomModel) => {
+  removeLikeRoom(likeRoomModel: LikeRoomModel){
     return api.delete<boolean | ExceptionResponseModel>(requests.fetchUsers + '/likeRoom/remove', likeRoomModel);
   },
-  findLikeRoomListAPI: (nickname: String) => {
+  findLikeRoomList(nickname: String){
     return api.get<LikeRoomModel[]>(requests.fetchUsers + `/likeRoom/list/${nickname}`);
   },
-  addFriendAPI: (friendModel: FriendModel) => {
+  addFriend(friendModel: FriendModel){
     return api.post<FriendModel | ExceptionResponseModel>(requests.fetchUsers + `/friend/register`, friendModel);
   },
-  removeFriendAPI: (id: number) => {
+  removeFriend(id: number){
     return api.delete<boolean | ExceptionResponseModel>(requests.fetchUsers + `/friend/delete/${id}`);
   },
-  findFriendListAPI: (nickname: String) => {
+  findFriendList(nickname: String){
     return api.get<FriendModel[]>(requests.fetchUsers + `/friend/list/${nickname}`);
   }
 }

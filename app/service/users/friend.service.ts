@@ -8,7 +8,7 @@ import {addFriend, deleteFriend, saveFriends} from "@/lib/features/users/users.S
 export const addfriends = async (friendModel: FriendModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
-        const response = await userAPI.addFriendAPI(friendModel); // API 호출
+        const response = await userAPI.addFriend(friendModel); // API 호출
 
         // 응답 상태가 성공적이고, id와 nickname이 포함된 경우만 디스패치
         if (response.status === 200 && 'id' in response.data && 'nickname' in response.data) {
@@ -28,7 +28,7 @@ export const addfriends = async (friendModel: FriendModel, dispatch: AppDispatch
 export const removeLikePost = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
-        const response = await userAPI.removeFriendAPI(id); // API 호출
+        const response = await userAPI.removeFriend(id); // API 호출
         if (response.status === 200) {
             dispatch(deleteFriend(id)); // 친구 삭제
         } else {
@@ -46,7 +46,7 @@ export const removeLikePost = async (id: number, dispatch: AppDispatch): Promise
 export const findFriendList = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findFriendListAPI(nickname)
+        const response = await userAPI.findFriendList(nickname)
         dispatch(saveFriends(response.data))
     } catch (error) {
         dispatch(saveError("친구를 찾는 중 오류 발생했습니다."));

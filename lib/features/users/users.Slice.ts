@@ -1,4 +1,4 @@
-import { initialUserState, AdminPostModel, DeclarationPostModel, FriendModel, LikePostModel, LikeRoomModel, CkeckedIdModel } from '@/app/model/user/users.model';
+import { initialUserState, AdminPostModel, DeclarationPostModel, FriendModel, LikePostModel, LikeRoomModel, CkeckedIdModel, CheckedNamesModel } from '@/app/model/user/users.model';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
@@ -57,12 +57,12 @@ export const usersSlice = createSlice({
         deleteDeclarationPost: (state, action: PayloadAction<number>) => {
             state.declarationPosts = state.declarationPosts.filter(declarationPost => declarationPost.id !== action.payload);
         },
-        saveCheckedIds: (state, action: PayloadAction<CkeckedIdModel>) => {
-            state.checkedIds = [action.payload];
+        saveCheckedNames: (state, action: PayloadAction<CheckedNamesModel>) => {
+            state.checkedNames = [action.payload];
         },
-        deleteCheckedIds: (state, action: PayloadAction<CkeckedIdModel>) => {
-            state.checkedIds = state.checkedIds.filter(
-              (checkedId: CkeckedIdModel) => checkedId.id !== action.payload.id
+        deleteCheckedNames: (state, action: PayloadAction<CheckedNamesModel>) => {
+            state.checkedNames = state.checkedNames.filter(
+              (checkedName: CheckedNamesModel) => checkedName.nickname !== action.payload.nickname
             );
         },
     }
@@ -72,7 +72,7 @@ export const usersSlice = createSlice({
 export const getLikedRooms = (state: RootState) => state.users.likeRooms;
 export const getLikedPosts = (state: RootState) => state.users.likePosts;
 export const getFriends = (state: RootState) => state.users.friends;
-export const getCheckedIds = (state: RootState) => state.users.checkedIds;
+export const getCheckedNames = (state: RootState) => state.users.checkedNames;
 export const getAdminPosts = (state: RootState) => state.users.adminPosts;
 export const getDeclarationPosts = (state: RootState) => state.users.declarationPosts;
 
@@ -93,8 +93,8 @@ export const {
     deleteDeclarationPost,
     saveAdminPosts,
     saveFriends,
-    saveCheckedIds,
-    deleteCheckedIds
+    saveCheckedNames,
+    deleteCheckedNames
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

@@ -70,6 +70,7 @@ export const groupsAPI = {
     deleteGroup(groupId: number){
         return api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + '/groups/deleteGroup', {params: {groupId}});
     },
+
     enableGroupList(page: number, size: number){
         return api.get<Page<GroupResponseModel>>(`${requests.fetchGroups}/groups/updateenablelist`, {
             params: {
