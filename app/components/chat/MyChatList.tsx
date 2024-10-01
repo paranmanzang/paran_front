@@ -3,6 +3,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import styles from "./MyChatList.module.css";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
+import { useRouter } from "next/navigation";
+import { saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
+import { useAppDispatch } from "@/lib/store";
+import { saveCurrentChatRoom } from "@/lib/features/chat/chat.Slice";
 
 interface ChatRoomListProps {
   chatRooms: ChatRoomModel[] | null;
@@ -13,6 +17,9 @@ interface ChatRoomListProps {
 export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomListProps) {
   // Popover의 가시성을 관리하는 상태
   const [isPopoverVisible, setIsPopoverVisible] = useState(false);
+  const router = useRouter()
+  const dispatch = useAppDispatch()
+  const nickname = 'J'
 
   // Popover를 토글하는 함수
   const togglePopover = () => {
@@ -21,6 +28,21 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
 
   // 현재 활성화된 채팅방을 제외한 채팅방 필터링
   const filteredChatRooms = chatRooms?.filter((room) => room.roomId !== currentChatRoomId);
+
+  const switchChatRoom = (chatRoom: ChatRoomModel) => {
+    saveLastReadMessageTime({ roomId: currentChatRoomId, nickname, dispatch })
+      .then((isSaved) => {
+        if (isSaved) {
+          console.log("마지막 읽은 메시지 시간이 저장되었습니다.");
+        } else {
+          console.error("마지막 읽은 메시지 시간 저장에 실패했습니다.");
+        }
+      })
+      .finally(() => {
+        dispatch(saveCurrentChatRoom(chatRoom))
+        router.push(`/chats/${chatRoom.roomId}`)
+      });
+  }
 
   return (
     <div id="chatHead" className="px-5 py-3">
@@ -36,14 +58,13 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
       {/* Popover List */}
       <ul
         id="popover-bottom"
-        className={`${styles.listUp} transition-opacity duration-300 ease-in-out ${
-          isPopoverVisible ? `${styles.visible}` : `${styles.invisible}`
-        }`}
+        className={`${styles.listUp} transition-opacity duration-300 ease-in-out ${isPopoverVisible ? `${styles.visible}` : `${styles.invisible}`
+          }`}
       >
         {filteredChatRooms && filteredChatRooms.length > 0 ? (
           filteredChatRooms.map((room) => (
             <li key={room.roomId} className={styles.ListOne}>
-              <Link href={`/chats/${room.roomId}`}>{room.name}</Link>
+              <button onClick={() => switchChatRoom(room)}>{room.name}</button>
               <span className={styles.number}>{room.unReadMessageCount}</span>
             </li>
           ))
