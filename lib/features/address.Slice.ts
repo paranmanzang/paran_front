@@ -13,10 +13,10 @@ const addressSlice = createSlice({
         addAddress: (state, action: PayloadAction<AddressModel>) => {
             state.addresses.push(action.payload);
         },
-        updateAddress: (state, action: PayloadAction<AddressUpdateModel>) => {
+        updateAddress: (state, action: PayloadAction<AddressModel>) => {
             const index = state.addresses.findIndex(address => address.id === action.payload.id);
             if (index !== -1) {
-                state.addresses[index] = { ...state.addresses[index], ...action.payload };
+                state.addresses[index] = action.payload;
             }
         },
         deleteAddress: (state, action: PayloadAction<number>) => {

@@ -17,7 +17,7 @@ export default function ChatRoom() {
   const dispatch = useDispatch();
   const chatRoom = useSelector(getCurrentChatRoom);
   const loading = useSelector(getIsLoading);
-  const error = useSelector(getError);
+  const error = useSelector(getError); 
 
   const nickname = "A"; // TODO: 실제 사용자 닉네임으로 대체
   const roomId = chatRoom?.roomId ?? '';
@@ -51,7 +51,7 @@ export default function ChatRoom() {
       roomId={roomId}
     >
       <>
-        <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />
+        <MyChatList chatRooms={chatRooms} togglePopUp currentChatRoomId={roomId} />
         <ul className="w-full">
           {chatUsers.map((user) => (
             <PeopleList key={user.nickname} chatUser={user} />

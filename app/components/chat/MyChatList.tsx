@@ -1,7 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-
 import styles from "./MyChatList.module.css";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
 
@@ -10,7 +9,9 @@ interface ChatRoomListProps {
   currentChatRoomId: string;
 }
 
-export default function MyChatList({ chatRooms, currentChatRoomId }: ChatRoomListProps) {
+
+export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomListProps) {
+  // Popover의 가시성을 관리하는 상태
   const [isPopoverVisible, setIsPopoverVisible] = useState(false);
 
   // Popover를 토글하는 함수
@@ -18,10 +19,12 @@ export default function MyChatList({ chatRooms, currentChatRoomId }: ChatRoomLis
     setIsPopoverVisible((prev) => !prev);
   };
 
+  // 현재 활성화된 채팅방을 제외한 채팅방 필터링
   const filteredChatRooms = chatRooms?.filter((room) => room.roomId !== currentChatRoomId);
 
   return (
     <div id="chatHead" className="px-5 py-3">
+      {/* Pop-up button */}
       <button
         id="popup-button"
         type="button"
@@ -30,13 +33,13 @@ export default function MyChatList({ chatRooms, currentChatRoomId }: ChatRoomLis
       >
         참여중인 대화방 이름 {"^"}
       </button>
-      {isPopoverVisible && (
-        <ul
-          id="popover-bottom"
-          className={`${styles.ListUp} transition-opacity duration-300 ease-in-out ${
-            isPopoverVisible ? "opacity-100" : "opacity-0"
-          }`}
-        >
+      {/* Popover List */}
+      <ul
+        id="popover-bottom"
+        className={`${styles.listUp} transition-opacity duration-300 ease-in-out ${
+          isPopoverVisible ? `${styles.visible}` : `${styles.invisible}`
+        }`}
+      >
         {filteredChatRooms && filteredChatRooms.length > 0 ? (
           filteredChatRooms.map((room) => (
             <li key={room.roomId} className={styles.ListOne}>
@@ -48,7 +51,6 @@ export default function MyChatList({ chatRooms, currentChatRoomId }: ChatRoomLis
           <p>다른 채팅방이 없습니다</p>
         )}
       </ul>
-      )}
     </div>
   );
 }

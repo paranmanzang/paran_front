@@ -19,7 +19,6 @@ export interface BookResponseModel {
     id: number;
     title: string;
     author: string;
-    publisher: string;
     categoryName: string;
     likeBookCount: number;
 }

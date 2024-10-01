@@ -2,13 +2,13 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useRouter } from "next/router";
 import HeartCheckbox from "./HeartCheckBox";
 import { saveCurrentBook } from "@/lib/features/group/book.Slice";
 import { saveCurrentFile } from "@/lib/features/file.Slice";
 import { BookResponseModel } from "@/app/model/group/book.model";
 import { FileModel } from "@/app/model/file.model";
 import { likeBook, removeLikeBook } from "@/app/service/group/likeBook.service";
+import { useRouter } from "next/navigation";
 
 interface BookCardProps {
   book: BookResponseModel;
@@ -64,7 +64,6 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
             {book.title}
           </h5>
           <p className="text-sm font-medium">저자: {book.author}</p>
-          <p className="text-sm font-medium">출판사: {book.publisher}</p>
           <p className="text-sm font-medium">카테고리: {book.categoryName}</p>
           <button
             onClick={onClickToDetail}

@@ -24,11 +24,6 @@ const SideBarTab = ({ tab, activeTab, setActiveTab }: SideBarTabProps) => {
       >
         {tab.icon}
         <span className="ms-3 flex-1 whitespace-nowrap">{tab.label}</span>
-        {tab.name === "Chats" && (
-          <span className="ms-3 inline-flex items-center justify-center rounded-full bg-gray-100 px-2 text-sm font-medium text-gray-800">
-            3
-          </span>
-        )}
       </button>
     </li>
   );

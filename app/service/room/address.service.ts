@@ -1,15 +1,13 @@
-import api from '../../api/axios';
-import { ExceptionResponseModel } from '@/app/model/error.model';
-import requests from '@/app/api/requests';
 import { AddressModel, AddressUpdateModel } from '@/app/model/address.model';
 import { AppDispatch } from '@/lib/store';
+import { addAddress, deleteAddress, saveAddresses, saveLoading, updateAddress } from '@/lib/features/address.Slice';
+import { roomAPI } from '@/app/api/generate/rooms.api';
 
 // 주소 검색
-export const searchAddress = async (query: string, dispatch: AppDispatch): Promise<void> => {
+export const searchAddress = async (query: string, dispatch: AppDispatch): Promise<AddressModel[]> => {
   try {
-    const response = await api.get<AddressModel[]>(requests.fetchRooms + '/search', {
-      params: { query },
-    });
+    dispatch(saveLoading(true))
+    const response = await roomAPI.searchAddressAPI(query)
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -26,10 +24,11 @@ export const searchAddress = async (query: string, dispatch: AppDispatch): Promi
 };
 
 // 주소 등록
-export const saveAddress = async (addressModel: AddressModel, dispatch: AppDispatch): Promise<void> => {
+export const insertAddress = async (addressModel: AddressModel, dispatch: AppDispatch): Promise<void> => {
   try {
-    const response = await api.post<boolean>(requests.fetchRooms + '/add', addressModel);
-    return response.data;
+    dispatch(saveLoading(true))
+    const response = await roomAPI.insertAddressAPI(addressModel)
+    dispatch(addAddress(response.data))
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -45,10 +44,11 @@ export const saveAddress = async (addressModel: AddressModel, dispatch: AppDispa
 };
 
 // 주소 수정
-export const updateAddress = async (addressModel: AddressUpdateModel, dispatch: AppDispatch): Promise<void> => {
+export const modifidAddress = async (addressModel: AddressUpdateModel, dispatch: AppDispatch): Promise<void> => {
   try {
-    const response = await api.put<boolean>(requests.fetchRooms + '/update', addressModel);
-    return response.data;
+    dispatch(saveLoading(true))
+    const response = await roomAPI.modifidAddressAPI(addressModel)
+    dispatch(updateAddress(response.data))
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -64,10 +64,12 @@ export const updateAddress = async (addressModel: AddressUpdateModel, dispatch: 
 };
 
 // 주소 삭제
-export const deleteAddress = async (id: number, dispatch: AppDispatch): Promise<void> => {
+export const dropAddress = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
   try {
-    const response = await api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
-    return response.data;
+    dispatch(saveLoading(true))
+    const response = await roomAPI.dropAddressAPI(id)
+    dispatch(deleteAddress(id))
+    return response.data
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -82,30 +84,12 @@ export const deleteAddress = async (id: number, dispatch: AppDispatch): Promise<
   }
 };
 
-// 단일 주소 조회
-export const findById = async (id: number, dispatch: AppDispatch): Promise<void> => {
-  try {
-    const response = await api.get<AddressModel>(requests.fetchRooms + `/one/${id}`);
-    return response.data;
-  } catch (error: any) {
-    if (error.response) {
-      console.error('Server Error:', error.response.data);
-      throw new Error('서버에서 오류가 발생했습니다.');
-    } else if (error.request) {
-      console.error('No Response:', error.request);
-      throw new Error('서버 응답이 없습니다.');
-    } else {
-      console.error('Error:', error.message);
-      throw new Error('주소 조회 중 오류 발생');
-    }
-  }
-};
-
 // 전체 주소 목록 조회
 export const getAddressList = async (dispatch: AppDispatch): Promise<void> => {
   try {
-    const response = await api.get<AddressModel[]>(requests.fetchRooms + '/list');
-    return response.data;
+    dispatch(saveLoading(true))
+    const response = await roomAPI.findByAddressesAPI();
+    dispatch(saveAddresses(response.data))
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -123,9 +107,9 @@ export const getAddressList = async (dispatch: AppDispatch): Promise<void> => {
 // 자체 주소 검색
 export const findQuery = async (query: string, dispatch: AppDispatch): Promise<void> => {
   try {
-    const response = await api.get<AddressModel[]>(`${requests.fetchRooms}/addresses/find/${query}`);
-    console.log(response.data)
-    return response.data;
+    dispatch(saveLoading(true))
+    const response = await roomAPI.findByQueryAPI(query)
+    dispatch(saveAddresses(response.data))
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
