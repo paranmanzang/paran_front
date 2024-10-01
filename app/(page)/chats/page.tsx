@@ -30,7 +30,22 @@ export default function Chat() {
 
 function ChatContent() {
   const searchParams = useSearchParams();
-  const chatRoom = JSON.parse(searchParams.get('chatRoom') ?? '') as ChatRoomModel ?? '';
+  const chatRoomParam = searchParams.get('chatRoom');
+
+  let chatRoom: ChatRoomModel | null = null;
+
+  if (chatRoomParam) {
+    try {
+      chatRoom = JSON.parse(chatRoomParam) as ChatRoomModel;
+    } catch (error) {
+      console.error("Error parsing chatRoom parameter:", error);
+      // 에러 처리 로직 (예: 기본값 설정 또는 에러 메시지 표시)
+    }
+  }
+
+  if (!chatRoom) {
+    return <div>데이터를 가져오는데 실패했습니다.</div>;
+  }
 
   return (
     <div className="absolute left-1/2 top-1/2 z-30 mx-auto flex h-[50dvh] w-2/5 translate-x-[-50%] justify-center rounded-lg bg-green-700 p-6 text-white">
