@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userSlice from './features/user.Slice';
+import userSlice from './features/users/user.Slice';
 import fileSlice from './features/file.Slice';
 import roomSlice from './features/room.Slice';
 import addressSlice from './features/address.Slice';
@@ -14,11 +14,13 @@ import chatSlice from './features/chat/chat.Slice';
 import authReducer from './features/account.Slice'
 import {useDispatch} from "react-redux";
 import dataReducer from './features/data.Slice';
+import usersSlice from "@/lib/features/users/users.Slice";
  
 export const makeStore = () => {
   return configureStore({
     reducer: {
       user: userSlice,
+      users: usersSlice,
       file: fileSlice,
       room: roomSlice,
       address: addressSlice,

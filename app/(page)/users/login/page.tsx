@@ -8,7 +8,7 @@ import { RootState, useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { findLikeBookList } from "@/app/service/group/likeBook.service";
 import { getError, getIsLoading } from "@/lib/features/group/book.Slice";
-import { login } from "@/app/service/user/login.service";
+import { login, oauth } from "@/app/service/user/login.service";
 
 export default function Login() {
     const dispatch = useAppDispatch()
@@ -28,6 +28,9 @@ export default function Login() {
         useEffect(() => {
             findLikeBookList(nickname, dispatch)
         }, [dispatch, nickname]);
+    }
+    const moveToOath = () => {
+        const response = oauth()
     }
     return (
         <div className="mx-auto my-6 max-w-lg rounded-lg border p-6 shadow">
@@ -88,6 +91,7 @@ export default function Login() {
                 <button
                     type="button"
                     className="mb-2 flex w-full items-center rounded-lg border-2 border-[#03c75a] bg-white px-5 py-2.5 text-sm font-medium text-[#03c75a] hover:bg-[#03c75a] hover:text-white"
+                    onClick={() => moveToOath()}
                 >
                     <Image
                         src={Naver}

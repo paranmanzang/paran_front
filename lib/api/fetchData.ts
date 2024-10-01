@@ -18,6 +18,9 @@ export const fetchData = async (tabName: string) => {
     case 'Chats':
       endpoint = '/chats';
       break;
+    case 'Users':
+      endpoint = '/users';
+      break;
     default:
       throw new Error('Invalid tab name');
   }
