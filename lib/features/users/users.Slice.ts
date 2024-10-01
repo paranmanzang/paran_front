@@ -1,4 +1,4 @@
-import { initialUserState, AdminPostModel, DeclarationPostModel, FriendModel, LikePostModel, LikeRoomModel } from '@/app/model/users/user.model';
+import { initialUserState, AdminPostModel, DeclarationPostModel, FriendModel, LikePostModel, LikeRoomModel } from '@/app/model/user/users.model';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
@@ -46,19 +46,13 @@ export const usersSlice = createSlice({
             }
         },
         deleteAdminPost: (state, action: PayloadAction<number>) => {
-            state.adminPosts = state.adminPosts.filter(adminPost => adminPost.id !== action.payload);
+            state.adminPosts = state.adminPosts.filter((adminPost: AdminPostModel) => adminPost.id !== action.payload);
         },
         saveDeclarationPosts: (state, action: PayloadAction<DeclarationPostModel[]>) => {
             state.declarationPosts = action.payload;
         },
         addDeclarationPost: (state, action: PayloadAction<DeclarationPostModel>) => {
             state.declarationPosts.push(action.payload);
-        },
-        updateDeclarationPost: (state, action: PayloadAction<DeclarationPostModel>) => {
-            const index = state.declarationPosts.findIndex(declarationPost => declarationPost.id === action.payload.id);
-            if (index !== -1) {
-                state.declarationPosts[index] = action.payload;
-            }
         },
         deleteDeclarationPost: (state, action: PayloadAction<number>) => {
             state.declarationPosts = state.declarationPosts.filter(declarationPost => declarationPost.id !== action.payload);
@@ -67,11 +61,11 @@ export const usersSlice = createSlice({
 });
 
 // 셀렉터 정의
-export const getLikedRooms = (state: RootState) => state.user.likeRooms;
-export const getLikedPosts = (state: RootState) => state.user.likePosts;
-export const getFriends = (state: RootState) => state.user.friends;
-export const getAdminPosts = (state: RootState) => state.user.adminPosts;
-export const getDeclarationPosts = (state: RootState) => state.user.declarationPosts;
+export const getLikedRooms = (state: RootState) => state.users.likeRooms;
+export const getLikedPosts = (state: RootState) => state.users.likePosts;
+export const getFriends = (state: RootState) => state.users.friends;
+export const getAdminPosts = (state: RootState) => state.users.adminPosts;
+export const getDeclarationPosts = (state: RootState) => state.users.declarationPosts;
 
 export const {
     addLikedRoom,
@@ -87,8 +81,9 @@ export const {
     deleteAdminPost,
     saveDeclarationPosts,
     addDeclarationPost,
-    updateDeclarationPost,
     deleteDeclarationPost,
+    saveAdminPosts,
+    saveFriends,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

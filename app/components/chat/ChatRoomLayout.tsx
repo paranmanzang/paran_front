@@ -7,12 +7,12 @@ interface ChatRoomLayoutProps {
   roomId: string;
 }
 
-const ChatRoomLayout: React.FC<ChatRoomLayoutProps> = ({
+export default function ChatRoomLayout ({
   children,
   togglePopUp,
   leaveChat,
   roomId
-}) => {
+}:ChatRoomLayoutProps) {
   const childrenArray = React.Children.toArray(children);
 
   return (
@@ -59,5 +59,3 @@ const ChatRoomLayout: React.FC<ChatRoomLayoutProps> = ({
       </div>
    );
 };
-
-      export default ChatRoomLayout;

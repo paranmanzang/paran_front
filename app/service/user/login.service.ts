@@ -42,4 +42,23 @@ export const get = async (): Promise<UserModel> => {
     }
   }
 };
+export const oauth = async (): Promise<UserModel> => {
+  try {
+    const response = await api.get<any>("/oauth2/authorization/naver"
+    )
+    console.log("GET: ", response)
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Server Error:', error.response.data);
+      throw new Error('서버에서 오류가 발생했습니다.');
+    } else if (error.request) {
+      console.error('No Response:', error.request);
+      throw new Error('서버 응답이 없습니다.');
+    } else {
+      console.error('Error:', error.message);
+      throw new Error('주소 검색 중 오류 발생');
+    }
+  }
+};
 
