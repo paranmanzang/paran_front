@@ -229,7 +229,7 @@
 
 "@next/bundle-analyzer@^14.2.13":
   version "14.2.13"
-  resolved "https://registry.npmjs.org/@next/bundle-analyzer/-/bundle-analyzer-14.2.13.tgz"
+  resolved "https://registry.yarnpkg.com/@next/bundle-analyzer/-/bundle-analyzer-14.2.13.tgz#9a3358b00997c03f5f390de6ccea4af42bd3fd88"
   integrity sha512-CQOVKmfenD9HsG4AmyXG2ElMvtGKAT9TlS2JLgpL/EORi4WX+QMiQ8Ri6b+A7HRT+AiUGjsYnocIOET59i6Jfw==
   dependencies:
     webpack-bundle-analyzer "4.10.1"

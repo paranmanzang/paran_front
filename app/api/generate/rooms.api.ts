@@ -38,42 +38,42 @@ export const roomAPI = {
 
     // booking
     saveBookingAPI: (bookingModel: BookingModel) => {
-        return api.post<BookingModel>(requests.fetchRooms + '/add', bookingModel);
+        return api.post<BookingModel>(requests.fetchRooms + '/bookings/add', bookingModel);
     },
     saveStateAPI: (id: number) => {
-        return api.put<BookingModel>(requests.fetchRooms + `/state/${id}`);
+        return api.put<BookingModel>(requests.fetchRooms + `/bookings/state/${id}`);
     },
     rejectBookingAPI: (id: number) => {
-        return api.delete<boolean>(requests.fetchRooms + `/state/${id}`);
+        return api.delete<boolean>(requests.fetchRooms + `/bookings/state/${id}`);
     },
     dropBookingAPI: (id: number) => {
-        return api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
+        return api.delete<boolean>(requests.fetchRooms + `/bookings/delete/${id}`);
     },
     findByGroupIdAPI: (groupId: number, page: number, size: number) => {
-        return api.get<Page<BookingModel>>(requests.fetchRooms + `/groups/list/${groupId}`, { params: { page, size } });
+        return api.get<Page<BookingModel>>(requests.fetchRooms + `/bookings/groups/list/${groupId}`, { params: { page, size } });
     },
     findByRoomIdAPI: (roomId: number, page: number, size: number) => {
-        return api.get<Page<BookingModel>>(requests.fetchRooms + `/rooms/list/${roomId}`, { params: { page, size } });
+        return api.get<Page<BookingModel>>(requests.fetchRooms + `/bookings/rooms/list/${roomId}`, { params: { page, size } });
     },
 
     // review
     saveReviewAPI: (reviewModel: ReviewModel) => {
-        return api.post<ReviewModel>(requests.fetchRooms + '/add', reviewModel);
+        return api.post<ReviewModel>(requests.fetchRooms + '/reviews/add', reviewModel);
     },
     modifidReviewAPI: (reviewModel: ReviewUpdateModel) => {
-        return api.put<ReviewModel>(requests.fetchRooms + '/update', reviewModel);
+        return api.put<ReviewModel>(requests.fetchRooms + '/reviews/update', reviewModel);
     },
     dropReviewAPI: (id: number) => {
-        return api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
+        return api.delete<boolean>(requests.fetchRooms + `/reviews/delete/${id}`);
     },
     findAllReviewAPI: (page: number, size: number) => {
-        return api.get<Page<ReviewModel>>(requests.fetchRooms + '/list', { param: { page, size } });
+        return api.get<Page<ReviewModel>>(requests.fetchRooms + '/reviews/list', { param: { page, size } });
     },
     findReviewByRoomAPI: (roomId: number, page: number, size: number) => {
-        return api.get<Page<ReviewModel>>(requests.fetchRooms + `/list/rooms/${roomId}`, { param: { page, size } });
+        return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/list/rooms/${roomId}`, { param: { page, size } });
     },
     findReviewByUserAPI: (nickname: string, page: number, size: number) => {
-        return api.get<Page<ReviewModel>>(requests.fetchRooms + `/list/rooms/${nickname}`, { param: { page, size } });
+        return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/list/rooms/${nickname}`, { param: { page, size } });
     },
 
     // account
@@ -100,21 +100,21 @@ export const roomAPI = {
 
     // address
     searchAddressAPI: (query: string) => {
-        return api.get<AddressModel[]>(requests.fetchRooms + '/search', {
+        return api.get<AddressModel[]>(requests.fetchRooms + '/accounts/search', {
             params: { query },
         });
     },
     insertAddressAPI: (addressModel: AddressModel) => {
-        return api.post<AddressModel>(requests.fetchRooms + '/add', addressModel);
+        return api.post<AddressModel>(requests.fetchRooms + '/addresses/add', addressModel);
     },
     modifidAddressAPI: (addressModel: AddressUpdateModel) => {
-        return api.put<AddressModel>(requests.fetchRooms + '/update', addressModel);
+        return api.put<AddressModel>(requests.fetchRooms + '/addresses/update', addressModel);
     },
     dropAddressAPI: (id: number) => {
-        return api.delete<boolean>(requests.fetchRooms + `/delete/${id}`);
+        return api.delete<boolean>(requests.fetchRooms + `/addresses/delete/${id}`);
     },
     findByAddressesAPI: () => {
-        return api.get<AddressModel[]>(requests.fetchRooms + '/list');
+        return api.get<AddressModel[]>(requests.fetchRooms + '/addresses/list');
     },
     findByQueryAPI: (query: string) => {
         return api.get<AddressModel[]>(`${requests.fetchRooms}/addresses/find/${query}`);
