@@ -1,19 +1,26 @@
-import { AccountCancelModel, AccountModel, AccountResultModel } from "@/app/model/account.model";
-import { loadTossPayments } from "@tosspayments/tosspayments-sdk";
-import api from "../axios";
+import { AddressModel, AddressUpdateModel } from "@/app/model/address.model";
 import requests from "../requests";
+import api from "../axios";
 
-export const accountAPI = {
-    load() { return loadTossPayments("test_ck_mBZ1gQ4YVX9QGM06mRNRrl2KPoqN"); },
-
-    save(model: AccountResultModel) { return api.post<boolean>(requests.fetchRooms + '/accounts/success', model); },
-
-    findOrderId(orderId: string) { return api.get<string>(requests.fetchRooms + '/accounts/findPayment', { params: { orderId }, }); },
-
-    cancel(model: AccountCancelModel) { return api.put<boolean>(requests.fetchRooms + '/accounts/cancel', model); },
-
-    findBooking(bookingId: number, page: number, size: number) { return api.get<AccountModel>(requests.fetchRooms + `/accounts/findByBooking/${bookingId}`, { params: { page, size } }); },
-
-    findGroup(groupId: number, page: number, size: number) { return api.get<Page<AccountModel>>(requests.fetchRooms + `/accounts/list/groups/${groupId}`, { params: { page, size } }); },
-
+export const addressAPI = {
+    search(query: string) {
+        return api.get<AddressModel[]>(requests.fetchRooms + '/accounts/search', {
+            params: { query },
+        });
+    },
+    save(addressModel: AddressModel) {
+        return api.post<AddressModel>(requests.fetchRooms + '/addresses/add', addressModel);
+    },
+    update(addressModel: AddressUpdateModel) {
+        return api.put<AddressModel>(requests.fetchRooms + '/addresses/update', addressModel);
+    },
+    delete(id: number) {
+        return api.delete<boolean>(requests.fetchRooms + `/addresses/delete/${id}`);
+    },
+    findAddresses() {
+        return api.get<AddressModel[]>(requests.fetchRooms + '/addresses/list');
+    },
+    findQuery(query: string) {
+        return api.get<AddressModel[]>(`${requests.fetchRooms}/addresses/find/${query}`);
+    },
 }
