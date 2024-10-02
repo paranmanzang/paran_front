@@ -3,9 +3,9 @@ import { useRouter } from 'next/navigation';
 import { AppDispatch } from "@/lib/store";
 import { ChatMessageModel, ChatRoomModel, ChatUserModel } from "@/app/model/chat/chat.model";
 import { saveError, saveLoading } from "@/lib/features/chat/chat.Slice";
-import { findChatList, saveLastReadMessageTime } from "@/app/service/chat/chatRoom.service";
-import { findPeopleList } from "@/app/service/chat/chatUser.service";
-import { findMessageList } from "@/app/service/chat/chatMessage.service";
+import { chatRoomService } from '../service/chat/chatRoom.service';
+import { chatUserService } from '../service/chat/chatUser.service';
+import { chatMessageService } from '../service/chat/chatMessage.service';
 
 export const useChatRoom = (roomId: string, nickname: string, dispatch: AppDispatch) => {
   const router = useRouter();
@@ -28,7 +28,7 @@ export const useChatRoom = (roomId: string, nickname: string, dispatch: AppDispa
       unsubscribeRef.current();
     }
 
-    saveLastReadMessageTime({ roomId, nickname, dispatch })
+    chatRoomService.insertLastReadMessageTime({ roomId, nickname, dispatch })
       .then((isSaved) => {
         if (isSaved) {
           console.log("마지막 읽은 메시지 시간이 저장되었습니다.");
@@ -45,8 +45,8 @@ export const useChatRoom = (roomId: string, nickname: string, dispatch: AppDispa
     dispatch(saveLoading(true));
 
     Promise.all([
-      findChatList({ nickname, dispatch }),
-      findPeopleList({ roomId, dispatch }),
+      chatRoomService.findList({ nickname, dispatch }),
+      chatUserService.findList({ roomId, dispatch }),
     ])
       .then(([chatRoomsResult, chatUsersResult]) => {
         setChatRooms(chatRoomsResult);
@@ -56,7 +56,7 @@ export const useChatRoom = (roomId: string, nickname: string, dispatch: AppDispa
           setMessages((prevMessages) => [...prevMessages, newMessage]);
         };
 
-        return findMessageList({
+        return chatMessageService.findList({
           roomId,
           nickname,
           onMessage: handleNewMessage,
