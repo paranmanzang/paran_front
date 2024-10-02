@@ -1,4 +1,4 @@
-import { roomAPI } from '@/app/api/generate/rooms.api';
+import { roomAPI } from '@/app/api/generate/room.api';
 import { BookingModel } from '@/app/model/bookings.model';
 import { AppDispatch } from '@/lib/store';
 import { addBooking, deleteBooking, saveBookings, saveLoading, updateBooking } from '@/lib/features/bookings.Slice';

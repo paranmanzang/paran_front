@@ -10,8 +10,8 @@ import {addLikedBook, getCurrentBook, getLikedBooks, saveError} from "@/lib/feat
 import {getCurrentRoom} from "@/lib/features/room.Slice";
 import {getCurrentGroupPost} from "@/lib/features/group/group.Slice";
 import {saveGlobalLoading} from "@/lib/features/error.Slice";
-import {likeBook} from "@/app/service/group/likeBook.service";
 import {LikeBookModel} from "@/app/model/group/book.model";
+import { likeBookService } from "@/app/service/group/likeBook.service";
 
 interface DetailButtonProps {
     thisPage: string;
@@ -45,7 +45,7 @@ export default function DetailButton({thisPage, displayReview, displayReservatio
                     bookId: Number(book?.id),
                     nickname: nickname
                 };
-                likeBook(likeBookModel,dispatch)
+                likeBookService.insert(likeBookModel,dispatch)
                     .finally(() => {
                         setAlertMessage('찜 했습니다.');
                         setIsAlertOpen(true);
