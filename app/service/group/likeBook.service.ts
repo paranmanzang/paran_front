@@ -1,51 +1,68 @@
 import {LikeBookModel} from '@/app/model/group/book.model';
-import groupsAPI from "@/app/api/generate/groups.api";
 import {AppDispatch} from "@/lib/store";
 import {addLikedBook, deleteLikedBook, saveError, saveLikedBooks, saveLoading} from "@/lib/features/group/book.Slice";
+import likeBookAPI from "@/app/api/generate/likeBook.api";
 
-// 좋아요
-export const likeBook = async (likeBookModel: LikeBookModel, dispatch: AppDispatch
-): Promise<void> => {
+// 공통 에러 처리 함수
+const handleApiError = (error: any, dispatch: AppDispatch, message: string) => {
+    dispatch(saveError(message));
+    console.error(message, error.response?.data || error.message);
+};
+
+// 공통 로딩 처리 함수
+const handleLoading = async (dispatch: AppDispatch, callback: () => Promise<void>) => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.likeBook(likeBookModel)
-        if ('id' in response.data && 'nickname' in response.data) {
-            dispatch(addLikedBook(response.data))
-        }
-    } catch (error) {
-        dispatch(saveError("좋아요 중 오류 발생했습니다."));
-        console.error('Error adding likeBook:', error);
+        await callback();
+    } catch (error: any) {
+        console.error('Error during process:', error.response?.data || error.message);
     } finally {
         dispatch(saveLoading(false));
     }
+};
+
+// 좋아요 추가
+const insert = async (likeBookModel: LikeBookModel, dispatch: AppDispatch): Promise<void> => {
+    await handleLoading(dispatch, async () => {
+        try {
+            const response = await likeBookAPI.insert(likeBookModel);
+            if ('id' in response.data && 'nickname' in response.data) {
+                dispatch(addLikedBook(response.data));
+            }
+        } catch (error: any) {
+            handleApiError(error, dispatch, "좋아요 중 오류 발생했습니다.");
+        }
+    });
 };
 
 // 좋아요 취소
-export const removeLikeBook = async (likeBookModel: LikeBookModel, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.removeLikeBook(likeBookModel)
-        if (likeBookModel.id !== undefined) {
-            dispatch(deleteLikedBook(likeBookModel.id));
+const drop = async (likeBookModel: LikeBookModel, dispatch: AppDispatch): Promise<void> => {
+    await handleLoading(dispatch, async () => {
+        try {
+            const response = await likeBookAPI.drop(likeBookModel);
+            if (likeBookModel.id !== undefined) {
+                dispatch(deleteLikedBook(likeBookModel.id));
+            }
+        } catch (error: any) {
+            handleApiError(error, dispatch, "좋아요 취소 중 오류 발생했습니다.");
         }
-    } catch (error) {
-        dispatch(saveError("좋아요 취소 중 오류 발생했습니다."));
-        console.error('Error adding likeBook:', error);
-    } finally {
-        dispatch(saveLoading(false));
-    }
+    });
 };
 
-// 좋아요 마이페이지 확인
-export const findLikeBookList = async (nickname: String, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.findLikeBookList(nickname)
-        dispatch(saveLikedBooks(response.data))
-    } catch (error) {
-        dispatch(saveError("내가 좋아하는 책 찾는 중 오류 발생했습니다."));
-        console.error('Error finding likeBook:', error);
-    } finally {
-        dispatch(saveLoading(false));
-    }
-}
+// 내가 좋아하는 책 목록 조회
+const findByNickname = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
+    await handleLoading(dispatch, async () => {
+        try {
+            const response = await likeBookAPI.findByNickname(nickname);
+            dispatch(saveLikedBooks(response.data));
+        } catch (error: any) {
+            handleApiError(error, dispatch, "내가 좋아하는 책 찾는 중 오류 발생했습니다.");
+        }
+    });
+};
+
+export const likeBookService = {
+    insert,
+    drop,
+    findByNickname
+};

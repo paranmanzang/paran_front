@@ -1,5 +1,4 @@
 import {GroupPostModel} from '@/app/model/group/group.model';
-import groupsAPI from "@/app/api/generate/groups.api";
 import {AppDispatch} from "@/lib/store";
 import {
     addGroupPost,
@@ -9,87 +8,103 @@ import {
     saveLoading,
     updateGroupPost
 } from "@/lib/features/group/group.Slice";
+import groupPostAPI from "@/app/api/generate/groupPost.api";
 
+// 공통 에러 처리 함수
+const handleApiError = (error: any, dispatch: AppDispatch, message: string) => {
+    dispatch(saveError(message));
+    console.error(message, error.response?.data || error.message);
+};
 
-// 게시글 추가 
-export const insertPost = async (groupPostModel: GroupPostModel, dispatch: AppDispatch): Promise<void> => {
+// 공통 로딩 처리 함수
+const handleLoading = async (dispatch: AppDispatch, callback: () => Promise<void>) => {
     try {
         dispatch(saveLoading(true));
-        const response = await groupsAPI.insertPost(groupPostModel)
-        if ('id' in response.data && 'name' in response.data) {
-            dispatch(addGroupPost(response.data))
-        }
+        await callback();
     } catch (error: any) {
-        dispatch(saveError("게시글 등록 중 오류 발생했습니다."));
-        console.error('Error adding post:', error.response?.data || error.message);
-        throw new Error('게시글 등록 중 오류 발생');
+        console.error('Error during process:', error.response?.data || error.message);
     } finally {
         dispatch(saveLoading(false));
     }
+};
+
+// 게시글 추가
+const insert = async (groupPostModel: GroupPostModel, dispatch: AppDispatch): Promise<void> => {
+    await handleLoading(dispatch, async () => {
+        try {
+            const response = await groupPostAPI.insert(groupPostModel);
+            if ('id' in response.data && 'name' in response.data) {
+                dispatch(addGroupPost(response.data));
+            }
+        } catch (error: any) {
+            handleApiError(error, dispatch, "게시글 등록 중 오류 발생했습니다.");
+            throw new Error('게시글 등록 중 오류 발생');
+        }
+    });
 };
 
 // 게시글 수정
-export const updatePost = async (groupPostModel: GroupPostModel, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.updatePost(groupPostModel)
-        if ('boardId' in response.data && 'title' in response.data) {
-            dispatch(updateGroupPost(response.data))
+const modify = async (groupPostModel: GroupPostModel, dispatch: AppDispatch): Promise<void> => {
+    await handleLoading(dispatch, async () => {
+        try {
+            const response = await groupPostAPI.modify(groupPostModel);
+            if ('boardId' in response.data && 'title' in response.data) {
+                dispatch(updateGroupPost(response.data));
+            }
+        } catch (error: any) {
+            handleApiError(error, dispatch, "게시글 수정 중 오류 발생했습니다.");
+            throw new Error('게시글 수정 중 오류 발생');
         }
-    } catch (error: any) {
-        dispatch(saveError("게시글 수정 중 오류 발생했습니다."));
-        console.error('Error updating post:', error.response?.data || error.message);
-        throw new Error('게시글 수정 중 오류 발생');
-    } finally {
-        dispatch(saveLoading(false));
-    }
+    });
 };
 
 // 게시글 삭제
-export const deletePost = async (boardId: number, dispatch: AppDispatch, postCategory: string): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.deletePost(boardId)
-        dispatch(deleteGroupPost({id: boardId, postCategory}));
-    } catch (error: any) {
-        dispatch(saveError("게시글 삭제 중 오류 발생했습니다."));
-        console.error('Error deleting post:', error.response?.data || error.message);
-        throw new Error('게시글 삭제 중 오류 발생');
-    } finally {
-        dispatch(saveLoading(false));
-    }
+const drop = async (boardId: number, dispatch: AppDispatch, postCategory: string): Promise<void> => {
+    await handleLoading(dispatch, async () => {
+        try {
+            await groupPostAPI.drop(boardId);
+            dispatch(deleteGroupPost({id: boardId, postCategory}));
+        } catch (error: any) {
+            handleApiError(error, dispatch, "게시글 삭제 중 오류 발생했습니다.");
+            throw new Error('게시글 삭제 중 오류 발생');
+        }
+    });
 };
 
 // 내가 속한 그룹의 게시물 목록 조회
-export const findPostsByGroupId = async (groupId: number, page: number, size: number, postCategory: string, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.findPostsByGroupId(groupId, page, size, postCategory)
-        if (Array.isArray(response.data)) {
-            dispatch(saveGroupPosts(response.data))
+const findByGroupId = async (groupId: number, page: number, size: number, postCategory: string, dispatch: AppDispatch): Promise<void> => {
+    await handleLoading(dispatch, async () => {
+        try {
+            const response = await groupPostAPI.findByGroupId(groupId, page, size, postCategory);
+            if (Array.isArray(response.data)) {
+                dispatch(saveGroupPosts(response.data));
+            }
+        } catch (error: any) {
+            handleApiError(error, dispatch, "게시물 목록 조회 중 오류 발생했습니다.");
+            throw new Error('게시물 목록 조회 중 오류 발생');
         }
-    } catch (error: any) {
-        dispatch(saveError("게시물 목록 조회 중 오류 발생했습니다."));
-        console.error('Error fetching posts by groupId:', error.response?.data || error.message);
-        throw new Error('게시물 목록 조회 중 오류 발생');
-    } finally {
-        dispatch(saveLoading(false));
-    }
+    });
 };
 
-// 내가 속한 그룹의 게시물 목록 카운트 수정
-export const updateViewCount = async (postId: number, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await groupsAPI.updateViewCount(postId)
-        if ('boardId' in response.data && 'title' in response.data) {
-            dispatch(updateGroupPost(response.data))
+// 게시물 조회수 수정
+const modifyViewCount = async (postId: number, dispatch: AppDispatch): Promise<void> => {
+    await handleLoading(dispatch, async () => {
+        try {
+            const response = await groupPostAPI.modifyViewCount(postId);
+            if ('boardId' in response.data && 'title' in response.data) {
+                dispatch(updateGroupPost(response.data));
+            }
+        } catch (error: any) {
+            handleApiError(error, dispatch, "게시물 조회수 수정 중 오류 발생했습니다.");
+            throw new Error('게시물 조회수 수정 중 오류 발생');
         }
-    } catch (error: any) {
-        dispatch(saveError("게시물 목록 조회 중 오류 발생했습니다."));
-        console.error('Error fetching posts by groupId:', error.response?.data || error.message);
-        throw new Error('게시물 목록 조회 중 오류 발생');
-    } finally {
-        dispatch(saveLoading(false));
-    }
+    });
+};
+
+export const groupPostService = {
+    insert,
+    modify,
+    drop,
+    findByGroupId,
+    modifyViewCount
 };
