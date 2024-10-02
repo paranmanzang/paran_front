@@ -74,7 +74,7 @@ export const findDPostsByNickname = async (page: number, size: number, nickname:
     }
 };
 //게시물 상세조회
-export const findDPostsDetial = async (id: number, dispatch: AppDispatch): Promise<void> => {
+export const findPostsDetail = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.findDeclarationPostDetail(id)

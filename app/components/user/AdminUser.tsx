@@ -42,13 +42,6 @@ export default function AdminUser() {
               </h5>
             </li>
             <li className="flex items-center">
-              유저 포인트
-              <h5 className="mb-2 ml-6 flex items-end text-xl font-medium text-gray-900">
-                10
-                <p className="text-sm">점</p>
-              </h5>
-            </li>
-            <li className="flex items-center">
               유저 등급
               <h5 className="mb-2 ml-6 flex items-end text-xl font-medium text-gray-900">
                 seller

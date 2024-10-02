@@ -1,6 +1,6 @@
 // chatSlice.ts
 
-import { ChatRoomModel, ChatUserModel, initialChatState, LastReadMesaageTimeModel } from '@/app/model/chat/chat.model';
+import { ChatRoomModel, ChatUserModel, initialChatState } from '@/app/model/chat/chat.model';
 import { RootState } from '@/lib/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 

@@ -65,7 +65,7 @@ export default function Details({ roomId }: roomDetailProps) {
           width={400}
           height={380}
           className="cursor-pointer rounded-t-lg"
-          src={getRoomImage(file?.path)}
+          src={getRoomImage(file?.path) ?? `process.env.NEXT_PUBLIC_IMAGE_DEFAULT`}
           alt={`cover of ${room?.title}`}
           priority
         />

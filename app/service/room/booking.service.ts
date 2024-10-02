@@ -4,7 +4,7 @@ import { addBooking, deleteBooking, saveBookings, saveLoading, updateBooking } f
 import { bookingAPI } from '@/app/api/generate/booking.api';
 
 // 예약 등록
-export const saveBooking = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<void> => {
+const save = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.insert(bookingModel);
@@ -122,3 +122,8 @@ export const findByRoomId = async (roomId: number, page: number, size: number, d
     }
   }
 };
+
+export const booking = {
+  save, 
+}
+
