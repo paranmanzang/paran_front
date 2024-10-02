@@ -5,7 +5,7 @@ import friendAPI from "@/app/api/generate/friend.api";
 import {addFriend, deleteFriend, saveFriends} from "@/lib/features/users/users.Slice";
 
 // 친구 추가
-const insertFriends = async (friendModel: FriendModel, dispatch: AppDispatch): Promise<void> => {
+const insert = async (friendModel: FriendModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
         const response = await friendAPI.insert(friendModel); // API 호출
@@ -25,7 +25,7 @@ const insertFriends = async (friendModel: FriendModel, dispatch: AppDispatch): P
 };
 
 // 친구 삭제
-const dropLikePost = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const drop = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
         const response = await friendAPI.drop(id); // API 호출
@@ -57,7 +57,7 @@ const findFriendList = async (nickname: string, dispatch: AppDispatch): Promise<
 }
 
 export const friendService={
-    insertFriends,
-    dropLikePost,
+    insert,
+    drop,
     findFriendList
 }

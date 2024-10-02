@@ -6,7 +6,7 @@ import {addDeclarationPost, deleteDeclarationPost, saveDeclarationPosts,} from "
 
 
 //게시물 추가
-const insertDPost = async (declarationPostModel: DeclarationPostModel, dispatch: AppDispatch): Promise<void> => {
+const insert = async (declarationPostModel: DeclarationPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await declarationPostAPI.insert(declarationPostModel)
@@ -23,7 +23,7 @@ const insertDPost = async (declarationPostModel: DeclarationPostModel, dispatch:
 };
 
 //게시글 삭제
-const dropDPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const drop = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
         const response = await declarationPostAPI.drop(id);
@@ -42,7 +42,7 @@ const dropDPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
     }
 };
 //게시물 리스트 조회
-const findDPosts = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findAll = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await declarationPostAPI.findDeclarationPost(page, size)
@@ -58,7 +58,7 @@ const findDPosts = async (page: number, size: number, dispatch: AppDispatch): Pr
     }
 };
 //게시물 리스트 조회 (닉네임)
-const findDPostsByNickname = async (page: number, size: number, nickname: string,  dispatch: AppDispatch): Promise<void> => {
+const findAllByNickname = async (page: number, size: number, nickname: string,  dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await declarationPostAPI.findDeclarationPostByNickname(page, size, nickname)
@@ -74,7 +74,7 @@ const findDPostsByNickname = async (page: number, size: number, nickname: string
     }
 };
 //게시물 상세조회
-const findDPostsDetail = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const findByPostId = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await declarationPostAPI.findDeclarationPostDetail(id)
@@ -91,9 +91,9 @@ const findDPostsDetail = async (id: number, dispatch: AppDispatch): Promise<void
 };
 
 export const declarationService={
-    insertDPost,
-    dropDPost,
-    findDPosts,
-    findDPostsByNickname,
-    findDPostsDetail
+    insert,
+    drop,
+    findAll,
+    findAllByNickname,
+    findByPostId
 }

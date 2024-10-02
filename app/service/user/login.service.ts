@@ -46,10 +46,8 @@ export const get = async (): Promise<UserModel> => {
     }
   }
 };
-
-export const oauth = async (): Promise<void> => {
-  const router = useRouter();
-
+// login.service.ts
+export const oauth = async (router: any): Promise<void> => {
   try {
     const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
 
@@ -69,4 +67,3 @@ export const oauth = async (): Promise<void> => {
     throw new Error('OAuth 인증 중 오류가 발생했습니다.');
   }
 };
-
