@@ -1,13 +1,15 @@
 "use Client"
 import React from "react";
 import Image from "next/image";
-import {saveCurrentBook} from "@/lib/features/group/book.Slice";
-import {saveCurrentFile} from "@/lib/features/file.Slice";
-import {BookResponseModel} from "@/app/model/group/book.model";
-import {FileModel} from "@/app/model/file.model";
-import {useRouter} from "next/navigation";
-import {useAppDispatch} from "@/lib/store";
-import {likeBookService} from "@/app/service/group/likeBook.service";
+import { useDispatch } from "react-redux";
+import HeartCheckbox from "./HeartCheckBox";
+import { saveCurrentBook } from "@/lib/features/group/book.Slice";
+import { saveCurrentFile } from "@/lib/features/file.Slice";
+import { BookResponseModel } from "@/app/model/group/book.model";
+import { FileModel } from "@/app/model/file/file.model";
+import { useRouter } from "next/navigation";
+import { useAppDispatch } from "@/lib/store";
+import { likeBookService } from "@/app/service/group/likeBook.service";
 
 interface BookCardProps {
     book: BookResponseModel;

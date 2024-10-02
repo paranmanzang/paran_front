@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react";
 import { TossPaymentsPayment } from "@tosspayments/tosspayments-sdk";
 import { v4 } from "uuid";
-import { loadTossPaymentsSet, savePayment } from "@/app/service/room/account.service";
-import { AccountResultModel, AmountModel } from "@/app/model/account.model";
+import { accountService } from "@/app/service/room/account.service";
+import { AccountResultModel, AmountModel } from "@/app/model/room/account.model";
 import { useSelector } from "react-redux";
 import { getCurrentBooking } from "@/lib/features/bookings.Slice";
 import { getCurrentUser } from "@/lib/features/users/user.Slice";
-import {  useAppDispatch } from "@/lib/store";
+import { useAppDispatch } from "@/lib/store";
 import { saveLoading } from "@/lib/features/account.Slice";
 
 interface TossPaymentResponse {
@@ -35,7 +35,7 @@ export default function AccountButton(): JSX.Element {
     useEffect(() => {
         async function fetchPayment(): Promise<void> {
             try {
-                loadTossPaymentsSet(dispatch).then(data => {
+                accountService.loadTossPaymentsSet(dispatch).then(data => {
                     if (data) {
                         setPayment(data)
                     }
@@ -88,7 +88,7 @@ export default function AccountButton(): JSX.Element {
                                 bookingId: booking.id ?? 0,
                                 usePoint: usePoint,
                             };
-                            savePayment(model, dispatch).then((paymentResponse) => {
+                            accountService.savePayment(model, dispatch).then((paymentResponse) => {
                                 if (paymentResponse) {
                                     console.log("결제 성공");
                                 }
