@@ -36,7 +36,7 @@ const drop = async (commentId: number, dispatch: AppDispatch): Promise<boolean> 
 };
 
 // 댓글 수정
-const update = async (commentId: number, content: string, nickname: string, dispatch: AppDispatch): Promise<boolean> => {
+const modify = async (commentId: number, content: string, nickname: string, dispatch: AppDispatch): Promise<boolean> => {
     try {
         dispatch(saveLoading(true));
         const response = await commentAPI.modify(commentId, content, nickname)
@@ -64,6 +64,6 @@ const findByPostId = async (postId: number, page: number, size: number, dispatch
         dispatch(saveLoading(false));
     }
 };
-export const commentService: {
+export const commentService = {
     insert, drop, modify, findByPostId
 }
