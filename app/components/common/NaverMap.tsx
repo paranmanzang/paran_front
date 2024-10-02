@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import { getAddresses } from '@/lib/features/address.Slice';
-import { AddressModel } from '@/app/model/address.model';
+import { AddressModel } from '@/app/model/room/address.model';
 
 
 const NaverMap = () => {

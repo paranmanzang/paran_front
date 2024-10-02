@@ -1,12 +1,10 @@
-import api from '../../api/axios';
-import requests from '@/app/api/requests';
-import { AccountCancelModel, AccountModel, AccountResultModel } from '@/app/model/account.model';
+import { AccountCancelModel, AccountModel, AccountResultModel } from '@/app/model/room/account.model';
 import { AppDispatch } from '@/lib/store';
 import { ANONYMOUS, TossPaymentsPayment } from '@tosspayments/tosspayments-sdk';
 import { saveLoading } from '@/lib/features/account.Slice';
-import { accountAPI } from '@/app/api/generate/accounts.api';
+import { accountAPI } from '@/app/api/generate/account.api';
 
-export const loadTossPaymentsSet = async (dispath: AppDispatch): Promise<TossPaymentsPayment> => {
+const loadTossPaymentsSet = async (dispath: AppDispatch): Promise<TossPaymentsPayment> => {
   try {
     dispath(saveLoading(true))
     const response = await accountAPI.load();
@@ -25,10 +23,10 @@ export const loadTossPaymentsSet = async (dispath: AppDispatch): Promise<TossPay
   }
 }
 // 결제 정보 저장
-export const savePayment = async (model: AccountResultModel, dispath: AppDispatch): Promise<boolean> => {
+const savePayment = async (model: AccountResultModel, dispath: AppDispatch): Promise<boolean> => {
   try {
     dispath(saveLoading(true))
-    const response = await accountAPI.save(model);
+    const response = await accountAPI.insert(model);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -45,7 +43,7 @@ export const savePayment = async (model: AccountResultModel, dispath: AppDispatc
 };
 
 // 주문번호로 결제 정보 조회
-export const findByOrderId = async (orderId: string, dispath: AppDispatch): Promise<string> => {
+const findByOrderId = async (orderId: string, dispath: AppDispatch): Promise<string> => {
   try {
     dispath(saveLoading(true))
     const response = await accountAPI.findOrderId(orderId)
@@ -65,10 +63,10 @@ export const findByOrderId = async (orderId: string, dispath: AppDispatch): Prom
 };
 
 // 결제 취소
-export const cancelPayment = async (model: AccountCancelModel, dispath: AppDispatch): Promise<boolean> => {
+const cancelPayment = async (model: AccountCancelModel, dispath: AppDispatch): Promise<boolean> => {
   try {
     dispath(saveLoading(true))
-    const response = await accountAPI.cancel(model)
+    const response = await accountAPI.modify(model)
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -85,7 +83,7 @@ export const cancelPayment = async (model: AccountCancelModel, dispath: AppDispa
 };
 
 // 예약 정보로 결제 정보 조회
-export const findByBooking = async (bookingId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel> => {
+const findByBooking = async (bookingId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel> => {
   try {
     dispath(saveLoading(true))
     const response = await accountAPI.findBooking(bookingId, page, size);
@@ -104,7 +102,7 @@ export const findByBooking = async (bookingId: number, page: number, size: numbe
   }
 };
 // 소모임 정보로 결제 리스트 조회
-export const findByGroup = async (groupId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel[]> => {
+const findByGroup = async (groupId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel[]> => {
   try {
     dispath(saveLoading(true))
     const response = await accountAPI.findGroup(groupId, page, size);
@@ -123,10 +121,10 @@ export const findByGroup = async (groupId: number, page: number, size: number, d
   }
 };
 // 공간 정보로 결제 리스트 조회
-export const findByRoom = async (roomId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel[]> => {
+const findByRoom = async (roomId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel[]> => {
   try {
     dispath(saveLoading(true))
-    const response = await api.get<Page<AccountModel>>(requests.fetchRooms + `/accounts/list/rooms/${roomId}`, { params: { page, size } });
+    const response = await accountAPI.findRoom(roomId, page, size)
     return response.data.content;
   } catch (error: any) {
     if (error.response) {
@@ -141,3 +139,6 @@ export const findByRoom = async (roomId: number, page: number, size: number, dis
     }
   }
 };
+export const accountService = {
+  loadTossPaymentsSet, savePayment, findByOrderId, findByBooking, findByGroup, findByRoom
+}

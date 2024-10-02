@@ -2,13 +2,12 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BookCard from "./BookCard";
-import { BookState } from "@/app/model/group/book.model";
 import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.Slice";
 import { useAppDispatch } from "@/lib/store";
-import { findBookList } from "@/app/service/group/book.service";
-import { selectFileList } from "@/app/service/File/file.service";
-import { defaultFile, FileType } from "@/app/model/file.model";
+import { defaultFile, FileType } from "@/app/model/file/file.model";
 import { getFiles } from "@/lib/features/file.Slice";
+import { bookService } from "@/app/service/group/book.service";
+import { fileService } from "@/app/service/File/file.service";
 
 interface BookRowProps {
   active: boolean;
@@ -26,9 +25,9 @@ const BookRow = ({ active, onSelect }: BookRowProps) => {
   const size = 5; // 임의로 넣어둠
 
   useEffect(() => {
-    findBookList(page, size, dispatch)
+    bookService.findList(page, size, dispatch)
     const bookIds = books.map(book => book.id);
-    selectFileList(bookIds, FileType.BOOK, dispatch)
+    fileService.selectFileList(bookIds, FileType.BOOK, dispatch)
   }, [active, dispatch]);
 
   if (isLoading) return <div>Loading...</div>;

@@ -1,13 +1,13 @@
-import { ReviewModel, ReviewUpdateModel } from '@/app/model/review.model';
+import { ReviewModel, ReviewUpdateModel } from '@/app/model/room/review.model';
 import { AppDispatch } from '@/lib/store';
 import { addReview, deleteReview, saveLoading, saveReviews, updateReview } from '@/lib/features/review.Slice';
-import { reviewAPI } from '@/app/api/generate/reviews.api';
+import { reviewAPI } from '@/app/api/generate/review.api';
 
 // 리뷰 등록
-export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch): Promise<void> => {
+ const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await reviewAPI.save(reviewModel);
+    const response = await reviewAPI.insert(reviewModel);
     dispatch(addReview(response.data))
 
   } catch (error: any) {
@@ -25,10 +25,10 @@ export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch
 };
 
 // 리뷰 수정
-export const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: AppDispatch): Promise<void> => {
+ const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await reviewAPI.update(reviewModel);
+    const response = await reviewAPI.modify(reviewModel);
     dispatch(updateReview(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -45,10 +45,10 @@ export const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: A
 };
 
 // 리뷰 삭제
-export const dropReview = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
+ const dropReview = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
   try {
     dispatch(saveLoading(true))
-    const response = await reviewAPI.delete(id)
+    const response = await reviewAPI.drop(id)
     dispatch(deleteReview(id))
     return response.data;
   } catch (error: any) {
@@ -66,7 +66,7 @@ export const dropReview = async (id: number, dispatch: AppDispatch): Promise<boo
 };
 
 // 모든 리뷰 조회
-export const getAllReviews = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+ const getAllReviews = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await reviewAPI.findAll(page, size)
@@ -86,7 +86,7 @@ export const getAllReviews = async (page: number, size: number, dispatch: AppDis
 };
 
 // 공간 기준 리뷰 조회
-export const getReviewsByRoom = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+ const getReviewsByRoom = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await reviewAPI.findRoom(roomId, page, size)
@@ -104,7 +104,7 @@ export const getReviewsByRoom = async (roomId: number, page: number, size: numbe
     }
   }
 };
-export const getReviewsByUser = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+ const getReviewsByUser = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await reviewAPI.findUser(nickname, page, size)
@@ -122,3 +122,7 @@ export const getReviewsByUser = async (nickname: string, page: number, size: num
     }
   }
 };
+
+export const reviewService={
+  saveReview, modifildReview, dropReview, getAllReviews, getReviewsByRoom,getReviewsByUser
+}
