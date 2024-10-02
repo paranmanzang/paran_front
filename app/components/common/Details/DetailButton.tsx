@@ -1,16 +1,16 @@
 // components/DetailButton.tsx
 "use client"
-import {useRouter} from "next/navigation";
-import {useEffect, useState} from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import BookingModal from "../BookingModal";
 import Alert from "../Alert";
-import {useSelector} from "react-redux";
-import {useAppDispatch} from "@/lib/store";
-import {addLikedBook, getCurrentBook, getLikedBooks, saveError} from "@/lib/features/group/book.Slice";
-import {getCurrentRoom} from "@/lib/features/room.Slice";
-import {getCurrentGroupPost} from "@/lib/features/group/group.Slice";
-import {saveGlobalLoading} from "@/lib/features/error.Slice";
-import {LikeBookModel} from "@/app/model/group/book.model";
+import { useSelector } from "react-redux";
+import { useAppDispatch } from "@/lib/store";
+import { addLikedBook, getCurrentBook, getLikedBooks, saveError } from "@/lib/features/group/book.Slice";
+import { getCurrentRoom } from "@/lib/features/room/room.slice";
+import { getCurrentGroupPost } from "@/lib/features/group/group.Slice";
+import { saveGlobalLoading } from "@/lib/features/error.Slice";
+import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 
 interface DetailButtonProps {
@@ -19,7 +19,7 @@ interface DetailButtonProps {
     displayReservation: 'none' | 'block';
 }
 
-export default function DetailButton({thisPage, displayReview, displayReservation}: DetailButtonProps) {
+export default function DetailButton({ thisPage, displayReview, displayReservation }: DetailButtonProps) {
     const nickname = 'A'; // 임의로 넣어둠
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
@@ -45,7 +45,7 @@ export default function DetailButton({thisPage, displayReview, displayReservatio
                     bookId: Number(book?.id),
                     nickname: nickname
                 };
-                likeBookService.insert(likeBookModel,dispatch)
+                likeBookService.insert(likeBookModel, dispatch)
                     .finally(() => {
                         setAlertMessage('찜 했습니다.');
                         setIsAlertOpen(true);
@@ -120,20 +120,20 @@ export default function DetailButton({thisPage, displayReview, displayReservatio
                     </button>
                 )}
                 <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
-                        style={{display: displayReview}}
-                    // 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것
+                    style={{ display: displayReview }}
+                // 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것
                 >
                     리뷰보기
                 </button>
                 <button type="button" onClick={handleAccount} className="mx-2 rounded-full border px-3 py-2"
-                        style={{display: displayReservation}}
+                    style={{ display: displayReservation }}
                 >
                     예약하기
                 </button>
-                <BookingModal isOpen={isModalOpen} onClose={closeModal}/>
+                <BookingModal isOpen={isModalOpen} onClose={closeModal} />
 
                 <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
-                        style={{display: displayReservation}}
+                    style={{ display: displayReservation }}
                 >
                     참여하기
                 </button>

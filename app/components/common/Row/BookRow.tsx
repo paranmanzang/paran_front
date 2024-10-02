@@ -5,9 +5,9 @@ import BookCard from "./BookCard";
 import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.Slice";
 import { useAppDispatch } from "@/lib/store";
 import { defaultFile, FileType } from "@/app/model/file/file.model";
-import { getFiles } from "@/lib/features/file.Slice";
 import { bookService } from "@/app/service/group/book.service";
 import { fileService } from "@/app/service/File/file.service";
+import { getFiles } from "@/lib/features/file/file.slice";
 
 interface BookRowProps {
   active: boolean;
@@ -27,6 +27,7 @@ const BookRow = ({ active, onSelect }: BookRowProps) => {
   useEffect(() => {
     bookService.findList(page, size, dispatch)
     const bookIds = books.map(book => book.id);
+    fileService.selectFileList(bookIds, FileType.BOOK, dispatch)
     fileService.selectFileList(bookIds, FileType.BOOK, dispatch)
   }, [active, dispatch]);
 

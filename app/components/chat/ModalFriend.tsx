@@ -12,7 +12,7 @@ export default function ModalFriend() {
     const users = useSelector(getUsers);
 
     const onFriends = async () => {
-        if (userCheck != null ){
+        if (userCheck != null) {
             setAlertState({ isOpen: true, message: "친구요청을 보냈습니다." })
         } else {
             setAlertState({ isOpen: true, message: "사용자 정보를 불러올 수 없습니다." })
@@ -26,13 +26,9 @@ export default function ModalFriend() {
     return (
         <>
             <ul className="transition-opacity duration-300 ease-in-out">
-                {users && users.length > 0 ? (
-                    users.map((user) => (
-                        <li key={user.id}>{user.nickname || "사용자 이름"}</li>
-                    ))
-                ) : (
-                    <li>사용자 정보 없음</li>
-                )}
+                {users.map(user => (
+                    <li>{user ? user.nickname : "사용자 이름"}</li>
+                ))}
                 <li>
                     <button type="button" className="p-2 bg-green-500 text-white" onClick={onFriends}>친구요청하기</button>
                 </li>

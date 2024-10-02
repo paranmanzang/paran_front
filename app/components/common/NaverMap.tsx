@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { getAddresses } from '@/lib/features/address.Slice';
+import { getAddresses } from '@/lib/features/room/address.slice';
 import { AddressModel } from '@/app/model/room/address.model';
 
 
