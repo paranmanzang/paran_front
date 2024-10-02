@@ -1,15 +1,16 @@
 import {AdminPostModel} from "@/app/model/user/users.model";
 import {AppDispatch} from "@/lib/store";
 import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
-import {userAPI} from "@/app/api/generate/user.api";
+import {adminPostAPI} from "@/app/api/generate/adminPost.api";
 import {addAdminPost, deleteAdminPost, saveAdminPosts, updateAdminPost} from "@/lib/features/users/users.Slice";
+//insert, drop, modify, find**
 
 
 //게시물 추가
-export const insertAPost = async (adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
+const insertAPost = async (adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.insertAdminPost(adminPostModel)
+        const response = await adminPostAPI.insert(adminPostModel)
         if ('id' in response.data && 'name' in response.data) {
             dispatch(addAdminPost(response.data))
         }
@@ -23,10 +24,10 @@ export const insertAPost = async (adminPostModel: AdminPostModel, dispatch: AppD
 };
 //게시물 수정
 
-export const updateAPost = async (id: number, adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
+const modifyAPost = async (id: number, adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.updateAdminPost(id, adminPostModel)
+        const response = await adminPostAPI.modify(id, adminPostModel)
         if ('id' in response.data && 'title' in response.data) {
             dispatch(updateAdminPost(response.data))
         }
@@ -39,10 +40,10 @@ export const updateAPost = async (id: number, adminPostModel: AdminPostModel, di
     }
 };
 //게시글 삭제
-export const deleteAPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const dropAPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
-        const response = await userAPI.deleteAdminPost(id);
+        const response = await adminPostAPI.drop(id);
         // 응답 상태가 성공적인 경우만 디스패치
         if (response.status === 200) {
             dispatch(deleteAdminPost(id)); // id만 전달
@@ -58,10 +59,10 @@ export const deleteAPost = async (id: number, dispatch: AppDispatch): Promise<vo
     }
 };
 //게시물 리스트 조회
-export const findAPosts = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findAPosts = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findAdminPost(page, size)
+        const response = await adminPostAPI.findAdminPost(page, size)
         if (Array.isArray(response.data)) {
             dispatch(saveAdminPosts(response.data))
         }
@@ -74,10 +75,10 @@ export const findAPosts = async (page: number, size: number, dispatch: AppDispat
     }
 };
 //게시물 리스트 조회 (닉네임)
-export const findAPostsByNickname = async (page: number, size: number, nickname: string,  dispatch: AppDispatch): Promise<void> => {
+const findAPostsByNickname = async (page: number, size: number, nickname: string,  dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findAdminPostByNickname(page, size, nickname)
+        const response = await adminPostAPI.findAdminPostByNickname(page, size, nickname)
         if (Array.isArray(response.data)) {
             dispatch(saveAdminPosts(response.data))
         }
@@ -90,10 +91,10 @@ export const findAPostsByNickname = async (page: number, size: number, nickname:
     }
 };
 //게시물 상세조회
-export const findAPostsDetial = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const findAPostsDetail = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findAdminPostDetail(id)
+        const response = await adminPostAPI.findAdminPostDetail(id)
         if (Array.isArray(response.data)) {
             dispatch(saveAdminPosts(response.data))
         }
@@ -106,10 +107,10 @@ export const findAPostsDetial = async (id: number, dispatch: AppDispatch): Promi
     }
 };
 //조회수
-export const getViewCount = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const findViewCount = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findAdminPostViewCount(id)
+        const response = await adminPostAPI.findAdminPostViewCount(id)
         if (Array.isArray(response.data)) {
             dispatch(saveAdminPosts(response.data))
         }
@@ -121,3 +122,13 @@ export const getViewCount = async (id: number, dispatch: AppDispatch): Promise<v
         dispatch(saveLoading(false));
     }
 };
+
+export const adminPostService={
+    insertAPost,
+    modifyAPost,
+    dropAPost,
+    findAPosts,
+    findAPostsByNickname,
+    findAPostsDetail,
+    findViewCount
+}

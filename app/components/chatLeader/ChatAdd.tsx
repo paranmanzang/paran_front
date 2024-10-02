@@ -3,10 +3,15 @@ import {chatRoomService} from "@/app/service/chat/chatRoom.service";
 import {useAppDispatch} from "@/lib/store";
 import {useRouter} from "next/navigation"
 import {useState} from "react";
+import { getUsers } from "@/lib/features/users/user.Slice"
+import { useSelector } from "react-redux/dist/react-redux";
+
 
 export default function ChatAdd() {
     const dispatch = useAppDispatch()
-    const nickname = 'A' //임의로 넣어둠
+    const user = useSelector(getUsers);
+    const nickname = user.nickname;
+
     const [formData, setFormData] = useState({
         title: '',
         password: '',

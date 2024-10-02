@@ -1,29 +1,40 @@
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { RootState } from "@/lib/store";
-import userSlice from '@/lib/features/user.Slice';
+import { useDispatch } from 'react-redux';
+import { findUserDetail, modifyPassword } from '@/app/service/user/user.service';
+import { UserModel } from '@/app/model/user/user.model';
+import { AppDispatch } from "@/lib/store"; // AppDispatch 임포트
 
-export const useUser = (id: string) => {
-  const queryClient = useQueryClient();
+export const useUser = (nickname: string) => {
+    const queryClient = useQueryClient();
+    const dispatch: AppDispatch = useDispatch();
 
-  const { data: user, isLoading, error } = useQuery(
-    ['user', id],
-    // () => userSlice.getUser(id).then(res => res.data),
-    {
-      staleTime: 5 * 60 * 1000, // 5 minutes
-    }
-  );
+    const { data: user, isLoading, error } = useQuery<UserModel, Error>(
+        ['user', nickname],
+        () => findUserDetail(nickname, dispatch), // nickname으로 유저를 찾는 API
+        {
+            staleTime: 5 * 60 * 1000,
+            onError: (error: Error) => {
+                console.error('Error fetching user:', error.message);
+            },
+        }
+    );
 
-  const updateUser = useMutation(
-    // (userData: any) => userSlice.updateUser(id, userData),
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries(['user', id]);
-      },
-    }
-  );
+    const updateUserPassword = useMutation(
+        (newPassword: string) => modifyPassword(nickname, newPassword, dispatch),
+        {
+            onSuccess: () => {
+                queryClient.invalidateQueries(['user', nickname]);
+            },
+            onError: (error: Error) => {
+                console.error('Error updating password:', error.message);
+            },
+        }
+    );
 
-  return { 
-    user, isLoading, error,
-    updateUser: updateUser.mutate,
-  };
+    return {
+        user,
+        isLoading,
+        error,
+        updateUserPassword: updateUserPassword.mutate,
+    };
 };

@@ -1,15 +1,15 @@
 import {AdminPostModel, DeclarationPostModel} from "@/app/model/user/users.model";
 import {AppDispatch} from "@/lib/store";
 import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
-import {userAPI} from "@/app/api/generate/user.api";
+import {declarationPostAPI} from "@/app/api/generate/declarationPost.api";
 import {addDeclarationPost, deleteDeclarationPost, saveDeclarationPosts,} from "@/lib/features/users/users.Slice";
 
 
 //게시물 추가
-export const insertDPost = async (declarationPostModel: DeclarationPostModel, dispatch: AppDispatch): Promise<void> => {
+const insertDPost = async (declarationPostModel: DeclarationPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.insertDeclarationPost(declarationPostModel)
+        const response = await declarationPostAPI.insert(declarationPostModel)
         if ('id' in response.data && 'name' in response.data) {
             dispatch(addDeclarationPost(response.data))
         }
@@ -23,10 +23,10 @@ export const insertDPost = async (declarationPostModel: DeclarationPostModel, di
 };
 
 //게시글 삭제
-export const deleteDPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const dropDPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
-        const response = await userAPI.deleteDeclarationPost(id);
+        const response = await declarationPostAPI.drop(id);
         // 응답 상태가 성공적인 경우만 디스패치
         if (response.status === 200) {
             dispatch(deleteDeclarationPost(id)); // id만 전달
@@ -42,10 +42,10 @@ export const deleteDPost = async (id: number, dispatch: AppDispatch): Promise<vo
     }
 };
 //게시물 리스트 조회
-export const findDPosts = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findDPosts = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findDeclarationPost(page, size)
+        const response = await declarationPostAPI.findDeclarationPost(page, size)
         if (Array.isArray(response.data)) {
             dispatch(saveDeclarationPosts(response.data))
         }
@@ -58,26 +58,26 @@ export const findDPosts = async (page: number, size: number, dispatch: AppDispat
     }
 };
 //게시물 리스트 조회 (닉네임)
-export const findDPostsByNickname = async (page: number, size: number, nickname: string,  dispatch: AppDispatch): Promise<void> => {
+const findDPostsByNickname = async (page: number, size: number, nickname: string,  dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findDeclarationPostByNickname(page, size, nickname)
+        const response = await declarationPostAPI.findDeclarationPostByNickname(page, size, nickname)
         if (Array.isArray(response.data)) {
             dispatch(saveDeclarationPosts(response.data))
         }
     } catch (error: any) {
         dispatch(saveError("게시물 목록 조회 중 오류 발생했습니다."));
-        console.error('Error fetching Aposts by nickname:', error.response?.data || error.message);
+        console.error('Error fetching Dposts by nickname:', error.response?.data || error.message);
         throw new Error('게시물 목록 조회 중 오류 발생');
     } finally {
         dispatch(saveLoading(false));
     }
 };
 //게시물 상세조회
-export const findPostsDetail = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const findDPostsDetail = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findDeclarationPostDetail(id)
+        const response = await declarationPostAPI.findDeclarationPostDetail(id)
         if (Array.isArray(response.data)) {
             dispatch(saveDeclarationPosts(response.data))
         }
@@ -89,3 +89,11 @@ export const findPostsDetail = async (id: number, dispatch: AppDispatch): Promis
         dispatch(saveLoading(false));
     }
 };
+
+export const declarationService={
+    insertDPost,
+    dropDPost,
+    findDPosts,
+    findDPostsByNickname,
+    findDPostsDetail
+}
