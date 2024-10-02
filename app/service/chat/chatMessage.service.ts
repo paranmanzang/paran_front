@@ -64,7 +64,7 @@ export const findMessageList = async ({ roomId, nickname, onMessage }: { roomId:
 export const insertMessage = async ({ nickname, roomId, message, dispatch }: { nickname: string, roomId: string, message: string, dispatch: AppDispatch }): Promise<boolean> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.insertMessageAPI(nickname, roomId, message)
+        const response = await chatsAPI.insertMessage(nickname, roomId, message)
         return response.data;
     } catch (error) {
         dispatch(saveError("채팅 메세지 보내는 중 오류 발생했습니다."));
@@ -78,7 +78,7 @@ export const insertMessage = async ({ nickname, roomId, message, dispatch }: { n
 export const unReadTotalMessageCount = async ({ nickname, dispatch }: { nickname: string, dispatch: AppDispatch }): Promise<number> => {
     try {
         dispatch(saveLoading(true));
-        const response = await chatsAPI.findUnReadTotalMessageCountAPI(nickname)
+        const response = await chatsAPI.findUnReadTotalMessageCount(nickname)
         return response.data;
     } catch (error) {
         dispatch(saveError("총 User가 읽지 않은 메세지 갯수 찾는 중 오류가 발생했습니다."));

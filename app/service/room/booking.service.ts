@@ -1,13 +1,15 @@
+import { roomAPI } from '@/app/api/generate/rooms.api';
 import { BookingModel } from '@/app/model/bookings.model';
 import { AppDispatch } from '@/lib/store';
 import { addBooking, deleteBooking, saveBookings, saveLoading, updateBooking } from '@/lib/features/bookings.Slice';
 import { bookingAPI } from '@/app/api/generate/bookings.api';
 
+
 // 예약 등록
-export const saveBooking = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<void> => {
+const save = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await bookingAPI.save(bookingModel);
+    const response = await roomAPI.saveBookings(bookingModel);
     dispatch(addBooking(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -122,3 +124,8 @@ export const findByRoomId = async (roomId: number, page: number, size: number, d
     }
   }
 };
+
+export const booking = {
+  save, 
+}
+

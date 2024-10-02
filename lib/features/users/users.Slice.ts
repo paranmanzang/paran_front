@@ -1,4 +1,4 @@
-import { initialUserState, AdminPostModel, DeclarationPostModel, FriendModel, LikePostModel, LikeRoomModel, CkeckedIdModel, CheckedNamesModel } from '@/app/model/user/users.model';
+import { initialUserState, AdminPostModel, DeclarationPostModel, FriendModel, LikePostModel, LikeRoomModel, CheckedNamesModel } from '@/app/model/user/users.model';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
