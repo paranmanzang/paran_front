@@ -1,6 +1,5 @@
 
 import { RoomModel, RoomUpdateModel } from '../../model/room.model';
-import { ExceptionResponseModel } from '../../model/error.model';
 import { AppDispatch } from '@/lib/store';
 import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom } from '@/lib/features/room.Slice';
 import { roomAPI } from '@/app/api/generate/rooms.api';
