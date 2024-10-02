@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import HeartCheckbox from "./HeartCheckBox";
 import { saveCurrentBook } from "@/lib/features/group/book.Slice";
-import { saveCurrentFile } from "@/lib/features/file.Slice";
 import { BookResponseModel } from "@/app/model/group/book.model";
 import { FileModel } from "@/app/model/file/file.model";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/store";
 import { likeBookService } from "@/app/service/group/likeBook.service";
+import { saveCurrentFile } from "@/lib/features/file/file.slice";
 
 interface BookCardProps {
     book: BookResponseModel;
@@ -17,7 +17,7 @@ interface BookCardProps {
     file: FileModel;
 }
 
-const BookCard = ({book, active, file}: BookCardProps) => {
+const BookCard = ({ book, active, file }: BookCardProps) => {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const nickname = 'A' // 임의로 넣어둠
@@ -26,11 +26,11 @@ const BookCard = ({book, active, file}: BookCardProps) => {
         switch (active) {
             case true:
                 console.log("좋아요 상태: 활성화");
-                likeBookService.insert({bookId, nickname}, dispatch);
+                likeBookService.insert({ bookId, nickname }, dispatch);
                 break;
             case false:
                 console.log("좋아요 상태: 비활성화");
-                likeBookService.drop({bookId, nickname}, dispatch);
+                likeBookService.drop({ bookId, nickname }, dispatch);
                 break;
         }
     };
@@ -60,9 +60,9 @@ const BookCard = ({book, active, file}: BookCardProps) => {
                     </h5>
                     <p className="text-sm font-medium">저자: {book.author}</p>
                     <div className="w-full">
-            <span className="text-xs bg-green-400 p-1 text-white rounded-full my-4">
-              {book.categoryName}
-            </span>
+                        <span className="text-xs bg-green-400 p-1 text-white rounded-full my-4">
+                            {book.categoryName}
+                        </span>
                     </div>
                     <button
                         onClick={(e) => {

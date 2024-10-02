@@ -9,10 +9,10 @@ export const fileAPI = {
             paramsSerializer: (params: any) => qs.stringify(params, { arrayFormat: 'repeat' })
         });
     },
-    upload(file: any[], type: string, refId: number) {
+    modify(file: any[], type: string, refId: number) {
         return api.post<FileModel>('', { FormData: { file: file, type: type, refId: refId } });
     },
-    delete(fileModel: FileDeleteModel) {
+    drop(fileModel: FileDeleteModel) {
         return api.delete<boolean>('', { data: fileModel });
     }
 }

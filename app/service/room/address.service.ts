@@ -1,13 +1,13 @@
 import { AddressModel, AddressUpdateModel } from '@/app/model/room/address.model';
 import { AppDispatch } from '@/lib/store';
-import { addAddress, deleteAddress, saveAddresses, saveLoading, updateAddress } from '@/lib/features/address.Slice';
+import { addAddress, deleteAddress, saveAddresses, saveLoading, updateAddress } from '@/lib/features/room/address.slice';
 import { addressAPI } from '@/app/api/generate/address.api';
 
 // 주소 검색
-const searchAddress = async (query: string, dispatch: AppDispatch): Promise<AddressModel[]> => {
+const search = async (query: string, dispatch: AppDispatch): Promise<AddressModel[]> => {
   try {
     dispatch(saveLoading(true))
-    const response = await addressAPI.loadSearch(query)
+    const response = await addressAPI.search(query)
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -24,7 +24,7 @@ const searchAddress = async (query: string, dispatch: AppDispatch): Promise<Addr
 };
 
 // 주소 등록
-const insertAddress = async (addressModel: AddressModel, dispatch: AppDispatch): Promise<void> => {
+const insert = async (addressModel: AddressModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await addressAPI.insert(addressModel)
@@ -44,7 +44,7 @@ const insertAddress = async (addressModel: AddressModel, dispatch: AppDispatch):
 };
 
 // 주소 수정
-const modifidAddress = async (addressModel: AddressUpdateModel, dispatch: AppDispatch): Promise<void> => {
+const modify = async (addressModel: AddressUpdateModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await addressAPI.modify(addressModel)
@@ -64,7 +64,7 @@ const modifidAddress = async (addressModel: AddressUpdateModel, dispatch: AppDis
 };
 
 // 주소 삭제
-const dropAddress = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
+const drop = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
   try {
     dispatch(saveLoading(true))
     const response = await addressAPI.drop(id)
@@ -85,10 +85,10 @@ const dropAddress = async (id: number, dispatch: AppDispatch): Promise<boolean> 
 };
 
 // 전체 주소 목록 조회
-const getAddressList = async (dispatch: AppDispatch): Promise<void> => {
+const findAll = async (dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await addressAPI.findAddresses();
+    const response = await addressAPI.findByAddresses();
     dispatch(saveAddresses(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -105,10 +105,10 @@ const getAddressList = async (dispatch: AppDispatch): Promise<void> => {
 };
 
 // 자체 주소 검색
-const findQuery = async (query: string, dispatch: AppDispatch): Promise<void> => {
+const findByQuery = async (query: string, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await addressAPI.findQuery(query)
+    const response = await addressAPI.findByQuery(query)
     dispatch(saveAddresses(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -125,5 +125,7 @@ const findQuery = async (query: string, dispatch: AppDispatch): Promise<void> =>
 };
 
 export const addressService = {
-  searchAddress, insertAddress, modifidAddress, dropAddress, getAddressList, findQuery
+  insert, modify, drop,
+  findAll, findByQuery,
+  search
 }
