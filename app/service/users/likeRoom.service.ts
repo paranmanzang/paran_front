@@ -1,7 +1,7 @@
 import {AppDispatch} from "@/lib/store";
 import {addLikedRoom, deleteLikedRoom, saveLikedRooms} from "@/lib/features/users/users.Slice";
 import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
-import userAPI from "@/app/api/generate/users.api";
+import userAPI from "@/app/api/generate/user.api";
 import {LikeRoomModel} from "@/app/model/user/users.model";
 
 export const likeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch

@@ -1,7 +1,7 @@
 import {AdminPostModel, DeclarationPostModel} from "@/app/model/user/users.model";
 import {AppDispatch} from "@/lib/store";
 import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
-import {userAPI} from "@/app/api/generate/users.api";
+import {userAPI} from "@/app/api/generate/user.api";
 import {addDeclarationPost, deleteDeclarationPost, saveDeclarationPosts,} from "@/lib/features/users/users.Slice";
 
 

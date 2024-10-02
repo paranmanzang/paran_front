@@ -1,5 +1,5 @@
 import {GroupModel, JoiningModel} from '@/app/model/group/group.model';
-import {groupsAPI} from "@/app/api/generate/groups.api";
+import {groupsAPI} from "@/app/api/generate/group.api";
 import {
     addGroupMember,
     deleteGroup,

@@ -103,7 +103,7 @@ const RoomRow = ({ active, onSelect }:RoomRowProps) => {
                   width={400}
                   height={380}
                   className="cursor-pointer rounded-t-lg"
-                  src={`getRoomImage(room.id)`}
+                  src={`getRoomImage${room.id}`}
                   alt={`cover of ${room.title}`}
                   priority
                 />

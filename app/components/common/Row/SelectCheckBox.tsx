@@ -1,6 +1,3 @@
-import React from 'react';
-
-
 const SelectCheckbox = () => {
   return (
     <div id="selectBtn">

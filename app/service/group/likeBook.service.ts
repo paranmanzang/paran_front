@@ -1,5 +1,5 @@
 import {LikeBookModel} from '@/app/model/group/book.model';
-import groupsAPI from "@/app/api/generate/groups.api";
+import groupsAPI from "@/app/api/generate/group.api";
 import {AppDispatch} from "@/lib/store";
 import {addLikedBook, deleteLikedBook, saveError, saveLikedBooks, saveLoading} from "@/lib/features/group/book.Slice";
 

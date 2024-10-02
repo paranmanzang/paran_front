@@ -20,7 +20,7 @@ export default function SideBar() {
 
   return (
     <div>
-      {/* {getUserNiname == 'seller' ? */}
+      {/* {getUserNickname == 'seller' ? */}
          <SellerButton/> 
       {/*
        :

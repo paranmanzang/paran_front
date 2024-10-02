@@ -1,8 +1,26 @@
 "use client"
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
+import { useEffect, useState } from 'react';
 
-export default function UserProfile() {
+interface UserProfileProps {
+  getUser: string;
+}
+
+export default function UserProfile({getUser} : UserProfileProps) {
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    async function fetchUserData() {
+      const response = await fetch(`/api/user/${getUser}`);
+      const data = await response.json();
+      setUserData(data);
+    }
+
+    fetchUserData();
+  }, [getUser]);
+
+  if (!userData) return <div>Loading...</div>;
   const router = useRouter();
 
   const handleGoBack = () => {

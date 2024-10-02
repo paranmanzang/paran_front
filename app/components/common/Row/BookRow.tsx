@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BookCard from "./BookCard";
-import { BookState } from "@/app/model/group/book.model";
 import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.Slice";
 import { useAppDispatch } from "@/lib/store";
 import { findBookList } from "@/app/service/group/book.service";

@@ -1,4 +1,4 @@
-import groupsAPI from "@/app/api/generate/groups.api";
+import groupsAPI from "@/app/api/generate/group.api";
 import {AppDispatch} from "@/lib/store";
 import {saveBooks, saveError, saveLoading} from "@/lib/features/group/book.Slice";
 

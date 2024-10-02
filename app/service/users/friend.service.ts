@@ -1,7 +1,7 @@
 import {FriendModel} from "@/app/model/user/users.model";
 import {AppDispatch} from "@/lib/store";
 import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
-import userAPI from "@/app/api/generate/users.api";
+import userAPI from "@/app/api/generate/user.api";
 import {addFriend, deleteFriend, saveFriends} from "@/lib/features/users/users.Slice";
 
 // 친구 추가

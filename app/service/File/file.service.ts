@@ -1,4 +1,4 @@
-import {fileAPI} from '@/app/api/generate/files.api';
+import {fileAPI} from '@/app/api/generate/file.api';
 import {FileDeleteModel, FileType} from '@/app/model/file.model';
 import {addFile, removeFile, saveFiles, upLoading} from '@/lib/features/file.Slice';
 import {AppDispatch} from '@/lib/store';
