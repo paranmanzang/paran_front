@@ -4,7 +4,7 @@ import {getCurrentGroup, getGroupPosts, saveCurrentGroupPost} from "@/lib/featur
 import {useAppDispatch} from "@/lib/store";
 import {useSelector} from "react-redux";
 import {useRouter} from "next/navigation";
-import { groupPostService } from "@/app/service/group/groupPost.service";
+import {groupPostService} from "@/app/service/group/groupPost.service";
 
 export default function GroupBoard() {
     const dispatch = useAppDispatch();

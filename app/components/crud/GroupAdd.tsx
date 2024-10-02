@@ -1,10 +1,10 @@
 "use client"
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 import CategorySelect from "../common/CategorySelect";
 import Alert from "../common/Alert";
-import { useState } from "react";
-import { useAppDispatch } from "@/lib/store";
-import { groupService } from "@/app/service/group/group.service";
+import {useState} from "react";
+import {useAppDispatch} from "@/lib/store";
+import {groupService} from "@/app/service/group/group.service";
 
 export default function GroupAdd() {
     const route = useRouter();
@@ -43,7 +43,7 @@ export default function GroupAdd() {
                         className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 my-2"
                     />
                 </div>
-                <CategorySelect onChange={handleCategoryChange} />
+                <CategorySelect onChange={handleCategoryChange}/>
                 <div>
                     <button type="button" onClick={createGroup} className="p-2 bg-green-400 rounded-lg text-white">모임
                         개설하기
@@ -57,7 +57,7 @@ export default function GroupAdd() {
             </form>
             <Alert message={'모임이 개설이 요청되었습니다.'} isOpen={isOpen} onClose={() => {
                 setIsOpen(false)
-            }} />
+            }}/>
         </>
     )
 }
