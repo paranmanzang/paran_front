@@ -1,6 +1,4 @@
-import api from "@/app/api/axios";
 import { roomAPI } from "@/app/api/generate/rooms.api";
-import requests from "@/app/api/requests";
 import { TimeModel } from "@/app/model/room.model";
 import { saveLoading } from "@/lib/features/room.Slice";
 import { AppDispatch } from "@/lib/store";
@@ -8,7 +6,7 @@ import { AppDispatch } from "@/lib/store";
 export const getTimeList = async (roomId: number, dispatch: AppDispatch): Promise<TimeModel[]> => {
     try {
         dispatch(saveLoading(true));
-        const response = await roomAPI.findTimeListAPI(roomId)
+        const response = await roomAPI.findTime(roomId)
         return response.data;
     } catch (error: any) {
         if (error.response) {

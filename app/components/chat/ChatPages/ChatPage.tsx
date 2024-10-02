@@ -2,7 +2,7 @@
 import React, {useCallback, useRef, useState} from 'react'
 import InputField from "../InputField/InputField";
 import MessageContainer from '../MessageContainer/MessageContainer';
-import {insertMessage} from '@/app/service/chat/chatMessage.service';
+import {chatMessageService} from '@/app/service/chat/chatMessage.service';
 import {ChatMessageModel} from '@/app/model/chat/chat.model';
 import {useDispatch} from "react-redux";
 
@@ -18,7 +18,7 @@ const ChatPage = ({messages, roomId}: ChatPageProps) => {
     const nickname = 'A' // 임의로 넣어둠
 
     const sendMessage = useCallback(() => {
-        insertMessage({nickname, roomId, message, dispatch})
+        chatMessageService.insert({nickname, roomId, message, dispatch})
             .then((isSuccess) => {
                 if (isSuccess) {
                     setMessage(''); // 메시지 전송 성공 후 입력창 초기화

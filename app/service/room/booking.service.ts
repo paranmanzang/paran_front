@@ -1,15 +1,15 @@
 import { roomAPI } from '@/app/api/generate/rooms.api';
-import api from '../../api/axios';
-import requests from '@/app/api/requests';
 import { BookingModel } from '@/app/model/bookings.model';
 import { AppDispatch } from '@/lib/store';
 import { addBooking, deleteBooking, saveBookings, saveLoading, updateBooking } from '@/lib/features/bookings.Slice';
+import { bookingAPI } from '@/app/api/generate/bookings.api';
+
 
 // 예약 등록
-export const saveBooking = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<void> => {
+const save = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.saveBookingAPI(bookingModel);
+    const response = await roomAPI.saveBookings(bookingModel);
     dispatch(addBooking(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -29,7 +29,7 @@ export const saveBooking = async (bookingModel: BookingModel, dispatch: AppDispa
 export const saveState = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.saveStateAPI(id)
+    const response = await bookingAPI.approval(id)
     dispatch(updateBooking(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -49,7 +49,7 @@ export const saveState = async (id: number, dispatch: AppDispatch): Promise<void
 export const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.rejectBookingAPI(id)
+    const response = await bookingAPI.reject(id)
     dispatch(deleteBooking(id))
   } catch (error: any) {
     if (error.response) {
@@ -69,7 +69,7 @@ export const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<
 export const dropBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.dropBookingAPI(id)
+    const response = await bookingAPI.delete(id)
     dispatch(deleteBooking(id))
   } catch (error: any) {
     if (error.response) {
@@ -89,7 +89,7 @@ export const dropBooking = async (id: number, dispatch: AppDispatch): Promise<vo
 export const findByGroupId = async (groupId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.findByGroupIdAPI(groupId, page, size)
+    const response = await bookingAPI.findGroup(groupId, page, size)
     dispatch(saveBookings(response.data.content))
   } catch (error: any) {
     if (error.response) {
@@ -109,7 +109,7 @@ export const findByGroupId = async (groupId: number, page: number, size: number,
 export const findByRoomId = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.findByRoomIdAPI(roomId, page, size)
+    const response = await bookingAPI.findRoom(roomId, page, size)
     dispatch(saveBookings(response.data.content))
   } catch (error: any) {
     if (error.response) {
@@ -124,3 +124,8 @@ export const findByRoomId = async (roomId: number, page: number, size: number, d
     }
   }
 };
+
+export const booking = {
+  save, 
+}
+

@@ -4,7 +4,7 @@ import CategorySelect from "../common/CategorySelect";
 import Alert from "../common/Alert";
 import {useState} from "react";
 import {useAppDispatch} from "@/lib/store";
-import {insertGroup} from "@/app/service/group/group.service";
+import {groupService} from "@/app/service/group/group.service";
 
 export default function GroupAdd() {
     const route = useRouter();
@@ -24,7 +24,7 @@ export default function GroupAdd() {
             categoryName: categoryName,
             nickname: "현재 로그인한 사용자의 닉네임",
         };
-        insertGroup(groupModel, dispatch)
+        groupService.insert(groupModel, dispatch)
     }
     const goBack = () => {
         route.back();

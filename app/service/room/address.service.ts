@@ -1,13 +1,13 @@
 import { AddressModel, AddressUpdateModel } from '@/app/model/address.model';
 import { AppDispatch } from '@/lib/store';
 import { addAddress, deleteAddress, saveAddresses, saveLoading, updateAddress } from '@/lib/features/address.Slice';
-import { roomAPI } from '@/app/api/generate/rooms.api';
+import { addressAPI } from '@/app/api/generate/addresses.api';
 
 // 주소 검색
 export const searchAddress = async (query: string, dispatch: AppDispatch): Promise<AddressModel[]> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.searchAddressAPI(query)
+    const response = await addressAPI.search(query)
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -27,7 +27,7 @@ export const searchAddress = async (query: string, dispatch: AppDispatch): Promi
 export const insertAddress = async (addressModel: AddressModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.insertAddressAPI(addressModel)
+    const response = await addressAPI.save(addressModel)
     dispatch(addAddress(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -47,7 +47,7 @@ export const insertAddress = async (addressModel: AddressModel, dispatch: AppDis
 export const modifidAddress = async (addressModel: AddressUpdateModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.modifidAddressAPI(addressModel)
+    const response = await addressAPI.update(addressModel)
     dispatch(updateAddress(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -67,7 +67,7 @@ export const modifidAddress = async (addressModel: AddressUpdateModel, dispatch:
 export const dropAddress = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.dropAddressAPI(id)
+    const response = await addressAPI.delete(id)
     dispatch(deleteAddress(id))
     return response.data
   } catch (error: any) {
@@ -88,7 +88,7 @@ export const dropAddress = async (id: number, dispatch: AppDispatch): Promise<bo
 export const getAddressList = async (dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.findByAddressesAPI();
+    const response = await addressAPI.findAddresses();
     dispatch(saveAddresses(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -108,7 +108,7 @@ export const getAddressList = async (dispatch: AppDispatch): Promise<void> => {
 export const findQuery = async (query: string, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.findByQueryAPI(query)
+    const response = await addressAPI.findQuery(query)
     dispatch(saveAddresses(response.data))
   } catch (error: any) {
     if (error.response) {

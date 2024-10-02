@@ -3,8 +3,8 @@ import {useEffect, useState} from "react";
 import {getCurrentGroup, getGroupPosts, saveCurrentGroupPost} from "@/lib/features/group/group.Slice";
 import {useAppDispatch} from "@/lib/store";
 import {useSelector} from "react-redux";
-import {findPostsByGroupId, updateViewCount} from "@/app/service/group/groupPost.service";
 import {useRouter} from "next/navigation";
+import {groupPostService} from "@/app/service/group/groupPost.service";
 
 export default function GroupBoard() {
     const dispatch = useAppDispatch();
@@ -22,7 +22,7 @@ export default function GroupBoard() {
         if (!groupId) {
             return;
         }
-        findPostsByGroupId(Number(groupId), page, size, selectedCategory, dispatch)
+        groupPostService.findByGroupId(Number(groupId), page, size, selectedCategory, dispatch)
     }, [dispatch, groupId, selectedCategory]);
 
     const postsToShow = selectedCategory === "공지 사항" ? groupPostsNotice : groupPostsGeneral;
@@ -33,7 +33,7 @@ export default function GroupBoard() {
             if (selectedPost) {
                 dispatch(saveCurrentGroupPost(selectedPost)); // 선택한 게시물 저장
 
-                updateViewCount(currentId, dispatch)
+                groupPostService.modifyViewCount(currentId, dispatch)
                     .finally(() => {
                         router.push(`/groups/board/${currentId}`);
                     });
