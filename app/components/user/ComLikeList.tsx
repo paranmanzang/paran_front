@@ -12,6 +12,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalOpen = () => {
      setIsModalOpen(true);
+     <Alert message={'예약요청이 완료되었습니다.'} isOpen={isModalOpen} onClose={ () => !isModalOpen }/>
   }
   
   return ( 
@@ -45,7 +46,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
              */}
 
               <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">예약요청</button>
-              <Alert message={'예약요청이 완료되었습니다.'} isOpen={isModalOpen} onClose={() => {true}}/>
+              
               <AccountButton />
 
               {/* <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">참여하기</button> */}

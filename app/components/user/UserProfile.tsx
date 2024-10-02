@@ -1,6 +1,5 @@
 "use client"
 import { useRouter } from 'next/navigation';
-import Link from "next/link";
 import Image from "next/image";
 
 export default function UserProfile() {
@@ -19,13 +18,6 @@ export default function UserProfile() {
     //{유저아이디}
     router.push(`/users/update/2`);
   }
-
-  //이런 느낌으로 변경해서 코드 리팩토링 해야 함. 
-  // const { user, loading, error, updateUser } = useUser(userId);
-
-  // if (loading) return <div>Loading...</div>;
-  // if (error) return <div>Error: {error.message}</div>;
-  // if (!user) return null;
 
   return (
     <div className="mx-auto my-[40px] py-3 px-6 h-auto w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow">
@@ -53,13 +45,6 @@ export default function UserProfile() {
               아이디
               <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
                 qwer
-              </h5>
-            </li>
-            <li className="flex items-center">
-              유저 포인트
-              <h5 className="mb-2 ml-6 flex items-end text-xl font-medium text-gray-900">
-                10
-                <p className="text-sm">점</p>
               </h5>
             </li>
           </ul>

@@ -7,14 +7,14 @@ export const useUser = (id: string) => {
 
   const { data: user, isLoading, error } = useQuery(
     ['user', id],
-    () => userSlice.getUser(id).then(res => res.data),
+    // () => userSlice.getUser(id).then(res => res.data),
     {
       staleTime: 5 * 60 * 1000, // 5 minutes
     }
   );
 
   const updateUser = useMutation(
-    (userData: any) => userSlice.updateUser(id, userData),
+    // (userData: any) => userSlice.updateUser(id, userData),
     {
       onSuccess: () => {
         queryClient.invalidateQueries(['user', id]);
