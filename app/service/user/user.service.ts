@@ -27,7 +27,7 @@ const insertUser = async (userModel: UserModel, dispatch: AppDispatch): Promise<
 };
 
 // 비밀번호 수정
-const modifyPassword = async (nickname: string, newPassword: string, dispatch: AppDispatch): Promise<void> => {
+export const modifyPassword = async (nickname: string, newPassword: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.modifyPassword(nickname, newPassword);
@@ -106,7 +106,7 @@ const findAllUsers = async (nickname: string, dispatch: AppDispatch): Promise<vo
     }
 };
 
-const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<UserModel> => {
+export const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<UserModel> => {
     try {
         const response = await axios.get(`/api/users/getUserDetail?nickname=${nickname}`);
         const userData: UserModel = response.data; // response.data가 UserModel 타입인지 확인

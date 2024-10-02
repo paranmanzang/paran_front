@@ -4,7 +4,7 @@ import UserProfile from "@/app/components/user/UserProfile";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 
-export default function getMyPage() {
+export default function GetMyPage() {  // 컴포넌트 이름은 대문자로 시작해야 합니다.
     const currentUser = useSelector((state: RootState) => state.user.currentUser);
 
     if (!currentUser?.nickname) {

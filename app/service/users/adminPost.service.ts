@@ -7,7 +7,7 @@ import {addAdminPost, deleteAdminPost, saveAdminPosts, updateAdminPost} from "@/
 
 
 //게시물 추가
-const insertAPost = async (adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
+const insert = async (adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await adminPostAPI.insert(adminPostModel)
@@ -24,7 +24,7 @@ const insertAPost = async (adminPostModel: AdminPostModel, dispatch: AppDispatch
 };
 //게시물 수정
 
-const modifyAPost = async (id: number, adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
+const modify = async (id: number, adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await adminPostAPI.modify(id, adminPostModel)
@@ -40,7 +40,7 @@ const modifyAPost = async (id: number, adminPostModel: AdminPostModel, dispatch:
     }
 };
 //게시글 삭제
-const dropAPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const drop = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
         const response = await adminPostAPI.drop(id);
@@ -59,7 +59,7 @@ const dropAPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
     }
 };
 //게시물 리스트 조회
-const findAPosts = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findAll = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await adminPostAPI.findAdminPost(page, size)
@@ -75,7 +75,7 @@ const findAPosts = async (page: number, size: number, dispatch: AppDispatch): Pr
     }
 };
 //게시물 리스트 조회 (닉네임)
-const findAPostsByNickname = async (page: number, size: number, nickname: string,  dispatch: AppDispatch): Promise<void> => {
+const findAllByNickname = async (page: number, size: number, nickname: string,  dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await adminPostAPI.findAdminPostByNickname(page, size, nickname)
@@ -91,7 +91,7 @@ const findAPostsByNickname = async (page: number, size: number, nickname: string
     }
 };
 //게시물 상세조회
-const findAPostsDetail = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const findByAdminPostId = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await adminPostAPI.findAdminPostDetail(id)
@@ -107,7 +107,7 @@ const findAPostsDetail = async (id: number, dispatch: AppDispatch): Promise<void
     }
 };
 //조회수
-const findViewCount = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const findViewCountById = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await adminPostAPI.findAdminPostViewCount(id)
@@ -124,11 +124,11 @@ const findViewCount = async (id: number, dispatch: AppDispatch): Promise<void> =
 };
 
 export const adminPostService={
-    insertAPost,
-    modifyAPost,
-    dropAPost,
-    findAPosts,
-    findAPostsByNickname,
-    findAPostsDetail,
-    findViewCount
+    insert,
+    modify,
+    drop,
+    findAll,
+    findAllByNickname,
+    findByAdminPostId,
+    findViewCountById
 }

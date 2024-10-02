@@ -5,7 +5,7 @@ import likePostAPI from "@/app/api/generate/likePost.api";
 import {LikePostModel} from "@/app/model/user/users.model";
 
 // 좋아요
-const insertLikePost = async (likePostModel: LikePostModel, dispatch: AppDispatch
+const insert = async (likePostModel: LikePostModel, dispatch: AppDispatch
 ): Promise<void> => {
     try {
         dispatch(saveLoading(true));
@@ -22,7 +22,7 @@ const insertLikePost = async (likePostModel: LikePostModel, dispatch: AppDispatc
 };
 
 // 좋아요 취소
-const dropLikePost = async (likePostModel: LikePostModel, dispatch: AppDispatch): Promise<void> => {
+const drop = async (likePostModel: LikePostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await likePostAPI.drop(likePostModel)
@@ -38,7 +38,7 @@ const dropLikePost = async (likePostModel: LikePostModel, dispatch: AppDispatch)
 };
 
 // 좋아요 마이페이지 확인
-const findLikePostList = async (nickname: String, dispatch: AppDispatch): Promise<void> => {
+const findAllByUserNickname = async (nickname: String, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await likePostAPI.findLikePostList(nickname)
@@ -51,7 +51,7 @@ const findLikePostList = async (nickname: String, dispatch: AppDispatch): Promis
     }
 }
 export const likePostService = {
-    insertLikePost,
-    dropLikePost,
-    findLikePostList
+    insert,
+    drop,
+    findAllByUserNickname
 };
