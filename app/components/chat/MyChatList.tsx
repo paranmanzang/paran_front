@@ -61,7 +61,7 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
             <ul
                 id="popover-bottom"
                 className={`${styles.listUp} transition-opacity duration-300 ease-in-out ${isPopoverVisible ? `${styles.visible}` : `${styles.invisible}`
-                    }`}
+                }`}
             >
                 {filteredChatRooms && filteredChatRooms.length > 0 ? (
                     filteredChatRooms.map((room) => (

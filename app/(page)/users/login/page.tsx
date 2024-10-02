@@ -30,8 +30,11 @@ export default function Login() {
         }, [dispatch, nickname]);
     }
     const moveToOath = () => {
-        const response = oauth()
-    }
+        const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL; // 환경변수에서 URL 가져오기
+        if (oauthUrl) {
+            const response = oauth(oauthUrl); // URL을 전달하여 oauth 함수 호출
+        }
+    };
     return (
         <div className="mx-auto my-6 max-w-lg rounded-lg border p-6 shadow">
             {/* <form> */}
