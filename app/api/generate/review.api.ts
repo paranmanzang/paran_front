@@ -14,5 +14,5 @@ export const reviewAPI = {
 
     findRoom(roomId: number, page: number, size: number) { return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/room/${roomId}`, { param: { page, size } }); },
 
-    findUser(nickname: string, page: number, size: number) { return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/user/${nickname}`, { param: { page, size } }); },
+    findUser(nickname: string, page: number, size: number) { return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews`, { param: { nickname, page, size } }); },
 }

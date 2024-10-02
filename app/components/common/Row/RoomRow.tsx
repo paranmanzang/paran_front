@@ -1,9 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getRooms, saveCurrentRoom,  saveLoading } from "@/lib/features/room.Slice";
+import { getRooms, saveCurrentRoom, saveLoading } from "@/lib/features/room.Slice";
 import { useRouter } from "next/navigation";
 import { RoomModel } from "@/app/model/room/room.model";
-import { getFiles, saveCurrentFile,  upLoading } from "@/lib/features/file.Slice";
+import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file.Slice";
 import { useAppDispatch } from "@/lib/store";
 import { findEnabledRooms } from "@/app/service/room/room.service";
 import { FileType } from "@/app/model/file/file.model";
@@ -103,7 +103,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
                   width={400}
                   height={380}
                   className="cursor-pointer rounded-t-lg"
-                  src={getRoomImage(room.id)}
+                  src={`getRoomImage(${room.id})`}
                   alt={`cover of ${room.title}`}
                   priority
                 />
