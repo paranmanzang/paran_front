@@ -6,7 +6,7 @@ import HeartCheckbox from "./HeartCheckBox";
 import { saveCurrentBook } from "@/lib/features/group/book.Slice";
 import { saveCurrentFile } from "@/lib/features/file.Slice";
 import { BookResponseModel } from "@/app/model/group/book.model";
-import { FileModel } from "@/app/model/room/file.model";
+import { FileModel } from "@/app/model/file/file.model";
 import { likeBook, removeLikeBook } from "@/app/service/group/likeBook.service";
 import { useRouter } from "next/navigation";
 
