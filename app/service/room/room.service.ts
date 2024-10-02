@@ -1,11 +1,11 @@
 
 import { RoomModel, RoomUpdateModel } from '../../model/room/room.model';
 import { AppDispatch } from '@/lib/store';
-import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom } from '@/lib/features/room.Slice';
+import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom } from '@/lib/features/room/room.slice';
 import { roomAPI } from '@/app/api/generate/room.api';
 
 // 공간 등록
-const saveRoom = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<void> => {
+const save = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.insert(roomModel)
@@ -25,7 +25,7 @@ const saveRoom = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<vo
 };
 
 // 공간 수정
-const modifidRoom = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): Promise<void> => {
+const modify = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.modify(roomModel)
@@ -43,8 +43,8 @@ const modifidRoom = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): P
         }
     }
 };
-// 공간 삭제
-const deleteRoom = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
+// 공간 삭제, 공간 승인 거절
+const drop = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.drop(id);
@@ -64,10 +64,10 @@ const deleteRoom = async (id: number, dispatch: AppDispatch): Promise<boolean> =
     }
 };
 // 등록자에 대한 공간 조회
-const findRoomsByUser = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findByUser = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.findUser(nickname, page, size);
+        const response = await roomAPI.findByUser(nickname, page, size);
         dispatch(saveRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {
@@ -84,7 +84,7 @@ const findRoomsByUser = async (nickname: string, page: number, size: number, dis
 };
 
 // 전체 공간 조회 
-const findAllRooms = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findAll = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.findAll(page, size)
@@ -103,10 +103,10 @@ const findAllRooms = async (page: number, size: number, dispatch: AppDispatch): 
     }
 };
 // 승인된 공간 조회
-const findEnabledRooms = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.findEnabled(page, size)
+        const response = await roomAPI.findByEnabled(page, size)
         dispatch(saveRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {
@@ -123,7 +123,7 @@ const findEnabledRooms = async (page: number, size: number, dispatch: AppDispatc
 };
 
 // 공간승인
-const confirmRoom = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const modifyComfrim = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.modifyConfrim(id)
@@ -142,25 +142,9 @@ const confirmRoom = async (id: number, dispatch: AppDispatch): Promise<void> => 
     }
 };
 
-//공간거절
-const rejectRoom = async (id: number, dispatch: AppDispatch): Promise<void> => {
-    try {
-        const response = await roomAPI.dropConfrim(id);
-        dispatch(removeRoom(id))
-    } catch (error: any) {
-        if (error.response) {
-            console.error('Server Error:', error.response.data);
-            throw new Error('서버에서 오류가 발생했습니다.');
-        } else if (error.request) {
-            console.error('No Response:', error.request);
-            throw new Error('서버 응답이 없습니다.');
-        } else {
-            console.error('Error:', error.message);
-            throw new Error('요청 설정 중 오류가 발생했습니다.');
-        }
-    }
-};
+//
 
 export const roomService = {
-    saveRoom, modifidRoom, deleteRoom, findRoomsByUser, findAllRooms, findEnabledRooms, confirmRoom, rejectRoom
+    save, modify, drop,
+    findByUser, findAll, findByEnabled, modifyComfrim
 }

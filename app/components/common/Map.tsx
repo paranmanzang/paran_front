@@ -3,7 +3,7 @@ import NaverMap from "./NaverMap";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
-import { getAddresses, saveLoading } from "@/lib/features/address.Slice";
+import { getAddresses, saveLoading } from "@/lib/features/room/address.slice";
 import { addressService } from "@/app/service/room/address.service";
 
 export default function Map() {
@@ -11,11 +11,11 @@ export default function Map() {
   const addresses = useSelector(getAddresses)
 
   useEffect(() => {
-    addressService.getAddressList(dispatch)
+    addressService.findAll(dispatch)
     dispatch(saveLoading(false))
   }, [dispatch])
   function search(query: string) {
-    addressService.findQuery(query, dispatch)
+    addressService.findByQuery(query, dispatch)
     dispatch(saveLoading(false))
   }
   return (

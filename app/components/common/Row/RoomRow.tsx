@@ -1,9 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getRooms, saveCurrentRoom, saveLoading } from "@/lib/features/room.Slice";
+import { getRooms, saveCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
 import { useRouter } from "next/navigation";
 import { RoomModel } from "@/app/model/room/room.model";
-import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file.Slice";
 import { useAppDispatch } from "@/lib/store";
 import { FileType } from "@/app/model/file/file.model";
 import { useSelector } from "react-redux";
@@ -12,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { roomService } from "@/app/service/room/room.service";
 import { fileService } from "@/app/service/File/file.service";
+import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file/file.slice";
 
 interface RoomRowProps {
   active: boolean;
@@ -32,7 +32,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   useEffect(() => {
     setIsActive(active);
 
-    roomService.findEnabledRooms(page, size, dispatch)
+    roomService.findByEnabled(page, size, dispatch)
     loadRoomFiles(rooms)
     dispatch(saveLoading(false))
 
