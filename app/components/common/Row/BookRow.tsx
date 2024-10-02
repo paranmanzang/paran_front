@@ -6,7 +6,7 @@ import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.Slic
 import { useAppDispatch } from "@/lib/store";
 import { findList } from "@/app/service/group/book.service";
 import { selectFileList } from "@/app/service/File/file.service";
-import { defaultFile, FileType } from "@/app/model/file.model";
+import { defaultFile, FileType } from "@/app/model/file/file.model";
 import { getFiles } from "@/lib/features/file.Slice";
 import { bookService } from "@/app/service/group/book.service";
 

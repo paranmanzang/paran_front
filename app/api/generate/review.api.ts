@@ -1,18 +1,17 @@
-import { ReviewModel, ReviewUpdateModel } from "@/app/model/review.model";
+import { ReviewModel, ReviewUpdateModel } from "@/app/model/room/review.model";
 import requests from "../requests";
 import api from "../axios";
 
 export const reviewAPI = {
+    insert(reviewModel: ReviewModel) { return api.post<ReviewModel>(requests.fetchRooms + '/reviews', reviewModel); },
 
-    save(reviewModel: ReviewModel) { return api.post<ReviewModel>(requests.fetchRooms + '/reviews/add', reviewModel); },
+    modify(reviewModel: ReviewUpdateModel) { return api.put<ReviewModel>(requests.fetchRooms + '/reviews', reviewModel); },
 
-    update(reviewModel: ReviewUpdateModel) { return api.put<ReviewModel>(requests.fetchRooms + '/reviews/update', reviewModel); },
+    drop(id: number) { return api.delete<boolean>(requests.fetchRooms + `/reviews/${id}`); },
 
-    delete(id: number) { return api.delete<boolean>(requests.fetchRooms + `/reviews/delete/${id}`); },
+    findAll(page: number, size: number) { return api.get<Page<ReviewModel>>(requests.fetchRooms + '/reviews', { param: { page, size } }); },
 
-    findAll(page: number, size: number) { return api.get<Page<ReviewModel>>(requests.fetchRooms + '/reviews/list', { param: { page, size } }); },
+    findRoom(roomId: number, page: number, size: number) { return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/room/${roomId}`, { param: { page, size } }); },
 
-    findRoom(roomId: number, page: number, size: number) { return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/list/rooms/${roomId}`, { param: { page, size } }); },
-
-    findUser(nickname: string, page: number, size: number) { return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews/list/rooms/${nickname}`, { param: { page, size } }); },
+    findUser(nickname: string, page: number, size: number) { return api.get<Page<ReviewModel>>(requests.fetchRooms + `/reviews`, { param: { nickname, page, size } }); },
 }

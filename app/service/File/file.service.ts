@@ -1,10 +1,10 @@
-import {fileAPI} from '@/app/api/generate/file.api';
-import {FileDeleteModel, FileType} from '@/app/model/file.model';
-import {addFile, removeFile, saveFiles, upLoading} from '@/lib/features/file.Slice';
-import {AppDispatch} from '@/lib/store';
+import { fileAPI } from '@/app/api/generate/file.api';
+import { FileDeleteModel, FileType } from '@/app/model/file/file.model';
+import { addFile, removeFile, saveFiles, upLoading } from '@/lib/features/file.Slice';
+import { AppDispatch } from '@/lib/store';
 
 // 파일 리스트 조회
-export const selectFileList = async (refIdList: number[], type: string, dispatch: AppDispatch): Promise<void> => {
+const selectFileList = async (refIdList: number[], type: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(upLoading(true))
         const response = await fileAPI.findAll(refIdList, type);
@@ -16,7 +16,7 @@ export const selectFileList = async (refIdList: number[], type: string, dispatch
 };
 
 // 파일 올리기
-export const uploadFile = async (file: any[], type: string, refId: number, dispatch: AppDispatch): Promise<void> => {
+const uploadFile = async (file: any[], type: string, refId: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(upLoading(true))
         const response = await fileAPI.upload(file, type, refId)
@@ -28,13 +28,17 @@ export const uploadFile = async (file: any[], type: string, refId: number, dispa
 };
 
 // 파일 삭제
-export const deleteFile = async (fileDeleteModel: FileDeleteModel, type: FileType, dispatch: AppDispatch): Promise<void> => {
+const deleteFile = async (fileDeleteModel: FileDeleteModel, type: FileType, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(upLoading(true))
         const response = await fileAPI.delete(fileDeleteModel)
-        dispatch(removeFile({path: fileDeleteModel.path, type}));
+        dispatch(removeFile({ path: fileDeleteModel.path, type }));
     } catch (error) {
         console.error('Error load file:', error);
         throw new Error('이미지 불러오기 중 오류 발생');
     }
 };
+
+export const fileService = {
+    selectFileList, uploadFile, deleteFile
+}

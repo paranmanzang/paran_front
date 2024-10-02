@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initialAccountState, AccountResultModel, AccountCancelModel } from '../../app/model/account.model'
+import { initialAccountState, AccountResultModel, AccountCancelModel } from '../../app/model/room/account.model'
 
 const accountSlice = createSlice({
   name: 'account',

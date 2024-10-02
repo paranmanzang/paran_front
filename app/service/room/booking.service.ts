@@ -1,15 +1,13 @@
-import { roomAPI } from '@/app/api/generate/room.api';
-import { BookingModel } from '@/app/model/bookings.model';
+import { BookingModel } from '@/app/model/room/bookings.model';
 import { AppDispatch } from '@/lib/store';
 import { addBooking, deleteBooking, saveBookings, saveLoading, updateBooking } from '@/lib/features/bookings.Slice';
-import { bookingAPI } from '@/app/api/generate/bookings.api';
-
+import { bookingAPI } from '@/app/api/generate/booking.api';
 
 // 예약 등록
 const save = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await roomAPI.saveBookings(bookingModel);
+    const response = await bookingAPI.insert(bookingModel);
     dispatch(addBooking(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -26,10 +24,10 @@ const save = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<
 };
 
 // 예약 상태 업데이트 (승인)
-export const saveState = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const saveState = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await bookingAPI.approval(id)
+    const response = await bookingAPI.modifyConfrim(id)
     dispatch(updateBooking(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -46,10 +44,10 @@ export const saveState = async (id: number, dispatch: AppDispatch): Promise<void
 };
 
 // 예약 거절 (삭제)
-export const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await bookingAPI.reject(id)
+    const response = await bookingAPI.dropReject(id)
     dispatch(deleteBooking(id))
   } catch (error: any) {
     if (error.response) {
@@ -66,10 +64,10 @@ export const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<
 };
 
 // 예약 삭제 (취소)
-export const dropBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const dropBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await bookingAPI.delete(id)
+    const response = await bookingAPI.drop(id)
     dispatch(deleteBooking(id))
   } catch (error: any) {
     if (error.response) {
@@ -86,7 +84,7 @@ export const dropBooking = async (id: number, dispatch: AppDispatch): Promise<vo
 };
 
 // 소모임 예약 조회
-export const findByGroupId = async (groupId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findByGroupId = async (groupId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.findGroup(groupId, page, size)
@@ -106,7 +104,7 @@ export const findByGroupId = async (groupId: number, page: number, size: number,
 };
 
 // 공간 예약 조회
-export const findByRoomId = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findByRoomId = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.findRoom(roomId, page, size)
@@ -125,7 +123,7 @@ export const findByRoomId = async (roomId: number, page: number, size: number, d
   }
 };
 
-export const booking = {
-  save, 
+export const bookingService = {
+  save, saveState, rejectBooking, dropBooking, findByGroupId, findByRoomId
 }
 
