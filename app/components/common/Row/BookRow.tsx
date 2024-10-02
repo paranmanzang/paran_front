@@ -8,6 +8,7 @@ import { findList } from "@/app/service/group/book.service";
 import { selectFileList } from "@/app/service/File/file.service";
 import { defaultFile, FileType } from "@/app/model/file.model";
 import { getFiles } from "@/lib/features/file.Slice";
+import { bookService } from "@/app/service/group/book.service";
 
 interface BookRowProps {
   active: boolean;
@@ -25,7 +26,7 @@ const BookRow = ({ active, onSelect }: BookRowProps) => {
   const size = 5; // 임의로 넣어둠
 
   useEffect(() => {
-    findList(page, size, dispatch)
+    bookService.findList(page, size, dispatch)
     const bookIds = books.map(book => book.id);
     selectFileList(bookIds, FileType.BOOK, dispatch)
   }, [active, dispatch]);

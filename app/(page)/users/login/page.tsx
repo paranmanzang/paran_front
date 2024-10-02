@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { RootState, useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
-import { findLikeBookList } from "@/app/service/group/likeBook.service";
 import { getError, getIsLoading } from "@/lib/features/group/book.Slice";
 import { login, oauth } from "@/app/service/user/login.service";
+import { likeBookService } from "@/app/service/group/likeBook.service";
 
 export default function Login() {
     const dispatch = useAppDispatch()
@@ -26,7 +26,7 @@ export default function Login() {
         })
         // 로그인 하면 개인 정보 다 가져와야해요~~~~
         useEffect(() => {
-            findLikeBookList(nickname, dispatch)
+            likeBookService.findByNickname(nickname, dispatch)
         }, [dispatch, nickname]);
     }
     const moveToOath = () => {
