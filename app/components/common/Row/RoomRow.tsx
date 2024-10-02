@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getRooms, saveCurrentRoom, saveError, saveLoading } from "@/lib/features/room.Slice";
+import { getRooms, saveCurrentRoom,  saveLoading } from "@/lib/features/room.Slice";
 import { useRouter } from "next/navigation";
-import { RoomModel } from "@/app/model/room.model";
-import { getFiles, saveCurrentFile, saveFiles, upLoading } from "@/lib/features/file.Slice";
+import { RoomModel } from "@/app/model/room/room.model";
+import { getFiles, saveCurrentFile,  upLoading } from "@/lib/features/file.Slice";
 import { useAppDispatch } from "@/lib/store";
 import { findEnabledRooms } from "@/app/service/room/room.service";
-import { FileType } from "@/app/model/file.model";
+import { FileType } from "@/app/model/file/file.model";
 import { selectFileList } from "@/app/service/File/file.service";
 import { useSelector } from "react-redux";
 import HeartCheckbox from "./HeartCheckBox";
@@ -18,7 +18,7 @@ interface RoomRowProps {
   onSelect: () => void;
 }
 
-const RoomRow = ({ active, onSelect }:RoomRowProps) => {
+const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   const [isActive, setIsActive] = useState<boolean>(active);
   const rooms = useSelector(getRooms);
   const files = useSelector(getFiles)
@@ -38,7 +38,7 @@ const RoomRow = ({ active, onSelect }:RoomRowProps) => {
 
   }, [active, dispatch, page]);
 
-  
+
 
   const loadRoomFiles = (rooms: any[]) => {
     const roomIds = rooms.map(book => book.id);

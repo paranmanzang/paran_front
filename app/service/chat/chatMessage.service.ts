@@ -1,6 +1,6 @@
 import requests from "@/app/api/requests";
 import { ChatMessageModel } from "@/app/model/chat/chat.model";
-import chatsAPI from "@/app/api/generate/chats.api";
+import chatsAPI from "@/app/api/generate/chat.api";
 import { AppDispatch } from "@/lib/store";
 import { saveError, saveLoading } from "@/lib/features/chat/chat.Slice";
 

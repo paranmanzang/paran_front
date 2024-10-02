@@ -3,11 +3,11 @@ import { useEffect, useState } from "react";
 import { TossPaymentsPayment } from "@tosspayments/tosspayments-sdk";
 import { v4 } from "uuid";
 import { loadTossPaymentsSet, savePayment } from "@/app/service/room/account.service";
-import { AccountResultModel, AmountModel } from "@/app/model/account.model";
+import { AccountResultModel, AmountModel } from "@/app/model/room/account.model";
 import { useSelector } from "react-redux";
 import { getCurrentBooking } from "@/lib/features/bookings.Slice";
 import { getCurrentUser } from "@/lib/features/users/user.Slice";
-import {  useAppDispatch } from "@/lib/store";
+import { useAppDispatch } from "@/lib/store";
 import { saveLoading } from "@/lib/features/account.Slice";
 
 interface TossPaymentResponse {

@@ -1,14 +1,14 @@
 
-import { RoomModel, RoomUpdateModel } from '../../model/room.model';
+import { RoomModel, RoomUpdateModel } from '../../model/room/room.model';
 import { AppDispatch } from '@/lib/store';
 import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom } from '@/lib/features/room.Slice';
-import { roomAPI } from '@/app/api/generate/rooms.api';
+import { roomAPI } from '@/app/api/generate/room.api';
 
 // 공간 등록
 export const saveRoom = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.save(roomModel)
+        const response = await roomAPI.insert(roomModel)
         dispatch(addRoom(response.data))
     } catch (error: any) {
         if (error.response) {
@@ -28,7 +28,7 @@ export const saveRoom = async (roomModel: RoomModel, dispatch: AppDispatch): Pro
 export const modifidRoom = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.update(roomModel)
+        const response = await roomAPI.modify(roomModel)
         dispatch(updateRoom(response.data));
     } catch (error: any) {
         if (error.response) {
@@ -47,7 +47,7 @@ export const modifidRoom = async (roomModel: RoomUpdateModel, dispatch: AppDispa
 export const deleteRoom = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.delete(id);
+        const response = await roomAPI.drop(id);
         dispatch(removeRoom(id))
         return response.data;
     } catch (error: any) {
@@ -126,7 +126,7 @@ export const findEnabledRooms = async (page: number, size: number, dispatch: App
 export const confirmRoom = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.confirm(id)
+        const response = await roomAPI.modifyConfrim(id)
         dispatch(updateRoom(response.data))
     } catch (error: any) {
         if (error.response) {
@@ -145,7 +145,7 @@ export const confirmRoom = async (id: number, dispatch: AppDispatch): Promise<vo
 //공간거절
 export const rejectRoom = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
-        const response = await roomAPI.reject(id);
+        const response = await roomAPI.dropConfrim(id);
         dispatch(removeRoom(id))
     } catch (error: any) {
         if (error.response) {

@@ -1,7 +1,5 @@
-import api from "@/app/api/axios";
-import { roomAPI } from "@/app/api/generate/rooms.api";
-import requests from "@/app/api/requests";
-import { TimeModel } from "@/app/model/room.model";
+import { roomAPI } from "@/app/api/generate/room.api";
+import { TimeModel } from "@/app/model/room/room.model";
 import { saveLoading } from "@/lib/features/room.Slice";
 import { AppDispatch } from "@/lib/store";
 

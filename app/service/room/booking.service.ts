@@ -1,13 +1,13 @@
-import { BookingModel } from '@/app/model/bookings.model';
+import { BookingModel } from '@/app/model/room/bookings.model';
 import { AppDispatch } from '@/lib/store';
 import { addBooking, deleteBooking, saveBookings, saveLoading, updateBooking } from '@/lib/features/bookings.Slice';
-import { bookingAPI } from '@/app/api/generate/bookings.api';
+import { bookingAPI } from '@/app/api/generate/booking.api';
 
 // 예약 등록
 export const saveBooking = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await bookingAPI.save(bookingModel);
+    const response = await bookingAPI.insert(bookingModel);
     dispatch(addBooking(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -27,7 +27,7 @@ export const saveBooking = async (bookingModel: BookingModel, dispatch: AppDispa
 export const saveState = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await bookingAPI.approval(id)
+    const response = await bookingAPI.modifyConfrim(id)
     dispatch(updateBooking(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -47,7 +47,7 @@ export const saveState = async (id: number, dispatch: AppDispatch): Promise<void
 export const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await bookingAPI.reject(id)
+    const response = await bookingAPI.dropReject(id)
     dispatch(deleteBooking(id))
   } catch (error: any) {
     if (error.response) {
@@ -67,7 +67,7 @@ export const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<
 export const dropBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await bookingAPI.delete(id)
+    const response = await bookingAPI.drop(id)
     dispatch(deleteBooking(id))
   } catch (error: any) {
     if (error.response) {

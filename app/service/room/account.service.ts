@@ -1,10 +1,8 @@
-import api from '../../api/axios';
-import requests from '@/app/api/requests';
-import { AccountCancelModel, AccountModel, AccountResultModel } from '@/app/model/account.model';
+import { AccountCancelModel, AccountModel, AccountResultModel } from '@/app/model/room/account.model';
 import { AppDispatch } from '@/lib/store';
 import { ANONYMOUS, TossPaymentsPayment } from '@tosspayments/tosspayments-sdk';
 import { saveLoading } from '@/lib/features/account.Slice';
-import { accountAPI } from '@/app/api/generate/accounts.api';
+import { accountAPI } from '@/app/api/generate/account.api';
 
 export const loadTossPaymentsSet = async (dispath: AppDispatch): Promise<TossPaymentsPayment> => {
   try {
@@ -28,7 +26,7 @@ export const loadTossPaymentsSet = async (dispath: AppDispatch): Promise<TossPay
 export const savePayment = async (model: AccountResultModel, dispath: AppDispatch): Promise<boolean> => {
   try {
     dispath(saveLoading(true))
-    const response = await accountAPI.save(model);
+    const response = await accountAPI.insert(model);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -68,7 +66,7 @@ export const findByOrderId = async (orderId: string, dispath: AppDispatch): Prom
 export const cancelPayment = async (model: AccountCancelModel, dispath: AppDispatch): Promise<boolean> => {
   try {
     dispath(saveLoading(true))
-    const response = await accountAPI.cancel(model)
+    const response = await accountAPI.modify(model)
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -126,7 +124,7 @@ export const findByGroup = async (groupId: number, page: number, size: number, d
 export const findByRoom = async (roomId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel[]> => {
   try {
     dispath(saveLoading(true))
-    const response = await api.get<Page<AccountModel>>(requests.fetchRooms + `/accounts/list/rooms/${roomId}`, { params: { page, size } });
+    const response = await accountAPI.findRoom(roomId, page, size)
     return response.data.content;
   } catch (error: any) {
     if (error.response) {

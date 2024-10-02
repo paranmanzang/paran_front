@@ -1,6 +1,6 @@
 import { CommentRequestModel, CommentResponseModel } from '@/app/model/comment/comment.model';
 import { ExceptionResponseModel } from '@/app/model/error.model';
-import {commentsAPI} from "@/app/api/generate/commants.api";
+import {commentsAPI} from "@/app/api/generate/commantsapi";
 import {AppDispatch} from "@/lib/store";
 import {saveError, saveLoading} from "@/lib/features/comment/comment.Slice";
 

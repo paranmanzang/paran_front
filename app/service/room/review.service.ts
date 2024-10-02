@@ -1,13 +1,13 @@
-import { ReviewModel, ReviewUpdateModel } from '@/app/model/review.model';
+import { ReviewModel, ReviewUpdateModel } from '@/app/model/room/review.model';
 import { AppDispatch } from '@/lib/store';
 import { addReview, deleteReview, saveLoading, saveReviews, updateReview } from '@/lib/features/review.Slice';
-import { reviewAPI } from '@/app/api/generate/reviews.api';
+import { reviewAPI } from '@/app/api/generate/review.api';
 
 // 리뷰 등록
 export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await reviewAPI.save(reviewModel);
+    const response = await reviewAPI.insert(reviewModel);
     dispatch(addReview(response.data))
 
   } catch (error: any) {
@@ -28,7 +28,7 @@ export const saveReview = async (reviewModel: ReviewModel, dispatch: AppDispatch
 export const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
-    const response = await reviewAPI.update(reviewModel);
+    const response = await reviewAPI.modify(reviewModel);
     dispatch(updateReview(response.data))
   } catch (error: any) {
     if (error.response) {
@@ -48,7 +48,7 @@ export const modifildReview = async (reviewModel: ReviewUpdateModel, dispatch: A
 export const dropReview = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
   try {
     dispatch(saveLoading(true))
-    const response = await reviewAPI.delete(id)
+    const response = await reviewAPI.drop(id)
     dispatch(deleteReview(id))
     return response.data;
   } catch (error: any) {
