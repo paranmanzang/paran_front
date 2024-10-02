@@ -1,8 +1,13 @@
 export interface UserModel {
-  id?: number;
-  name: string;
-  password: string;
-  nickname: string;
+  id?: string;
+  username?: string;
+  password?: string;
+  nickname?: string;
+  role?: string;
+  tel?: string;
+  declarationCount?: number;
+  state?:boolean
+  logoutAt?: Date | string;
 }
 
 // 상태 인터페이스 정의
@@ -11,6 +16,7 @@ interface UserState {
   users: UserModel[];
   isLoading: boolean;
   error: string | null;
+  successMessage: string | null; // 성공 메시지 추가
 }
 
 // 초기 상태
@@ -18,5 +24,7 @@ export const initialUserState: UserState = {
   currentUser: null,
   users: [],
   isLoading: false,
-  error: null
+  error: null,
+  successMessage: null
 };
+
