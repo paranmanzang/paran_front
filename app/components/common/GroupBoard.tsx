@@ -1,17 +1,17 @@
 "use client"
-import {useEffect, useState} from "react";
-import {getCurrentGroup, getGroupPosts, saveCurrentGroupPost} from "@/lib/features/group/group.Slice";
-import {useAppDispatch} from "@/lib/store";
-import {useSelector} from "react-redux";
-import {useRouter} from "next/navigation";
-import {groupPostService} from "@/app/service/group/groupPost.service";
+import { useEffect, useState } from "react";
+import { getCurrentGroup, getGroupPosts, saveCurrentGroupPost } from "@/lib/features/group/group.slice";
+import { useAppDispatch } from "@/lib/store";
+import { useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import { groupPostService } from "@/app/service/group/groupPost.service";
 
 export default function GroupBoard() {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [active, setActive] = useState(false);
     const group = useSelector(getCurrentGroup);
-    const {groupPostsNotice, groupPostsGeneral} = useSelector(getGroupPosts);
+    const { groupPostsNotice, groupPostsGeneral } = useSelector(getGroupPosts);
     const groupId = group?.id ?? ''
     const page = 5 // 임의 값
     const size = 5 // 임의 값
@@ -29,7 +29,7 @@ export default function GroupBoard() {
 
     const onClickToDetail = (currentId: number | undefined) => {
         if (currentId !== undefined) {
-            const selectedPost = postsToShow.find(({id}) => id === currentId);
+            const selectedPost = postsToShow.find(({ id }) => id === currentId);
             if (selectedPost) {
                 dispatch(saveCurrentGroupPost(selectedPost)); // 선택한 게시물 저장
 
@@ -43,9 +43,9 @@ export default function GroupBoard() {
 
 
     return (
-        <div className="max-w-sm mx-auto bg-green-100 my-8 p-4">
+        <div className="mx-auto my-8 max-w-sm bg-green-100 p-4">
             {/* 카테고리 선택 탭 */}
-            <div className="flex justify-around mb-4">
+            <div className="mb-4 flex justify-around">
                 <button
                     className={`p-2 ${selectedCategory === '공지 사항' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
                     onClick={() => setSelectedCategory('공지 사항')}
@@ -65,11 +65,11 @@ export default function GroupBoard() {
             <ul>
                 {postsToShow.length > 0 ? (
                     postsToShow.map((post, index) => (
-                        <li key={index} className="p-6 m-2 bg-white" onClick={() => onClickToDetail(post.id)}>
-                            <div className="font-bold text-lg">{post.title}</div>
-                            <div className="font-bold text-lg">{post.nickname}</div>
-                            <div className="font-bold text-lg">{post.createAt}</div>
-                            <div className="font-bold text-lg">{post.viewCount}</div>
+                        <li key={index} className="m-2 bg-white p-6" onClick={() => onClickToDetail(post.id)}>
+                            <div className="text-lg font-bold">{post.title}</div>
+                            <div className="text-lg font-bold">{post.nickname}</div>
+                            <div className="text-lg font-bold">{post.createAt}</div>
+                            <div className="text-lg font-bold">{post.viewCount}</div>
                         </li>
                     ))
                 ) : (

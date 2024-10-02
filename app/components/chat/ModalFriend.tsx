@@ -2,8 +2,8 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import Alert from '../common/Alert';
-import { getUsers } from "@/lib/features/users/user.Slice";
-import { getCheckedNames } from "@/lib/features/users/users.Slice";
+import { getUsers } from "@/lib/features/users/user.slice";
+import { getCheckedNames } from "@/lib/features/users/users.slice";
 
 export default function ModalFriend() {
     const [alertState, setAlertState] = useState({ isOpen: false, message: "" });

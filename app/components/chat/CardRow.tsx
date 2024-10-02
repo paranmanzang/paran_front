@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import {ChatRoomModel} from "@/app/model/chat/chat.model";
-import {useAppDispatch} from "@/lib/store";
-import {saveCurrentChatRoom} from "@/lib/features/chat/chat.Slice";
-import {useRouter} from "next/navigation";
+import { ChatRoomModel } from "@/app/model/chat/chat.model";
+import { useAppDispatch } from "@/lib/store";
+import { saveCurrentChatRoom } from "@/lib/features/chat/chat.slice";
+import { useRouter } from "next/navigation";
 
 interface CardRowProps {
     chatRoom: ChatRoomModel
@@ -11,8 +11,8 @@ interface CardRowProps {
 
 //Path variable 로 받은 id 값으로 연결하기
 export default function CardRow({
-                                    chatRoom
-                                }: CardRowProps) {
+    chatRoom
+}: CardRowProps) {
     const dispatch = useAppDispatch()
     const router = useRouter()
     const onClickToDetail = () => {

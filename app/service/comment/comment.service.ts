@@ -1,8 +1,8 @@
-import {CommentRequestModel, CommentResponseModel} from '@/app/model/comment/comment.model';
-import {ExceptionResponseModel} from '@/app/model/error.model';
-import {commentAPI} from "@/app/api/generate/commant.api";
-import {AppDispatch} from "@/lib/store";
-import {saveError, saveLoading} from "@/lib/features/comment/comment.Slice";
+import { CommentRequestModel, CommentResponseModel } from '@/app/model/comment/comment.model';
+import { ExceptionResponseModel } from '@/app/model/error.model';
+import { commentAPI } from "@/app/api/generate/commant.api";
+import { AppDispatch } from "@/lib/store";
+import { saveError, saveLoading } from "@/lib/features/comment/comment.slice";
 
 
 // 댓글 등록

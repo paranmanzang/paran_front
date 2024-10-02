@@ -5,17 +5,12 @@ import Image from "next/image";
 export default function AdminUser() {
   const router = useRouter();
 
-  const handleGoBack = () => {
-    router.push('/');
-  };
-  const handlePageUserJoin = () => {
-    router.push('/account');
-  }
-  const handlePageUserUpdate = () => {
-    router.push('/admin/userUpdate');
-  }
-  const handlePage = () => {
-    //{유저아이디}
+  const handleGoBack = () => {router.push('/');};
+  const handlePageUserJoin = () => {router.push('/account');}
+  const handlePageUserUpdate = () => { router.push('/admin/userUpdate')}
+
+  // const handlePage = ({id}: string) => {//{유저아이디}
+    const handlePage = () => {
     router.push(`/users/update/2`);
   }
 

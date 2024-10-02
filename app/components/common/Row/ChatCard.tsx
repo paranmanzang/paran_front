@@ -10,28 +10,8 @@ interface ChatCardProps {
 }
 
 const ChatCard = ({ chat, active, onSelect }: ChatCardProps) => {
-  const handleLikeChange = (isLiked: boolean) => {
-    console.log('좋아요 상태:', isLiked);
-    // 여기에서 필요한 로직을 수행 (예: API 호출)
-  };
-
   return (
     <div className="relative max-w-sm">
-      <form className="absolute top-2 w-full px-3">
-        <div className="flex justify-between">
-          <div id="likeBtn">
-            <HeartCheckbox onChange={handleLikeChange} />
-          </div>
-          <div id="selectBtn">
-            <input 
-              id="select" 
-              type="checkbox" 
-              className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500" 
-            />
-            <label htmlFor="select" hidden>chatSelect</label>
-          </div>
-        </div>
-      </form>
       <div
         className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${
           active ? 'ring-2 ring-green-500' : ''

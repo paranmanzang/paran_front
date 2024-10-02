@@ -1,8 +1,8 @@
-import {AppDispatch} from "@/lib/store";
-import {addLikedRoom, deleteLikedRoom, saveLikedRooms} from "@/lib/features/users/users.Slice";
-import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
+import { AppDispatch } from "@/lib/store";
+import { addLikedRoom, deleteLikedRoom, saveLikedRooms } from "@/lib/features/users/users.slice";
+import { saveError, saveLoading } from "@/lib/features/users/user.slice";
 import likeRoomAPI from "@/app/api/generate/likeRoom.api";
-import {LikeRoomModel} from "@/app/model/user/users.model";
+import { LikeRoomModel } from "@/app/model/user/users.model";
 
 const insert = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promise<void> => {
     try {

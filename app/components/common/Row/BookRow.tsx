@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BookCard from "./BookCard";
-import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.Slice";
+import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.slice";
 import { useAppDispatch } from "@/lib/store";
 import { defaultFile, FileType } from "@/app/model/file/file.model";
 import { bookService } from "@/app/service/group/book.service";
@@ -14,7 +14,7 @@ interface BookRowProps {
   onSelect: () => void;
 }
 
-const BookRow = ({ active, onSelect }: BookRowProps) => {
+export default function BookRow({ active, onSelect }: BookRowProps) {
   const dispatch = useAppDispatch();
   const books = useSelector(getBooks);
   const files = useSelector(getFiles);
@@ -27,7 +27,6 @@ const BookRow = ({ active, onSelect }: BookRowProps) => {
   useEffect(() => {
     bookService.findList(page, size, dispatch)
     const bookIds = books.map(book => book.id);
-    fileService.selectFileList(bookIds, FileType.BOOK, dispatch)
     fileService.selectFileList(bookIds, FileType.BOOK, dispatch)
   }, [active, dispatch]);
 
@@ -42,5 +41,3 @@ const BookRow = ({ active, onSelect }: BookRowProps) => {
     </div>
   );
 };
-
-export default BookRow;

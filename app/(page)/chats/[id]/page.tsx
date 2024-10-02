@@ -1,20 +1,20 @@
 "use client";
-import {useCallback, useEffect, useMemo, useRef, useState} from "react";
-import {useRouter} from "next/navigation";
-import {useSelector} from "react-redux";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 import dynamic from 'next/dynamic';
 
-import {ChatMessageModel, ChatRoomModel, ChatUserModel} from "@/app/model/chat/chat.model";
-import {getCurrentChatRoom, getError, getIsLoading, saveError, saveLoading} from "@/lib/features/chat/chat.Slice";
-import {chatRoomService} from "@/app/service/chat/chatRoom.service";
-import {chatUserService} from "@/app/service/chat/chatUser.service";
-import {chatMessageService} from "@/app/service/chat/chatMessage.service";
-import {useAppDispatch} from "@/lib/store";
+import { ChatMessageModel, ChatRoomModel, ChatUserModel } from "@/app/model/chat/chat.model";
+import { getCurrentChatRoom, getError, getIsLoading, saveError, saveLoading } from "@/lib/features/chat/chat.slice";
+import { chatRoomService } from "@/app/service/chat/chatRoom.service";
+import { chatUserService } from "@/app/service/chat/chatUser.service";
+import { chatMessageService } from "@/app/service/chat/chatMessage.service";
+import { useAppDispatch } from "@/lib/store";
 
-const ChatPage = dynamic(() => import("@/app/components/chat/ChatPages/ChatPage"), {ssr: false});
-const MyChatList = dynamic(() => import("@/app/components/chat/MyChatList"), {ssr: false});
-const PeopleList = dynamic(() => import("@/app/components/chat/PeopleList"), {ssr: false});
-const MyProfile = dynamic(() => import("@/app/components/chat/MyProfile"), {ssr: false});
+const ChatPage = dynamic(() => import("@/app/components/chat/ChatPages/ChatPage"), { ssr: false });
+const MyChatList = dynamic(() => import("@/app/components/chat/MyChatList"), { ssr: false });
+const PeopleList = dynamic(() => import("@/app/components/chat/PeopleList"), { ssr: false });
+const MyProfile = dynamic(() => import("@/app/components/chat/MyProfile"), { ssr: false });
 
 export default function ChatRoom() {
     const router = useRouter();
@@ -52,7 +52,7 @@ export default function ChatRoom() {
             return;
         }
 
-        chatRoomService.insertLastReadMessageTime({roomId, nickname, dispatch})
+        chatRoomService.insertLastReadMessageTime({ roomId, nickname, dispatch })
             .then((isSaved) => {
                 if (isSaved) {
                     console.log("마지막 읽은 메시지 시간이 저장되었습니다.");
@@ -67,7 +67,7 @@ export default function ChatRoom() {
 
     useEffect(() => {
 
-        Promise.all([chatRoomService.findList({nickname, dispatch}), chatUserService.findList({roomId, dispatch})])
+        Promise.all([chatRoomService.findList({ nickname, dispatch }), chatUserService.findList({ roomId, dispatch })])
             .then(([chatRoomsResult, chatUsersResult]) => {
                 if (chatRoomsResult && chatUsersResult) {
                     setChatRooms(chatRoomsResult);
@@ -111,18 +111,18 @@ export default function ChatRoom() {
 
     const memoizedChatPage = useMemo(() => {
         console.log("Rendering ChatPage with messages and roomId:", messages, roomId);
-        return <ChatPage messages={messages} roomId={roomId}/>;
+        return <ChatPage messages={messages} roomId={roomId} />;
     }, [messages, roomId]);
 
     const memoizedMyChatList = useMemo(() => {
         console.log("Rendering MyChatList with chatRooms and roomId:", chatRooms, roomId);
-        return <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId}/>;
+        return <MyChatList chatRooms={chatRooms} currentChatRoomId={roomId} />;
     }, [chatRooms, roomId]);
 
     const memoizedPeopleList = useMemo(() => {
         console.log("Rendering PeopleList with chatUsers:", chatUsers);
         return chatUsers.map((user) => (
-            <PeopleList key={user.nickname} chatUser={user}/>
+            <PeopleList key={user.nickname} chatUser={user} />
         ));
     }, [chatUsers]);
 
@@ -169,7 +169,7 @@ export default function ChatRoom() {
                         <ul className="w-full">
                             {memoizedPeopleList}
                         </ul>
-                        <MyProfile/>
+                        <MyProfile />
                     </section>
                     <article className="flex w-4/5 flex-col bg-blue-200 ">
                         <aside className="w-full">

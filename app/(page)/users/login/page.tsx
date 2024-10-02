@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { RootState, useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
-import { getError, getIsLoading } from "@/lib/features/group/book.Slice";
+import { getError, getIsLoading } from "@/lib/features/group/book.slice";
 import { login, oauth } from "@/app/service/user/login.service";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 

@@ -6,10 +6,10 @@ import BookingModal from "../BookingModal";
 import Alert from "../Alert";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
-import { addLikedBook, getCurrentBook, getLikedBooks, saveError } from "@/lib/features/group/book.Slice";
+import { addLikedBook, getCurrentBook, getLikedBooks, saveError } from "@/lib/features/group/book.slice";
 import { getCurrentRoom } from "@/lib/features/room/room.slice";
-import { getCurrentGroupPost } from "@/lib/features/group/group.Slice";
-import { saveGlobalLoading } from "@/lib/features/error.Slice";
+import { getCurrentGroupPost } from "@/lib/features/group/group.slice";
+import { saveGlobalLoading } from "@/lib/features/error.slice";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 
@@ -32,7 +32,6 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
 
     const dispatch = useAppDispatch()
     const likedBooks = useSelector(getLikedBooks);
-    // const user = useSeletctor((state: RootState ) => getUserId(state));
     const book = useSelector(getCurrentBook);
     const room = useSelector(getCurrentRoom);
     const groupPost = useSelector(getCurrentGroupPost);

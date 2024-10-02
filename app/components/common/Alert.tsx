@@ -1,14 +1,14 @@
 import React from 'react';
 
 interface AlertProps {
-  message: string;
-  isOpen: boolean;
-  onClose: () => void;
-  onConfirm?: () => void;
-  showConfirm?: boolean;
+  message: string,
+  isOpen: boolean,
+  onClose: () => void,
+  onConfirm?: () => void,
+  showConfirm?: boolean,
 }
 
-const Alert = ({ message, isOpen, onClose, onConfirm, showConfirm = false }: AlertProps) => {
+export default function Alert({message, isOpen, onClose, onConfirm, showConfirm = false }: AlertProps){
   if (!isOpen) return null;
   return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
@@ -41,4 +41,3 @@ const Alert = ({ message, isOpen, onClose, onConfirm, showConfirm = false }: Ale
       </div>
   );
 };
-export default Alert;

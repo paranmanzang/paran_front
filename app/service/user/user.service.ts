@@ -1,10 +1,8 @@
 import { UserModel } from "@/app/model/user/user.model";
 import { AppDispatch } from "@/lib/store";
-import {logoutUser, saveError, saveLoading, saveSuccess, saveUserDetail, saveUserList} from "@/lib/features/users/user.Slice";
+import { logoutUser, saveError, saveLoading, saveSuccess, saveUserDetail, saveUserList } from "@/lib/features/users/user.slice";
 import userAPI from "@/app/api/generate/user.api";
 import axios from "axios";
-
-
 
 // 사용자 등록
 const insertUser = async (userModel: UserModel, dispatch: AppDispatch): Promise<void> => {

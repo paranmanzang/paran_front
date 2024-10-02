@@ -5,8 +5,8 @@ import { ChatRoomModel } from "@/app/model/chat/chat.model";
 import { useRouter } from "next/navigation";
 import { chatRoomService } from "@/app/service/chat/chatRoom.service";
 import { useAppDispatch } from "@/lib/store";
-import { saveCurrentChatRoom } from "@/lib/features/chat/chat.Slice";
-import { getCurrentUser } from "@/lib/features/users/user.Slice";
+import { saveCurrentChatRoom } from "@/lib/features/chat/chat.slice";
+import { getCurrentUser } from "@/lib/features/users/user.slice";
 import { useSelector } from "react-redux";
 
 
@@ -61,7 +61,7 @@ export default function ChatRoomList({ chatRooms, currentChatRoomId }: ChatRoomL
             <ul
                 id="popover-bottom"
                 className={`${styles.listUp} transition-opacity duration-300 ease-in-out ${isPopoverVisible ? `${styles.visible}` : `${styles.invisible}`
-                }`}
+                    }`}
             >
                 {filteredChatRooms && filteredChatRooms.length > 0 ? (
                     filteredChatRooms.map((room) => (

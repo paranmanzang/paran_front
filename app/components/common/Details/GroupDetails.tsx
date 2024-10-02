@@ -1,9 +1,9 @@
 "use client"
-import {useSelector} from "react-redux";
-import {getCurrentGroup, getGroupMembers, getGroups} from "@/lib/features/group/group.Slice";
-import {useAppDispatch} from "@/lib/store";
-import {useEffect, useMemo} from "react";
-import {groupService} from "@/app/service/group/group.service";
+import { useSelector } from "react-redux";
+import { getCurrentGroup, getGroupMembers, getGroups } from "@/lib/features/group/group.slice";
+import { useAppDispatch } from "@/lib/store";
+import { useEffect, useMemo } from "react";
+import { groupService } from "@/app/service/group/group.service";
 
 export default function GroupDetails() {
     const dispatch = useAppDispatch()
@@ -13,7 +13,7 @@ export default function GroupDetails() {
 
     useEffect(() => {
         if (group?.id !== undefined) {
-           groupService.findUserById(group.id, dispatch);
+            groupService.findUserById(group.id, dispatch);
         }
     }, [group?.id, dispatch]);
 

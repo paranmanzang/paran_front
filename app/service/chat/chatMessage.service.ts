@@ -1,10 +1,10 @@
 import requests from "@/app/api/requests";
-import {ChatMessageModel} from "@/app/model/chat/chat.model";
-import {AppDispatch} from "@/lib/store";
-import {saveError, saveLoading} from "@/lib/features/chat/chat.Slice";
+import { ChatMessageModel } from "@/app/model/chat/chat.model";
+import { AppDispatch } from "@/lib/store";
+import { saveError, saveLoading } from "@/lib/features/chat/chat.slice";
 import chatMessageAPI from "@/app/api/generate/chatMessage.api";
 
-const findList = async ({roomId, nickname, onMessage}: {
+const findList = async ({ roomId, nickname, onMessage }: {
     roomId: string,
     nickname: string,
     onMessage: (message: ChatMessageModel) => void
@@ -63,7 +63,7 @@ const findList = async ({roomId, nickname, onMessage}: {
 };
 
 
-const insert = async ({nickname, roomId, message, dispatch}: {
+const insert = async ({ nickname, roomId, message, dispatch }: {
     nickname: string,
     roomId: string,
     message: string,
@@ -82,7 +82,7 @@ const insert = async ({nickname, roomId, message, dispatch}: {
     }
 }
 
-const findUnReadTotalCount = async ({nickname, dispatch}: {
+const findUnReadTotalCount = async ({ nickname, dispatch }: {
     nickname: string,
     dispatch: AppDispatch
 }): Promise<number> => {

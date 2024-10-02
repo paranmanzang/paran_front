@@ -1,8 +1,8 @@
-import {AppDispatch} from "@/lib/store";
-import {addLikedPost, deleteLikedPost, saveLikedPosts} from "@/lib/features/users/users.Slice";
-import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
+import { AppDispatch } from "@/lib/store";
+import { addLikedPost, deleteLikedPost, saveLikedPosts } from "@/lib/features/users/users.slice";
+import { saveError, saveLoading } from "@/lib/features/users/user.slice";
 import likePostAPI from "@/app/api/generate/likePost.api";
-import {LikePostModel} from "@/app/model/user/users.model";
+import { LikePostModel } from "@/app/model/user/users.model";
 
 // 좋아요
 const insert = async (likePostModel: LikePostModel, dispatch: AppDispatch

@@ -77,6 +77,4 @@ export const userAPI = {
         }
 }
 
-
-
 export default userAPI;

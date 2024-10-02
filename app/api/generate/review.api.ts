@@ -3,7 +3,6 @@ import requests from "../requests";
 import api from "../axios";
 
 export const reviewAPI = {
-
     insert(reviewModel: ReviewModel) { return api.post<ReviewModel>(requests.fetchRooms + '/reviews', reviewModel); },
 
     modify(reviewModel: ReviewUpdateModel) { return api.put<ReviewModel>(requests.fetchRooms + '/reviews', reviewModel); },
