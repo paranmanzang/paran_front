@@ -4,11 +4,10 @@ import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
 import usersAPI from "@/app/api/generate/users.api";
 import {LikeRoomModel} from "@/app/model/user/users.model";
 
-export const likeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch
-): Promise<void> => {
+export const insertLikeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await usersAPI.addLikeRoomAPI(likeRoomModel)
+        const response = await usersAPI.insertLikeRoomAPI(likeRoomModel)
         if ('id' in response.data && 'nickname' in response.data) {
             dispatch(addLikedRoom(response.data))
         }
@@ -21,10 +20,10 @@ export const likeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispat
 };
 
 // 좋아요 취소
-export const removeLikeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promise<void> => {
+export const dropLikeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await usersAPI.removeLikeRoomAPI(likeRoomModel)
+        const response = await usersAPI.dropLikeRoomAPI(likeRoomModel)
         if (likeRoomModel.id !== undefined) {
             dispatch(deleteLikedRoom(likeRoomModel.id));
         }

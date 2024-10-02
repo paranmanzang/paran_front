@@ -5,10 +5,10 @@ import usersAPI from "@/app/api/generate/users.api";
 import {addFriend, deleteFriend, saveFriends} from "@/lib/features/users/users.Slice";
 
 // 친구 추가
-export const addfriends = async (friendModel: FriendModel, dispatch: AppDispatch): Promise<void> => {
+export const insertFriends = async (friendModel: FriendModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
-        const response = await usersAPI.addFriendAPI(friendModel); // API 호출
+        const response = await usersAPI.insertFriendAPI(friendModel); // API 호출
 
         // 응답 상태가 성공적이고, id와 nickname이 포함된 경우만 디스패치
         if (response.status === 200 && 'id' in response.data && 'nickname' in response.data) {
@@ -25,10 +25,10 @@ export const addfriends = async (friendModel: FriendModel, dispatch: AppDispatch
 };
 
 // 친구 삭제
-export const removeLikePost = async (id: number, dispatch: AppDispatch): Promise<void> => {
+export const dropLikePost = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
-        const response = await usersAPI.removeFriendAPI(id); // API 호출
+        const response = await usersAPI.dropFriendAPI(id); // API 호출
         if (response.status === 200) {
             dispatch(deleteFriend(id)); // 친구 삭제
         } else {

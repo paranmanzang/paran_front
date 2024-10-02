@@ -23,10 +23,10 @@ export const insertDPost = async (declarationPostModel: DeclarationPostModel, di
 };
 
 //게시글 삭제
-export const deleteDPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
+export const dropDPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
-        const response = await usersAPI.deleteDeclarationPostAPI(id);
+        const response = await usersAPI.dropDeclarationPostAPI(id);
         // 응답 상태가 성공적인 경우만 디스패치
         if (response.status === 200) {
             dispatch(deleteDeclarationPost(id)); // id만 전달

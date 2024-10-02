@@ -3,27 +3,27 @@ import requests from "@/app/api/requests";
 import {UserModel} from "@/app/model/user/user.model";
 import {AdminPostModel} from "@/app/model/user/users.model";
 import {ExceptionResponseModel} from "@/app/model/error.model";
-
+//insert, drop, modify, find**
 export const userAPI = {
 
-    createUserAPI: (userModel: UserModel) => {
+    insertUserAPI: (userModel: UserModel) => {
         return api.post<UserModel | ExceptionResponseModel>(requests.fetchUsers + '/create', userModel);
     },
-    getAllUserAPI: (nickname: string) => {
+    findAllUserAPI: (nickname: string) => {
         return api.get(`${requests.fetchUsers}/getAllUsers`, {
             params: {
                 nickname
             }
         });
     },
-    getDetailUserAPI: (nickname:string )=> {
+    findDetailUserAPI: (nickname:string )=> {
         return api.get(`${requests.fetchUsers}/getUserDetail`, {
             params: {
                 nickname
             }
         });
     },
-    updatePasswordAPI: (nickname: string, newPassword: string) => {
+    modifyPasswordAPI: (nickname: string, newPassword: string) => {
         return api.put(`${requests.fetchUsers}/updatePassword`, {
             params: {
                 nickname,
@@ -31,7 +31,7 @@ export const userAPI = {
             }
         });
     },
-    updateRoleAPI: (nickname: string, newRole: string) => {
+    modifyRoleAPI: (nickname: string, newRole: string) => {
         return api.put(`${requests.fetchUsers}/updateRole`, {
             params: {
                 nickname,
@@ -39,21 +39,21 @@ export const userAPI = {
             }
         });
     },
-    updateDeclarationAPI: (nickname: string) => {
+    modifyDeclarationAPI: (nickname: string) => {
         return api.put(`${requests.fetchUsers}/updateDeclaration`, {
             params: {
                 nickname
             }
         });
     },
-    deleteUserAPI: (nickname: string) => {
+    dropUserAPI: (nickname: string) => {
         return api.delete(`${requests.fetchUsers}/delete`, {
             params: {
                 nickname
             }
         });
     },
-    logoutTimeAPI : (nickname: string) => {
+    modifyLogoutTimeAPI : (nickname: string) => {
         return api.put(`${requests.fetchUsers}/logoutUserTime`, {
             params: {
                 nickname

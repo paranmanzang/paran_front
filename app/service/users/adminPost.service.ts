@@ -3,6 +3,7 @@ import {AppDispatch} from "@/lib/store";
 import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
 import {usersAPI} from "@/app/api/generate/users.api";
 import {addAdminPost, deleteAdminPost, saveAdminPosts, updateAdminPost} from "@/lib/features/users/users.Slice";
+//insert, drop, modify, find**
 
 
 //게시물 추가
@@ -23,10 +24,10 @@ export const insertAPost = async (adminPostModel: AdminPostModel, dispatch: AppD
 };
 //게시물 수정
 
-export const updateAPost = async (id: number, adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
+export const modifyAPost = async (id: number, adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await usersAPI.updateAdminPostAPI(id, adminPostModel)
+        const response = await usersAPI.modifyAdminPostAPI(id, adminPostModel)
         if ('id' in response.data && 'title' in response.data) {
             dispatch(updateAdminPost(response.data))
         }
@@ -39,10 +40,10 @@ export const updateAPost = async (id: number, adminPostModel: AdminPostModel, di
     }
 };
 //게시글 삭제
-export const deleteAPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
+export const dropAPost = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
-        const response = await usersAPI.deleteAdminPostAPI(id);
+        const response = await usersAPI.dropAdminPostAPI(id);
         // 응답 상태가 성공적인 경우만 디스패치
         if (response.status === 200) {
             dispatch(deleteAdminPost(id)); // id만 전달
@@ -106,7 +107,7 @@ export const findAPostsDetial = async (id: number, dispatch: AppDispatch): Promi
     }
 };
 //조회수
-export const getViewCount = async (id: number, dispatch: AppDispatch): Promise<void> => {
+export const findViewCount = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await usersAPI.findAdminPostViewCountAPI(id)

@@ -5,11 +5,11 @@ import usersAPI from "@/app/api/generate/users.api";
 import {LikePostModel} from "@/app/model/user/users.model";
 
 // 좋아요
-export const likePost = async (likePostModel: LikePostModel, dispatch: AppDispatch
+export const insertPost = async (likePostModel: LikePostModel, dispatch: AppDispatch
 ): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await usersAPI.addLikePostAPI(likePostModel)
+        const response = await usersAPI.insertLikePostAPI(likePostModel)
         if ('id' in response.data && 'nickname' in response.data) {
             dispatch(addLikedPost(response.data))
         }
@@ -22,10 +22,10 @@ export const likePost = async (likePostModel: LikePostModel, dispatch: AppDispat
 };
 
 // 좋아요 취소
-export const removeLikePost = async (likePostModel: LikePostModel, dispatch: AppDispatch): Promise<void> => {
+export const dropLikePost = async (likePostModel: LikePostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await usersAPI.removeLikePostAPI(likePostModel)
+        const response = await usersAPI.dropLikePostAPI(likePostModel)
         if (likePostModel.id !== undefined) {
             dispatch(deleteLikedPost(likePostModel.id));
         }

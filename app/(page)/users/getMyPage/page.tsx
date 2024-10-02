@@ -1,17 +1,20 @@
-"use client"; // 클라이언트 컴포넌트로 설정
-import { QueryClient, QueryClientProvider } from "react-query";
-import UserProfile from "@/app/components/user/UserProfile";
+"use client";  // 클라이언트 컴포넌트로 선언
 
-const queryClient = new QueryClient(); // QueryClient 인스턴스 생성
+import UserProfile from "@/app/components/user/UserProfile";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
 export default function getMyPage() {
-    const nickname: string = "userNickname"; // 실제 유저의 닉네임 값으로 변경 필요
+    const currentUser = useSelector((state: RootState) => state.user.currentUser);
+
+    if (!currentUser?.nickname) {
+        console.error("닉네임이 없습니다.");
+        return <p>사용자 정보를 불러올 수 없습니다.</p>;
+    }
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <div>
-                <UserProfile nickname={nickname} />
-            </div>
-        </QueryClientProvider>
+        <div>
+            <UserProfile nickname={currentUser.nickname} />
+        </div>
     );
 }

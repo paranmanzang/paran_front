@@ -4,7 +4,7 @@ import requests from "@/app/api/requests";
 import {} from "@/app/model/user/user.model";
 import {AdminPostModel, DeclarationPostModel, FriendModel, LikePostModel, LikeRoomModel} from "@/app/model/user/users.model";
 import {ExceptionResponseModel} from "@/app/model/error.model";
-
+//insert, drop, modify, find**
 
 export const usersAPI = {
     findAdminPostAPI: (page: number, size: number) => {
@@ -30,10 +30,10 @@ export const usersAPI = {
     insertAdminPostAPI: (adminPostModel: AdminPostModel) => {
         return api.post<AdminPostModel | ExceptionResponseModel>(requests.fetchUsers + '/aboard/add', adminPostModel);
     },
-    updateAdminPostAPI: (id:number, adminPostModel: AdminPostModel) => {
+    modifyAdminPostAPI: (id:number, adminPostModel: AdminPostModel) => {
         return api.put<AdminPostModel | ExceptionResponseModel>(requests.fetchUsers + `/aboard/update/${id}`, adminPostModel);
     },
-    deleteAdminPostAPI: (id: number) => {
+    dropAdminPostAPI: (id: number) => {
         return api.delete<Boolean | ExceptionResponseModel>(`/aboard/delete/${id}`);
     },
     findAdminPostViewCountAPI:(id:number) => {
@@ -64,31 +64,31 @@ export const usersAPI = {
     insertDeclarationPostAPI:(declarationPostModel : DeclarationPostModel)=>{
         return api.post<DeclarationPostModel|ExceptionResponseModel>(requests.fetchUsers + `/depost/add`,declarationPostModel);
     },
-    deleteDeclarationPostAPI:(id:number) =>{
+    dropDeclarationPostAPI:(id:number) =>{
         return api.delete<Boolean | ExceptionResponseModel>(`depost/delete/${id}`)
     },
-    addLikePostAPI: (likePostModel: LikePostModel) => {
+    insertLikePostAPI: (likePostModel: LikePostModel) => {
         return api.post<LikePostModel | ExceptionResponseModel>(requests.fetchUsers + `/likeposts/add`, likePostModel);
     },
-    removeLikePostAPI: (likePostModel: LikePostModel) => {
+    dropLikePostAPI: (likePostModel: LikePostModel) => {
         return api.delete<boolean | ExceptionResponseModel>(requests.fetchUsers + '/likeposts/remove', likePostModel);
     },
     findLikePostListAPI: (nickname: String) => {
         return api.get<LikePostModel[]>(requests.fetchUsers + `/likeposts/list/${nickname}`);
     },
-    addLikeRoomAPI: (likeRoomModel: LikeRoomModel) => {
+    insertLikeRoomAPI: (likeRoomModel: LikeRoomModel) => {
         return api.post<LikeRoomModel | ExceptionResponseModel>(requests.fetchUsers + `/likeRoom/add`, likeRoomModel);
     },
-    removeLikeRoomAPI: (likeRoomModel: LikeRoomModel) => {
+    dropLikeRoomAPI: (likeRoomModel: LikeRoomModel) => {
         return api.delete<boolean | ExceptionResponseModel>(requests.fetchUsers + '/likeRoom/remove', likeRoomModel);
     },
     findLikeRoomListAPI: (nickname: String) => {
         return api.get<LikeRoomModel[]>(requests.fetchUsers + `/likeRoom/list/${nickname}`);
     },
-    addFriendAPI: (friendModel: FriendModel) => {
+    insertFriendAPI: (friendModel: FriendModel) => {
         return api.post<FriendModel | ExceptionResponseModel>(requests.fetchUsers + `/friend/register`, friendModel);
     },
-    removeFriendAPI: (id: number) => {
+    dropFriendAPI: (id: number) => {
         return api.delete<boolean | ExceptionResponseModel>(requests.fetchUsers + `/friend/delete/${id}`);
     },
     findFriendListAPI: (nickname: String) => {

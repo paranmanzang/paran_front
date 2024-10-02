@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getUserDetail } from '@/app/service/user/user.service'; // getUserDetail import
+import { findUserDetail } from '@/app/service/user/user.service'; // getUserDetail import
 import LoadingSpinner from '@/app/components/common/status/LoadingSpinner';
 import ErrorMessage from '@/app/components/common/status/ErrorMessage';
 import { AppDispatch } from '@/lib/store'; // AppDispatch import
@@ -24,7 +24,7 @@ export default function UserProfile({ nickname }: { nickname: string }) {
   useEffect(() => {
     // 컴포넌트가 마운트될 때 사용자 상세정보를 가져옵니다.
     const fetchUserDetail = async () => {
-      await getUserDetail(nickname, dispatch);
+      await findUserDetail(nickname, dispatch);
     };
 
     fetchUserDetail();
@@ -58,7 +58,8 @@ export default function UserProfile({ nickname }: { nickname: string }) {
                 className="mb-3 rounded-full shadow-lg"
                 width={102}
                 height={100}
-                src={user.profileImage || '/default-profile.jpg'}
+                src={'/default-profile.jpg'}
+                //src={user.profileImage || '/default-profile.jpg'}
                 alt="프로필 사진"
                 onError={(e) => {
                   e.currentTarget.src = '/default-profile.jpg'; // 이미지 로딩 실패 시 기본 이미지로 대체
