@@ -1,7 +1,8 @@
-const getEnvVariable = (key: string): string => {
+const getEnvVariable= (key: string, defaultValue: string = ''): string => {
   const value = process.env[key];
   if (!value) {
-    throw new Error(`Missing environment variable: ${key}`);
+    console.warn(`Missing environment variable: ${key}`);
+    return defaultValue;
   }
   return value;
 }

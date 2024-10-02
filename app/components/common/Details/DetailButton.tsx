@@ -32,7 +32,6 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
 
     const dispatch = useAppDispatch()
     const likedBooks = useSelector(getLikedBooks);
-    // const user = useSeletctor((state: RootState ) => getUserId(state));
     const book = useSelector(getCurrentBook);
     const room = useSelector(getCurrentRoom);
     const groupPost = useSelector(getCurrentGroupPost);

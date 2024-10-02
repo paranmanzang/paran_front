@@ -4,13 +4,13 @@ import {useAppDispatch} from "@/lib/store";
 import {useRouter} from "next/navigation"
 import {useState} from "react";
 import { getUsers } from "@/lib/features/users/user.Slice"
-import { useSelector } from "react-redux/dist/react-redux";
+import { useSelector } from "react-redux";
 
 
 export default function ChatAdd() {
     const dispatch = useAppDispatch()
     const user = useSelector(getUsers);
-    const nickname = user.nickname;
+    const nickname = 
 
     const [formData, setFormData] = useState({
         title: '',
