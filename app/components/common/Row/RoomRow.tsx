@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import { RoomModel } from "@/app/model/room/room.model";
 import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file.Slice";
 import { useAppDispatch } from "@/lib/store";
-import { findEnabledRooms } from "@/app/service/room/room.service";
 import { FileType } from "@/app/model/file/file.model";
-import { selectFileList } from "@/app/service/File/file.service";
 import { useSelector } from "react-redux";
 import HeartCheckbox from "./HeartCheckBox";
 import Link from "next/link";
 import Image from "next/image";
+import { roomService } from "@/app/service/room/room.service";
+import { fileService } from "@/app/service/File/file.service";
 
 interface RoomRowProps {
   active: boolean;
@@ -32,7 +32,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   useEffect(() => {
     setIsActive(active);
 
-    findEnabledRooms(page, size, dispatch)
+    roomService.findEnabledRooms(page, size, dispatch)
     loadRoomFiles(rooms)
     dispatch(saveLoading(false))
 
@@ -42,7 +42,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
 
   const loadRoomFiles = (rooms: any[]) => {
     const roomIds = rooms.map(book => book.id);
-    selectFileList(roomIds, FileType.ROOM, dispatch)
+    fileService.selectFileList(roomIds, FileType.ROOM, dispatch)
     dispatch(upLoading(false))
   };
   const handleLikeChange = (active: boolean) => {

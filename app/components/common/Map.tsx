@@ -1,22 +1,21 @@
 "use client";
-import Image from "next/image";
 import NaverMap from "./NaverMap";
-import { findQuery, getAddressList } from "@/app/service/room/address.service";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { getAddresses, saveLoading } from "@/lib/features/address.Slice";
+import { addressService } from "@/app/service/room/address.service";
 
 export default function Map() {
   const dispatch = useAppDispatch()
   const addresses = useSelector(getAddresses)
 
   useEffect(() => {
-    getAddressList(dispatch)
+    addressService.getAddressList(dispatch)
     dispatch(saveLoading(false))
   }, [dispatch])
   function search(query: string) {
-    findQuery(query, dispatch)
+    addressService.findQuery(query, dispatch)
     dispatch(saveLoading(false))
   }
   return (
@@ -78,7 +77,7 @@ export default function Map() {
           {/* </form> */}
         </div>
         <div>
-          <NaverMap/>
+          <NaverMap />
         </div>
       </div>
     </div>
