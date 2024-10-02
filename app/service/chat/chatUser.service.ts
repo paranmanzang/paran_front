@@ -1,6 +1,6 @@
 import { ChatUserModel } from "@/app/model/chat/chat.model";
 import chatUserAPI from "@/app/api/generate/chatUser.api";
-import { saveError, saveLoading } from "@/lib/features/chat/chat.Slice";
+import { saveError, saveLoading } from "@/lib/features/chat/chat.slice";
 import { AppDispatch } from "@/lib/store";
 
 // 공통 에러 처리 함수

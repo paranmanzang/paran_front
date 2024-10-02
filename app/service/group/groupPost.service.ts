@@ -1,5 +1,5 @@
-import {GroupPostModel} from '@/app/model/group/group.model';
-import {AppDispatch} from "@/lib/store";
+import { GroupPostModel } from '@/app/model/group/group.model';
+import { AppDispatch } from "@/lib/store";
 import {
     addGroupPost,
     deleteGroupPost,
@@ -7,7 +7,7 @@ import {
     saveGroupPosts,
     saveLoading,
     updateGroupPost
-} from "@/lib/features/group/group.Slice";
+} from "@/lib/features/group/group.slice";
 import groupPostAPI from "@/app/api/generate/groupPost.api";
 
 // 공통 에러 처리 함수
@@ -63,7 +63,7 @@ const drop = async (boardId: number, dispatch: AppDispatch, postCategory: string
     await handleLoading(dispatch, async () => {
         try {
             await groupPostAPI.drop(boardId);
-            dispatch(deleteGroupPost({id: boardId, postCategory}));
+            dispatch(deleteGroupPost({ id: boardId, postCategory }));
         } catch (error: any) {
             handleApiError(error, dispatch, "게시글 삭제 중 오류 발생했습니다.");
             throw new Error('게시글 삭제 중 오류 발생');

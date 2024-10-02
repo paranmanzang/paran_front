@@ -1,7 +1,7 @@
 "use client";
 import DetailButton from "./DetailButton";
 import { useSelector } from "react-redux";
-import { getCurrentBook } from "@/lib/features/group/book.Slice";
+import { getCurrentBook } from "@/lib/features/group/book.slice";
 import Image from "next/image";
 import { getCurrentFile } from "@/lib/features/file/file.slice";
 

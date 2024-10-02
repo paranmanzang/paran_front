@@ -3,7 +3,7 @@ import React from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import HeartCheckbox from "./HeartCheckBox";
-import { saveCurrentBook } from "@/lib/features/group/book.Slice";
+import { saveCurrentBook } from "@/lib/features/group/book.slice";
 import { BookResponseModel } from "@/app/model/group/book.model";
 import { FileModel } from "@/app/model/file/file.model";
 import { useRouter } from "next/navigation";
@@ -49,18 +49,18 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
                 <Image
                     width={400}
                     height={380}
-                    className="rounded-t-lg cursor-pointer"
+                    className="cursor-pointer rounded-t-lg"
                     src={file.path === process.env.NEXT_PUBLIC_IMAGE_DEFAULT ? process.env.NEXT_PUBLIC_IMAGE_DEFAULT : `http://localhost:8000/api/files/one?path=${file.path}`}
                     alt={`cover of ${book.title}`}
                     priority
                 />
                 <div className="p-5">
-                    <h5 className={`mb-2 text-lg font-medium tracking-tight ${active ? "text-green-600" : "text-gray-900"} dark:text-white cursor-pointer`}>
+                    <h5 className={`mb-2 text-lg font-medium tracking-tight ${active ? "text-green-600" : "text-gray-900"} cursor-pointer dark:text-white`}>
                         {book.title}
                     </h5>
                     <p className="text-sm font-medium">저자: {book.author}</p>
                     <div className="w-full">
-                        <span className="text-xs bg-green-400 p-1 text-white rounded-full my-4">
+                        <span className="my-4 rounded-full bg-green-400 p-1 text-xs text-white">
                             {book.categoryName}
                         </span>
                     </div>
@@ -69,11 +69,11 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
                             e.stopPropagation();
                             onClickToDetail(e);
                         }}
-                        className="mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white bg-green-600 hover:bg-green-700"
+                        className="mt-5 inline-flex w-full items-center rounded-lg bg-green-600 p-3 text-sm font-medium text-white hover:bg-green-700"
                     >
                         상세보기
                         <svg
-                            className="ms-2 h-4 w-4 rtl:rotate-180"
+                            className="ms-2 size-4 rtl:rotate-180"
                             aria-hidden="true"
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"

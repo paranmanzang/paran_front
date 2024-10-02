@@ -9,7 +9,7 @@ import {
     saveGroups,
     saveLoading,
     updateGroup,
-} from "@/lib/features/group/group.Slice";
+} from "@/lib/features/group/group.slice";
 import { AppDispatch } from "@/lib/store";
 
 // 그룹 관련 서비스 로직

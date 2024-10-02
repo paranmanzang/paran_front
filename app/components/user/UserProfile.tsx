@@ -2,8 +2,13 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useEffect } from 'react';
+<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux';
 import { findUserDetail } from '@/app/service/user/user.service'; // getUserDetail import
+=======
+import { useDispatch } from 'react-redux';
+import { userService } from '@/app/service/user/user.service'; // getUserDetail import
+>>>>>>> c486d21d3fb721f740bb7f75118b9c77e63f3e1f
 import LoadingSpinner from '@/app/components/common/status/LoadingSpinner';
 import ErrorMessage from '@/app/components/common/status/ErrorMessage';
 import { AppDispatch } from '@/lib/store'; // AppDispatch import
@@ -22,7 +27,7 @@ export default function UserProfile({ nickname }: { nickname: string }) {
     useEffect(() => {
         // 컴포넌트가 마운트될 때 사용자 상세정보를 가져옵니다.
         const fetchUserDetail = async () => {
-            await findUserDetail(nickname, dispatch);
+            await userService.findUserDetail(nickname, dispatch);
         };
 
         fetchUserDetail();

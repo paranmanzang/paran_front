@@ -1,8 +1,8 @@
-import {FriendModel} from "@/app/model/user/users.model";
-import {AppDispatch} from "@/lib/store";
-import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
+import { FriendModel } from "@/app/model/user/users.model";
+import { AppDispatch } from "@/lib/store";
+import { saveError, saveLoading } from "@/lib/features/users/user.slice";
 import friendAPI from "@/app/api/generate/friend.api";
-import {addFriend, deleteFriend, saveFriends} from "@/lib/features/users/users.Slice";
+import { addFriend, deleteFriend, saveFriends } from "@/lib/features/users/users.slice";
 
 // 친구 추가
 const insert = async (friendModel: FriendModel, dispatch: AppDispatch): Promise<void> => {
@@ -56,7 +56,7 @@ const findFriendList = async (nickname: string, dispatch: AppDispatch): Promise<
     }
 }
 
-export const friendService={
+export const friendService = {
     insert,
     drop,
     findFriendList

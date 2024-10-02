@@ -1,5 +1,5 @@
-import {AppDispatch} from "@/lib/store";
-import {saveBooks, saveError, saveLoading} from "@/lib/features/group/book.Slice";
+import { AppDispatch } from "@/lib/store";
+import { saveBooks, saveError, saveLoading } from "@/lib/features/group/book.slice";
 import bookAPI from "@/app/api/generate/book.api";
 
 // 도서 조회

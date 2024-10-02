@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { AppDispatch } from "@/lib/store";
 import { ChatMessageModel, ChatRoomModel, ChatUserModel } from "@/app/model/chat/chat.model";
-import { saveError, saveLoading } from "@/lib/features/chat/chat.Slice";
+import { saveError, saveLoading } from "@/lib/features/chat/chat.slice";
 import { chatRoomService } from '../service/chat/chatRoom.service';
 import { chatUserService } from '../service/chat/chatUser.service';
 import { chatMessageService } from '../service/chat/chatMessage.service';

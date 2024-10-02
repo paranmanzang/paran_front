@@ -1,5 +1,5 @@
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
-import { saveError, saveLoading } from "@/lib/features/chat/chat.Slice";
+import { saveError, saveLoading } from "@/lib/features/chat/chat.slice";
 import { AppDispatch } from "@/lib/store";
 import chatRoomAPI from "@/app/api/generate/chatRoom.api";
 

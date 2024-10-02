@@ -1,5 +1,5 @@
 import { getCurrentFile } from "@/lib/features/file/file.slice";
-import { getCurrentGroupPost } from "@/lib/features/group/group.Slice";
+import { getCurrentGroupPost } from "@/lib/features/group/group.slice";
 import { useSelector } from "react-redux";
 import DetailButton from "@/app/components/common/Details/DetailButton";
 

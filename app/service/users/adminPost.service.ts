@@ -1,8 +1,8 @@
-import {AdminPostModel} from "@/app/model/user/users.model";
-import {AppDispatch} from "@/lib/store";
-import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
-import {adminPostAPI} from "@/app/api/generate/adminPost.api";
-import {addAdminPost, deleteAdminPost, saveAdminPosts, updateAdminPost} from "@/lib/features/users/users.Slice";
+import { AdminPostModel } from "@/app/model/user/users.model";
+import { AppDispatch } from "@/lib/store";
+import { saveError, saveLoading } from "@/lib/features/users/user.slice";
+import { adminPostAPI } from "@/app/api/generate/adminPost.api";
+import { addAdminPost, deleteAdminPost, saveAdminPosts, updateAdminPost } from "@/lib/features/users/users.slice";
 //insert, drop, modify, find**
 
 
@@ -75,7 +75,7 @@ const findAll = async (page: number, size: number, dispatch: AppDispatch): Promi
     }
 };
 //게시물 리스트 조회 (닉네임)
-const findAllByNickname = async (page: number, size: number, nickname: string,  dispatch: AppDispatch): Promise<void> => {
+const findAllByNickname = async (page: number, size: number, nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await adminPostAPI.findAdminPostByNickname(page, size, nickname)
@@ -123,7 +123,7 @@ const findViewCountById = async (id: number, dispatch: AppDispatch): Promise<voi
     }
 };
 
-export const adminPostService={
+export const adminPostService = {
     insert,
     modify,
     drop,

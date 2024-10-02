@@ -1,11 +1,11 @@
 "use client";
 import CardRow from "@/app/components/chat/CardRow";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
-import { chatRoomService} from "@/app/service/chat/chatRoom.service";
+import { chatRoomService } from "@/app/service/chat/chatRoom.service";
 import { useAppDispatch } from "@/lib/store";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { getError, getIsLoading } from "@/lib/features/chat/chat.Slice";
+import { getError, getIsLoading } from "@/lib/features/chat/chat.slice";
 
 export default function ChatList() {
   const nickname = 'J'; // 임의로 넣어둠
