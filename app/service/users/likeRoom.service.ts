@@ -1,13 +1,13 @@
 import {AppDispatch} from "@/lib/store";
 import {addLikedRoom, deleteLikedRoom, saveLikedRooms} from "@/lib/features/users/users.Slice";
 import {saveError, saveLoading} from "@/lib/features/users/user.Slice";
-import usersAPI from "@/app/api/generate/users.api";
+import likeRoomAPI from "@/app/api/generate/likeRoom.api";
 import {LikeRoomModel} from "@/app/model/user/users.model";
 
-export const insertLikeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promise<void> => {
+const insertLikeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await usersAPI.insertLikeRoomAPI(likeRoomModel)
+        const response = await likeRoomAPI.insert(likeRoomModel)
         if ('id' in response.data && 'nickname' in response.data) {
             dispatch(addLikedRoom(response.data))
         }
@@ -20,10 +20,10 @@ export const insertLikeRoom = async (likeRoomModel: LikeRoomModel, dispatch: App
 };
 
 // 좋아요 취소
-export const dropLikeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promise<void> => {
+const dropLikeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await usersAPI.dropLikeRoomAPI(likeRoomModel)
+        const response = await likeRoomAPI.drop(likeRoomModel)
         if (likeRoomModel.id !== undefined) {
             dispatch(deleteLikedRoom(likeRoomModel.id));
         }
@@ -36,10 +36,10 @@ export const dropLikeRoom = async (likeRoomModel: LikeRoomModel, dispatch: AppDi
 };
 
 // 좋아요 마이페이지 확인
-export const findLikeRoomList = async (nickname: String, dispatch: AppDispatch): Promise<void> => {
+const findLikeRoomList = async (nickname: String, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await usersAPI.findLikeRoomListAPI(nickname)
+        const response = await likeRoomAPI.findLikeRoomList(nickname)
         dispatch(saveLikedRooms(response.data))
     } catch (error) {
         dispatch(saveError("찜한 공간을 찾는 중 오류 발생했습니다."));
@@ -48,3 +48,9 @@ export const findLikeRoomList = async (nickname: String, dispatch: AppDispatch):
         dispatch(saveLoading(false));
     }
 }
+
+export const likeRoomService = {
+    insertLikeRoom,
+    dropLikeRoom,
+    findLikeRoomList
+};

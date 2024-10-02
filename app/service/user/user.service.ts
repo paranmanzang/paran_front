@@ -7,10 +7,10 @@ import axios from "axios";
 
 
 // 사용자 등록
-export const insertUser = async (userModel: UserModel, dispatch: AppDispatch): Promise<void> => {
+const insertUser = async (userModel: UserModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.insertUserAPI(userModel);
+        const response = await userAPI.insert(userModel);
 
         if ('id' in response.data && 'nickname' in response.data) {
             dispatch(saveSuccess("사용자가 성공적으로 등록되었습니다."));
@@ -27,10 +27,10 @@ export const insertUser = async (userModel: UserModel, dispatch: AppDispatch): P
 };
 
 // 비밀번호 수정
-export const modifyPassword = async (nickname: string, newPassword: string, dispatch: AppDispatch): Promise<void> => {
+const modifyPassword = async (nickname: string, newPassword: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.modifyPasswordAPI(nickname, newPassword);
+        const response = await userAPI.modifyPassword(nickname, newPassword);
 
         if (response.status === 200) {
             dispatch(saveSuccess("비밀번호가 성공적으로 수정되었습니다."));
@@ -47,10 +47,10 @@ export const modifyPassword = async (nickname: string, newPassword: string, disp
 };
 
 // 권한 수정
-export const modifyRole = async (nickname: string, newRole: string, dispatch: AppDispatch): Promise<void> => {
+const modifyRole = async (nickname: string, newRole: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.modifyRoleAPI(nickname, newRole);
+        const response = await userAPI.modifyRole(nickname, newRole);
 
         if (response.status === 200) {
             dispatch(saveSuccess("권한이 성공적으로 수정되었습니다."));
@@ -67,10 +67,10 @@ export const modifyRole = async (nickname: string, newRole: string, dispatch: Ap
 };
 
 // 신고횟수 추가
-export const modifyDeclaration = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
+const modifyDeclaration = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.modifyDeclarationAPI(nickname);
+        const response = await userAPI.modifyDeclaration(nickname);
 
         if (response.status === 200) {
             dispatch(saveSuccess("신고횟수가 성공적으로 추가되었습니다."));
@@ -87,10 +87,10 @@ export const modifyDeclaration = async (nickname: string, dispatch: AppDispatch)
 };
 
 // 사용자 리스트 조회
-export const findAllUsers = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
+const findAllUsers = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.findAllUserAPI(nickname);
+        const response = await userAPI.findAllUser(nickname);
 
         if (Array.isArray(response.data)) {
             dispatch(saveUserList(response.data)); // 사용자 리스트를 저장하는 액션
@@ -106,7 +106,7 @@ export const findAllUsers = async (nickname: string, dispatch: AppDispatch): Pro
     }
 };
 
-export const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<UserModel> => {
+const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<UserModel> => {
     try {
         const response = await axios.get(`/api/users/getUserDetail?nickname=${nickname}`);
         const userData: UserModel = response.data; // response.data가 UserModel 타입인지 확인
@@ -121,10 +121,10 @@ export const findUserDetail = async (nickname: string, dispatch: AppDispatch): P
     }
 };
 // 권한 확인
-export const checkRole = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
+const checkRole = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 상태 시작
-        const response = await userAPI.checkRoleAPI(nickname); // 사용자 권한 확인 API 호출
+        const response = await userAPI.checkRole(nickname); // 사용자 권한 확인 API 호출
 
         if (response.data) {
             dispatch(saveSuccess("확인 완료")); // 권한 정보를 저장하는 액션
@@ -141,10 +141,10 @@ export const checkRole = async (nickname: string, dispatch: AppDispatch): Promis
 };
 
 // 회원 탈퇴
-export const dropUser = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
+const dropUser = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.dropUserAPI(nickname);
+        const response = await userAPI.drop(nickname);
 
         if (response.status === 200) {
             dispatch(saveSuccess("사용자가 성공적으로 삭제되었습니다."));
@@ -161,7 +161,7 @@ export const dropUser = async (nickname: string, dispatch: AppDispatch): Promise
 };
 
 // 닉네임 중복 확인
-export const checkNickname = async (userModel: UserModel, dispatch: AppDispatch): Promise<void> => {
+const checkNickname = async (userModel: UserModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.checkNickname(userModel);
@@ -181,7 +181,7 @@ export const checkNickname = async (userModel: UserModel, dispatch: AppDispatch)
 };
 
 // 비밀번호 확인
-export const checkPassword = async (userModel: UserModel, dispatch: AppDispatch): Promise<void> => {
+const checkPassword = async (userModel: UserModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.checkPassword(userModel);
@@ -200,10 +200,10 @@ export const checkPassword = async (userModel: UserModel, dispatch: AppDispatch)
     }
 };
 // 로그아웃 시간을 업데이트하는 함수
-export const modifyLogoutTime = (nickname: string) => async (dispatch: AppDispatch): Promise<void> => {
+const modifyLogoutTime = (nickname: string) => async (dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 시작
-        await userAPI.modifyLogoutTimeAPI(nickname); // 로그아웃 시간 API 호출
+        await userAPI.modifyLogoutTime(nickname); // 로그아웃 시간 API 호출
         dispatch(logoutUser(nickname)); // 로그아웃 사용자 상태 업데이트
     } catch (error: any) {
         dispatch(saveError("로그아웃 시간 업데이트 중 오류 발생했습니다."));
@@ -211,4 +211,18 @@ export const modifyLogoutTime = (nickname: string) => async (dispatch: AppDispat
     } finally {
         dispatch(saveLoading(false)); // 로딩 종료
     }
+};
+
+export const userService = {
+    insertUser,
+    modifyPassword,
+    modifyRole,
+    modifyDeclaration,
+    findAllUsers,
+    findUserDetail,
+    checkRole,
+    dropUser,
+    checkNickname,
+    checkPassword,
+    modifyLogoutTime,
 };
