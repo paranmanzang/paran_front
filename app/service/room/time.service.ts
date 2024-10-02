@@ -3,7 +3,7 @@ import { TimeModel } from "@/app/model/room/room.model";
 import { saveLoading } from "@/lib/features/room.Slice";
 import { AppDispatch } from "@/lib/store";
 
-export const getTimeList = async (roomId: number, dispatch: AppDispatch): Promise<TimeModel[]> => {
+const getTimeList = async (roomId: number, dispatch: AppDispatch): Promise<TimeModel[]> => {
     try {
         dispatch(saveLoading(true));
         const response = await roomAPI.findTime(roomId)
@@ -21,3 +21,7 @@ export const getTimeList = async (roomId: number, dispatch: AppDispatch): Promis
         }
     }
 };
+
+export const timeService = {
+    getTimeList
+}

@@ -24,7 +24,7 @@ const save = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<
 };
 
 // 예약 상태 업데이트 (승인)
-export const saveState = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const saveState = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.modifyConfrim(id)
@@ -44,7 +44,7 @@ export const saveState = async (id: number, dispatch: AppDispatch): Promise<void
 };
 
 // 예약 거절 (삭제)
-export const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.dropReject(id)
@@ -64,7 +64,7 @@ export const rejectBooking = async (id: number, dispatch: AppDispatch): Promise<
 };
 
 // 예약 삭제 (취소)
-export const dropBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const dropBooking = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.drop(id)
@@ -84,7 +84,7 @@ export const dropBooking = async (id: number, dispatch: AppDispatch): Promise<vo
 };
 
 // 소모임 예약 조회
-export const findByGroupId = async (groupId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findByGroupId = async (groupId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.findGroup(groupId, page, size)
@@ -104,7 +104,7 @@ export const findByGroupId = async (groupId: number, page: number, size: number,
 };
 
 // 공간 예약 조회
-export const findByRoomId = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findByRoomId = async (roomId: number, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.findRoom(roomId, page, size)
@@ -123,7 +123,7 @@ export const findByRoomId = async (roomId: number, page: number, size: number, d
   }
 };
 
-export const booking = {
-  save, 
+export const bookingService = {
+  save, saveState, rejectBooking, dropBooking, findByGroupId, findByRoomId
 }
 
