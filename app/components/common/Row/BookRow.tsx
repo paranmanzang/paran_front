@@ -2,7 +2,6 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import BookCard from "./BookCard";
-import { BookState } from "@/app/model/group/book.model";
 import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.Slice";
 import { useAppDispatch } from "@/lib/store";
 import { defaultFile, FileType } from "@/app/model/file/file.model";
@@ -28,6 +27,7 @@ const BookRow = ({ active, onSelect }: BookRowProps) => {
   useEffect(() => {
     bookService.findList(page, size, dispatch)
     const bookIds = books.map(book => book.id);
+    fileService.selectFileList(bookIds, FileType.BOOK, dispatch)
     fileService.selectFileList(bookIds, FileType.BOOK, dispatch)
   }, [active, dispatch]);
 

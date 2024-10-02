@@ -9,6 +9,6 @@
       "callees": ["twMerge", "createTheme"],
       "classRegex": "^(class(Name)|theme)?$"
     }
-  }
-
+  },
+  "plugins": ["tailwindcss"]
 }
