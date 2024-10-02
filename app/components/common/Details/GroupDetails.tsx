@@ -1,9 +1,9 @@
 "use client"
-import { useSelector } from "react-redux";
-import { getCurrentGroup, getGroupMembers, getGroups } from "@/lib/features/group/group.Slice";
-import { useAppDispatch } from "@/lib/store";
-import { useEffect, useMemo } from "react";
-import { findByNickname } from "@/app/service/group/group.service";
+import {useSelector} from "react-redux";
+import {getCurrentGroup, getGroupMembers, getGroups} from "@/lib/features/group/group.Slice";
+import {useAppDispatch} from "@/lib/store";
+import {useEffect, useMemo} from "react";
+import {groupService} from "@/app/service/group/group.service";
 
 export default function GroupDetails() {
     const dispatch = useAppDispatch()
@@ -13,7 +13,7 @@ export default function GroupDetails() {
 
     useEffect(() => {
         if (group?.id !== undefined) {
-            findByNickname(group.id, dispatch);
+           groupService.findUserById(group.id, dispatch);
         }
     }, [group?.id, dispatch]);
 
@@ -27,7 +27,7 @@ export default function GroupDetails() {
 
     return (
         <div>
-
+            {/*
             <div className="h-[300px] w-full justify-center bg-gray-400">
                 <h1>{group?.groupName || "그룹 이름"}</h1>
             </div>
@@ -39,7 +39,7 @@ export default function GroupDetails() {
                             <p>카테고리: {group.categoryName}</p>
                             <p>설명: {group.description}</p>
                             <p>최대 인원: {group.maxMembers}</p>
-                            {/* 추가 그룹 정보를 여기에 넣을 수 있습니다 */}
+                            {/* 추가 그룹 정보를 여기에 넣을 수 있습니다 
                         </div>
                     ) : (
                         <p>그룹 정보를 불러오는 중...</p>
@@ -60,9 +60,10 @@ export default function GroupDetails() {
                         </ul>
                     ) : (
                         <p>참여 중인 유저가 없습니다.</p>
-                    )}*/}
+                    )}
                 </div>
             </div> 
+            */}
         </div>
     );
 }
