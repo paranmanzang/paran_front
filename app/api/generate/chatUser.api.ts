@@ -11,7 +11,7 @@ const chatUserAPI = {
         });
     },
     findList(roomId: string) {
-        return api.get<Boolean | ChatUserModel>(`${requests.fetchChats}/users/people-list/${roomId}`, {
+        return api.get<Boolean | ChatUserModel>(`${requests.fetchChats}/users/list/${roomId}`, {
             headers: {
                 'Content-Type': 'application/json'
             }

@@ -1,13 +1,13 @@
 "use client";
 import { TimeModel } from "@/app/model/room/room.model";
 import { timeService } from "@/app/service/room/time.service";
-import { getCurrentRoom, saveLoading } from "@/lib/features/room.Slice";
+import { getCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
 import { useEffect, useState } from "react";
 import DetailButton from "./DetailButton";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
-import { getCurrentFile } from "@/lib/features/file.Slice";
 import Image from "next/image";
+import { getCurrentFile } from "@/lib/features/file/file.slice";
 interface roomDetailProps {
   roomId: number;
 }
@@ -19,7 +19,7 @@ export default function Details({ roomId }: roomDetailProps) {
 
   useEffect(() => {
     if (room && room.id !== undefined) {
-      timeService.getTimeList(room.id, dispatch).then(data => {
+      timeService.findByRoom(room.id, dispatch).then(data => {
         if (data) {
           setTimes(data)
         }

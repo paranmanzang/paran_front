@@ -1,10 +1,10 @@
 import { AccountCancelModel, AccountModel, AccountResultModel } from '@/app/model/room/account.model';
 import { AppDispatch } from '@/lib/store';
 import { ANONYMOUS, TossPaymentsPayment } from '@tosspayments/tosspayments-sdk';
-import { saveLoading } from '@/lib/features/account.Slice';
+import { saveLoading } from '@/lib/features/room/account.slice';
 import { accountAPI } from '@/app/api/generate/account.api';
 
-const loadTossPaymentsSet = async (dispath: AppDispatch): Promise<TossPaymentsPayment> => {
+const load = async (dispath: AppDispatch): Promise<TossPaymentsPayment> => {
   try {
     dispath(saveLoading(true))
     const response = await accountAPI.load();
@@ -23,7 +23,7 @@ const loadTossPaymentsSet = async (dispath: AppDispatch): Promise<TossPaymentsPa
   }
 }
 // 결제 정보 저장
-const savePayment = async (model: AccountResultModel, dispath: AppDispatch): Promise<boolean> => {
+const insert = async (model: AccountResultModel, dispath: AppDispatch): Promise<boolean> => {
   try {
     dispath(saveLoading(true))
     const response = await accountAPI.insert(model);
@@ -42,28 +42,8 @@ const savePayment = async (model: AccountResultModel, dispath: AppDispatch): Pro
   }
 };
 
-// 주문번호로 결제 정보 조회
-const findByOrderId = async (orderId: string, dispath: AppDispatch): Promise<string> => {
-  try {
-    dispath(saveLoading(true))
-    const response = await accountAPI.findOrderId(orderId)
-    return response.data;
-  } catch (error: any) {
-    if (error.response) {
-      console.error('Server Error:', error.response.data);
-      throw new Error('서버에서 오류가 발생했습니다.');
-    } else if (error.request) {
-      console.error('No Response:', error.request);
-      throw new Error('서버 응답이 없습니다.');
-    } else {
-      console.error('Error:', error.message);
-      throw new Error('결제 정보 조회 중 오류 발생');
-    }
-  }
-};
-
 // 결제 취소
-const cancelPayment = async (model: AccountCancelModel, dispath: AppDispatch): Promise<boolean> => {
+const modify = async (model: AccountCancelModel, dispath: AppDispatch): Promise<boolean> => {
   try {
     dispath(saveLoading(true))
     const response = await accountAPI.modify(model)
@@ -82,11 +62,33 @@ const cancelPayment = async (model: AccountCancelModel, dispath: AppDispatch): P
   }
 };
 
+// 주문번호로 결제 정보 조회
+const findByOrderId = async (orderId: string, dispath: AppDispatch): Promise<string> => {
+  try {
+    dispath(saveLoading(true))
+    const response = await accountAPI.findByOrderId(orderId)
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Server Error:', error.response.data);
+      throw new Error('서버에서 오류가 발생했습니다.');
+    } else if (error.request) {
+      console.error('No Response:', error.request);
+      throw new Error('서버 응답이 없습니다.');
+    } else {
+      console.error('Error:', error.message);
+      throw new Error('결제 정보 조회 중 오류 발생');
+    }
+  }
+};
+
+
+
 // 예약 정보로 결제 정보 조회
 const findByBooking = async (bookingId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel> => {
   try {
     dispath(saveLoading(true))
-    const response = await accountAPI.findBooking(bookingId, page, size);
+    const response = await accountAPI.findByBooking(bookingId, page, size);
     return response.data;
   } catch (error: any) {
     if (error.response) {
@@ -105,7 +107,7 @@ const findByBooking = async (bookingId: number, page: number, size: number, disp
 const findByGroup = async (groupId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel[]> => {
   try {
     dispath(saveLoading(true))
-    const response = await accountAPI.findGroup(groupId, page, size);
+    const response = await accountAPI.findByGroup(groupId, page, size);
     return response.data.content;
   } catch (error: any) {
     if (error.response) {
@@ -124,7 +126,7 @@ const findByGroup = async (groupId: number, page: number, size: number, dispath:
 const findByRoom = async (roomId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel[]> => {
   try {
     dispath(saveLoading(true))
-    const response = await accountAPI.findRoom(roomId, page, size)
+    const response = await accountAPI.findByRoom(roomId, page, size)
     return response.data.content;
   } catch (error: any) {
     if (error.response) {
@@ -140,5 +142,6 @@ const findByRoom = async (roomId: number, page: number, size: number, dispath: A
   }
 };
 export const accountService = {
-  loadTossPaymentsSet, savePayment, findByOrderId, findByBooking, findByGroup, findByRoom
+  load, insert, modify,
+  findByOrderId, findByBooking, findByGroup, findByRoom
 }

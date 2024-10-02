@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initialRoomState, RoomModel } from '../../app/model/room/room.model';
-import { RootState } from '../store';
+import { initialRoomState, RoomModel } from '../../../app/model/room/room.model';
+import { RootState } from '../../store';
 
 export const roomSlice = createSlice({
     name: 'room',

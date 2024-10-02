@@ -3,7 +3,7 @@ import requests from "../requests";
 import api from "../axios";
 
 export const addressAPI = {
-    loadSearch(query: string) {
+    search(query: string) {
         return api.get<AddressModel[]>(requests.fetchRooms + '/accounts/search', {
             params: { query },
         });
@@ -17,10 +17,10 @@ export const addressAPI = {
     drop(id: number) {
         return api.delete<boolean>(requests.fetchRooms + `/addresses/${id}`);
     },
-    findAddresses() {
+    findByAddresses() {
         return api.get<AddressModel[]>(requests.fetchRooms + '/addresses');
     },
-    findQuery(query: string) {
+    findByQuery(query: string) {
         return api.get<AddressModel[]>(`${requests.fetchRooms}/addresses/${query}`);
     },
 }

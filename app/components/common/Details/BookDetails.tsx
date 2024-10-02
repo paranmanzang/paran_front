@@ -1,9 +1,9 @@
 "use client";
 import DetailButton from "./DetailButton";
-import {useSelector} from "react-redux";
-import {getCurrentBook} from "@/lib/features/group/book.Slice";
+import { useSelector } from "react-redux";
+import { getCurrentBook } from "@/lib/features/group/book.Slice";
 import Image from "next/image";
-import {getCurrentFile} from "@/lib/features/file.Slice";
+import { getCurrentFile } from "@/lib/features/file/file.slice";
 
 export default function Details() {
     const book = useSelector(getCurrentBook);

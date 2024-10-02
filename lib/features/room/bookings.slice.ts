@@ -1,8 +1,8 @@
 // bookingSlice.ts
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { initialBookingState, BookingModel } from '../../app/model/room/bookings.model';
-import { RootState } from '../store'
+import { initialBookingState, BookingModel } from '../../../app/model/room/bookings.model';
+import { RootState } from '../../store'
 
 const bookingSlice = createSlice({
     name: 'booking',
