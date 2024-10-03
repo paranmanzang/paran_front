@@ -7,6 +7,9 @@ import { FaUserGroup } from "react-icons/fa6"
 import { MdMessage } from "react-icons/md";
 import SellerButton from "../../user/seller/SellerButton";
 import getUserId from "@/app/(page)/users/[id]/page";
+import { useAppDispatch } from "@/lib/store";
+import { useSelector } from "react-redux";
+import { getCurrentUser } from "@/lib/features/users/user.slice";
 
 const tabs = [
   { name: "Groups", icon: <FaUserGroup />, label: "우리들의 모임" },
@@ -17,13 +20,14 @@ const tabs = [
 
 export default function SideBar() {
   const [activeTab, setActiveTab] = useState("Groups");
+  const dispatch = useAppDispatch();
+  const user = useSelector(getCurrentUser);
 
   return (
     <div>
-      {/* {getUserId == 'seller' ?
-         <SellerButton/> 
-         :
-      } */}
+      {user?.role == 'ROLE_seller' &&(
+        <SellerButton/> 
+      )}
       <div className="flex min-h-screen w-full">
         <aside id="default-sidebar" className="w-64 bg-green-100" aria-label="Sidebar">
           <div className="h-full overflow-y-auto px-3 py-4">

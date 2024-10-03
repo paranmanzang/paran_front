@@ -11,7 +11,6 @@ import Image from "next/image";
 import { roomService } from "@/app/service/room/room.service";
 import { fileService } from "@/app/service/File/file.service";
 import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file/file.slice";
-import ErrorMessage from "../status/ErrorMessage";
 
 interface RoomRowProps {
   active: boolean;
@@ -88,10 +87,10 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
         dispatch(saveCurrentFile(currentFile));
         router.push(`${process.env.NEXT_PUBLIC_ROOM_URL}${currentId}`);
       } else {
-        console.error("Room not found for ID:", currentId);
+        console.error("Room ID 알 수 없음:", currentId);
       }
     } else {
-      console.error("Invalid room ID");
+      console.error("room ID 찾을 수 없음");
     }
   };
 

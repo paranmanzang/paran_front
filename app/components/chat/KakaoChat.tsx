@@ -44,6 +44,7 @@ const KakaoChat = () => {
     }
   }, []);
 
+  // kakao chat api src 부분도 env 로 관리해야함. 
   return (
     <div>
       <Script
