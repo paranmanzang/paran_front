@@ -13,8 +13,8 @@ import commentSlice from './features/comment/comment.slice';
 import chatSlice from './features/chat/chat.slice';
 import authReducer from './features/room/account.slice'
 import { useDispatch } from "react-redux";
-import dataReducer from './features/data.slice';
-import usersSlice from "@/lib/features/users/users.slice";
+import dataReducer from './features/data.slice'
+import usersSlice from './features/users/users.slice';
 
 
 export const makeStore = () => {

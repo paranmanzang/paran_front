@@ -15,7 +15,7 @@ export const roomAPI = {
 
     findByEnabled(page: number, size: number) { return api.get<Page<RoomModel>>(requests.fetchRooms + '/enabled', { params: { page, size } }); },
 
-    modifyConfrim(id: number) { return api.put<RoomModel>(requests.fetchRooms + `/confrim/${id}`); },
+    modifyConfirm(id: number) { return api.put<RoomModel>(requests.fetchRooms + `/confirm/${id}`); },
 
     findTime(roomId: number) { return api.get<TimeModel[]>(requests.fetchRooms + `/time/${roomId}`); },
 

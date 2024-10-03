@@ -3,17 +3,17 @@ import { useState, useEffect } from "react"
 import Alert from "../common/Alert"
 import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
-import { getCurrentUser, modifyUserRole } from "@/lib/features/user.Slice";
+import { getUsers, saveUserRole } from "@/lib/features/users/user.slice";
 
 export default function AdminUserUpdate() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRole, setSelectedRole] = useState('');
   const dispatch = useAppDispatch();
-  const user = useSelector(getCurrentUser);
+  const user = useSelector(getUsers);
 
   useEffect(() => {
     if (user) {
-      setSelectedRole(user.role);
+      setSelectedRole(user.);
     }
   }, [user]);
 
@@ -23,7 +23,7 @@ export default function AdminUserUpdate() {
 
   const onSetRank = (e) => {
     e.preventDefault();
-    dispatch(updateUserRole({ userId: user.id, newRole: selectedRole }))
+    dispatch(saveUserRole({ nickname: user.nickanme, newRole: selectedRole }))
       .then(() => {
         setIsOpen(true);
       })

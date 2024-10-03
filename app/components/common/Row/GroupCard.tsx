@@ -1,6 +1,4 @@
 import React from "react";
-import HeartCheckbox from "./HeartCheckBox";
-import SelectCheckBox from "./SelectCheckBox";
 import { useAppDispatch } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { saveCurrentGroup } from "@/lib/features/group/group.slice";

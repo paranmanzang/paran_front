@@ -8,6 +8,8 @@ import { defaultFile, FileType } from "@/app/model/file/file.model";
 import { bookService } from "@/app/service/group/book.service";
 import { fileService } from "@/app/service/File/file.service";
 import { getFiles } from "@/lib/features/file/file.slice";
+import LoadingSpinner from "../status/LoadingSpinner";
+import ErrorMessage from "../status/ErrorMessage";
 
 interface BookRowProps {
   active: boolean;
@@ -28,10 +30,12 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
     bookService.findList(page, size, dispatch)
     const bookIds = books.map(book => book.id);
     fileService.selectFileList(bookIds, FileType.BOOK, dispatch)
+
+
   }, [active, dispatch]);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <ErrorMessage message={error} />;
 
   return (
     <div className="grid grid-cols-1 gap-4">

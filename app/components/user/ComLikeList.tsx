@@ -41,7 +41,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
             <div className="btn_wrap flex items-center">
               {/* 
             book에서는 안보이기 ,
-            group에서도 안보이기 -> 참여하기 버튼으로, 
+            group에서도 안보이기 -> 참여하기 버튼으로,
             room에서만 보이기 
              */}
 
@@ -49,7 +49,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
               
               <AccountButton />
 
-              {/* <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">참여하기</button> */}
+              {/* <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">참여요청</button> */}
             </div>
           </div>
         </li>
