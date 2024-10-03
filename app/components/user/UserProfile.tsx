@@ -2,13 +2,8 @@
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useEffect } from 'react';
-<<<<<<< HEAD
 import { useDispatch, useSelector } from 'react-redux';
-import { findUserDetail } from '@/app/service/user/user.service'; // getUserDetail import
-=======
-import { useDispatch } from 'react-redux';
-import { userService } from '@/app/service/user/user.service'; // getUserDetail import
->>>>>>> c486d21d3fb721f740bb7f75118b9c77e63f3e1f
+import { userService, } from '@/app/service/user/user.service'; 
 import LoadingSpinner from '@/app/components/common/status/LoadingSpinner';
 import ErrorMessage from '@/app/components/common/status/ErrorMessage';
 import { AppDispatch } from '@/lib/store'; // AppDispatch import
@@ -130,4 +125,12 @@ export default function UserProfile({ nickname }: { nickname: string }) {
             </div>
         </div>
     );
+}
+
+function useSelector(arg0: (state: RootState) => {
+    user: import("../../model/user/user.model").UserModel | null; // 사용자 상세 정보
+    isLoading: boolean; // 로딩 상태
+    error: string | null;
+}): { user: any; isLoading: any; error: any; } {
+    throw new Error('Function not implemented.');
 }

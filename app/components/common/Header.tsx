@@ -10,7 +10,7 @@ import BellService from "./BellService";
 import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { userService } from "@/app/service/user/user.service";
-import { getCurrentUser } from "@/lib/features/user.Slice";
+import { getCurrentUser } from "@/lib/features/users/user.slice";
 
 export default function Header() {
   const [isHidden, setIsHidden] = useState(true);
