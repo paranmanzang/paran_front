@@ -2,7 +2,7 @@ import { useQuery, useMutation, useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import { findUserDetail, modifyPassword } from '@/app/service/user/user.service';
 import { UserModel } from '@/app/model/user/user.model';
-import { AppDispatch } from "@/lib/store"; // AppDispatch 임포트
+import { AppDispatch } from "@/lib/store"; 
 
 export const useUser = (nickname: string) => {
     const queryClient = useQueryClient();

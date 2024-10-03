@@ -2,17 +2,25 @@
 import { UserModel } from "@/app/model/user/user.model";
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
-import { useRouter } from 'next/router';
-
-
 
 export const login = async (username: string, password: string): Promise<UserModel> => {
   try {
     const response = await api.post<UserModel>(requests.fetchLogin,
       { username, password }
     );
+
+      // const response = await login(username, password);
+      // if (response.accessToken) {
+      //   setAuthCookies(response);
+      //   dispatch(saveCurrentUser(response.userId));
+      //   await likeBookService.findByNickname(response.userId, dispatch);
+      //   router.push('/');
+      // }
+    
     console.log("로그인 결과: ", response)
     return response.data;
+   
+
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -29,10 +37,11 @@ export const login = async (username: string, password: string): Promise<UserMod
 
 export const get = async (): Promise<UserModel> => {
   try {
-    const response = await api.get<any>("/get"
-    )
+    const response = await api.get<any>("/get")
+
     console.log("GET: ", response)
     return response.data;
+
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -50,7 +59,7 @@ export const get = async (): Promise<UserModel> => {
 export const oauth = async (router: any): Promise<void> => {
   try {
     const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
-
+    
     if (!oauthUrl) {
       throw new Error('OAuth URL is not defined');
     }
@@ -59,7 +68,7 @@ export const oauth = async (router: any): Promise<void> => {
       // 외부 URL인 경우
       window.location.href = oauthUrl;
     } else {
-      // 내부 경로인 경우
+      // 내부 경로인 경우 // await 경로로 router?를 넣어서 생기는 에러가 남...?
       await router.push(oauthUrl);
     }
   } catch (error: any) {

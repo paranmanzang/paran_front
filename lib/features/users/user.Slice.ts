@@ -48,7 +48,6 @@ const userSlice = createSlice({
       }
     },
     saveSuccess: (state, action: PayloadAction<string | null>) => {
-      // 성공 메시지나 상태 업데이트 등을 처리할 수 있습니다.
       state.successMessage = action.payload; // 성공 메시지 저장
     },
   }
