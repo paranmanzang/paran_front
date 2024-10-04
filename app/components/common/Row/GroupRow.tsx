@@ -30,7 +30,7 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
   if (error) return <ErrorMessage message={error} />;
 
   return (
-    <div>
+    <>
       {groups.map((group) => (
         <GroupCard
           key={group.id}
@@ -39,7 +39,7 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
           onSelect={onSelect}
         />
       ))}
-    </div>
+    </>
   );
 };
 

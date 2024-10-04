@@ -12,14 +12,17 @@ import { useSelector } from "react-redux";
 import { userService } from "@/app/service/user/user.service";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 
+
 export default function Header() {
-  const [isHidden, setIsHidden] = useState(true);
-  const dispatch = useAppDispatch();
-  const user = useSelector(getCurrentUser);
+  const [isHidden, setIsHidden] = useState(true)
+  const dispatch = useAppDispatch()
+  const user = useSelector(getCurrentUser)
 
   useEffect(() => {
-    userService.checkRole(user, dispatch)
-  }, [dispatch, user])
+    if(user?.nickname){
+      userService.checkRole(user.nickname , dispatch)
+    }
+  }, [dispatch, user?.nickname])
 
   const popupOpen = () => {
     setIsHidden((prevState) => !prevState);

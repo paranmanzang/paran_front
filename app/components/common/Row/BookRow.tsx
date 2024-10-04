@@ -38,10 +38,10 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
   if (error) return <ErrorMessage message={error} />;
 
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <>
       {books.map((book) => (
         <BookCard key={book.id} book={book} active={active} file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)} />
       ))}
-    </div>
+    </>
   );
 };

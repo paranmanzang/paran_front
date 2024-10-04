@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialUserState, UserModel } from "../../../app/model/user/user.model"
+import { RootState } from '@/lib/store';
 
 const userSlice = createSlice({
   name: 'user',
@@ -30,6 +31,8 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
     saveUserList: (state, action: PayloadAction<UserModel[]>) => {
+      //배열은 푸시.push 방식으로 바꾼다. -> JSON stringify
+      // arra []
       state.users = action.payload; // 사용자 리스트 저장
     },
     saveUserDetail: (state, action: PayloadAction<UserModel | null>) => {
@@ -53,10 +56,10 @@ const userSlice = createSlice({
   }
 });
 
-export const getCurrentUser = (state: { user: typeof initialUserState }) => state.user.currentUser;
-export const getUsers = (state: { user: typeof initialUserState }) => state.user.users;
-export const getIsLoading = (state: { user: typeof initialUserState }) => state.user.isLoading;
-export const getError = (state: { user: typeof initialUserState }) => state.user.error;
+export const getCurrentUser = (state: RootState) => state.user.currentUser;
+export const getUsers = (state:  RootState) => state.user.users;
+export const getIsLoading = (state: RootState) => state.user.isLoading;
+export const getError = (state:  RootState) => state.user.error;
 
 // 액션 생성자들을 export
 export const {
