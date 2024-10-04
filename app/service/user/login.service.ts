@@ -7,20 +7,10 @@ export const login = async (username: string, password: string): Promise<UserMod
   try {
     const response = await api.post<UserModel>(requests.fetchLogin,
       { username, password }
-    );
-
-      // const response = await login(username, password);
-      // if (response.accessToken) {
-      //   setAuthCookies(response);
-      //   dispatch(saveCurrentUser(response.userId));
-      //   await likeBookService.findByNickname(response.userId, dispatch);
-      //   router.push('/');
-      // }
+    )
     
     console.log("로그인 결과: ", response)
     return response.data;
-   
-
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);

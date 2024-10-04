@@ -12,6 +12,9 @@ import { getCurrentGroupPost } from "@/lib/features/group/group.slice";
 import { saveGlobalLoading } from "@/lib/features/error.slice";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
+import { getCurrentUser } from "@/lib/features/users/user.slice";
+import { LikeRoomModel } from "@/app/model/user/users.model";
+import { likeRoomService } from "@/app/service/users/likeRoom.service";
 
 interface DetailButtonProps {
     thisPage: string;
@@ -20,7 +23,7 @@ interface DetailButtonProps {
 }
 
 export default function DetailButton({ thisPage, displayReview, displayReservation }: DetailButtonProps) {
-    const nickname = 'A'; // 임의로 넣어둠
+    //const nickname = 'A'; // 임의로 넣어둠
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [alertMessage, setAlertMessage] = useState("");
     const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -35,6 +38,9 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
     const book = useSelector(getCurrentBook);
     const room = useSelector(getCurrentRoom);
     const groupPost = useSelector(getCurrentGroupPost);
+    const user = useSelector(getCurrentUser);
+    const userInfo = user?.role
+
 
     useEffect(() => {
         dispatch(saveGlobalLoading(true));
@@ -42,8 +48,8 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
             case "/books": {
                 const likeBookModel: LikeBookModel = {
                     bookId: Number(book?.id),
-                    nickname: nickname
-                };
+                    nickname: user?.nickname ?? ""
+                }
                 likeBookService.insert(likeBookModel, dispatch)
                     .finally(() => {
                         setAlertMessage('찜 했습니다.');
@@ -52,15 +58,31 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
                 break;
             }
             case "/rooms": {
-                //sevice 존재하지 않음
-            }
+                const likeRoomModel: LikeRoomModel = {
+                    roomId: Number(room?.id),
+                    nickname: user?.nickname ?? "" 
+                }
+                likeRoomService.insert(likeRoomModel, dispatch)
+                    .finally(() => {
+                        setAlertMessage('찜 했습니다.');
+                        setIsAlertOpen(true);
+                    });
                 break;
+            }
             case "/groupPost": {
-                //sevice 존재하지 않음
-            }
+                // const likeRoomModel: LikeRoomModel = {
+                //     roomId: Number(room?.id),
+                //     nickname: user?.nickname ?? "" 
+                // }
+                // likeRoomService.insert(likeRoomModel, dispatch)
+                //     .finally(() => {
+                //         setAlertMessage('찜 했습니다.');
+                //         setIsAlertOpen(true);
+                //     });
                 break;
+            }
         }
-    }, [dispatch, thisPage]);
+    }, [thisPage]);
 
     const onBack = () => {
         route.back();
@@ -89,27 +111,19 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
         setIsConfirmOpen(false);
         route.push('/likeList');
     };
-    const handleCancel = () => {
-        setIsConfirmOpen(false);
-    };
-    const handleAccount = () => {
-        openModal();
-    }
 
     const isBookLiked = likedBooks.some(LikedBook => LikedBook.id === book?.id);
-    //const isRoomLiked = likedRooms.some(likedRoom => likedRoom.id === room?.id);
-    //const isGroupPostLiked = likedGroupPosts.some(likedGroupPost => likedGroupPost.id === groupPost?.id);
 
     return (
         <>
-            {/* {userInfo == admin ?  */}
+            {userInfo === 'admin' && (
             <div>
                 <button>수정</button>
                 <button>삭제</button>
             </div>
-            :
+            )}
             <div className="mx-auto flex h-[20px] w-full max-w-lg items-end">
-                {isBookLiked ? (
+                {!isBookLiked ? (
                     // 이미 찜 목록에 있을 경우 다른 버튼이나 메시지 표시
                     `${Message()}`
                 ) : (
@@ -124,7 +138,7 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
                 >
                     리뷰보기
                 </button>
-                <button type="button" onClick={handleAccount} className="mx-2 rounded-full border px-3 py-2"
+                <button type="button" onClick={() => { openModal() }} className="mx-2 rounded-full border px-3 py-2"
                     style={{ display: displayReservation }}
                 >
                     예약하기
@@ -142,39 +156,39 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
                 </button>
             </div>
             {/* } */}
-            {/* <div className="mx-auto flex h-[20px] w-full max-w-lg items-end">
-        {isBookLiked ? (
-          // 이미 찜 목록에 있을 경우 다른 버튼이나 메시지 표시
-          `${Message()}`
-        ) : (
-          // 책이 찜 목록에 없을 경우 "찜하기" 버튼 표시
-          <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
-            🥰 찜하기 🥰
-          </button>
-        )}
-        <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
-          style={{ display: displayReview }}
-        // 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것
-        >
-          리뷰보기
-        </button>
-        <button type="button" onClick={handleAccount} className="mx-2 rounded-full border px-3 py-2"
-          style={{ display: displayReservation }}
-        >
-          예약하기
-        </button>
-        <BookingModal isOpen={isModalOpen} onClose={closeModal} />
+            <div className="mx-auto flex h-[20px] w-full max-w-lg items-end">
+                {isBookLiked ? (
+                    // 이미 찜 목록에 있을 경우 다른 버튼이나 메시지 표시
+                    `${Message()}`
+                ) : (
+                    // 책이 찜 목록에 없을 경우 "찜하기" 버튼 표시
+                    <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
+                        🥰 찜하기 🥰
+                    </button>
+                )}
+                <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
+                    style={{ display: displayReview }}
+                // 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것
+                >
+                    리뷰보기
+                </button>
+                <button type="button" onClick={() => { openModal() }} className="mx-2 rounded-full border px-3 py-2"
+                    style={{ display: displayReservation }}
+                >
+                    예약하기
+                </button>
+                <BookingModal isOpen={isModalOpen} onClose={closeModal} />
 
-        <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
-          style={{ display: displayReservation }}
-        >
-          참여하기
-        </button>
+                <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
+                    style={{ display: displayReservation }}
+                >
+                    참여하기
+                </button>
 
-        <button type="button" onClick={onBack} className="mx-2 rounded-full border px-3 py-2">
-          뒤로가기
-        </button>
-      </div> */}
+                <button type="button" onClick={onBack} className="mx-2 rounded-full border px-3 py-2">
+                    뒤로가기
+                </button>
+            </div>
 
             <Alert
                 message={alertMessage}
@@ -185,7 +199,7 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
             <Alert
                 message="찜 목록으로 이동하시겠습니까?"
                 isOpen={isConfirmOpen}
-                onClose={handleCancel}
+                onClose={() => { setIsConfirmOpen(false) }}
                 onConfirm={handleConfirm}
                 showConfirm={true}
             />

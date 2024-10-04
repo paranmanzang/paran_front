@@ -1,13 +1,16 @@
 "use client"
-import { getCurrentUser } from "@/lib/features/users/user.slice";
+import { getCurrentUser, saveError } from "@/lib/features/users/user.slice";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
 import { modifyPassword } from "@/app/service/users/user.service";
 import { useState } from "react";
-import { saveError } from "@/lib/features/users/user.slice";
 
-export default function UserUpdate() {
+interface PageProps {
+  params: { id: string };
+}
+
+export default function UserUpdate({ params }: PageProps) {
   const user = useSelector(getCurrentUser);
   const dispatch = useAppDispatch();
   const [newPassword, setNewPassword] = useState('');

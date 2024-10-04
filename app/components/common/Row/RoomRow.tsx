@@ -84,8 +84,8 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
       if (currentRoom) {
         dispatch(saveCurrentRoom(currentRoom));
         const currentFile = files.roomFiles?.find(({ refId }) => refId === currentId) ?? null;
-        dispatch(saveCurrentFile(currentFile));
-        router.push(`${process.env.NEXT_PUBLIC_ROOM_URL}${currentId}`);
+        dispatch(saveCurrentFile(currentFile) ?? null);
+        router.push(`/rooms/ + ${currentId}`);
       } else {
         console.error("Room ID 알 수 없음:", currentId);
       }

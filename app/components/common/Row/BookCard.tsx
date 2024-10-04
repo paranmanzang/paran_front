@@ -43,7 +43,7 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
     };
 
     return (
-        <div className="relative max-w-sm">
+        <li className="list-none">
             <div
                 className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${active ? "ring-2 ring-green-500" : ""}`}>
                 <Image
@@ -90,7 +90,7 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
                     </button>
                 </div>
             </div>
-        </div>
+        </li>
     );
 };
 
