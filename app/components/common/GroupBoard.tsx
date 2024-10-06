@@ -5,17 +5,24 @@ import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { groupPostService } from "@/app/service/group/groupPost.service";
+import { UserModel } from "@/app/model/user.model";
 
-export default function GroupBoard() {
+interface GroupBoardProps {
+    thisPage: string,
+    userInfo : string | UserModel
+}
+
+export default function GroupBoard({thisPage, userInfo}: GroupBoardProps ) {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const [active, setActive] = useState(false);
-    const group = useSelector(getCurrentGroup);
+    
     const { groupPostsNotice, groupPostsGeneral } = useSelector(getGroupPosts);
-    const groupId = group?.id ?? ''
+    const groupId = thisPage
     const page = 5 // 임의 값
     const size = 5 // 임의 값
     const [selectedCategory, setSelectedCategory] = useState<'공지 사항' | '자유게시판'>('공지 사항');
+    const user = userInfo
 
 
     useEffect(() => {
@@ -45,6 +52,7 @@ export default function GroupBoard() {
     return (
         <div className="mx-auto my-8 max-w-sm bg-green-100 p-4">
             {/* 카테고리 선택 탭 */}
+            
             <div className="mb-4 flex justify-around">
                 <button
                     className={`p-2 ${selectedCategory === '공지 사항' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}

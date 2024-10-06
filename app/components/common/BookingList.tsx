@@ -1,14 +1,17 @@
 "use client"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import AccountButton from "./AccountButton"
+interface BookingListProps {
+  id: string,
+}
 
-export default function BookingList() {
+export default function BookingList({id}: BookingListProps) {
+  
   const route = useRouter()
-  const goBack = () => route.back()
   const goDelete = () => {
     console.log('삭제되었습니다.')
   }
-  const moveToPage = () => route.push(`/rooms/2`)
   
 
   return (
@@ -39,19 +42,19 @@ export default function BookingList() {
                 <button
                   // 선택 된 상세보기의 id 를 받아와야함. link 잘보기
                   type="button" 
-                  onClick={moveToPage}
+                  onClick={ () => route.push(`/rooms/${id}`)}
                   className="rounded-lg p-2 mx-2 text-sm font-medium bg-green-600 text-white"
                 >
                   상세보기
                 </button>
-                <button type="button" className="p-2 bg-green-400 text-white rounded-lg mx-2">결제하기</button>
+                <AccountButton />
               </div>
             </div>
           </div>
         </li>
       </ul>
       <div className="btn_wrap my-4">
-        <button onClick={goBack} className="p-2 bg-green-600 text-white rounded-lg">뒤로가기</button>
+        <button onClick={() => route.back()} className="p-2 bg-green-600 text-white rounded-lg">뒤로가기</button>
         <button onClick={goDelete} className="p-2 mx-2 bg-green-600 text-white rounded-lg">삭제하기</button>
       </div>
     </div>

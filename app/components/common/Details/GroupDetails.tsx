@@ -55,7 +55,7 @@ export default function GroupDetails() {
                         <p>참여 중인 유저가 없습니다. 함께 참여해주세요 😆</p>
                     )}
                 </div>
-                {/* <DetailButton thisPage={`/groups`} displayReview={'none'} displayReservation={'block'}/> */}
+                <DetailButton thisPage={`/groups`} displayBoard="block" displayReview={'none'} displayReservation={'block'}/>
             </div>
         </div>
     )

@@ -11,7 +11,6 @@ import errorSlice from './features/error.slice'
 import bookSlice from './features/group/book.slice'
 import commentSlice from './features/comment/comment.slice'
 import chatSlice from './features/chat/chat.slice'
-// import authReducer from './features/room/account.slice'
 import { useDispatch } from "react-redux"
 import usersSlice from './features/users/users.slice'
 import dataSlice from './features/data.slice'
@@ -33,7 +32,6 @@ export const makeStore = () => {
       comment: commentSlice,
       chat: chatSlice,
       book: bookSlice,
-      // auth: authReducer,
       data: dataSlice,
     },
   })

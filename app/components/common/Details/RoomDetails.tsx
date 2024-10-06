@@ -74,7 +74,7 @@ export default function Details({ roomId }: roomDetailProps) {
 
       </div>
 
-      {/* <DetailButton thisPage="/rooms" displayReview="block" displayReservation="block" /> */}
+      <DetailButton thisPage="/rooms" displayBoard="none" displayReview="block" displayReservation="block" />
     </div >
   );
 }

@@ -6,9 +6,9 @@ import BookingModal from "../BookingModal";
 import Alert from "../Alert";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
-import { addLikedBook, getCurrentBook, getLikedBooks, saveError } from "@/lib/features/group/book.slice";
+import { getCurrentBook, getIsBookLiked } from "@/lib/features/group/book.slice";
 import { getCurrentRoom } from "@/lib/features/room/room.slice";
-import { getCurrentGroupPost } from "@/lib/features/group/group.slice";
+import { getCurrentGroup, getCurrentGroupPost } from "@/lib/features/group/group.slice";
 import { saveGlobalLoading } from "@/lib/features/error.slice";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
@@ -19,74 +19,64 @@ import { likeRoomService } from "@/app/service/users/likeRoom.service";
 interface DetailButtonProps {
     thisPage: string;
     displayReview: 'none' | 'block';
+    displayBoard: 'none' | 'block';
     displayReservation: 'none' | 'block';
 }
 
-export default function DetailButton({ thisPage, displayReview, displayReservation }: DetailButtonProps) {
+export default function DetailButton({ thisPage, displayReview, displayBoard,displayReservation }: DetailButtonProps) {
     //const nickname = 'A'; // 임의로 넣어둠
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [alertMessage, setAlertMessage] = useState("");
-    const [isAlertOpen, setIsAlertOpen] = useState(false);
-    const [isConfirmOpen, setIsConfirmOpen] = useState(false);
-    const route = useRouter();
-
-    const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
-
+    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [alertMessage, setAlertMessage] = useState("")
+    const [isAlertOpen, setIsAlertOpen] = useState(false)
+    const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+    
+    const route = useRouter()
     const dispatch = useAppDispatch()
-    const likedBooks = useSelector(getLikedBooks);
-    const book = useSelector(getCurrentBook);
-    const room = useSelector(getCurrentRoom);
-    const groupPost = useSelector(getCurrentGroupPost);
-    const user = useSelector(getCurrentUser);
-    const userInfo = user?.role
-
+    const book = useSelector(getCurrentBook)
+    const isBookLiked = useSelector(state => book ? getIsBookLiked(state, book.id) : false)
+    const room = useSelector(getCurrentRoom)
+    const group = useSelector(getCurrentGroup)
+    const user = useSelector(getCurrentUser)
+    const userInfo = user?.role ?? null
 
     useEffect(() => {
+        if (!user || !dispatch) return;
+    
         dispatch(saveGlobalLoading(true));
+        
+        let insertPromise;
+    
         switch (thisPage) {
             case "/books": {
+                if (!book?.id) return;
                 const likeBookModel: LikeBookModel = {
-                    bookId: Number(book?.id),
-                    nickname: user?.nickname ?? ""
-                }
-                likeBookService.insert(likeBookModel, dispatch)
-                    .finally(() => {
-                        setAlertMessage('찜 했습니다.');
-                        setIsAlertOpen(true);
-                    });
+                    bookId: Number(book.id),
+                    nickname: user.nickname ?? ""
+                };
+                insertPromise = likeBookService.insert(likeBookModel, dispatch);
                 break;
             }
-            case "/rooms": {
-                const likeRoomModel: LikeRoomModel = {
-                    roomId: Number(room?.id),
-                    nickname: user?.nickname ?? "" 
-                }
-                likeRoomService.insert(likeRoomModel, dispatch)
-                    .finally(() => {
-                        setAlertMessage('찜 했습니다.');
-                        setIsAlertOpen(true);
-                    });
-                break;
-            }
+            case "/rooms":
             case "/groupPost": {
-                // const likeRoomModel: LikeRoomModel = {
-                //     roomId: Number(room?.id),
-                //     nickname: user?.nickname ?? "" 
-                // }
-                // likeRoomService.insert(likeRoomModel, dispatch)
-                //     .finally(() => {
-                //         setAlertMessage('찜 했습니다.');
-                //         setIsAlertOpen(true);
-                //     });
+                const id = thisPage === "/rooms" ? room?.id : group?.id;
+                if (!id) return;
+                const likeRoomModel: LikeRoomModel = {
+                    roomId: Number(id),
+                    nickname: user.nickname ?? ""
+                };
+                insertPromise = likeRoomService.insert(likeRoomModel, dispatch);
                 break;
             }
+            default:
+                return;
         }
-    }, [thisPage]);
+    
+        insertPromise?.finally(() => {
+            dispatch(saveGlobalLoading(false));
+        });
+    
+    }, [thisPage, book, room, group, user, dispatch]);
 
-    const onBack = () => {
-        route.back();
-    }
     const handleReview = () => {
         route.push(`${thisPage}/review`)
     }
@@ -110,82 +100,51 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
     const handleConfirm = () => {
         setIsConfirmOpen(false);
         route.push('/likeList');
-    };
-
-    const isBookLiked = likedBooks.some(LikedBook => LikedBook.id === book?.id);
+    }
 
     return (
         <>
             {userInfo === 'admin' && (
-            <div>
-                <button>수정</button>
-                <button>삭제</button>
-            </div>
+                <div className="max-w-sm mx-auto">
+                    <button type="button" onClick={() => {route.push('/admin/update')}} className="p-3 bg-green-500 text-white">수정</button>
+                    <button type="button" onClick={() => {route.push('/admin/delete')}} className="p-3 bg-green-500 text-white">삭제</button>
+                </div>
             )}
-            <div className="mx-auto flex h-[20px] w-full max-w-lg items-end">
-                {!isBookLiked ? (
-                    // 이미 찜 목록에 있을 경우 다른 버튼이나 메시지 표시
-                    `${Message()}`
-                ) : (
-                    // 책이 찜 목록에 없을 경우 "찜하기" 버튼 표시
-                    <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
-                        🥰 찜하기 🥰
-                    </button>
-                )}
-                <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
-                    style={{ display: displayReview }}
-                // 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것
-                >
-                    리뷰보기
-                </button>
-                <button type="button" onClick={() => { openModal() }} className="mx-2 rounded-full border px-3 py-2"
-                    style={{ display: displayReservation }}
-                >
-                    예약하기
-                </button>
-                <BookingModal isOpen={isModalOpen} onClose={closeModal} />
-
-                <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
-                    style={{ display: displayReservation }}
-                >
-                    참여하기
-                </button>
-
-                <button type="button" onClick={onBack} className="mx-2 rounded-full border px-3 py-2">
-                    뒤로가기
-                </button>
-            </div>
-            {/* } */}
-            <div className="mx-auto flex h-[20px] w-full max-w-lg items-end">
+            <div className="flex justify-center items-end">
                 {isBookLiked ? (
-                    // 이미 찜 목록에 있을 경우 다른 버튼이나 메시지 표시
-                    `${Message()}`
+                    <button type="button" onClick={Message} className="mx-2 rounded-full border px-3 py-2">
+                        이미 찜 목록에 있습니다
+                    </button>
                 ) : (
-                    // 책이 찜 목록에 없을 경우 "찜하기" 버튼 표시
                     <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
                         🥰 찜하기 🥰
                     </button>
                 )}
+                 {/* 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것 */}
                 <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
                     style={{ display: displayReview }}
-                // 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것
                 >
                     리뷰보기
                 </button>
-                <button type="button" onClick={() => { openModal() }} className="mx-2 rounded-full border px-3 py-2"
-                    style={{ display: displayReservation }}
+                <button type="button" onClick={() => setIsModalOpen(true)} className="mx-2 rounded-full border px-3 py-2"
+                    style={{ display: displayReview }}
                 >
                     예약하기
                 </button>
-                <BookingModal isOpen={isModalOpen} onClose={closeModal} />
+                <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 
                 <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
                     style={{ display: displayReservation }}
                 >
                     참여하기
                 </button>
+                <button type="button" onClick={() => {route.push(`/groups/board/${group?.id}`)}} className="mx-2 rounded-full border px-3 py-2"
+                    style={{ display: displayBoard }}
+                    >
+                    모임 공지가기
+                </button>
 
-                <button type="button" onClick={onBack} className="mx-2 rounded-full border px-3 py-2">
+                <button type="button" onClick={() => {route.back()}} className="mx-2 rounded-full border px-3 py-2">
                     뒤로가기
                 </button>
             </div>
@@ -197,7 +156,7 @@ export default function DetailButton({ thisPage, displayReview, displayReservati
             />
 
             <Alert
-                message="찜 목록으로 이동하시겠습니까?"
+                message="목록으로 이동하시겠습니까?"
                 isOpen={isConfirmOpen}
                 onClose={() => { setIsConfirmOpen(false) }}
                 onConfirm={handleConfirm}
