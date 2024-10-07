@@ -59,7 +59,6 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
 
   return (
     <>
-      <div className="book-list">
         {books.map((book) => (
           <BookCard 
             key={book.id} 
@@ -68,7 +67,6 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
             file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)} 
           />
         ))}
-      </div>
       <Pagination 
         currentPage={currentPage}
         pageSize={pageSize}

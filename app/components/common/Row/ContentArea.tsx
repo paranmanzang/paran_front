@@ -5,6 +5,7 @@ import BookRow from "./BookRow";
 import ChatRow from "./ChatRow";
 import { useSelector } from 'react-redux';
 import { getCurrentUser } from '@/lib/features/users/user.slice';
+import Pagination from './pagination/Pagination';
 
 interface ContentAreaProps {
   activeTab: string
