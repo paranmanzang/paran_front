@@ -5,6 +5,7 @@ import { useAppDispatch } from "@/lib/store";
 import { useEffect } from "react";
 import { groupService } from "@/app/service/group/group.service";
 import DetailButton from "./DetailButton";
+import LoadingSpinner from "../status/LoadingSpinner";
 
 export default function GroupDetails() {
     const dispatch = useAppDispatch()
@@ -36,7 +37,7 @@ export default function GroupDetails() {
                             <p>설명: {group.detail}</p>
                         </div>
                     ) : (
-                        <p>그룹 정보를 불러오는 중...</p>
+                        <LoadingSpinner />
                     )}
                 </div>
                 <div className="h-[70%] bg-green-50 rounded-lg p-8 overflow-y-auto my-6">

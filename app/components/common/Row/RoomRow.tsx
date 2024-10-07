@@ -11,6 +11,7 @@ import Image from "next/image";
 import { roomService } from "@/app/service/room/room.service";
 import { fileService } from "@/app/service/File/file.service";
 import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file/file.slice";
+import ErrorMessage from "../status/ErrorMessage";
 
 interface RoomRowProps {
   active: boolean;
@@ -137,7 +138,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
           </div>
         ))
       ) : (
-        <div>등록된 공간이 없습니다.</div>
+        <div><ErrorMessage message={'등록된 공간이 없습니다.'}/></div>
       )}
     </>
   );

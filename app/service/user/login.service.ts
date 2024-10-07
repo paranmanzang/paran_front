@@ -9,7 +9,6 @@ export const login = async (username: string, password: string): Promise<UserMod
       { username, password }
     )
     console.log("로그인 결과: ", response.config.data)
-    
     return response.data;
   } catch (error: any) {
     if (error.response) {

@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
+import { userService } from '../service/user/user.service';
 
 // Refresh token을 저장하기 위한 함수들
 const getRefreshToken = (): string | null => localStorage.getItem('refreshToken');
@@ -22,6 +23,7 @@ const instance: AxiosInstance = axios.create({
 instance.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
     // 쿠키는 자동으로 포함되므로 추가 작업이 필요 없음 
+  
     return config;
   },
   (error: AxiosError) => {
@@ -76,23 +78,6 @@ export const api = {
   post: <T>(url: string, data = {}, config = {}) => instance.post<T>(url, data, config),
   put: <T>(url: string, data = {}, config = {}) => instance.put<T>(url, data, config),
   delete: <T>(url: string, config = {}) => instance.delete<T>(url, config),
-  login: async (email: string, password: string) => {
-    try {
-      const response = await instance.post('/auth/login', { email, password });
-      
-      // 로그인 성공 시 서버에서 쿠키를 설정했다고 가정합니다.
-      // 리프레시 토큰이 응답 헤더에 있다면 저장합니다.
-      const refreshToken = response.headers['x-refresh-token'];
-      if (refreshToken && typeof refreshToken === 'string') {
-        setRefreshToken(refreshToken);
-      }
-
-      return response.data;
-    } catch (error) {
-      console.error('Login failed:', error);
-      throw error;
-    }
-  },
 };
 
 export default api;
