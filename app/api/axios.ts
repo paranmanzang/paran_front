@@ -1,72 +1,78 @@
-import axios from 'axios';
-import { getAccessToken, setAccessToken, removeAccessToken, getRefreshToken, setRefreshToken, removeRefreshToken } from '@/app/api/authUtils';
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 
-const instance = axios.create({
+// Refresh token을 저장하기 위한 함수들
+const getRefreshToken = (): string | null => localStorage.getItem('refreshToken');
+const setRefreshToken = (token: string): void => localStorage.setItem('refreshToken', token);
+const removeRefreshToken = (): void => localStorage.removeItem('refreshToken');
+
+// axios 인스턴스 생성
+const instance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACK_URL,
-  headers: { 'Content-Type': 'application/json'},
-  withCredentials: true,
-  timeout: 10000,
+  timeout: 1000,
+  headers: { 'Content-Type': 'application/json' },
+  withCredentials: true, // 이를 통해 쿠키가 자동으로 포함됩니다
 });
 
 // 요청 인터셉터
 instance.interceptors.request.use(
-  (config) => {
-    console.log('Request URL:', config.url);
-    if (config.url !== '/login' && config.url !== '/reissue') {
-      const token = getAccessToken();
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-        console.log('Access token added to request');
-      } else {
-        console.log('No access token available');
-      }
-    }
+  (config: InternalAxiosRequestConfig) => {
+    // 쿠키는 자동으로 포함되므로 추가 작업이 필요 없습니다
     return config;
   },
-  (error) => {
-    console.error('Request interceptor error:', error);
+  (error: AxiosError) => {
     return Promise.reject(error);
   }
 );
 
 // 응답 인터셉터
 instance.interceptors.response.use(
-  (response) => {
-    console.log('Response received for URL:', response.config.url);
-    if (response.config.url === '/login' && response.data.accessToken && response.data.refreshToken) {
-      setAccessToken(response.data.accessToken);
-      setRefreshToken(response.data.refreshToken);
-      console.log('Login successful, tokens set');
+  (response: AxiosResponse) => {
+    // 응답 헤더에서 refresh token을 확인하고 저장
+    const refreshToken = response.headers['x-refresh-token'];
+    if (refreshToken) {
+      setRefreshToken(refreshToken);
     }
     return response;
   },
-  async (error) => {
-    console.error('Response error:', error.response?.status, error.config.url);
-    if (error.response?.status === 401 && error.config && !error.config._retry) {
-      error.config._retry = true;
-      console.log('Attempting to refresh token');
+  async (error: AxiosError) => {
+    const originalRequest = error.config as undefined;
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
       try {
-        const refreshResponse = await instance.post('/reissue', { refreshToken: getRefreshToken() });
-        if (refreshResponse.status === 200) {
-          console.log('Token refresh successful');
-          setAccessToken(refreshResponse.data.accessToken);
-          if (refreshResponse.data.refreshToken) {
-            setRefreshToken(refreshResponse.data.refreshToken);
-            console.log('New refresh token set');
-          }
-          console.log('Retrying original request');
-          return instance(error.config);
+        // Refresh token을 사용하여 새 액세스 토큰 요청
+        const refreshToken = getRefreshToken();
+        const response = await instance.post('/auth/refresh', { refreshToken });
+        
+        if (refreshToken && typeof refreshToken === 'string') {
+          setRefreshToken(refreshToken);
         }
+        
+        // 서버에서 새로운 쿠키(액세스 토큰)를 설정했다고 가정
+        // 새 refresh token이 있다면 저장
+        const newRefreshToken = response.headers['x-refresh-token'];
+        if (newRefreshToken) {
+          setRefreshToken(newRefreshToken);
+        }
+        
+        // 원래 요청 재시도
+        return instance(originalRequest);
       } catch (refreshError) {
-        console.error('Token refresh failed:', refreshError);
-        removeAccessToken();
+        // Refresh 실패 시 로그아웃 처리
         removeRefreshToken();
-        console.log('Tokens removed, redirecting to login');
         window.location.href = '/login';
+        return Promise.reject(refreshError);
       }
     }
     return Promise.reject(error);
   }
 );
 
-export default instance;
+// API 함수들
+export const api = {
+  get: <T>(url: string, config = {}) => instance.get<T>(url, config),
+  post: <T>(url: string, data = {}, config = {}) => instance.post<T>(url, data, config),
+  put: <T>(url: string, data = {}, config = {}) => instance.put<T>(url, data, config),
+  delete: <T>(url: string, config = {}) => instance.delete<T>(url, config),
+};
+
+export default api;
