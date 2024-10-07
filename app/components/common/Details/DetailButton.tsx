@@ -56,8 +56,8 @@ export default function DetailButton({ thisPage, displayReview, displayBoard,dis
                 insertPromise = likeBookService.insert(likeBookModel, dispatch);
                 break;
             }
-            case "/rooms":
-            case "/groupPost": {
+            case "/groupPost":
+            case "/rooms":{
                 const id = thisPage === "/rooms" ? room?.id : group?.id;
                 if (!id) return;
                 const likeRoomModel: LikeRoomModel = {
@@ -104,7 +104,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard,dis
 
     return (
         <>
-            {userInfo === 'admin' && (
+            {userInfo === 'ROLE_admin' && (
                 <div className="max-w-sm mx-auto">
                     <button type="button" onClick={() => {route.push('/admin/update')}} className="p-3 bg-green-500 text-white">수정</button>
                     <button type="button" onClick={() => {route.push('/admin/delete')}} className="p-3 bg-green-500 text-white">삭제</button>
@@ -131,7 +131,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard,dis
                 >
                     예약하기
                 </button>
-                <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+                <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={3} />
 
                 <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
                     style={{ display: displayReservation }}

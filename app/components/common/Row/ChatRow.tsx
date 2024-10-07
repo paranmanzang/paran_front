@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from "@/lib/store";
+import { useSelector } from 'react-redux';
+import { RootState, useAppDispatch } from "@/lib/store";
 import ChatCard from './ChatCard';
 import fetchChats from "@/app/api/requests";
 import requests from "@/app/api/requests";
@@ -12,11 +12,11 @@ interface ChatRowProps {
 }
 
 const ChatRow = ({ active, onSelect }:ChatRowProps) => {
-  const dispatch = useDispatch<AppDispatch>();
-  const { chats, loading, error } = useSelector((state: RootState) => state.chat);
+  const dispatch = useAppDispatch()
+  const { chats, loading, error } = useSelector((state: RootState) => state.chat)
 
   useEffect(() => {
-    dispatch(requests.fetchChats);
+    dispatch(requests.fetchChats());
   }, [dispatch]);
 
   if (loading) return <div>Loading...</div>;
