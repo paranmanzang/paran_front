@@ -8,8 +8,8 @@ export const login = async (username: string, password: string): Promise<UserMod
     const response = await api.post<UserModel>(requests.fetchLogin,
       { username, password }
     )
+    console.log("로그인 결과: ", response.config.data)
     
-    console.log("로그인 결과: ", response)
     return response.data;
   } catch (error: any) {
     if (error.response) {

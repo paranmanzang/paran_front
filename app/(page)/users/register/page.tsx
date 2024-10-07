@@ -1,7 +1,40 @@
+"use client"
+import { useState, ChangeEvent, FormEvent, MouseEventHandler } from "react";
+
+interface FormData {
+  username: string;
+  password: string;
+  repeat_password: string;
+  nickname: string;
+  tel: string;
+  name: string;
+}
+
 export default function Register() {
+  const [formData, setFormData] = useState<FormData>({
+    username: '',
+    password: '',
+    repeat_password: '',
+    nickname: '',
+    tel: '',
+    name: ''
+  });
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const onSubmit = () => {
+    console.log(formData); // 여기서 formData를 사용하여 회원가입 로직을 구현할 수 있습니다.
+  };
+
   return (
-    <div className="min-h-screen py-40">
-      <form className="mx-auto max-w-md">
+    <div className="my-6 py-40">
+      <div className="mx-auto max-w-md">
       <h1 className="text-2xl mb-6">파란만장 서비스와 함께해요!</h1>
         <div className="group relative z-0 mb-5 w-full">
           <input
@@ -9,7 +42,8 @@ export default function Register() {
             name="username"
             id="username"
             className="border peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900"
-            placeholder=" "
+            placeholder=""
+            onChange={handleChange}
             required
           />
           <label
@@ -24,6 +58,7 @@ export default function Register() {
             type="password"
             name="password"
             id="password"
+            onChange={handleChange}
             className="border peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-green-400 focus:outline-none focus:ring-0"
             placeholder=" "
             required
@@ -41,6 +76,7 @@ export default function Register() {
             type="password"
             name="repeat_password"
             id="repeat_password"
+            onChange={handleChange}
             className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-green-400 peer"
             placeholder=" "
             required
@@ -56,7 +92,7 @@ export default function Register() {
           <input
             type="text"
             name="nickname"
-            id="nickname"
+            id="nickname"onChange={handleChange}
             className="border peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-green-400 focus:outline-none focus:ring-0 "
             required
           />
@@ -73,6 +109,7 @@ export default function Register() {
             pattern="[0-9]{3}-[0-9]{4}-[0-9]{4}"
             name="tel"
             id="tel"
+            onChange={handleChange}
             className="border peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-green-400 focus:outline-none focus:ring-0 "
             placeholder=" "
             required
@@ -88,7 +125,7 @@ export default function Register() {
           <input
             type="text"
             name="name"
-            id="name"
+            id="name"onChange={handleChange}
             className="border peer block w-full appearance-none rounded-lg border-gray-300 bg-transparent px-2.5 pb-2.5 pt-4 text-sm text-gray-900 focus:border-green-400 focus:outline-none focus:ring-0 "
             placeholder=" "
             required
@@ -101,12 +138,13 @@ export default function Register() {
           </label>
         </div>
         <button
-          type="submit"
+          type="button"
+          onClick={onSubmit}
           className="w-full rounded-lg bg-green-400 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 sm:w-auto"
         >
           회원가입
         </button>
-      </form>
+      </div>
     </div>
   );
 }

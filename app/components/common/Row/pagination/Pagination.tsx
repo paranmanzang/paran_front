@@ -1,3 +1,4 @@
+import { current } from '@reduxjs/toolkit';
 import React from 'react';
 
 interface PaginationProps {
@@ -15,6 +16,15 @@ const Pagination = ({
   onPageChange, 
 }: PaginationProps) => {
   const totalPages = Math.ceil(totalItems / pageSize);
+  const handleLast = () => {
+      onPageChange(totalPages);
+  }
+
+  const handleFront = () => {
+    if (totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  }
   
   const handlePrevious = () => {
     if (currentPage > 1) {
@@ -30,14 +40,25 @@ const Pagination = ({
 
   return (
     <div className="pagination">
-      <button onClick={handlePrevious} disabled={currentPage === 1}>
+      <button onClick={handleFront} disabled={currentPage === 1} className='p-3 border-1'>
+        맨앞으로
+      </button>
+      <button onClick={handlePrevious} disabled={currentPage === 1} className='p-3 border-1'>
         이전
       </button>
       <span>
-        {currentPage} / {totalPages}
+        {currentPage} 
+        <span>원</span>
+        <span>원</span>
+        <span>원</span>
+        <span>원</span>
+         {totalPages}
       </span>
-      <button onClick={handleNext} disabled={currentPage === totalPages}>
+      <button onClick={handleNext} disabled={currentPage === totalPages} className='p-3 border-1'>
         다음
+      </button>
+      <button onClick={handleLast} className='p-3 border-1'>
+        맨 뒤로
       </button>
     </div>
   );

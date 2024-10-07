@@ -21,6 +21,7 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
+  const [currentPage, setCurrentPage] = useState();
   const totalItems = 10; 
 
   useEffect(() => {

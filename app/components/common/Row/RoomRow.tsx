@@ -31,7 +31,8 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
 
   const [page, setPage] = useState<number>(1);
   const [pageSize, setPageSize] = useState<number>(25);
-  const totalItems = 100; // 총 아이템 수를 실제 데이터에 맞춰 설정하세요
+  // total 만 바꿔주면 됨
+  const totalItems = 100;
 
   useEffect(() => {
     setIsActive(active);

@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
 import ChatCard from './ChatCard';
+import fetchChats from "@/app/api/requests";
 import requests from "@/app/api/requests";
 
 interface ChatRowProps {
