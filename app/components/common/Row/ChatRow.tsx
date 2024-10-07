@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from "@/lib/store";
 import ChatCard from './ChatCard';
+import fetchChats from "@/app/api/requests";
 import requests from "@/app/api/requests";
 
 interface ChatRowProps {
@@ -23,7 +24,7 @@ const ChatRow = ({ active, onSelect }:ChatRowProps) => {
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      {chats.map((chat) => (
+      {chats.map((chat: { id: React.Key | null | undefined; }) => (
         <ChatCard key={chat.id} chat={chat} active={active} onSelect={onSelect} />
       ))}
     </div>

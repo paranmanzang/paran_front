@@ -21,6 +21,10 @@ export interface BookResponseModel {
     author: string;
     categoryName: string;
     likeBookCount: number;
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    number: number;
 }
 
 export interface LikeBookModel {

@@ -63,6 +63,13 @@ export default function Login() {
                 >
                     로그인
                 </button>
+                <button
+                    type="button"
+                    onClick={() => {router.push('/users/register')}}
+                    className="my-2 w-full rounded-lg border-2 border-green-400 bg-green-400 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
+                >
+                    회원가입
+                </button>
             </form>
             <hr className="my-2" />
 

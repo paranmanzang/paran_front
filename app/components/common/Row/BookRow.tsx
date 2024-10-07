@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BookCard from "./BookCard";
 import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.slice";
@@ -10,6 +10,7 @@ import { fileService } from "@/app/service/File/file.service";
 import { getFiles } from "@/lib/features/file/file.slice";
 import LoadingSpinner from "../status/LoadingSpinner";
 import ErrorMessage from "../status/ErrorMessage";
+import Pagination from "./pagination/Pagination";
 
 interface BookRowProps {
   active: boolean;
@@ -23,25 +24,58 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
   const isLoading = useSelector(getIsLoading);
   const error = useSelector(getError);
 
-  const page = 5; // 임의로 넣어둠
-  const size = 5; // 임의로 넣어둠
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(5);
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
-    bookService.findList(page, size, dispatch)
-    const bookIds = books.map(book => book.id);
-    fileService.selectFileList(bookIds, FileType.BOOK, dispatch)
+    const fetchBooks = async () => {
+      try {
+        const result = await bookService.findList(currentPage, pageSize, dispatch);
+        if (result && result.totalElements) {
+          setTotalItems(result.totalElements);
+        }
+        const bookIds = books.map(book => book.id);
+        await fileService.selectFileList(bookIds, FileType.BOOK, dispatch);
+      } catch (error) {
+        console.error("Error fetching books:", error);
+      }
+    };
 
+    fetchBooks();
+  }, [active, dispatch, currentPage, pageSize]);
 
-  }, [active, dispatch]);
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
+
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setCurrentPage(1);
+  };
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message={error} />;
 
   return (
     <>
-      {books.map((book) => (
-        <BookCard key={book.id} book={book} active={active} file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)} />
-      ))}
+      <div className="book-list">
+        {books.map((book) => (
+          <BookCard 
+            key={book.id} 
+            book={book} 
+            active={active} 
+            file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)} 
+          />
+        ))}
+      </div>
+      <Pagination 
+        currentPage={currentPage}
+        pageSize={pageSize}
+        totalItems={totalItems}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
+      />
     </>
   );
 };

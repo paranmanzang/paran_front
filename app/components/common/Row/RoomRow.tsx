@@ -11,7 +11,7 @@ import Image from "next/image";
 import { roomService } from "@/app/service/room/room.service";
 import { fileService } from "@/app/service/File/file.service";
 import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file/file.slice";
-
+import Pagination from "./pagination/Pagination";
 interface RoomRowProps {
   active: boolean;
   onSelect: () => void;
@@ -29,16 +29,18 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const size: number = 25;
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
+  const [pageSize, setPageSize] = useState<number>(25);
+  // total 만 바꿔주면 됨
+  const totalItems = 100;
 
   useEffect(() => {
     setIsActive(active);
-  
+
     const loadData = async () => {
       try {
         dispatch(saveLoading(true));
-        await roomService.findByEnabled(page, size, dispatch);
+        await roomService.findByEnabled(page, pageSize, dispatch);
         if (rooms.length > 0) {
           await loadRoomFiles(rooms);
         }
@@ -48,9 +50,9 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
         dispatch(saveLoading(false));
       }
     };
-  
+
     loadData();
-  }, [active, dispatch, page]);
+  }, [active, dispatch, page, pageSize]);
 
   const loadRoomFiles = async (rooms: RoomModel[]) => {
     if (rooms.length > 0) {
@@ -60,11 +62,9 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
         await fileService.selectFileList(roomIds, FileType.ROOM, dispatch);
       } catch (error) {
         console.error("파일 로딩 중 오류 발생:", error);
-      } finally {
-        dispatch(upLoading(false));
       }
     }
-  };
+  }
 
   const getRoomImage = (roomId: number | undefined): string => {
     if (roomId !== undefined && files.roomFiles) {
@@ -85,7 +85,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
         dispatch(saveCurrentRoom(currentRoom));
         const currentFile = files.roomFiles?.find(({ refId }) => refId === currentId) ?? null;
         dispatch(saveCurrentFile(currentFile) ?? null);
-        router.push(`/rooms/ + ${currentId}`);
+        router.push(`/rooms/${currentId}`);
       } else {
         console.error("Room ID 알 수 없음:", currentId);
       }
@@ -93,6 +93,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
       console.error("room ID 찾을 수 없음");
     }
   };
+
 
   return (
     <>
@@ -157,6 +158,13 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
       ) : (
         <div>등록된 공간이 없습니다.</div>
       )}
+       <Pagination 
+        currentPage={page} 
+        pageSize={pageSize} 
+        totalItems={totalItems} 
+        onPageChange={setPage} 
+        onPageSizeChange={setPageSize} 
+      />
     </>
   );
 };

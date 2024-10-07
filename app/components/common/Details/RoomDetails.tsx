@@ -55,7 +55,7 @@ export default function Details({ roomId }: roomDetailProps) {
 
       </div>
       <hr className="my-8 w-[80%] mx-auto" />
-      <div className="min-h-screen w-[45rem] mx-auto">
+      <div className="w-[45rem] mx-auto my-8">
         <div className="h-[300px] p-8 w-full justify-center bg-green-50 rounded-lg">
           <p className="mb-2">가게명: {room?.name}</p>
           <p className="mb-2">이용 정원: {room?.maxPeople} 명</p>
@@ -74,7 +74,7 @@ export default function Details({ roomId }: roomDetailProps) {
 
       </div>
 
-      {/* <DetailButton thisPage="/rooms" displayReview="block" displayReservation="block" /> */}
+      <DetailButton thisPage="/rooms" displayBoard="none" displayReview="block" displayReservation="block" />
     </div >
   );
 }

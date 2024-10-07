@@ -11,8 +11,9 @@ interface ComLikeListProps {
 const ComLikeList = ({ type }: ComLikeListProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const modalOpen = () => {
-     setIsModalOpen(true);
-     <Alert message={'예약요청이 완료되었습니다.'} isOpen={isModalOpen} onClose={ () => !isModalOpen }/>
+    console.log('AccountLike: ' + '예약요청이 완료되었습니다.');
+    setIsModalOpen(true);
+    <Alert message={'예약요청이 완료되었습니다.'} isOpen={isModalOpen} onClose={ () => !isModalOpen }/>
   }
   
   return ( 
@@ -45,7 +46,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
             room에서만 보이기 
              */}
 
-              <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">예약요청</button>
+              <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">요청보내기</button>
               
               <AccountButton />
 

@@ -3,6 +3,7 @@ import Map from "./components/common/Map";
 import RecommendBook from "./components/chat/ChatBot/RecommendBook";
 import Carousel from "./components/common/Carousel";
 import TabButton from "./components/common/Row/TabButton";
+import Paging from "./components/common/Row/pagination/Pagination";
 
 export default function Home() {
   return (

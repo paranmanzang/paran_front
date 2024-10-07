@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/lib/store';
 import { BookResponseModel, initialBookState, LikeBookModel } from '@/app/model/group/book.model';
 
@@ -34,9 +34,13 @@ export const bookSlice = createSlice({
 // Selector 함수들
 export const getBooks = (state: RootState) => state.book.books;
 export const getCurrentBook = (state: RootState) => state.book.currentBook;
-export const getLikedBooks = (state: RootState) => state.book.likedBooks;
 export const getIsLoading = (state: RootState) => state.book.isLoading;
 export const getError = (state: RootState) => state.book.error;
+export const getLikedBooks = (state: RootState) => state.book.likedBooks;
+export const getIsBookLiked = createSelector(
+  [getLikedBooks, (_, bookId) => bookId],
+  (likedBooks, bookId) => likedBooks.some(likedBook => likedBook.id === bookId)
+);
 
 export const {
   saveBooks,
