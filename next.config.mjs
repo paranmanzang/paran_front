@@ -18,6 +18,7 @@ const nextConfig = {
         hostname: "localhost",
       },
     ],
+    domains: ['localhost'],
   },
   async rewrites() {
     return [

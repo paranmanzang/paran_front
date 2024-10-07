@@ -31,8 +31,8 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   useEffect(() => {
     setIsActive(active);
 
-    const loadRoomsAndFiles = async () => {
-      await roomService.findByEnabled(page, size, dispatch);
+    const loadRoomsAndFiles = () => {
+      roomService.findByEnabled(page, size, dispatch);
       loadRoomFiles(rooms);
       dispatch(saveLoading(false));
     };
@@ -40,9 +40,9 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
     loadRoomsAndFiles();
   }, [active, dispatch, page, rooms]);
 
-  const loadRoomFiles = async (rooms: any[]) => {
+  const loadRoomFiles = (rooms: any[]) =>{
     const roomIds = rooms.map((room) => room.id);
-    await fileService.selectFileList(roomIds, FileType.ROOM, dispatch);
+    fileService.selectFileList(roomIds, FileType.ROOM, dispatch);
     dispatch(upLoading(false));
   };
 
