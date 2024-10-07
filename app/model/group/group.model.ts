@@ -4,8 +4,8 @@
 export interface GroupState {
     groups: GroupResponseModel[];
     groupMembers: {
-        groupMembers: any; [groupId: number]: JoiningModel[] 
-};
+        groupMembers: any;[groupId: number]: JoiningModel[]
+    };
     groupPostsNotices: GroupPostResponseModel[];
     groupPostsGenerals: GroupPostResponseModel[];
     currentGroup: GroupResponseModel | null;
@@ -23,7 +23,7 @@ export const initialGroupState: GroupState = {
     currentGroup: null,
     currentGroupPost: null,
     isLoading: false,
-    error: null
+    error: null,
 };
 
 

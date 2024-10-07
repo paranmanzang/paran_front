@@ -23,7 +23,7 @@ const ChatRow = ({ active, onSelect }:ChatRowProps) => {
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      {chats.map((chat) => (
+      {chats.map((chat: { id: React.Key | null | undefined; }) => (
         <ChatCard key={chat.id} chat={chat} active={active} onSelect={onSelect} />
       ))}
     </div>

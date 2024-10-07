@@ -15,8 +15,6 @@ interface GroupBoardProps {
 export default function GroupBoard({thisPage, userInfo}: GroupBoardProps ) {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const [active, setActive] = useState(false);
-    
     const { groupPostsNotice, groupPostsGeneral } = useSelector(getGroupPosts);
     const groupId = thisPage
     const page = 5 // 임의 값
@@ -52,7 +50,7 @@ export default function GroupBoard({thisPage, userInfo}: GroupBoardProps ) {
     return (
         <div className="mx-auto my-8 max-w-sm bg-green-100 p-4">
             {/* 카테고리 선택 탭 */}
-            
+
             <div className="mb-4 flex justify-around">
                 <button
                     className={`p-2 ${selectedCategory === '공지 사항' ? 'bg-green-500 text-white' : 'bg-gray-200'}`}
@@ -74,16 +72,21 @@ export default function GroupBoard({thisPage, userInfo}: GroupBoardProps ) {
                 {postsToShow.length > 0 ? (
                     postsToShow.map((post, index) => (
                         <li key={index} className="m-2 bg-white p-6" onClick={() => onClickToDetail(post.id)}>
-                            <div className="text-lg font-bold">{post.title}</div>
-                            <div className="text-lg font-bold">{post.nickname}</div>
-                            <div className="text-lg font-bold">{post.createAt}</div>
-                            <div className="text-lg font-bold">{post.viewCount}</div>
+                            <p className="text-lg font-bold">{post.title}</p>
+                            <p className="text-lg font-bold">{post.nickname}</p>
+                            <p className="text-lg font-bold">{post.createAt}</p>
+                            <p className="text-lg font-bold">{post.viewCount}</p>
                         </li>
                     ))
                 ) : (
                     <li>게시물이 없습니다.</li>
                 )}
             </ul>
+            <div>
+            <button type="button" onClick={() => {router.back()}} className="mx-2 rounded-full border px-3 py-2">
+                    뒤로가기
+                </button>
+            </div>
         </div>
     );
 }

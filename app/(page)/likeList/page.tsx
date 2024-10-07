@@ -2,6 +2,7 @@
 import {useState} from "react";
 import {useRouter} from "next/navigation";
 import ComLikeList from "@/app/components/user/ComLikeList";
+import Link from "next/link";
 
 type TabType = "All" | "Groups" | "Rooms";
 
@@ -36,7 +37,7 @@ export default function LikeList() {
                 <ul className="flex border-b">
                     {["All", "Groups", "Rooms"].map((tab) => (
                         <li key={tab} className="-mb-px mr-1">
-                            <a
+                            <Link
                                 href="#"
                                 className={`inline-block py-2 px-4 text-sm font-semibold ${
                                     activeTab === tab
@@ -49,7 +50,7 @@ export default function LikeList() {
                                 }}
                             >
                                 {tab}
-                            </a>
+                            </Link>
                         </li>
                     ))}
                 </ul>

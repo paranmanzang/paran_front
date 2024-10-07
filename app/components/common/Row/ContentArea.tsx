@@ -2,13 +2,22 @@ import React from 'react';
 import GroupRow from "./GroupRow";
 import RoomRow from "./RoomRow";
 import BookRow from "./BookRow";
-// import ChatRow from "./ChatRow";
+import ChatRow from "./ChatRow";
+import { useSelector } from 'react-redux';
+import { getCurrentUser } from '@/lib/features/users/user.slice';
 
 interface ContentAreaProps {
-  activeTab: string;
+  activeTab: string
+}
+
+interface UserInfo {
+  nickname: string
+  groupId: string
 }
 
 const ContentArea = ({ activeTab }:ContentAreaProps) => {
+  const userInfo = useSelector(getCurrentUser) as unknown as UserInfo;
+
   const renderActiveContent = () => {
     switch (activeTab) {
       case "Groups":
@@ -17,10 +26,12 @@ const ContentArea = ({ activeTab }:ContentAreaProps) => {
         return <RoomRow active={true} onSelect={() => {}} />;
       case "Books":
         return <BookRow active={true} onSelect={() => {}}/>;
-      // case "Chats":
-      //   return <ChatRow active={true} onSelect={() => {}} />;
+        case "Chats":
+          return userInfo.groupId.length > 0 && (
+            <ChatRow active={true} onSelect={() => {}} />
+          )
       default:
-        return null;
+        return null
     }
   };
 
