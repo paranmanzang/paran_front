@@ -6,7 +6,7 @@ import { getBooks, getIsLoading, getError, getTotalPage } from "@/lib/features/g
 import { useAppDispatch } from "@/lib/store";
 import { defaultFile, FileType } from "@/app/model/file/file.model";
 import { bookService } from "@/app/service/group/book.service";
-import { fileService } from "@/app/service/File/file.service";
+import { fileService } from "@/app/service/file/file.service";
 import { getFiles } from "@/lib/features/file/file.slice";
 import LoadingSpinner from "../status/LoadingSpinner";
 import ErrorMessage from "../status/ErrorMessage";

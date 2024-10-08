@@ -20,7 +20,7 @@ export default function BookingList({ bookings }: BookingListProps) {
 
   const handleCheckboxChange = (id: string) => {
     setSelectedBookings(prev =>
-      prev.includes(id) ? prev.filter(bookingId => bookingId !== id) : [...prev, id]
+    prev.includes(id) ? prev.filter(bookingId => bookingId !== id) : [...prev, id]
     )
   }
 
@@ -87,7 +87,7 @@ export default function BookingList({ bookings }: BookingListProps) {
       <div className="btn_wrap flex justify-end my-4">
         <button onClick={() => router.back()} className="p-2 bg-green-600 text-white rounded-lg">뒤로가기</button>
         <button
-          onClick={() => handleDelete(bookings.id)}
+          onClick={() => handleDelete(booking?.id)}
           className="p-2 mx-2 bg-green-600 text-white rounded-lg"
         >삭제하기</button>
       </div>

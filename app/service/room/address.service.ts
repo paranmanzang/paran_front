@@ -96,7 +96,7 @@ const findAll = async (dispatch: AppDispatch): Promise<void> => {
       throw new Error('서버에서 오류가 발생했습니다.');
     } else if (error.request) {
       console.error('No Response:', error.request);
-      throw new Error('서버 응답이 없습니다.');
+      //throw new Error('서버 응답이 없습니다.');
     } else {
       console.error('Error:', error.message);
       throw new Error('주소 목록 조회 중 오류 발생');

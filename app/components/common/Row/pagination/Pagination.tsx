@@ -37,7 +37,7 @@ const Pagination = ({
   };
 
   return ( 
-    <div className="pagination flex max-w-lg">
+    <div className="pagination flex items-center max-w-lg">
       <button onClick={handleFirst} disabled={currentPage === 1} className='p-3 border-1'>
         맨앞으로
       </button>

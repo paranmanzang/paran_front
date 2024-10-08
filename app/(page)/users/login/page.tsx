@@ -1,22 +1,31 @@
 "use client"
 
 import { useState } from 'react';
-import Link from "next/link";
 import Image from "next/image";
 import Naver from "@/app/assets/btnG.png"
 import { useRouter } from "next/navigation";
-import { oauth } from "@/app/service/user/login.service";
-import ErrorMessage from "@/app/components/common/status/ErrorMessage";
-import { login } from '@/app/service/user/login.service';
+import { login, oauth } from "@/app/service/user/login.service";
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '@/lib/store';
+import { saveCurrentUser } from '@/lib/features/users/user.slice';
 
 export default function Login() {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const loginService = useSelector(login);
+    const dispatch = useAppDispatch()
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        try{
         e.preventDefault();
-        login(username, password);
+        const user = loginService(username, password);
+        console.log('로그인 성공:', user);
+        dispatch(saveCurrentUser(user))
+        router.push('/')
+        } catch (error) {
+        console.error('로그인 실패:', error);
+        }
     };
 
     const moveToOath = () => {

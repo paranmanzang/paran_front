@@ -1,16 +1,23 @@
-"use client"
 import { UserModel } from "@/app/model/user/user.model";
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
+import { setToken } from "@/lib/features/auth.slice";
 
 export const login = async (username: string, password: string): Promise<UserModel> => {
+
   try {
     const response = await api.post<UserModel>(requests.fetchLogin,
       { username, password }
     )
-    console.log("로그인 결과: ", response.config.data)
-    
-    return response.data;
+    const token = response.headers['authorization']
+    if (token) {
+      setToken(token);
+      console.log(response.config);
+      return response.config.data;
+    } else {
+      throw new Error('토큰을 받지 못했습니다.');
+    }
+
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -58,7 +65,7 @@ export const oauth = async (router: any): Promise<void> => {
       // 외부 URL인 경우
       window.location.href = oauthUrl;
     } else {
-      // 내부 경로인 경우 // await 경로로 router?를 넣어서 생기는 에러가 남...?
+      // 내부 경로인 경우
       await router.push(oauthUrl);
     }
   } catch (error: any) {

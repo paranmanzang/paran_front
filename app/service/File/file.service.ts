@@ -1,6 +1,6 @@
 import { fileAPI } from '@/app/api/generate/file.api';
 import { FileDeleteModel, FileType } from '@/app/model/file/file.model';
-import { addFile, removeFile, saveFiles, upLoading } from '@/lib/features//file/file.slice';
+import { addFile, removeFile, saveFiles, upLoading } from '@/lib/features/file/file.slice';
 import { AppDispatch } from '@/lib/store';
 
 // 파일 리스트 조회

@@ -46,9 +46,9 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
             <div
                 className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${active ? "ring-2 ring-green-500" : ""}`}>
                 <Image
-                    width={400}
-                    height={380}
-                    className="cursor-pointer rounded-t-lg"
+                    width={260}
+                    height={210}
+                    className="size-80 cursor-pointer rounded-t-lg object-cover"
                     src={file.path === process.env.NEXT_PUBLIC_IMAGE_DEFAULT ? process.env.NEXT_PUBLIC_IMAGE_DEFAULT : `http://localhost:8000/api/files?path=${file.path}`}
                     alt={`cover of ${book.title}`}
                     priority
