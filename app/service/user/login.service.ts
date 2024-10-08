@@ -9,7 +9,7 @@ export const login = async (username: string, password: string): Promise<any> =>
     const response = await api.post<UserModel>(requests.fetchLogin,
       { username, password }
     )
-    
+
     const token = response.headers['Authorization']
     console.log("전체 응답 헤더:", response.headers);
     console.log("Authorization 헤더:", response.headers['Authorization']);
@@ -67,10 +67,12 @@ export const oauth = async (router: any): Promise<void> => {
     if (!oauthUrl) {
       throw new Error('OAuth URL is not defined');
     }
+    console.log(oauthUrl)
 
     if (oauthUrl.startsWith('http') || oauthUrl.startsWith('https')) {
       // 외부 URL인 경우
       window.location.href = oauthUrl;
+      
     } else {
       // 내부 경로인 경우
       await router.push(oauthUrl);
