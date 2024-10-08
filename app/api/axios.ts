@@ -10,8 +10,6 @@ interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
 interface CustomAxiosError extends AxiosError {
   config: CustomAxiosRequestConfig;
 }
-
-
 // axios 인스턴스 생성
 const instance: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BACK_URL,

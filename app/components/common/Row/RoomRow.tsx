@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getRooms, saveCurrentRoom, saveLoading } from '@/lib/features/room/room.slice';
-import { useAppDispatch } from '@/lib/store';
-import { roomService } from '@/app/service/room/room.service';
-import { fileService } from '@/app/service/file/file.service';
-import { getFiles, saveCurrentFile, upLoading } from '@/lib/features/file/file.slice';
-import RoomCard from './RoomCard';
-import Pagination from './pagination/Pagination';
-import { RoomModel } from '@/app/model/room/room.model';
-import { FileType } from '@/app/model/file/file.model';
+"use client";
+import React, { useEffect, useState } from "react";
+import { getRooms, saveCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
+import { RoomModel } from "@/app/model/room/room.model";
+import { useAppDispatch } from "@/lib/store";
+import { useSelector } from "react-redux";
+import { FileType } from "@/app/model/file/file.model";
+import { roomService } from "@/app/service/room/room.service";
+import { fileService } from "@/app/service/file/file.service";
+import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file/file.slice";
+import ErrorMessage from "../status/ErrorMessage";
+import Pagination from "./pagination/Pagination";
+import RoomCard from "./RoomCard";
 
 interface RoomRowProps {
   active: boolean;
@@ -71,7 +73,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
           />
         ))
       ) : (
-        <div>등록된 공간이 없습니다.</div>
+        <div><ErrorMessage message={'등록된 공간이 없습니다.'}/></div>
       )}
       <Pagination 
         currentPage={page} 

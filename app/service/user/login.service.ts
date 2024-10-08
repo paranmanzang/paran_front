@@ -9,7 +9,7 @@ export const login = async (username: string, password: string): Promise<any> =>
     const response = await api.post<UserModel>(requests.fetchLogin,
       { username, password }
     )
-
+    
     const token = response.headers['Authorization']
     console.log("전체 응답 헤더:", response.headers);
     console.log("Authorization 헤더:", response.headers['Authorization']);
@@ -25,7 +25,6 @@ export const login = async (username: string, password: string): Promise<any> =>
       console.log("토큰이 안보여요 ㅠㅠ")
       throw new Error('토큰을 받지 못했습니다.');
     }
-
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
