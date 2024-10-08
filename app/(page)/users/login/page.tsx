@@ -29,9 +29,17 @@ export default function Login() {
 
     const moveToOath = () => {
         const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
-        if (oauthUrl) {
-            oauth(oauthUrl);
+        try {
+            if (oauthUrl) {
+                const result = oauth(oauthUrl);
+                console.log(result);
+            } else {
+                router.push('/')
+            }
+        } catch (error) {
+            console.error('로그인 실패:', error)
         }
+
     };
 
     return (
