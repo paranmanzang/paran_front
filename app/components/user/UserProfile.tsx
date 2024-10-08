@@ -2,13 +2,11 @@
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useEffect } from 'react'
-import { useDispatch } from 'react-redux'
-import { userService } from '@/app/service/user/user.service'
+import { useDispatch, useSelector } from 'react-redux'
+import { findUserDetail } from '@/app/service/user/user.service'
 import LoadingSpinner from '@/app/components/common/status/LoadingSpinner'
 import ErrorMessage from '@/app/components/common/status/ErrorMessage'
-import { AppDispatch } from '@/lib/store' 
-import { getIsLoading} from '@/lib/features/users/user.slice'
-import { isError } from 'react-query'
+import { AppDispatch, RootState } from '@/lib/store' 
 
 interface UserProfileProps {
     getUser: string | undefined;
@@ -16,18 +14,16 @@ interface UserProfileProps {
 export default function UserProfile({ getUser }: UserProfileProps) {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
+    const {isLoading, error } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-        const fetchUserDetail = async () => {
-            await userService.findUserDetail(getUser, dispatch);
-        };
-
-        fetchUserDetail();
+        if (getUser) {
+            dispatch(findUserDetail(getUser));
+        }
     }, [getUser, dispatch]);
 
-    if (!getIsLoading) return <LoadingSpinner />;
-    if (isError) return <ErrorMessage message={isError} />; // 에러 메시지 표시
-    if (!getUser) return null;
+    if (isLoading) return <LoadingSpinner />;
+    if (error) return <ErrorMessage message={error} />;
 
     return (
         <div className="mx-auto my-[40px] py-3 px-6 h-auto w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow">

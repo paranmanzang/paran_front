@@ -4,6 +4,7 @@ export interface BookState {
     currentBook: BookResponseModel | null;
     isLoading: boolean;
     error: string | null;
+    totalPage: number;
 }
 
 // 초기 상태
@@ -12,7 +13,8 @@ export const initialBookState: BookState = {
     likedBooks: [],
     currentBook: null,
     isLoading: false,
-    error: null
+    error: null,
+    totalPage: 0
 };
 
 export interface BookResponseModel {
@@ -21,8 +23,6 @@ export interface BookResponseModel {
     author: string;
     categoryName: string;
     likeBookCount: number;
-    totalElements: number;
-    totalPages: number;
     size: number;
     number: number;
 }

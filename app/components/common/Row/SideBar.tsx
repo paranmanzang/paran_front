@@ -19,6 +19,7 @@ const allTabs = [
 
 export default function SideBar() {
   const [activeTab, setActiveTab] = useState("Groups");
+  const userInfo = useSelector(getCurrentUser);
   const user = useSelector(getCurrentUser);
   const group = initialGroupState
   const userGroups = group.groupMembers ? user?.nickname : null ;

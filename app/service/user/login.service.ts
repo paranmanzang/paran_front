@@ -1,15 +1,30 @@
-"use client"
 import { UserModel } from "@/app/model/user/user.model";
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
+// import { setToken } from "@/lib/features/auth.slice";
+import { setAccessToken } from "@/app/api/authUtils";
 
-export const login = async (username: string, password: string): Promise<UserModel> => {
+export const login = async (username: string, password: string): Promise<any> => {
   try {
     const response = await api.post<UserModel>(requests.fetchLogin,
       { username, password }
     )
-    console.log("로그인 결과: ", response.config.data)
-    return response.data;
+    
+    const token = response.headers['Authorization']
+    console.log("전체 응답 헤더:", response.headers);
+    console.log("Authorization 헤더:", response.headers['Authorization']);
+    console.log("authorization 헤더 (소문자):", response.headers['authorization']);
+    console.log(response.headers)
+    
+    if (token) {
+      console.log("토큰이 보이긴 해요")
+      setAccessToken(token);
+      console.log(response.config);
+      return response.config.data;
+    } else {
+      console.log("토큰이 안보여요 ㅠㅠ")
+      throw new Error('토큰을 받지 못했습니다.');
+    }
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -57,7 +72,7 @@ export const oauth = async (router: any): Promise<void> => {
       // 외부 URL인 경우
       window.location.href = oauthUrl;
     } else {
-      // 내부 경로인 경우 // await 경로로 router?를 넣어서 생기는 에러가 남...?
+      // 내부 경로인 경우
       await router.push(oauthUrl);
     }
   } catch (error: any) {

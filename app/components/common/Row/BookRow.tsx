@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import BookCard from "./BookCard";
-import { getBooks, getIsLoading, getError } from "@/lib/features/group/book.slice";
+import { getBooks, getIsLoading, getError, getTotalPage } from "@/lib/features/group/book.slice";
 import { useAppDispatch } from "@/lib/store";
 import { defaultFile, FileType } from "@/app/model/file/file.model";
 import { bookService } from "@/app/service/group/book.service";
-import { fileService } from "@/app/service/File/file.service";
+import { fileService } from "@/app/service/file/file.service";
 import { getFiles } from "@/lib/features/file/file.slice";
 import LoadingSpinner from "../status/LoadingSpinner";
 import ErrorMessage from "../status/ErrorMessage";
@@ -23,26 +23,15 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
   const files = useSelector(getFiles);
   const isLoading = useSelector(getIsLoading);
   const error = useSelector(getError);
+  const totalPage = useSelector(getTotalPage)
 
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(5);
-  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const result = await bookService.findList(currentPage, pageSize, dispatch);
-        if (result && result.totalElements) {
-          setTotalItems(result.totalElements);
-        }
-        const bookIds = books.map(book => book.id);
-        await fileService.selectFileList(bookIds, FileType.BOOK, dispatch);
-      } catch (error) {
-        console.error("Error fetching books:", error);
-      }
-    };
-
-    fetchBooks();
+    bookService.findList(currentPage, pageSize, dispatch)
+    // const bookIds = books.map(book => book.id);
+    // fileService.selectFileList(bookIds, FileType.BOOK, dispatch);
   }, [active, dispatch, currentPage, pageSize]);
 
   const handlePageChange = (page: number) => {
@@ -59,20 +48,20 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
 
   return (
     <>
-        {books.map((book) => (
-          <BookCard 
-            key={book.id} 
-            book={book} 
-            active={active} 
-            file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)} 
-          />
-        ))}
-      <Pagination 
+      {books.map((book) => (
+        <BookCard
+          key={book.id}
+          book={book}
+          active={active}
+          file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)}
+        />
+      ))}
+      <Pagination
         currentPage={currentPage}
         pageSize={pageSize}
-        totalItems={totalItems}
-          onPageChange={handlePageChange}
-          onPageSizeChange={handlePageSizeChange}
+        totalItems={totalPage}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
       />
     </>
   );

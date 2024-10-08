@@ -21,13 +21,16 @@ export const bookSlice = createSlice({
     saveCurrentBook: (state, action: PayloadAction<BookResponseModel | null>) => {
       state.currentBook = action.payload;
     },
+    saveTotalPage: (state, action: PayloadAction<number>) => {
+      state.totalPage = action.payload;
+    },
     saveLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
     saveError: (state, action: PayloadAction<string | null>) => {
       state.error = action.payload;
     }
-  
+   
   }
 });
 
@@ -41,6 +44,7 @@ export const getIsBookLiked = createSelector(
   [getLikedBooks, (_, bookId) => bookId],
   (likedBooks, bookId) => likedBooks.some(likedBook => likedBook.id === bookId)
 );
+export const getTotalPage = (state: RootState) => state.book.totalPage;
 
 export const {
   saveBooks,
@@ -48,6 +52,7 @@ export const {
   saveCurrentBook,
   saveLikedBooks,
   deleteLikedBook,
+  saveTotalPage,
   saveLoading,
   saveError
 } = bookSlice.actions;
