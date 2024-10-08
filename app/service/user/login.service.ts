@@ -1,20 +1,28 @@
 import { UserModel } from "@/app/model/user/user.model";
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
-import { setToken } from "@/lib/features/auth.slice";
+// import { setToken } from "@/lib/features/auth.slice";
+import { setAccessToken } from "@/app/api/authUtils";
 
-export const login = async (username: string, password: string): Promise<UserModel> => {
-
+export const login = async (username: string, password: string): Promise<any> => {
   try {
     const response = await api.post<UserModel>(requests.fetchLogin,
       { username, password }
     )
-    const token = response.headers['authorization']
+
+    const token = response.headers['Authorization']
+    console.log("전체 응답 헤더:", response.headers);
+    console.log("Authorization 헤더:", response.headers['Authorization']);
+    console.log("authorization 헤더 (소문자):", response.headers['authorization']);
+    console.log(response.headers)
+    
     if (token) {
-      setToken(token);
+      console.log("토큰이 보이긴 해요")
+      setAccessToken(token);
       console.log(response.config);
       return response.config.data;
     } else {
+      console.log("토큰이 안보여요 ㅠㅠ")
       throw new Error('토큰을 받지 못했습니다.');
     }
 

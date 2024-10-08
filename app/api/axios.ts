@@ -1,11 +1,6 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios';
 import { getAccessToken } from './authUtils';
 
-// Refresh token을 저장하기 위한 함수들
-const getRefreshToken = (): string | null => localStorage.getItem('refreshToken');
-const setRefreshToken = (token: string): void => localStorage.setItem('refreshToken', token);
-const removeRefreshToken = (): void => localStorage.removeItem('refreshToken');
-
 // 커스텀 설정 타입 정의
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean;
@@ -57,7 +52,7 @@ instance.interceptors.response.use(
       } catch (refreshError) {
         console.error('Token refresh failed', refreshError);
         // 로그아웃 로직 구현
-        window.location.href = '/login';
+        window.location.href = '/logout';
         return Promise.reject(refreshError);
       }
     }

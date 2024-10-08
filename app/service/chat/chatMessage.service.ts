@@ -68,7 +68,7 @@ const insert = async ({ nickname, roomId, message, dispatch }: {
     roomId: string,
     message: string,
     dispatch: AppDispatch
-}): Promise<boolean> => {
+}): Promise<any> => {
     try {
         dispatch(saveLoading(true));
         const response = await chatMessageAPI.insert(nickname, roomId, message)
@@ -85,7 +85,7 @@ const insert = async ({ nickname, roomId, message, dispatch }: {
 const findUnReadTotalCount = async ({ nickname, dispatch }: {
     nickname: string,
     dispatch: AppDispatch
-}): Promise<number> => {
+}): Promise<any> => {
     try {
         dispatch(saveLoading(true));
         const response = await chatMessageAPI.findUnReadTotalCount(nickname)

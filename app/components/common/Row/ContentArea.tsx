@@ -5,7 +5,6 @@ import BookRow from "./BookRow";
 import ChatRow from "./ChatRow";
 import { useSelector } from 'react-redux';
 import { getCurrentUser } from '@/lib/features/users/user.slice';
-import Pagination from './pagination/Pagination';
 
 interface ContentAreaProps {
   activeTab: string
@@ -38,7 +37,7 @@ const ContentArea = ({ activeTab }:ContentAreaProps) => {
 
   return (
     <div className="flex-1 overflow-y-auto p-8">
-      <div className="mb-4 grid grid-cols-4 gap-4 md:grid-cols-3">
+      <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
         {renderActiveContent()}
       </div>
     </div>

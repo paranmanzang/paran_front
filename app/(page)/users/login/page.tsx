@@ -13,18 +13,17 @@ export default function Login() {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const loginService = useSelector(login);
     const dispatch = useAppDispatch()
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        try{
         e.preventDefault();
-        const user = loginService(username, password);
-        console.log('로그인 성공:', user);
-        dispatch(saveCurrentUser(user))
-        router.push('/')
+        try {
+            const user = login(username, password);
+            console.log('로그인 성공:', user);
+            dispatch(saveCurrentUser(user))
+            router.push('/')
         } catch (error) {
-        console.error('로그인 실패:', error);
+            console.error('로그인 실패:', error);
         }
     };
 
@@ -74,7 +73,7 @@ export default function Login() {
                 </button>
                 <button
                     type="button"
-                    onClick={() => {router.push('/users/register')}}
+                    onClick={() => { router.push('/users/register') }}
                     className="my-2 w-full rounded-lg border-2 border-green-400 bg-green-400 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
                 >
                     회원가입

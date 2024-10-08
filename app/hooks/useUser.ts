@@ -10,7 +10,7 @@ export const useUser = (nickname: string) => {
 
     const { data: user, isLoading, error } = useQuery<UserModel, Error>(
         ['user', nickname],
-        () => findUserDetail(nickname, dispatch), // nickname으로 유저를 찾는 API
+        () => findUserDetail(nickname, dispatch),
         {
             staleTime: 5 * 60 * 1000,
             onError: (error: Error) => {
