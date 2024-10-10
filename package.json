@@ -18,6 +18,7 @@
     "autoprefixer": "^10.4.20",
     "axios": "^1.7.7",
     "eslint-config-next": "^14.2.13",
+    "event-source-polyfill": "^1.0.31",
     "flowbite": "^2.5.2",
     "js-cookie": "^3.0.5",
     "list": "^2.0.19",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^14.2.13",
+    "@types/event-source-polyfill": "^1.0.5",
     "@types/js-cookie": "^3.0.6",
     "@types/react": "18.3.10",
     "eslint": "^8.0.0",

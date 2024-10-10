@@ -3,6 +3,8 @@ import { ChatMessageModel } from "@/app/model/chat/chat.model";
 import { AppDispatch } from "@/lib/store";
 import { saveError, saveLoading } from "@/lib/features/chat/chat.slice";
 import chatMessageAPI from "@/app/api/generate/chatMessage.api";
+import { getAccessToken } from "@/app/api/authUtils";
+import { EventSourcePolyfill } from "event-source-polyfill";
 
 const findList = async ({ roomId, nickname, onMessage }: {
     roomId: string,
@@ -10,8 +12,17 @@ const findList = async ({ roomId, nickname, onMessage }: {
     onMessage: (message: ChatMessageModel) => void
 }): Promise<() => void> => {
     try {
-        const eventSource = new EventSource(
-            `http://localhost:8000${requests.fetchChats}/message/${roomId}?nickname=${nickname}`
+        const token = getAccessToken();
+        if (!token) {
+          throw new Error('No access token available');
+        }
+        const eventSource = new EventSourcePolyfill(
+            `http://localhost:8000/message/${roomId}?nickname=${nickname}`, 
+            {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            }
         );
 
         eventSource.onopen = () => {
