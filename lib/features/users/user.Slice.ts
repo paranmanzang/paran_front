@@ -10,6 +10,9 @@ const userSlice = createSlice({
       console.log('saveCurrentUser called with payload:', action.payload);
       state.currentUser = action.payload;
     },
+    saveNickname: (state, action: PayloadAction<string>) => {
+      state.nickname = action.payload;
+    },
     saveUsers: (state, action: PayloadAction<UserModel[]>) => {
       console.log('saveUsers called with payload:', action.payload);
       state.users = action.payload;
@@ -68,6 +71,7 @@ const userSlice = createSlice({
 
 export const getCurrentUser = (state: RootState) => state.user.currentUser;
 export const getUsers = (state:  RootState) => state.user.users;
+export const getNickname = (state: RootState) => state.user.nickname;
 export const getIsLoading = (state: RootState) => state.user.isLoading;
 export const getError = (state:  RootState) => state.user.error;
 
@@ -75,6 +79,7 @@ export const getError = (state:  RootState) => state.user.error;
 export const {
   saveCurrentUser,
   saveUsers,
+  saveNickname,
   addUser,
   updateUser,
   deleteUser,

@@ -10,6 +10,7 @@ import { chatRoomService } from "@/app/service/chat/chatRoom.service";
 import { chatUserService } from "@/app/service/chat/chatUser.service";
 import { chatMessageService } from "@/app/service/chat/chatMessage.service";
 import { useAppDispatch } from "@/lib/store";
+import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
 
 const ChatPage = dynamic(() => import("@/app/components/chat/ChatPages/ChatPage"), { ssr: false });
 const MyChatList = dynamic(() => import("@/app/components/chat/MyChatList"), { ssr: false });
@@ -23,7 +24,7 @@ export default function ChatRoom() {
     const loading = useSelector(getIsLoading);
     const error = useSelector(getError);
 
-    const nickname = "J"; // TODO: 실제 사용자 닉네임으로 대체
+    const nickname = useSelector(getNickname) as string;
     const roomId = chatRoom?.roomId ?? '';
     const [messages, setMessages] = useState<ChatMessageModel[]>([]);
     const [chatRooms, setChatRooms] = useState<ChatRoomModel[]>([]);

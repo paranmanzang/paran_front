@@ -4,10 +4,8 @@ import { useState } from 'react';
 import Image from "next/image";
 import Naver from "@/app/assets/btnG.png"
 import { useRouter } from "next/navigation";
-import { login, oauth } from "@/app/service/user/login.service";
-import { useSelector } from 'react-redux';
 import { useAppDispatch } from '@/lib/store';
-import { saveCurrentUser } from '@/lib/features/users/user.slice';
+import { loginService } from '@/app/service/user/login.service';
 
 export default function Login() {
     const router = useRouter();
@@ -18,9 +16,7 @@ export default function Login() {
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            const user = login(username, password);
-            console.log('로그인 성공:', user);
-            dispatch(saveCurrentUser(user))
+            loginService.login(username, password,dispatch);
             router.push('/')
         } catch (error) {
             console.error('로그인 실패:', error);
@@ -31,7 +27,7 @@ export default function Login() {
         const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
         try {
             if (oauthUrl) {
-                const result = oauth(oauthUrl);
+                const result = loginService.oauth(oauthUrl);
                 console.log(result);
             } else {
                 router.push('/')

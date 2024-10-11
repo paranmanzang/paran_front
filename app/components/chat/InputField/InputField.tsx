@@ -33,20 +33,20 @@ const InputField = ({
   const handleEnter = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       if (!e.shiftKey) {
-        e.preventDefault();  
-        sendMessage();      
+        e.preventDefault();
+        sendMessage();
       }
     }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault(); 
-    sendMessage();       
+    e.preventDefault();
+    sendMessage();
   };
 
   return (
     <div className={styles.inputArea}>
-      <form onSubmit={handleSubmit} className={styles.inputContainer}>
+      <div className={styles.inputContainer}>
         <textarea
           id="autoResize"
           rows={1} // 최소 1줄로 시작
@@ -61,7 +61,7 @@ const InputField = ({
           onKeyDown={handleEnter}
           className="w-[90%] rounded border p-2"
         />
-        <button disabled={message === ""} type="submit" className={styles.sendButton}>
+        <button disabled={message === ""} type="submit" className={styles.sendButton} onClick={handleSubmit}>
           <svg
             className="size-5 rotate-45 rtl:-rotate-45 "
             aria-hidden="true"
@@ -72,7 +72,7 @@ const InputField = ({
             <path d="m17.914 18.594-8-18a1 1 0 0 0-1.828 0l-8 18a1 1 0 0 0 1.157 1.376L8 18.281V9a1 1 0 0 1 2 0v9.281l6.758 1.689a1 1 0 0 0 1.156-1.376Z" />
           </svg>
         </button>
-      </form>
+      </div>
     </div>
   );
 };
