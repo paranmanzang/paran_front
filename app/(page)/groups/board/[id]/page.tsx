@@ -8,12 +8,11 @@ interface GroupBoardIdProps {
 }
 
 export default function GroupBoardId({ id }: GroupBoardIdProps) {
-    const member = useSelector(getCurrentUser);
-    const userInfo = member?.id ?? ""
+    const user = useSelector(getCurrentUser);
+    const userInfo = user?.id ?? ""
 
     return (
         <div>
-            {/* {userInfo && group에 참여중인 사람만 보일 수 있도록 한다. */}
             <GroupBoard thisPage={id} userInfo={userInfo} />
         </div>
     )
