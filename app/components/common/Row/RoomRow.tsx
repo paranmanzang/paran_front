@@ -1,162 +1,87 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getRooms, saveCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
-import { useRouter } from "next/navigation";
 import { RoomModel } from "@/app/model/room/room.model";
 import { useAppDispatch } from "@/lib/store";
-import { FileType } from "@/app/model/file/file.model";
 import { useSelector } from "react-redux";
-import Link from "next/link";
-import Image from "next/image";
+import { FileType } from "@/app/model/file/file.model";
 import { roomService } from "@/app/service/room/room.service";
-import { fileService } from "@/app/service/File/file.service";
+import { fileService } from "@/app/service/file/file.service";
 import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file/file.slice";
+import ErrorMessage from "../status/ErrorMessage";
+import Pagination from "./pagination/Pagination";
+import RoomCard from "./RoomCard";
 
 interface RoomRowProps {
   active: boolean;
   onSelect: () => void;
 }
 
-interface RoomFile {
-  refId: number;
-  path: string;
-}
-
 const RoomRow = ({ active, onSelect }: RoomRowProps) => {
-  const [isActive, setIsActive] = useState<boolean>(active);
-  const rooms = useSelector(getRooms) as RoomModel[];
-  const files = useSelector(getFiles) as { roomFiles: RoomFile[] };
+  const rooms = useSelector(getRooms);
+  const files = useSelector(getFiles);
   const dispatch = useAppDispatch();
-  const router = useRouter();
 
-  const size: number = 25;
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(9);
+  const totalItems = 10; // 실제 데이터의 총 개수로 업데이트
 
   useEffect(() => {
-    setIsActive(active);
-  
-    const loadData = async () => {
-      try {
-        dispatch(saveLoading(true));
-        await roomService.findByEnabled(page, size, dispatch);
-        if (rooms.length > 0) {
-          await loadRoomFiles(rooms);
-        }
-      } catch (error) {
-        console.error("데이터 로딩 중 오류 발생:", error);
-      } finally {
-        dispatch(saveLoading(false));
-      }
-    };
-  
-    loadData();
-  }, [active, dispatch, page]);
+    dispatch(saveLoading(true));
+    roomService.findByEnabled(page, pageSize, dispatch);
+    loadRoomFiles(rooms);
+    dispatch(saveLoading(false));
+  }, [page, pageSize]);
 
-  const loadRoomFiles = async (rooms: RoomModel[]) => {
-    if (rooms.length > 0) {
-      const roomIds = rooms.map(room => room.id).filter((id): id is number => id !== undefined);
-      try {
-        dispatch(upLoading(true));
-        await fileService.selectFileList(roomIds, FileType.ROOM, dispatch);
-      } catch (error) {
-        console.error("파일 로딩 중 오류 발생:", error);
-      } finally {
-        dispatch(upLoading(false));
-      }
-    }
+  const loadRoomFiles = (rooms: RoomModel[]) => {
+    const roomIds = rooms.map((room) => room.id);
+    dispatch(upLoading(true));
+    fileService.selectFileList(roomIds, FileType.ROOM, dispatch);
+    dispatch(upLoading(false));
   };
 
   const getRoomImage = (roomId: number | undefined): string => {
-    if (roomId !== undefined && files.roomFiles) {
-      const roomFile = files.roomFiles.find(file => file.refId === roomId);
-      return roomFile?.path 
-        ? `${process.env.NEXT_PUBLIC_FILE_URL}/one?path=${roomFile.path}` 
+    if (roomId !== undefined) {
+      const roomFile = files.roomFiles.find((file) => file.refId === roomId);
+      return roomFile
+        ? `${process.env.NEXT_PUBLIC_FILE_URL}/one?path=${roomFile.path}`
         : `${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`;
     }
     return `${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`;
   };
 
-  const onClickToDetail: React.MouseEventHandler<HTMLDivElement> = (event) => {
-    const currentId = Number(event.currentTarget.dataset.roomId);
-
-    if (!isNaN(currentId)) {
+  const onClickToDetail = (currentId: number | undefined): void => {
+    if (currentId !== undefined) {
       const currentRoom = rooms.find(({ id }) => id === currentId);
       if (currentRoom) {
         dispatch(saveCurrentRoom(currentRoom));
-        const currentFile = files.roomFiles?.find(({ refId }) => refId === currentId) ?? null;
-        dispatch(saveCurrentFile(currentFile));
-        router.push(`${process.env.NEXT_PUBLIC_ROOM_URL}${currentId}`);
-      } else {
-        console.error("Room ID 알 수 없음:", currentId);
+        dispatch(saveCurrentFile(files.roomFiles.find(({ refId }) => refId === currentId) ?? null));
       }
-    } else {
-      console.error("room ID 찾을 수 없음");
     }
   };
 
   return (
     <>
       {rooms.length > 0 ? (
-        rooms.map((room: RoomModel) => (
-          <div className="relative max-w-sm" key={room.id}>
-            <div
-              className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${isActive ? 'ring-2 ring-green-500' : ''}`}
-              onClick={onClickToDetail}
-              data-room-id={room.id}
-            >
-              <Link href={`/rooms/${room.id}`} passHref>
-                <Image
-                  width={400}
-                  height={380}
-                  className="cursor-pointer rounded-t-lg"
-                  src={getRoomImage(room.id)}
-                  alt={`cover of ${room.title}`}
-                  priority
-                />
-              </Link>
-
-              <div className="p-5">
-                <Link href={`/rooms/${room.id}`}>
-                  <h5 className={`mb-2 text-lg font-medium tracking-tight ${isActive ? 'text-green-600' : 'text-gray-900'}`}>
-                    {room.name}
-                  </h5>
-                </Link>
-                <p className="mb-3 text-sm font-medium text-gray-700">
-                  {room.price.toLocaleString("ko-kr")}원
-                </p>
-                <p className="text-sm font-medium">판매자: {room.nickname}</p>
-                <button
-                  type="button"
-                  onClick={onClickToDetail}
-                  data-room-id={room.id}
-                  className={`mt-5 inline-flex w-full items-center rounded-lg p-3 text-sm font-medium text-white ${
-                    isActive ? 'bg-green-600 hover:bg-green-700' : 'bg-green-400 hover:bg-green-500'
-                  }`}
-                >
-                  상세보기
-                  <svg
-                    className="ms-2 size-3.5 rtl:rotate-180"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 10"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M1 5h12m0 0L9 1m4 4L9 9"
-                    />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
+        rooms.map((room) => (
+          <RoomCard
+            key={room.id}
+            room={room}
+            isActive={active}
+            getRoomImage={getRoomImage}
+            onClickToDetail={onClickToDetail}
+          />
         ))
       ) : (
-        <div>등록된 공간이 없습니다.</div>
+        <div><ErrorMessage message={'등록된 공간이 없습니다.'}/></div>
       )}
+      <Pagination 
+        currentPage={page} 
+        pageSize={pageSize} 
+        totalItems={totalItems} 
+        onPageChange={setPage} 
+        onPageSizeChange={setPageSize} 
+      />
     </>
   );
 };

@@ -1,29 +1,45 @@
 "use client"
 
 import { useState } from 'react';
-import Link from "next/link";
 import Image from "next/image";
 import Naver from "@/app/assets/btnG.png"
 import { useRouter } from "next/navigation";
-import { oauth } from "@/app/service/user/login.service";
-import ErrorMessage from "@/app/components/common/status/ErrorMessage";
-import { login } from '@/app/service/user/login.service';
+import { login, oauth } from "@/app/service/user/login.service";
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '@/lib/store';
+import { saveCurrentUser } from '@/lib/features/users/user.slice';
 
 export default function Login() {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useAppDispatch()
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        login(username, password);
+        try {
+            const user = login(username, password);
+            console.log('로그인 성공:', user);
+            dispatch(saveCurrentUser(user))
+            router.push('/')
+        } catch (error) {
+            console.error('로그인 실패:', error);
+        }
     };
 
     const moveToOath = () => {
         const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
-        if (oauthUrl) {
-            oauth(oauthUrl);
+        try {
+            if (oauthUrl) {
+                const result = oauth(oauthUrl);
+                console.log(result);
+            } else {
+                router.push('/')
+            }
+        } catch (error) {
+            console.error('로그인 실패:', error)
         }
+
     };
 
     return (
@@ -62,6 +78,13 @@ export default function Login() {
                     className="my-2 w-full rounded-lg border-2 border-green-400 bg-green-400 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
                 >
                     로그인
+                </button>
+                <button
+                    type="button"
+                    onClick={() => { router.push('/users/register') }}
+                    className="my-2 w-full rounded-lg border-2 border-green-400 bg-green-400 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
+                >
+                    회원가입
                 </button>
             </form>
             <hr className="my-2" />
