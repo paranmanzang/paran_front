@@ -8,11 +8,11 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
 import { getCurrentBook, getIsBookLiked } from "@/lib/features/group/book.slice";
 import { getCurrentRoom } from "@/lib/features/room/room.slice";
-import { getCurrentGroup, getCurrentGroupPost } from "@/lib/features/group/group.slice";
+import { getCurrentGroup, getCurrentGroupPost, getGroupMembers } from "@/lib/features/group/group.slice";
 import { saveGlobalLoading } from "@/lib/features/error.slice";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
-import { getCurrentUser } from "@/lib/features/users/user.slice";
+import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
 import { LikeRoomModel } from "@/app/model/user/users.model";
 import { likeRoomService } from "@/app/service/users/likeRoom.service";
 
@@ -23,13 +23,13 @@ interface DetailButtonProps {
     displayReservation: 'none' | 'block';
 }
 
-export default function DetailButton({ thisPage, displayReview, displayBoard,displayReservation }: DetailButtonProps) {
+export default function DetailButton({ thisPage, displayReview, displayBoard, displayReservation }: DetailButtonProps) {
     //const nickname = 'A'; // 임의로 넣어둠
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [isAlertOpen, setIsAlertOpen] = useState(false)
     const [isConfirmOpen, setIsConfirmOpen] = useState(false)
-    
+
     const route = useRouter()
     const dispatch = useAppDispatch()
     const book = useSelector(getCurrentBook)
@@ -37,15 +37,18 @@ export default function DetailButton({ thisPage, displayReview, displayBoard,dis
     const room = useSelector(getCurrentRoom)
     const group = useSelector(getCurrentGroup)
     const user = useSelector(getCurrentUser)
+    const users = useSelector(getGroupMembers)
+    const nickname = useSelector(getNickname)
     const userInfo = user?.role ?? null
+    const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
 
     useEffect(() => {
         if (!user || !dispatch) return;
-    
+
         dispatch(saveGlobalLoading(true));
-        
+
         let insertPromise;
-    
+
         switch (thisPage) {
             case "/books": {
                 if (!book?.id) return;
@@ -57,7 +60,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard,dis
                 break;
             }
             case "/groupPost":
-            case "/rooms":{
+            case "/rooms": {
                 const id = thisPage === "/rooms" ? room?.id : group?.id;
                 if (!id) return;
                 const likeRoomModel: LikeRoomModel = {
@@ -70,11 +73,11 @@ export default function DetailButton({ thisPage, displayReview, displayBoard,dis
             default:
                 return;
         }
-    
+
         insertPromise?.finally(() => {
             dispatch(saveGlobalLoading(false));
         });
-    
+
     }, [thisPage, book, room, group, user, dispatch]);
 
     const handleReview = () => {
@@ -106,8 +109,8 @@ export default function DetailButton({ thisPage, displayReview, displayBoard,dis
         <>
             {userInfo === 'ROLE_admin' && (
                 <div className="max-w-sm mx-auto">
-                    <button type="button" onClick={() => {route.push('/admin/update')}} className="p-3 bg-green-500 text-white">수정</button>
-                    <button type="button" onClick={() => {route.push('/admin/delete')}} className="p-3 bg-green-500 text-white">삭제</button>
+                    <button type="button" onClick={() => { route.push('/admin/update') }} className="p-3 bg-green-500 text-white">수정</button>
+                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="p-3 bg-green-500 text-white">삭제</button>
                 </div>
             )}
             <div className="flex justify-center items-end">
@@ -116,35 +119,44 @@ export default function DetailButton({ thisPage, displayReview, displayBoard,dis
                         이미 찜 목록에 있습니다
                     </button>
                 ) : (
-                    <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
-                        🥰 찜하기 🥰
-                    </button>
+                    userInfo && (
+                        <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
+                            🥰 찜하기 🥰
+                        </button>
+                    )
                 )}
-                 {/* 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것 */}
+                {/* 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것 */}
                 <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
                     style={{ display: displayReview }}
                 >
                     리뷰보기
                 </button>
-                <button type="button" onClick={() => setIsModalOpen(true)} className="mx-2 rounded-full border px-3 py-2"
-                    style={{ display: displayReview }}
-                >
-                    예약하기
-                </button>
-                <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={3} />
-
-                <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
-                    style={{ display: displayReservation }}
-                >
-                    참여하기
-                </button>
-                <button type="button" onClick={() => {route.push(`/groups/board/${group?.id}`)}} className="mx-2 rounded-full border px-3 py-2"
-                    style={{ display: displayBoard }}
+                {user?.nickname === group?.nickname && (
+                    <button type="button" onClick={() => setIsModalOpen(true)} className="mx-2 rounded-full border px-3 py-2"
+                        style={{ display: displayReview }}
                     >
-                    모임 공지가기
-                </button>
-
-                <button type="button" onClick={() => {route.back()}} className="mx-2 rounded-full border px-3 py-2">
+                        예약하기
+                    </button>
+                )}
+                <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={3} />
+                {userInfo && thisPage === '/groups' && group && users[group.id].length <= 0 && (
+                    <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
+                        style={{ display: displayReservation }}
+                    >
+                        참여하기
+                    </button>
+                )}
+                {userInfo && thisPage === '/groups' && isUserInGroup && (
+                    <button
+                        type="button"
+                        onClick={() => { route.push(`/groups/board/${group?.id}`) }}
+                        className="mx-2 rounded-full border px-3 py-2"
+                        style={{ display: displayBoard }}
+                    >
+                        모임 공지가기
+                    </button>
+                )}
+                <button type="button" onClick={() => { route.back() }} className="mx-2 rounded-full border px-3 py-2">
                     뒤로가기
                 </button>
             </div>
