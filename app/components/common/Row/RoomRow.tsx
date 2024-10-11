@@ -6,7 +6,6 @@ import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { FileType } from "@/app/model/file/file.model";
 import { roomService } from "@/app/service/room/room.service";
-import { fileService } from "@/app/service/file/file.service";
 import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file/file.slice";
 import ErrorMessage from "../status/ErrorMessage";
 import Pagination from "./pagination/Pagination";
@@ -29,16 +28,9 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   useEffect(() => {
     dispatch(saveLoading(true));
     roomService.findByEnabled(page, pageSize, dispatch);
-    loadRoomFiles(rooms);
     dispatch(saveLoading(false));
-  }, [page, pageSize]);
+  }, [page, pageSize, dispatch]);
 
-  const loadRoomFiles = (rooms: RoomModel[]) => {
-    const roomIds = rooms.map((room) => room.id);
-    dispatch(upLoading(true));
-    fileService.selectFileList(roomIds, FileType.ROOM, dispatch);
-    dispatch(upLoading(false));
-  };
 
   const getRoomImage = (roomId: number | undefined): string => {
     if (roomId !== undefined) {
