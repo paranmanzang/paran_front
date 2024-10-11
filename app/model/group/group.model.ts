@@ -1,23 +1,19 @@
-// groupTypes.ts
-
 // 상태 인터페이스 정의
 export interface GroupState {
-    groups: GroupResponseModel[];
-    groupMembers: {
-        groupMembers: any;[groupId: number]: JoiningModel[]
-    };
-    groupPostsNotices: GroupPostResponseModel[];
-    groupPostsGenerals: GroupPostResponseModel[];
-    currentGroup: GroupResponseModel | null;
-    currentGroupPost: GroupPostResponseModel | null;
-    isLoading: boolean;
-    error: string | null;
+    groups: GroupResponseModel[]
+    groupMembers: {groupMembers: any ;[groupId: number]: JoiningModel[]}
+    groupPostsNotices: GroupPostResponseModel[]
+    groupPostsGenerals: GroupPostResponseModel[]
+    currentGroup: GroupResponseModel | null
+    currentGroupPost: GroupPostResponseModel | null
+    isLoading: boolean
+    error: string | null
 }
 
 // 초기 상태
 export const initialGroupState: GroupState = {
     groups: [],
-    groupMembers: [],
+    groupMembers: {groupMembers: []},
     groupPostsNotices: [],
     groupPostsGenerals: [],
     currentGroup: null,
@@ -26,15 +22,11 @@ export const initialGroupState: GroupState = {
     error: null,
 };
 
-
-
 export interface GroupModel {
     groupName: string;
     categoryName: string;
     nickname?: string;
 }
-
-
 
 export interface JoiningModel {
     nickname: string;
@@ -43,8 +35,6 @@ export interface JoiningModel {
     requestAt: string;
     responseAt: string;
 }
-
-
 
 export interface GroupResponseModel {
     id: number;
