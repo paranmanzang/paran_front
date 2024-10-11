@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import StoreProvider from "./StoreProvider";
+import QueryProvider from "./QueryProvider";
 
 export const metadata: Metadata = {
   title: "paranmanzang",
@@ -20,11 +21,13 @@ export default function RootLayout({
         <link rel="shortcut icon" href="#"/>
       </head>
       <body>
+        <QueryProvider >
         <StoreProvider>
           <Header />
           <main className="mb-6 pb-6">{children}</main>
-          <Footer />
+          <Footer />          
         </StoreProvider>
+        </QueryProvider>
       </body>
     </html>
   );
