@@ -1,23 +1,22 @@
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
 import {UserModel} from "@/app/model/user/user.model";
-import {AdminPostModel} from "@/app/model/user/users.model";
 import {ExceptionResponseModel} from "@/app/model/error.model";
 //insert, drop, modify, find**
 export const userAPI = {
 
     insert: (userModel: UserModel) => {
-        return api.post<UserModel | ExceptionResponseModel>(requests.fetchUsers + '/create', userModel);
+        return api.post<UserModel | ExceptionResponseModel>(requests.fetchUsers, userModel);
     },
     findAllUser: (nickname: string) => {
-        return api.get(`${requests.fetchUsers}/getAllUsers`, {
+        return api.get(`${requests.fetchUsers}/findAllByNickname`, {
             params: {
                 nickname
             }
         });
     },
     findDetailUser: (nickname:string )=> {
-        return api.get(`${requests.fetchUsers}/getUserDetail`, {
+        return api.get(`${requests.fetchUsers}/findByNickname`, {
             params: {
                 nickname
             }

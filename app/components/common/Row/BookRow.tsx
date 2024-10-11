@@ -6,7 +6,6 @@ import { getBooks, getIsLoading, getError, getTotalPage } from "@/lib/features/g
 import { useAppDispatch } from "@/lib/store";
 import { defaultFile, FileType } from "@/app/model/file/file.model";
 import { bookService } from "@/app/service/group/book.service";
-import { fileService } from "@/app/service/file/file.service";
 import { getFiles } from "@/lib/features/file/file.slice";
 import LoadingSpinner from "../status/LoadingSpinner";
 import ErrorMessage from "../status/ErrorMessage";
@@ -30,8 +29,6 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
 
   useEffect(() => {
     bookService.findList(currentPage, pageSize, dispatch)
-    // const bookIds = books.map(book => book.id);
-    // fileService.selectFileList(bookIds, FileType.BOOK, dispatch);
   }, [active, dispatch, currentPage, pageSize]);
 
   const handlePageChange = (page: number) => {
@@ -48,9 +45,9 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
 
   return (
     <>
-      {books.map((book) => (
+      {books.map((book, index) => (
         <BookCard
-          key={book.id}
+          key={`${book.id}-${index}`}
           book={book}
           active={active}
           file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)}

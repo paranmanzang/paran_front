@@ -3,8 +3,11 @@ import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
 // import { setToken } from "@/lib/features/auth.slice";
 import { setAccessToken } from "@/app/api/authUtils";
+import { AppDispatch } from "@/lib/store";
+import { saveCurrentUser, saveNickname } from "@/lib/features/users/user.slice";
+import { userService } from "./user.service";
 
-export const login = async (username: string, password: string): Promise<any> => {
+const login = async (username: string, password: string, dispatch: AppDispatch): Promise<any> => {
   try {
     const response = await api.post<UserModel>(requests.fetchLogin,
       { username, password }
@@ -12,7 +15,6 @@ export const login = async (username: string, password: string): Promise<any> =>
 
     const token = response.headers['authorization'].replace("Bearer ", "")
     console.log("전체 응답 헤더:", response.headers);
-    console.log("Authorization 헤더:", response.headers['Authorization']);
     console.log("authorization 헤더 (소문자):", response.headers['authorization']);
     console.log(response.headers)
     console.log(token)
@@ -20,7 +22,8 @@ export const login = async (username: string, password: string): Promise<any> =>
       console.log("토큰이 보이긴 해요")
       setAccessToken(token);
       console.log(response.config);
-      return response.config.data;
+      dispatch(saveNickname(response.headers.nickname))
+      userService.findUserDetail(response.headers.nickname, dispatch)
     } else {
       console.log("토큰이 안보여요 ㅠㅠ")
       throw new Error('토큰을 받지 못했습니다.');
@@ -39,7 +42,7 @@ export const login = async (username: string, password: string): Promise<any> =>
   }
 };
 
-export const get = async (): Promise<UserModel> => {
+const get = async (): Promise<UserModel> => {
   try {
     const response = await api.get<any>("/get")
 
@@ -60,7 +63,7 @@ export const get = async (): Promise<UserModel> => {
   }
 };
 // login.service.ts
-export const oauth = async (router: any): Promise<void> => {
+const oauth = async (router: any): Promise<void> => {
   try {
     const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
 
@@ -82,3 +85,9 @@ export const oauth = async (router: any): Promise<void> => {
     throw new Error('OAuth 인증 중 오류가 발생했습니다.');
   }
 };
+
+export const loginService = {
+  login,
+  get,
+  oauth
+}

@@ -1,7 +1,7 @@
 "use Client"
 import React from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { saveCurrentBook } from "@/lib/features/group/book.slice";
 import { BookResponseModel } from "@/app/model/group/book.model";
 import { FileModel } from "@/app/model/file/file.model";
@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/store";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 import { saveCurrentFile } from "@/lib/features/file/file.slice";
+import { getNickname } from "@/lib/features/users/user.slice";
 
 interface BookCardProps {
     book: BookResponseModel;
@@ -19,7 +20,7 @@ interface BookCardProps {
 const BookCard = ({ book, active, file }: BookCardProps) => {
     const dispatch = useAppDispatch();
     const router = useRouter();
-    const nickname = 'A' // 임의로 넣어둠
+    const nickname = useSelector(getNickname) as string;
 
     const handleLikeChange = (active: boolean, bookId: number, dispatch: any, nickname: string) => {
         switch (active) {
@@ -52,7 +53,7 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
                     src={file.path === process.env.NEXT_PUBLIC_IMAGE_DEFAULT ? process.env.NEXT_PUBLIC_IMAGE_DEFAULT : `http://localhost:8000/api/files?path=${file.path}`}
                     alt={`cover of ${book.title}`}
                     priority
-               
+
                 />
                 <div className="p-5">
                     <h5 className={`mb-2 text-lg font-medium tracking-tight ${active ? "text-green-600" : "text-gray-900"} cursor-pointer dark:text-white`}>

@@ -1,6 +1,6 @@
 import { UserModel } from "@/app/model/user/user.model";
 import { AppDispatch } from "@/lib/store";
-import { logoutUser, saveError, saveLoading, saveSuccess, saveUserList } from "@/lib/features/users/user.slice";
+import { logoutUser, saveCurrentUser, saveError, saveLoading, saveSuccess, saveUserList } from "@/lib/features/users/user.slice";
 import userAPI from "@/app/api/generate/user.api";
 import axios from "axios";
 
@@ -25,7 +25,7 @@ const insertUser = async (userModel: UserModel, dispatch: AppDispatch): Promise<
 };
 
 // 비밀번호 수정
-export const modifyPassword = async (nickname: string, newPassword: string, dispatch: AppDispatch): Promise<void> => {
+const modifyPassword = async (nickname: string, newPassword: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.modifyPassword(nickname, newPassword);
@@ -104,20 +104,17 @@ const findAllUsers = async (nickname: string, dispatch: AppDispatch): Promise<vo
     }
 };
 
-export const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<UserModel> => {
+const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
-        const response = await axios.get(`/api/users/getUserDetail?nickname=${nickname}`);
-        const userData: UserModel = response.data; // response.data가 UserModel 타입인지 확인
-
+        const response = await userAPI.findDetailUser(nickname);
         // Redux에 유저 데이터 저장
-        dispatch({ type: 'SET_USER', payload: userData });
-
-        return userData; // UserModel 반환
+        dispatch(saveCurrentUser(response.data));
     } catch (error) {
         console.error("Error fetching user detail:", error);
         throw error; // 에러 발생 시 throw
     }
 };
+
 // 권한 확인
 const checkRole = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
