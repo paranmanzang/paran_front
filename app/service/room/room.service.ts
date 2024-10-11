@@ -3,6 +3,9 @@ import { RoomModel, RoomUpdateModel } from '../../model/room/room.model';
 import { AppDispatch } from '@/lib/store';
 import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom } from '@/lib/features/room/room.slice';
 import { roomAPI } from '@/app/api/generate/room.api';
+import { fileService } from '../File/file.service';
+import { FileType } from '@/app/model/file/file.model';
+import { saveFiles } from '@/lib/features/file/file.slice';
 
 // 공간 등록
 const save = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<void> => {
@@ -108,6 +111,7 @@ const findByEnabled = async (page: number, size: number, dispatch: AppDispatch):
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.findByEnabled(page, size)
+        fileService.selectFileList(response.data.content.map((room) => room.id).filter((id): id is number => id !== undefined), FileType.ROOM, dispatch);
         dispatch(saveRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {

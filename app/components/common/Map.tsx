@@ -8,7 +8,6 @@ import { addressService } from "@/app/service/room/address.service";
 
 export default function Map() {
   const dispatch = useAppDispatch()
-  const addresses = useSelector(getAddresses)
 
   useEffect(() => {
     addressService.findAll(dispatch)
@@ -33,7 +32,6 @@ export default function Map() {
       ></span>
       <div className="flex w-full justify-center">
         <div className="mx-3 h-[46rem] w-[30%] rounded-lg border bg-white p-6 shadow ">
-          {/* <form className="mx-auto max-w-full " > */}
           <h1 className="text-2xl font-bold ">원하시는 정보를 검색해주세요!</h1>
           <p className="mt-2 text-base">정보를 남겨주시면 친절하게 도와드리겠습니다.</p>
           <div className="group relative z-0 my-8 w-full">
@@ -74,7 +72,6 @@ export default function Map() {
           >
             검색
           </button>
-          {/* </form> */}
         </div>
         <div>
           <NaverMap />
