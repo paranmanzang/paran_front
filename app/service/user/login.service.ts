@@ -10,12 +10,12 @@ export const login = async (username: string, password: string): Promise<any> =>
       { username, password }
     )
 
-    const token = response.headers['Authorization']
+    const token = response.headers['authorization'].replace("Bearer ", "")
     console.log("전체 응답 헤더:", response.headers);
     console.log("Authorization 헤더:", response.headers['Authorization']);
     console.log("authorization 헤더 (소문자):", response.headers['authorization']);
     console.log(response.headers)
-    
+    console.log(token)
     if (token) {
       console.log("토큰이 보이긴 해요")
       setAccessToken(token);
@@ -63,7 +63,7 @@ export const get = async (): Promise<UserModel> => {
 export const oauth = async (router: any): Promise<void> => {
   try {
     const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
-    
+
     if (!oauthUrl) {
       throw new Error('OAuth URL is not defined');
     }
@@ -72,7 +72,7 @@ export const oauth = async (router: any): Promise<void> => {
     if (oauthUrl.startsWith('http') || oauthUrl.startsWith('https')) {
       // 외부 URL인 경우
       window.location.href = oauthUrl;
-      
+
     } else {
       // 내부 경로인 경우
       await router.push(oauthUrl);

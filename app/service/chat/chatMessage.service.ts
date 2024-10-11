@@ -15,14 +15,15 @@ const findList = async ({ roomId, nickname, onMessage }: {
 
         const token = getAccessToken();
         if (!token) {
-          throw new Error('No access token available');
+            throw new Error('No access token available');
         }
         eventSource = new EventSourcePolyfill(
-            `http://localhost:8000/message/${roomId}?nickname=${nickname}`, 
+            `http://localhost:8000/api/chats/messages/${roomId}?nickname=${nickname}`,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`
-                }
+                },
+                heartbeatTimeout: 60000
             }
         );
 
@@ -51,6 +52,13 @@ const findList = async ({ roomId, nickname, onMessage }: {
                 } catch (error) {
                     console.error('실시간 메시지 파싱 오류:', error);
                 }
+            }
+        });
+
+        // Heartbeat 이벤트를 처리하여 연결을 유지
+        eventSource.addEventListener('ping', {
+            handleEvent(event: MessageEvent) {
+                console.log('Heartbeat received:', event.data);
             }
         });
 
