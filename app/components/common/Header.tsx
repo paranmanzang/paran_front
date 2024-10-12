@@ -113,21 +113,12 @@ function UserHeader() {
 
 
 export default function Header (){
-  const [user, setUser] = useState({} as any)
-  const dispatch = useAppDispatch()
-  const getUser = useSelector(getCurrentUser);
-  
-  useEffect(() => {
-    setUser(getUser)
-    // console.log(user)
-  }, [dispatch, user?.nickname])
-
+  const user = useSelector(getCurrentUser);
   return ( 
     <>
-      {user?.id && (
+      {user?.nickname ?  (
         <UserHeader/>
-      )}
-      {!user?.id && (
+      ):(
         <LoginHeader />
       )}
     </>

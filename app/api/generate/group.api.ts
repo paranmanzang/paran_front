@@ -1,12 +1,9 @@
 import {ExceptionResponseModel} from "@/app/model/error.model";
 import requests from "@/app/api/requests";
 import api from "@/app/api/axios";
-import {BookResponseModel, LikeBookModel} from "@/app/model/group/book.model";
 
 import {
     GroupModel,
-    GroupPostModel,
-    GroupPostResponseModel,
     GroupResponseModel,
     JoiningModel,
 } from "@/app/model/group/group.model";
@@ -16,12 +13,10 @@ export const groupApi = {
     findList(page: number, size: number) {
         return api.get<Page<GroupResponseModel>>(requests.fetchGroups + '/groups', {params: {page, size}});
     },
-    findByNickname(nickname: string, page: number, size: number) {
-        return api.get<Page<GroupResponseModel>>(requests.fetchGroups + '/groups/my-groups', {
+    findByNickname(nickname: string) {
+        return api.get<GroupResponseModel[]>(requests.fetchGroups + '/groups/my-groups', {
             params: {
-                nickname,
-                page,
-                size
+                nickname
             }
         });
     },

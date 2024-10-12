@@ -6,12 +6,15 @@ import Naver from "@/app/assets/btnG.png"
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from '@/lib/store';
 import { loginService } from '@/app/service/user/login.service';
+import { useSelector } from 'react-redux';
+import { getNickname } from '@/lib/features/users/user.slice';
 
 export default function Login() {
     const router = useRouter();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const dispatch = useAppDispatch()
+    const nickname = useSelector(getNickname) as string;
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
