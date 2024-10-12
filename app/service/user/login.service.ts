@@ -4,8 +4,12 @@ import requests from "@/app/api/requests";
 // import { setToken } from "@/lib/features/auth.slice";
 import { setAccessToken } from "@/app/api/authUtils";
 import { AppDispatch } from "@/lib/store";
-import { saveCurrentUser, saveNickname } from "@/lib/features/users/user.slice";
+import { saveNickname } from "@/lib/features/users/user.slice";
 import { userService } from "./user.service";
+import { groupService } from "../group/group.service";
+import { likeBookService } from "../group/likeBook.service";
+import { likeRoomService } from "../users/likeRoom.service";
+import { likePostService } from "../users/likePost.service";
 
 const login = async (username: string, password: string, dispatch: AppDispatch): Promise<any> => {
   try {
@@ -17,13 +21,18 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
     console.log("전체 응답 헤더:", response.headers);
     console.log("authorization 헤더 (소문자):", response.headers['authorization']);
     console.log(response.headers)
+    console.log(response.headers['nickname'])
     console.log(token)
     if (token) {
       console.log("토큰이 보이긴 해요")
       setAccessToken(token);
       console.log(response.config);
-      dispatch(saveNickname(response.headers.nickname))
-      userService.findUserDetail(response.headers.nickname, dispatch)
+      dispatch(saveNickname(response.headers['nickname']))
+      userService.findUserDetail(response.headers['nickname'], dispatch)
+      groupService.findByNickname(response.headers['nickname'], dispatch)
+      likeBookService.findByNickname(response.headers['nickname'], dispatch);
+      likeRoomService.findAllByUserNickname(response.headers['nickname'], dispatch);
+      likePostService.findAllByUserNickname(response.headers['nickname'], dispatch)
     } else {
       console.log("토큰이 안보여요 ㅠㅠ")
       throw new Error('토큰을 받지 못했습니다.');
