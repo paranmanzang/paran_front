@@ -3,7 +3,7 @@ import requests from "@/app/api/requests";
 
 export const logout = async (): Promise<any> => {
   try {
-    const response = await api.post<any>(requests.fetchLogout,);
+    const response = await api.post<any>(requests.fetchLogout);
     console.log("로그아웃 응답: ", response)
   } catch (error: any) {
     if (error.response) {
