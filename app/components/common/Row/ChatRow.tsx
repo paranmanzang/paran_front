@@ -26,8 +26,8 @@ const ChatRow = ({ active, onSelect }: ChatRowProps) => {
 
   return (
     <>
-      {chatRooms?.map((room) => (
-        <ChatCard key={room.roomId}
+      {chatRooms?.map((room,index) => (
+        <ChatCard key={index}
           chatRoom={room} active={active} onSelect={onSelect} />
       ))}
     </>

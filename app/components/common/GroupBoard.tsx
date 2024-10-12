@@ -5,32 +5,29 @@ import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { groupPostService } from "@/app/service/group/groupPost.service";
-import { UserModel } from "@/app/model/user.model";
 
-interface GroupBoardProps {
-    thisPage: string,
-    userInfo : string | UserModel
-}
-
-export default function GroupBoard({thisPage, userInfo}: GroupBoardProps ) {
+export default function GroupBoard() {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { groupPostsNotice, groupPostsGeneral } = useSelector(getGroupPosts);
-    const groupId = thisPage
-    const page = 5 // 임의 값
+    const groupId = useSelector(getCurrentGroup)?.id
+    const page = 0 // 임의 값
     const size = 5 // 임의 값
     const [selectedCategory, setSelectedCategory] = useState<'공지 사항' | '자유게시판'>('공지 사항');
-    const user = userInfo
+
+    console.log(groupPostsGeneral)
+    console.log(selectedCategory)
 
 
     useEffect(() => {
         if (!groupId) {
             return;
         }
-        groupPostService.findByGroupId(Number(groupId), page, size, selectedCategory, dispatch)
+        groupPostService.findByGroupId(groupId, page, size, selectedCategory, dispatch)
     }, [dispatch, groupId, selectedCategory]);
 
     const postsToShow = selectedCategory === "공지 사항" ? groupPostsNotice : groupPostsGeneral;
+    console.log(postsToShow)
 
     const onClickToDetail = (currentId: number | undefined) => {
         if (currentId !== undefined) {

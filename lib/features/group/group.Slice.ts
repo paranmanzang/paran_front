@@ -7,7 +7,7 @@ import {
   JoiningModel,
 } from '@/app/model/group/group.model';
 import { RootState } from '@/lib/store';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
 const groupSlice = createSlice({
@@ -109,10 +109,14 @@ const groupSlice = createSlice({
     },
   },
 });
-export const getGroupPosts = (state: RootState) => ({
-  groupPostsNotice: state.group.groupPostsNotices,
-  groupPostsGeneral: state.group.groupPostsGenerals,
-});
+export const getGroupPosts = createSelector(
+  (state: RootState) => state.group.groupPostsNotices,
+  (state: RootState) => state.group.groupPostsGenerals,
+  (groupPostsNotice, groupPostsGeneral) => ({
+    groupPostsNotice,
+    groupPostsGeneral,
+  })
+);
 export const getGroups = (state: RootState) => state.group.groups;
 export const getUserGroups = (state: RootState) => state.group.userGroups;
 export const getGroupMembers = (state: RootState) => state.group.groupMembers;

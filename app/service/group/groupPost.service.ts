@@ -79,6 +79,7 @@ const findByGroupId = async (groupId: number, page: number, size: number, postCa
             if (Array.isArray(response.data)) {
                 dispatch(saveGroupPosts(response.data));
             }
+            console.log(response.data)
         } catch (error: any) {
             handleApiError(error, dispatch, "게시물 목록 조회 중 오류 발생했습니다.");
             throw new Error('게시물 목록 조회 중 오류 발생');
