@@ -9,7 +9,7 @@ const insertUser = async (userModel: UserModel, dispatch: AppDispatch): Promise<
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.insert(userModel);
-
+        console.log("회원가입 결과: ", response);
         if ('id' in response.data && 'nickname' in response.data) {
             dispatch(saveSuccess("사용자가 성공적으로 등록되었습니다."));
         } else {

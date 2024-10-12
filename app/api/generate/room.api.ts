@@ -17,6 +17,6 @@ export const roomAPI = {
 
     modifyConfirm(id: number) { return api.put<RoomModel>(requests.fetchRooms + `/confirm/${id}`)},
 
-    findTime(roomId: number) { return api.get<TimeModel[]>(requests.fetchRooms + `/time/${roomId}`)},
+    findTime(roomId: number) { return api.get<TimeModel[]>(requests.fetchRooms + `/times/${roomId}`)},
 
 }

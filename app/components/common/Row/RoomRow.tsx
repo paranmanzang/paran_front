@@ -1,15 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { getRooms, saveCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
-import { RoomModel } from "@/app/model/room/room.model";
 import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
-import { FileType } from "@/app/model/file/file.model";
 import { roomService } from "@/app/service/room/room.service";
-import { getFiles, saveCurrentFile, upLoading } from "@/lib/features/file/file.slice";
+import { getFiles, saveCurrentFile } from "@/lib/features/file/file.slice";
 import ErrorMessage from "../status/ErrorMessage";
 import Pagination from "./pagination/Pagination";
 import RoomCard from "./RoomCard";
+import { useRouter } from "next/navigation";
 
 interface RoomRowProps {
   active: boolean;
@@ -20,6 +19,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   const rooms = useSelector(getRooms);
   const files = useSelector(getFiles);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
@@ -48,6 +48,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
       if (currentRoom) {
         dispatch(saveCurrentRoom(currentRoom));
         dispatch(saveCurrentFile(files.roomFiles.find(({ refId }) => refId === currentId) ?? null));
+        router.push(`/rooms/${currentId}`);
       }
     }
   };
@@ -67,12 +68,12 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
       ) : (
         <ErrorMessage message={'등록된 공간이 없습니다.'}/>
       )}
-      <Pagination 
-        currentPage={page} 
-        pageSize={pageSize} 
-        totalItems={totalItems} 
-        onPageChange={setPage} 
-        onPageSizeChange={setPageSize} 
+      <Pagination
+        currentPage={page}
+        pageSize={pageSize}
+        totalItems={totalItems}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
       />
     </>
   );
