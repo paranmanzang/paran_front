@@ -8,14 +8,14 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
 import Image from "next/image";
 import { getCurrentFile } from "@/lib/features/file/file.slice";
-interface roomDetailProps {
-  roomId: number;
-}
-export default function Details({ roomId }: roomDetailProps) {
+import { getCurrentUser } from "@/lib/features/users/user.slice";
+
+export default function Details() {
   const [times, setTimes] = useState<TimeModel[]>([])
   const room = useSelector(getCurrentRoom);
   const file = useSelector(getCurrentFile);
   const dispatch = useAppDispatch();
+  const user = useSelector(getCurrentUser);
 
   useEffect(() => {
     if (room && room.id !== undefined) {
@@ -26,13 +26,8 @@ export default function Details({ roomId }: roomDetailProps) {
       })
     }
     dispatch(saveLoading(false))
-  }, [dispatch])
-  const getRoomImage = (path: string | undefined) => {
-    if (file !== undefined) {
-      return !path?.includes("default.png") ? `http://localhost:8000/api/files/one?path=${path}` : process.env.NEXT_PUBLIC_IMAGE_DEFAULT; // 기본 이미지 제공
-    }
-    return process.env.NEXT_PUBLIC_;
-  };
+  }, [dispatch, room])
+
   const groupedTimes = times.reduce((acc: Record<string, TimeModel[]>, time) => {
     const { date } = time;
     if (!acc[date]) {
@@ -41,22 +36,24 @@ export default function Details({ roomId }: roomDetailProps) {
     acc[date].push(time);
     return acc;
   }, {});
+
+
   return (
     <div>
-      <div className="flex justify-center gap-3 w-[80%] items-center mx-auto my-8">
-        <Image
+      <div className="mx-auto my-8 flex w-4/5 items-center justify-center gap-3">
+        {file && <Image
           width={600}
           height={400}
           className="cursor-pointer rounded-lg bg-green-400"
-          src={getRoomImage(file?.path) || `${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`}
+          src={file.path === process.env.NEXT_PUBLIC_IMAGE_DEFAULT ? process.env.NEXT_PUBLIC_IMAGE_DEFAULT : `http://localhost:8000/api/files?path=${file.path}`}
           alt={`cover of ${room?.title}`}
           priority
-        />
+        />}
 
       </div>
-      <hr className="my-8 w-[80%] mx-auto" />
-      <div className="w-[45rem] mx-auto my-8">
-        <div className="h-[300px] p-8 w-full justify-center bg-green-50 rounded-lg">
+      <hr className="mx-auto my-8 w-4/5" />
+      <div className="mx-auto my-8 w-[45rem]">
+        <div className="h-[300px] w-full justify-center rounded-lg bg-green-50 p-8">
           <p className="mb-2">가게명: {room?.name}</p>
           <p className="mb-2">이용 정원: {room?.maxPeople} 명</p>
           <p className="mb-2">단독 사용 여부: {room?.opened ? "O" : "X"}</p>
@@ -73,8 +70,13 @@ export default function Details({ roomId }: roomDetailProps) {
         </div>
 
       </div>
+      {user?.role &&
+        <DetailButton thisPage="/rooms" displayBoard="block" displayReview="block" displayReservation="block" />
+      }
+      {!user?.role &&
+          <DetailButton thisPage="/rooms" displayBoard="none" displayReview="none" displayReservation="none" />
+      }
 
-      <DetailButton thisPage="/rooms" displayBoard="none" displayReview="block" displayReservation="block" />
     </div >
   );
 }

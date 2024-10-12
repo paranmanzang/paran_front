@@ -15,24 +15,20 @@ const RoomCard = ({ room, isActive, getRoomImage, onClickToDetail }: RoomCardPro
     <div
       className={`max-w-sm rounded-lg border border-gray-200 bg-white shadow ${isActive ? 'ring-2 ring-green-500' : ''}`}
     >
-      <Link href={`/rooms/${room.id}`} passHref>
-        <Image
-          width={400}
-          height={380}
-          className="size-80 cursor-pointer rounded-t-lg object-cover"
-          src={getRoomImage(room.id)}
-          alt={`cover of ${room.title}`}
-          priority
-        />
-      </Link>
+      <Image
+        width={400}
+        height={380}
+        className="size-80 cursor-pointer rounded-t-lg object-cover"
+        src={getRoomImage(room.id)}
+        alt={`cover of ${room.title}`}
+        priority
+      />
       <div className="p-5">
-        <Link href={`/rooms/${room.id}`}>
-          <h5
-            className={`mb-2 text-lg font-medium tracking-tight ${isActive ? 'text-green-600' : 'text-gray-900'}`}
-          >
-            {room.name}
-          </h5>
-        </Link>
+        <h5
+          className={`mb-2 text-lg font-medium tracking-tight ${isActive ? 'text-green-600' : 'text-gray-900'}`}
+        >
+          {room.name}
+        </h5>
         <p className="mb-3 text-sm font-medium text-gray-700">
           {room.price.toLocaleString("ko-kr")}원
         </p>
