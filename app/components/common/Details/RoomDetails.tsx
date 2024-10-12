@@ -70,9 +70,12 @@ export default function Details() {
         </div>
 
       </div>
-
-      <DetailButton thisPage="/rooms" displayBoard="block" displayReview="none" displayReservation="none" />
-
+      {user?.role &&
+        <DetailButton thisPage="/rooms" displayBoard="block" displayReview="block" displayReservation="block" />
+      }
+      {!user?.role &&
+          <DetailButton thisPage="/rooms" displayBoard="none" displayReview="none" displayReservation="none" />
+      }
 
     </div >
   );
