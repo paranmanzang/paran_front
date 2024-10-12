@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
 import Image from "next/image";
 import { getCurrentFile } from "@/lib/features/file/file.slice";
-import LoadingSpinner from "../status/LoadingSpinner";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 
 export default function Details() {
@@ -28,12 +27,7 @@ export default function Details() {
     }
     dispatch(saveLoading(false))
   }, [dispatch, room])
-  const getRoomImage = (path: string | undefined) => {
-    if (file !== undefined) {
-      return !path?.includes("default.png") ? `http://localhost:8000/api/files?path=${path}` : process.env.NEXT_PUBLIC_IMAGE_DEFAULT; // 기본 이미지 제공
-    }
-    return process.env.NEXT_PUBLIC_;
-  };
+
   const groupedTimes = times.reduce((acc: Record<string, TimeModel[]>, time) => {
     const { date } = time;
     if (!acc[date]) {
@@ -47,14 +41,14 @@ export default function Details() {
   return (
     <div>
       <div className="mx-auto my-8 flex w-4/5 items-center justify-center gap-3">
-        <Image
+        {file && <Image
           width={600}
           height={400}
           className="cursor-pointer rounded-lg bg-green-400"
-          src={getRoomImage(file?.path) || `${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`}
+          src={file.path === process.env.NEXT_PUBLIC_IMAGE_DEFAULT ? process.env.NEXT_PUBLIC_IMAGE_DEFAULT : `http://localhost:8000/api/files?path=${file.path}`}
           alt={`cover of ${room?.title}`}
           priority
-        />
+        />}
 
       </div>
       <hr className="mx-auto my-8 w-4/5" />
@@ -77,9 +71,8 @@ export default function Details() {
 
       </div>
 
-      {user && (
-        <DetailButton thisPage="/rooms" displayBoard="block" displayReview="none" displayReservation="none" />
-      )}
+      <DetailButton thisPage="/rooms" displayBoard="block" displayReview="none" displayReservation="none" />
+
 
     </div >
   );
