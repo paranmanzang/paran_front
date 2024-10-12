@@ -19,7 +19,7 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
 
     const token = response.headers['authorization'].replace("Bearer ", "")
     console.log("전체 응답 헤더:", response.headers);
-    console.log("authorization 헤더 (소문자):", response.headers['authorization']);
+    console.log("authorization :", response.headers['authorization']);
     console.log(response.headers)
     console.log(response.headers['nickname'])
     console.log(token)
@@ -30,8 +30,8 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
       dispatch(saveNickname(response.headers['nickname']))
       userService.findUserDetail(response.headers['nickname'], dispatch)
       groupService.findByNickname(response.headers['nickname'], dispatch)
-      likeBookService.findByNickname(response.headers['nickname'], dispatch);
-      likeRoomService.findAllByUserNickname(response.headers['nickname'], dispatch);
+      likeBookService.findByNickname(response.headers['nickname'], dispatch)
+      likeRoomService.findAllByUserNickname(response.headers['nickname'], dispatch)
       likePostService.findAllByUserNickname(response.headers['nickname'], dispatch)
     } else {
       console.log("토큰이 안보여요 ㅠㅠ")

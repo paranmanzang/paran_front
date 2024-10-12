@@ -20,7 +20,7 @@ export default function UserProfile({ getUser }: UserProfileProps) {
         if (getUser) {
             dispatch(findUserDetail(getUser));
         }
-    }, [getUser, dispatch]);
+    }, [getUser]);
 
     if (isLoading) return <LoadingSpinner />;
     if (error) return <ErrorMessage message={error} />;
