@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 import { getCurrentBook } from "@/lib/features/group/book.slice";
 import Image from "next/image";
 import { getCurrentFile } from "@/lib/features/file/file.slice";
-import ErrorMessage from "../status/ErrorMessage";
 import LoadingSpinner from "../status/LoadingSpinner";
 
 export default function Details() {
     const book = useSelector(getCurrentBook);
     const file = useSelector(getCurrentFile);
+
 
     // 로딩 중일 때
     if (book == null) {
@@ -18,16 +18,16 @@ export default function Details() {
 
     return (
         <div className="w-[45rem] mx-auto my-10">
-            <div className="h-[300px] justify-center bg-green-200">
-                {file && file.path ? (
+            <div className="h-auto justify-center bg-green-200 relative mb-8">
+                {file &&(
                     <Image
-                        src={`http://localhost:8000/api/files/one?path=${file.path}`}
+                        src={file.path === process.env.NEXT_PUBLIC_IMAGE_DEFAULT ? process.env.NEXT_PUBLIC_IMAGE_DEFAULT : `http://localhost:8000/api/files?path=${file.path}`}
                         alt={book.title}
+                        layout="responsive"
                         width={300}
-                        height={800}
+                        height={450}
+                        objectFit="contain"
                     />
-                ) : (
-                    <ErrorMessage message={'이미지를 불러올 수 없습니다.'} />
                 )}
             </div>
                 <hr className="my-8" />

@@ -1,6 +1,7 @@
 // 상태 인터페이스 정의
 export interface GroupState {
     groups: GroupResponseModel[]
+    userGroups: GroupResponseModel[]
     groupMembers: {groupMembers: any ;[groupId: number]: JoiningModel[]}
     groupPostsNotices: GroupPostResponseModel[]
     groupPostsGenerals: GroupPostResponseModel[]
@@ -13,6 +14,7 @@ export interface GroupState {
 // 초기 상태
 export const initialGroupState: GroupState = {
     groups: [],
+    userGroups: [],
     groupMembers: {groupMembers: []},
     groupPostsNotices: [],
     groupPostsGenerals: [],

@@ -41,7 +41,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const nickname = useSelector(getNickname)
     const userInfo = user?.role ?? null
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
-
+    console.log(isUserInGroup)
     useEffect(() => {
         if (!user || !dispatch) return;
 
@@ -114,15 +114,17 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 </div>
             )}
             <div className="flex justify-center items-end">
-                {isBookLiked ? (
-                    <button type="button" onClick={Message} className="mx-2 rounded-full border px-3 py-2">
-                        이미 찜 목록에 있습니다
-                    </button>
-                ) : (
-                    userInfo && (
-                        <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
-                            🥰 찜하기 🥰
+                {thisPage !== '/groups' && (
+                    isBookLiked ? (
+                        <button type="button" onClick={Message} className="mx-2 rounded-full border px-3 py-2">
+                            이미 찜 목록에 있습니다
                         </button>
+                    ) : (
+                        userInfo && (
+                            <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
+                                🥰 찜하기 🥰
+                            </button>
+                        )
                     )
                 )}
                 {/* 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것 */}
@@ -139,7 +141,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                     </button>
                 )}
                 <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={3} />
-                {userInfo && thisPage === '/groups' && group && users[group.id].length <= 0 && (
+                {userInfo && thisPage === '/groups' && group && !isUserInGroup && (
                     <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
                         style={{ display: displayReservation }}
                     >

@@ -4,19 +4,13 @@ import { ChatRoomModel } from "@/app/model/chat/chat.model";
 import { chatRoomService } from "@/app/service/chat/chatRoom.service";
 import { useAppDispatch } from "@/lib/store";
 import { useEffect, useState } from "react";
-import { getError, getIsLoading } from "@/lib/features/chat/chat.slice";
-import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
+import { getNickname } from "@/lib/features/users/user.slice";
 import { useSelector } from "react-redux";
 
 export default function ChatList() {
   const nickname = useSelector(getNickname) as string;
   const dispatch = useAppDispatch();
   const [chatRooms, setChatRooms] = useState<ChatRoomModel[] | null>(null)
-  const loding = useSelector(getIsLoading)
-  const error = useSelector(getError);
-
-  console.log("nickname",nickname)
-  console.log(useSelector(getCurrentUser))
 
   useEffect(() => {
     chatRoomService.findList({ nickname, dispatch })

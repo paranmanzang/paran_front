@@ -1,19 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userSlice from './features/users/user.slice'
 import fileSlice from './features/file/file.slice'
 import roomSlice from './features/room/room.slice'
 import addressSlice from './features/room/address.slice'
 import accountSlice from './features/room/account.slice'
 import reviewSlice from './features/room/review.slice'
-import groupSlice from './features/group/group.slice'
 import bookingsSlice from './features/room/bookings.slice'
-import errorSlice from './features/error.slice'
-import bookSlice from './features/group/book.slice'
-import commentSlice from './features/comment/comment.slice'
-import chatSlice from './features/chat/chat.slice'
 import { useDispatch } from "react-redux"
-import usersSlice from './features/users/users.slice'
-import dataSlice from './features/data.slice'
+import  userSlice  from './features/users/user.slice'
+import  groupSlice  from './features/group/group.slice'
+import  usersSlice  from './features/users/users.slice'
+import  errorSlice  from './features/error.slice'
+import  commentSlice  from './features/comment/comment.slice'
+import  chatSlice  from './features/chat/chat.slice'
+import  bookSlice  from './features/group/book.slice'
+import  dataSlice  from './features/data.slice'
 
 
 export const makeStore = () => {

@@ -6,6 +6,7 @@ import {
     deleteGroupMember,
     saveError,
     saveGroupMembers,
+    saveUserGroups,
     saveGroups,
     saveLoading,
     updateGroup,
@@ -42,11 +43,11 @@ const findList = async (page: number, size: number, dispatch: AppDispatch): Prom
 };
 
 // 참여중인 소모임 조회
-const findByNickname = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findByNickname = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     await handleLoading(dispatch, async () => {
         try {
-            const response = await groupApi.findByNickname(nickname, page, size);
-            dispatch(saveGroups(response.data.content));
+            const response = await groupApi.findByNickname(nickname);
+            dispatch(saveUserGroups(response.data));
         } catch (error: any) {
             handleApiError(error, dispatch, "참여 중인 소모임 조회 중 오류 발생했습니다.");
         }

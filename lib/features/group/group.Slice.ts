@@ -6,8 +6,8 @@ import {
   initialGroupState,
   JoiningModel,
 } from '@/app/model/group/group.model';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@/lib/store';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
 const groupSlice = createSlice({
@@ -22,6 +22,9 @@ const groupSlice = createSlice({
         const groupId = action.payload[0].groupId;
         state.groupMembers[groupId] = action.payload;
       }
+    },
+    saveUserGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
+      state.userGroups = action.payload;
     },
     addGroup: (state, action: PayloadAction<GroupResponseModel>) => {
       state.groups.push(action.payload);
@@ -87,12 +90,12 @@ const groupSlice = createSlice({
     deleteGroupPost: (state, action: PayloadAction<{ id: number; postCategory: string }>) => {
       const { id, postCategory } = action.payload;
       switch (postCategory) {
-          case '공지 사항':
-              state.groupPostsNotices = state.groupPostsNotices.filter(post => post.id !== id);
-              break;
-          case '자유 게시판':
-              state.groupPostsGenerals = state.groupPostsGenerals.filter(post => post.id !== id);
-              break;
+        case '공지 사항':
+          state.groupPostsNotices = state.groupPostsNotices.filter(post => post.id !== id);
+          break;
+        case '자유 게시판':
+          state.groupPostsGenerals = state.groupPostsGenerals.filter(post => post.id !== id);
+          break;
       }
     },
     saveCurrentGroupPost: (state, action: PayloadAction<GroupPostResponseModel | null>) => {
@@ -111,6 +114,7 @@ export const getGroupPosts = (state: RootState) => ({
   groupPostsGeneral: state.group.groupPostsGenerals,
 });
 export const getGroups = (state: RootState) => state.group.groups;
+export const getUserGroups = (state: RootState) => state.group.userGroups;
 export const getGroupMembers = (state: RootState) => state.group.groupMembers;
 export const getCurrentGroup = (state: RootState) => state.group.currentGroup;
 export const getCurrentGroupPost = (state: RootState) => state.group.currentGroupPost;
@@ -119,6 +123,7 @@ export const getError = (state: RootState) => state.group.error
 
 export const {
   saveGroups,
+  saveUserGroups,
   saveGroupMembers,
   addGroupMember,
   deleteGroupMember,
