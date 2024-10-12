@@ -8,14 +8,15 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
 import Image from "next/image";
 import { getCurrentFile } from "@/lib/features/file/file.slice";
-interface roomDetailProps {
-  roomId: number;
-}
-export default function Details({ roomId }: roomDetailProps) {
+import LoadingSpinner from "../status/LoadingSpinner";
+import { getCurrentUser } from "@/lib/features/users/user.slice";
+
+export default function Details() {
   const [times, setTimes] = useState<TimeModel[]>([])
   const room = useSelector(getCurrentRoom);
   const file = useSelector(getCurrentFile);
   const dispatch = useAppDispatch();
+  const user = useSelector(getCurrentUser);
 
   useEffect(() => {
     if (room && room.id !== undefined) {
@@ -26,10 +27,10 @@ export default function Details({ roomId }: roomDetailProps) {
       })
     }
     dispatch(saveLoading(false))
-  }, [dispatch])
+  }, [dispatch, room])
   const getRoomImage = (path: string | undefined) => {
     if (file !== undefined) {
-      return !path?.includes("default.png") ? `http://localhost:8000/api/files/one?path=${path}` : process.env.NEXT_PUBLIC_IMAGE_DEFAULT; // 기본 이미지 제공
+      return !path?.includes("default.png") ? `http://localhost:8000/api/files?path=${path}` : process.env.NEXT_PUBLIC_IMAGE_DEFAULT; // 기본 이미지 제공
     }
     return process.env.NEXT_PUBLIC_;
   };
@@ -41,9 +42,11 @@ export default function Details({ roomId }: roomDetailProps) {
     acc[date].push(time);
     return acc;
   }, {});
+
+
   return (
     <div>
-      <div className="flex justify-center gap-3 w-[80%] items-center mx-auto my-8">
+      <div className="mx-auto my-8 flex w-4/5 items-center justify-center gap-3">
         <Image
           width={600}
           height={400}
@@ -54,9 +57,9 @@ export default function Details({ roomId }: roomDetailProps) {
         />
 
       </div>
-      <hr className="my-8 w-[80%] mx-auto" />
-      <div className="w-[45rem] mx-auto my-8">
-        <div className="h-[300px] p-8 w-full justify-center bg-green-50 rounded-lg">
+      <hr className="mx-auto my-8 w-4/5" />
+      <div className="mx-auto my-8 w-[45rem]">
+        <div className="h-[300px] w-full justify-center rounded-lg bg-green-50 p-8">
           <p className="mb-2">가게명: {room?.name}</p>
           <p className="mb-2">이용 정원: {room?.maxPeople} 명</p>
           <p className="mb-2">단독 사용 여부: {room?.opened ? "O" : "X"}</p>
@@ -74,7 +77,10 @@ export default function Details({ roomId }: roomDetailProps) {
 
       </div>
 
-      <DetailButton thisPage="/rooms" displayBoard="none" displayReview="block" displayReservation="block" />
+      {user && (
+        <DetailButton thisPage="/rooms" displayBoard="block" displayReview="none" displayReservation="none" />
+      )}
+
     </div >
   );
 }
