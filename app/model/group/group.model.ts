@@ -11,6 +11,11 @@ export interface GroupState {
     error: string | null
 }
 
+export enum PostCategory {
+    NOTICE = "공지 사항",
+    GENELAR = "자유게시판",
+}
+
 // 초기 상태
 export const initialGroupState: GroupState = {
     groups: [],
@@ -54,7 +59,7 @@ export interface GroupPostModel {
     title: string;
     content: string;
     userGroupId: number;
-    postCategory: string;
+    postCategory: PostCategory;
 }
 
 export interface GroupPostResponseModel {

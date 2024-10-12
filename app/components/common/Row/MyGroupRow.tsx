@@ -9,25 +9,25 @@ import { useAppDispatch } from '@/lib/store';
 import Pagination from './pagination/Pagination';
 
 interface MyGroupRowProps {
-  active: boolean;
-  onSelect: () => void;
+    active: boolean;
+    onSelect: () => void;
 }
 
 const MyGroupRow = ({ active, onSelect }: MyGroupRowProps) => {
-  const groups = useSelector(getUserGroups);
-  const loading = useSelector(getIsLoading);
-  const error = useSelector(getError);
+    const groups = useSelector(getUserGroups);
+    const loading = useSelector(getIsLoading);
+    const error = useSelector(getError);
 
-  if (loading) return <LoadingSpinner />;
-  if (error) return <ErrorMessage message={error} />;
+    if (loading) return <LoadingSpinner />;
+    if (error) return <ErrorMessage message={error} />;
 
-  return (
-    <>
-      {groups.map((group) => (
-        <GroupCard key={group.id} group={group} active={active} onSelect={onSelect} />
-      ))}
-    </>
-  );
+    return (
+        <>
+            {groups.map((group, index) => (
+                <GroupCard key={index} group={group} active={active} onSelect={onSelect} />
+            ))}
+        </>
+    );
 };
 
 export default MyGroupRow;
