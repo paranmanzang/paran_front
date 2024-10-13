@@ -76,9 +76,7 @@ const findByGroupId = async (groupId: number, page: number, size: number, postCa
     await handleLoading(dispatch, async () => {
         try {
             const response = await groupPostAPI.findByGroupId(groupId, page, size, postCategory);
-            if (Array.isArray(response.data)) {
-                dispatch(saveGroupPosts(response.data));
-            }
+            dispatch(saveGroupPosts(response.data.content));
             console.log(response.data)
         } catch (error: any) {
             handleApiError(error, dispatch, "게시물 목록 조회 중 오류 발생했습니다.");

@@ -12,8 +12,6 @@ export const logout = async (): Promise<any> => {
     const cookie = response.headers["Cache-Control"]
     console.log(cookie);
     removeAccessToken();
-    
-
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
