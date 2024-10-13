@@ -1,12 +1,18 @@
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
 import { UserModel } from "@/app/model/user.model";
+import { removeAccessToken } from "@/app/api/authUtils";
 
 export const logout = async (): Promise<any> => {
   try {
     const response = await api.post<UserModel>(
     requests.fetchLogout);
     console.log("로그아웃 응답: ", response.headers)
+    
+    const cookie = response.headers["Cache-Control"]
+    console.log(cookie);
+    removeAccessToken();
+    
 
   } catch (error: any) {
     if (error.response) {

@@ -20,9 +20,9 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
     const token = response.headers['authorization'].replace("Bearer ", "")
     console.log("전체 응답 헤더:", response.headers);
     console.log("authorization :", response.headers['authorization']);
-    console.log(response.headers)
-    console.log(response.headers['nickname'])
-    console.log(token)
+    // console.log(response.headers)
+    // console.log(response.headers['nickname'])
+    // console.log(token)
     if (token) {
       console.log("토큰이 보이긴 해요")
       setAccessToken(token);

@@ -10,6 +10,7 @@ import BellService from "./BellService";
 import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
+import { useRouter } from "next/navigation";
 
 function LoginHeader (){
   return (
@@ -45,6 +46,7 @@ function UserHeader() {
   const [user, setUser] = useState({} as any)
   const dispatch = useAppDispatch()
   const getUser = useSelector(getCurrentUser);
+  const router = useRouter()
   console.log(getUser);
   const popupOpen = () => {
     setIsHidden((prevState) => !prevState);
@@ -52,6 +54,7 @@ function UserHeader() {
 
   const onLogout = () => {
     logout().then(() => "로그아웃됨")
+    router.push('/')
   }
 
   return (
