@@ -1,5 +1,4 @@
 // groupSlice.ts
-
 import {
   GroupPostResponseModel,
   GroupResponseModel,
@@ -16,6 +15,9 @@ const groupSlice = createSlice({
   reducers: {
     saveGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
       state.groups = action.payload;
+    },
+    saveLeaderGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
+      state.leadergroups = action.payload;
     },
     saveGroupMembers: (state, action: PayloadAction<JoiningModel[]>) => {
       if (action.payload.length > 0) {
@@ -101,6 +103,15 @@ const groupSlice = createSlice({
     saveCurrentGroupPost: (state, action: PayloadAction<GroupPostResponseModel | null>) => {
       state.currentGroupPost = action.payload;
     },
+    saveLikedPosts: (state, action: PayloadAction<GroupPostResponseModel[]>) => {
+      state.likePosts = action.payload;
+    },
+    addLikedPost: (state, action: PayloadAction<GroupPostResponseModel>) => {
+      state.likePosts.push(action.payload)
+    },
+    deleteLikedPost: (state, action: PayloadAction<number>) => {
+      state.likePosts = state.likePosts.filter(likePost => likePost.id !== action.payload);
+    },
     saveLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
@@ -118,16 +129,19 @@ export const getGroupPosts = createSelector(
   })
 );
 export const getGroups = (state: RootState) => state.group.groups;
+export const getLikedPosts = (state: RootState) => state.group.likePosts;
 export const getUserGroups = (state: RootState) => state.group.userGroups;
 export const getGroupMembers = (state: RootState) => state.group.groupMembers;
 export const getCurrentGroup = (state: RootState) => state.group.currentGroup;
 export const getCurrentGroupPost = (state: RootState) => state.group.currentGroupPost;
+export const getLeaderGroups = (state: RootState) => state.group.leadergroups;
 export const getIsLoading = (state: RootState) => state.group.isLoading;
 export const getError = (state: RootState) => state.group.error
 
 export const {
   saveGroups,
   saveUserGroups,
+  saveLeaderGroups,
   saveGroupMembers,
   addGroupMember,
   deleteGroupMember,
@@ -140,6 +154,9 @@ export const {
   deleteGroupPost,
   saveCurrentGroup,
   saveCurrentGroupPost,
+  saveLikedPosts,
+  deleteLikedPost,
+  addLikedPost,
   saveLoading,
   saveError,
 } = groupSlice.actions;

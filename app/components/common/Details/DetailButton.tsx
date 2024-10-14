@@ -1,20 +1,22 @@
 // components/DetailButton.tsx
 "use client"
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import BookingModal from "../BookingModal";
 import Alert from "../Alert";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
-import { getCurrentBook, getIsBookLiked, getLikedBooks } from "@/lib/features/group/book.slice";
+import { getCurrentBook, getLikedBooks } from "@/lib/features/group/book.slice";
 import { getCurrentRoom } from "@/lib/features/room/room.slice";
-import { getCurrentGroup, getCurrentGroupPost, getGroupMembers } from "@/lib/features/group/group.slice";
+import { getCurrentGroup, getCurrentGroupPost, getGroupMembers, getLeaderGroups, getLikedPosts } from "@/lib/features/group/group.slice";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
 import { LikeRoomModel } from "@/app/model/user/users.model";
 import { likeRoomService } from "@/app/service/users/likeRoom.service";
-import { getLikedPosts, getLikedRooms } from "@/lib/features/users/users.slice";
+import { getLikedRooms } from "@/lib/features/users/likeRoom.slice";
+import { likePostService } from "@/app/service/group/likePost.service";
+import { LikePostModel } from "@/app/model/group/group.model";
 
 interface DetailButtonProps {
     thisPage: string;
@@ -35,6 +37,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const likebooks = useSelector(getLikedBooks)
     const likeRooms = useSelector(getLikedRooms)
     const likePosts = useSelector(getLikedPosts)
+    const leaderGroups = useSelector(getLeaderGroups)
     const room = useSelector(getCurrentRoom)
     const group = useSelector(getCurrentGroup)
     const post = useSelector(getCurrentGroupPost)
@@ -44,6 +47,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const userInfo = user?.role ?? null
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
     console.log(isUserInGroup)
+    console.log(leaderGroups)
     const handleReview = () => {
         route.push(`${thisPage}/review`)
     }
@@ -67,16 +71,21 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 likeBookService.insert(likeBookModel, dispatch);
                 break;
             }
-            case "/groupPost": {
+            case "/groups/board/detail": {
+                if (!post || !nickname) return;
+                const likePostModel: LikePostModel = {
+                    postId: post.id,
+                    nickname: nickname
+                };
 
+                likePostService.insert(likePostModel, dispatch);
                 break;
             }
             case "/rooms": {
-                const id = thisPage === "/rooms" ? room?.id : group?.id;
-                if (!id) return;
+                if (!room || !nickname) return;
                 const likeRoomModel: LikeRoomModel = {
-                    roomId: Number(id),
-                    nickname: nickname ?? ""
+                    roomId: Number(room.id),
+                    nickname: nickname
                 };
                 likeRoomService.insert(likeRoomModel, dispatch);
                 break;
@@ -102,15 +111,14 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
 
     const isBookLiked = likebooks.some((likeBook) => likeBook.bookId === book?.id)
     const isRoomLiked = likeRooms.some((likeRoom) => likeRoom.roomId === room?.id)
-    const ispostLiked = likePosts.some((likePost) => likePost.postId === post?.id)
-
+    const ispostLiked = likePosts.some((likePost) => likePost.id === post?.id)
 
     return (
         <>
             {userInfo === 'ROLE_admin' && (
-                <div className="max-w-sm mx-auto">
-                    <button type="button" onClick={() => { route.push('/admin/update') }} className="p-3 bg-green-500 text-white">수정</button>
-                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="p-3 bg-green-500 text-white">삭제</button>
+                <div className="mx-auto max-w-sm">
+                    <button type="button" onClick={() => { route.push('/admin/update') }} className="bg-green-500 p-3 text-white">수정</button>
+                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="bg-green-500 p-3 text-white">삭제</button>
                 </div>
             )}
             <div className="flex justify-center items-end">
@@ -124,7 +132,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                         case '/rooms':
                             isLiked = isRoomLiked;
                             break;
-                        case '/grouppost':
+                        case '/groups/board/detail':
                             isLiked = ispostLiked;
                             break;
                         default:
@@ -153,7 +161,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 >
                     리뷰보기
                 </button>
-                {thisPage == '/rooms' && (
+                {thisPage == '/rooms' && leaderGroups.length > 0 && (
                     <button type="button" onClick={() => setIsModalOpen(true)} className="mx-2 rounded-full border px-3 py-2"
                         style={{ display: displayReview }}
                     >
@@ -201,7 +209,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 <Alert
                     message="목록으로 이동하시겠습니까?"
                     isOpen={isConfirmOpen}
-                    onClose={() => {setIsConfirmOpen(false)}}
+                    onClose={() => { setIsConfirmOpen(false) }}
                     onConfirm={groupConfirm}
                     showConfirm={true}
                 />

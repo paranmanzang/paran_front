@@ -8,7 +8,7 @@ import {
     saveLoading,
     updateGroupPost
 } from "@/lib/features/group/group.slice";
-import groupPostAPI from "@/app/api/generate/groupPost.api";
+import { groupPostAPI } from '@/app/api/generate/groupPost.api';
 
 // 공통 에러 처리 함수
 const handleApiError = (error: any, dispatch: AppDispatch, message: string) => {

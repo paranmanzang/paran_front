@@ -3,17 +3,17 @@ import AccountButton from "@/app/components/common/AccountButton";
 import { useState } from "react";
 import Alert from "../common/Alert";
 import { useSelector } from "react-redux";
-import { getLikedPosts, getLikedRooms } from "@/lib/features/users/users.slice";
 import { getLikedBooks } from "@/lib/features/group/book.slice";
+import { getLikedRooms } from "@/lib/features/users/likeRoom.slice";
+import { getLikedPosts } from "@/lib/features/group/group.slice";
 
 interface ComLikeListProps {
-  type: "그룹" | "도서" | "장소";
+  type: "게시글" | "도서" | "장소";
 }
 
 interface LikedItem {
   id: string | number
   title: string
-  description: string
 }
 const ComLikeList = ({ type }: ComLikeListProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -27,17 +27,45 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
     // console.log('AccountLike: ' + '예약요청이 완료되었습니다.');
   }
 
-  const renderItems = (): [] => {
-    let items: LikedItem[];
+  const mapToLikedItems = (items: any[], type: string): LikedItem[] => {
+    return items.map((item) => {
+      switch (type) {
+        case "게시글":
+          return {
+            id: item.id,
+            title: item.title,
+          };
+        case "도서":
+          return {
+            id: item.id,
+            title: item.title
+          };
+        case "장소":
+          return {
+            id: item.id,
+            title: item.roomName || item.title,
+          };
+        default:
+          return {
+            id: item.id,
+            title: item.title || "제목 없음",
+          };
+      }
+    });
+  };
+
+  // type에 맞는 아이템들을 렌더링
+  const renderItems = (): JSX.Element[] => {
+    let items: LikedItem[] = [];
     switch (type) {
-      case "그룹":
-        items = likedPosts;
+      case "게시글":
+        items = mapToLikedItems(likedPosts, "게시글");
         break;
       case "도서":
-        items = likedBooks;
+        items = mapToLikedItems(likedBooks, "도서");
         break;
       case "장소":
-        items = likedRooms;
+        items = mapToLikedItems(likedRooms, "장소");
         break;
       default:
         items = [];
@@ -50,9 +78,6 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
               {item.title}
             </h5>
-            <p className="font-normal text-gray-700">
-              {item.description}
-            </p>
           </div>
           <div className="btn_wrap flex items-center">
             {type === "장소" && (
@@ -60,7 +85,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
                 요청보내기
               </button>
             )}
-            {type === "그룹" && (
+            {type === "게시글" && (
               <button type="button" onClick={modalOpen} className="text-sm p-2 mx-3 bg-green-100 rounded-lg">
                 참여요청
               </button>
@@ -70,7 +95,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
         </div>
       </li>
     ));
-  }
+  };
 
   return (
     <div>

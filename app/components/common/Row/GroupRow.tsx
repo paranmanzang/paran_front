@@ -34,8 +34,8 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
   return (
     <>
       <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-6 md:grid-cols-3">
-        {groups.map((group, index) => (
-          <GroupCard key={index} group={group} active={active} onSelect={onSelect} />
+        {groups.map((group) => (
+          <GroupCard key={group.id} group={group} active={active} onSelect={onSelect} />
         ))}
       </div>
       <Pagination

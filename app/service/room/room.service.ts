@@ -1,7 +1,7 @@
 
 import { RoomModel, RoomUpdateModel } from '../../model/room/room.model';
 import { AppDispatch } from '@/lib/store';
-import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom } from '@/lib/features/room/room.slice';
+import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom, saveError, saveLikedRooms } from '@/lib/features/room/room.slice';
 import { roomAPI } from '@/app/api/generate/room.api';
 import { fileService } from '../file/file.service';
 import { FileType } from '@/app/model/file/file.model';
@@ -146,9 +146,24 @@ const modifyConfirm = async (id: number, dispatch: AppDispatch): Promise<void> =
     }
 };
 
-//
+// 좋아요한 공간 조회
+const findAllByUserNickname = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
+    try {
+        dispatch(saveLoading(true));
+        const response = await roomAPI.findLikeRoomList(nickname)
+        console.log("좋아요한 공간: ", response)
+        if (response.data !== null) {
+            dispatch(saveLikedRooms(response.data))
+        }
+    } catch (error) {
+        dispatch(saveError("찜한 공간을 찾는 중 오류 발생했습니다."));
+        console.error('Error finding likeRoom:', error);
+    } finally {
+        dispatch(saveLoading(false));
+    }
+}
 
 export const roomService = {
     save, modify, drop,
-    findByUser, findAll, findByEnabled, modifyConfirm
+    findByUser, findAll, findByEnabled, findAllByUserNickname, modifyConfirm
 }

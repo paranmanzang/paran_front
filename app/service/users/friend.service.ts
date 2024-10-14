@@ -1,8 +1,8 @@
 import { FriendModel } from "@/app/model/user/users.model";
 import { AppDispatch } from "@/lib/store";
 import { saveError, saveLoading } from "@/lib/features/users/user.slice";
-import friendAPI from "@/app/api/generate/friend.api";
-import { addFriend, deleteFriend, saveFriends } from "@/lib/features/users/users.slice";
+import { friendAPI } from "@/app/api/generate/friend.api";
+import { addFriend, deleteFriend, saveFriends } from "@/lib/features/users/friend.slice";
 
 // 친구 추가
 const insert = async (friendModel: FriendModel, dispatch: AppDispatch): Promise<void> => {
