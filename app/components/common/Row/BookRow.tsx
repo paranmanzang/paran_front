@@ -45,14 +45,16 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
 
   return (
     <>
-      {books.map((book, index) => (
-        <BookCard
-          key={index}
-          book={book}
-          active={active}
-          file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)}
-        />
-      ))}
+      <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
+        {books.map((book, index) => (
+          <BookCard
+            key={index}
+            book={book}
+            active={active}
+            file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)}
+          />
+        ))}
+      </div>
       <Pagination
         currentPage={currentPage}
         pageSize={pageSize}
