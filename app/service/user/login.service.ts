@@ -20,14 +20,14 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
     const token = response.headers['authorization'].replace("Bearer ", "")
     console.log("전체 응답 헤더:", response.headers);
     console.log("authorization :", response.headers['authorization']);
-    
+
     if (token) {
       console.log("토큰이 보이긴 해요")
       setAccessToken(token);
-      
+
       dispatch(saveNickname(response.headers['nickname']))
       const resp = response.headers['nickname']
-      
+
       userService.findUserDetail(response.headers['nickname'], dispatch)
       groupService.findByNickname(response.headers['nickname'], dispatch)
       likeBookService.findByNickname(response.headers['nickname'], dispatch)

@@ -34,7 +34,6 @@ export default function GroupBoard() {
             const selectedPost = postsToShow.find(({ id }) => id === currentId);
             if (selectedPost) {
                 dispatch(saveCurrentGroupPost(selectedPost)); // 선택한 게시물 저장
-
                 groupPostService.modifyViewCount(currentId, dispatch)
                     .finally(() => {
                         router.push(`/groups/board/${currentId}`);

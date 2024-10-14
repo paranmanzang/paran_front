@@ -55,7 +55,10 @@ const findByNickname = async (nickname: string, dispatch: AppDispatch): Promise<
     await handleLoading(dispatch, async () => {
         try {
             const response = await likeBookAPI.findByNickname(nickname);
-            dispatch(saveLikedBooks(response.data));
+            console.log(response.data)
+            if(response.data !== null){
+                dispatch(saveLikedBooks(response.data));
+            }
         } catch (error: any) {
             handleApiError(error, dispatch, "내가 좋아하는 책 찾는 중 오류 발생했습니다.");
         }
