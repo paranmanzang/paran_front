@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
 import { getCurrentBook, getIsBookLiked, getLikedBooks } from "@/lib/features/group/book.slice";
 import { getCurrentRoom } from "@/lib/features/room/room.slice";
-import { getCurrentGroup, getCurrentGroupPost, getGroupMembers } from "@/lib/features/group/group.slice";
+import { getCurrentGroup, getCurrentGroupPost, getGroupMembers, getLeaderGroups } from "@/lib/features/group/group.slice";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
@@ -35,6 +35,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const likebooks = useSelector(getLikedBooks)
     const likeRooms = useSelector(getLikedRooms)
     const likePosts = useSelector(getLikedPosts)
+    const leaderGroups = useSelector(getLeaderGroups)
     const room = useSelector(getCurrentRoom)
     const group = useSelector(getCurrentGroup)
     const post = useSelector(getCurrentGroupPost)
@@ -44,6 +45,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const userInfo = user?.role ?? null
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
     console.log(isUserInGroup)
+    console.log(leaderGroups)
     const handleReview = () => {
         route.push(`${thisPage}/review`)
     }
