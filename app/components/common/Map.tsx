@@ -2,14 +2,15 @@
 import NaverMap from "./NaverMap";
 import { useEffect } from "react";
 import { useAppDispatch } from "@/lib/store";
-import { useSelector } from "react-redux";
-import { getAddresses, saveLoading } from "@/lib/features/room/address.slice";
+import { saveLoading } from "@/lib/features/room/address.slice";
 import { addressService } from "@/app/service/room/address.service";
+import { roomService } from "@/app/service/room/room.service";
 
 export default function Map() {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    roomService.findByEnabled(0,100, dispatch)
     addressService.findAll(dispatch)
     dispatch(saveLoading(false))
   }, [dispatch])
