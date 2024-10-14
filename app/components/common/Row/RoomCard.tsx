@@ -1,6 +1,5 @@
 import React from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { RoomModel } from '@/app/model/room/room.model';
 
 interface RoomCardProps {
