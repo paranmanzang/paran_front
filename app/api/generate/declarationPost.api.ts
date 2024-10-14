@@ -1,15 +1,13 @@
 // src/services/userService.ts
 import api from '../axios';
 import requests from "@/app/api/requests";
-import {} from "@/app/model/user/user.model";
-import {AdminPostModel, DeclarationPostModel, FriendModel, LikePostModel, LikeRoomModel} from "@/app/model/user/users.model";
-import {ExceptionResponseModel} from "@/app/model/error.model";
+import { DeclarationPostModel} from "@/app/model/user/users.model";
 //insert, drop, modify, find**
 
 export const declarationPostAPI = {
 
     findDeclarationPost: (page: number, size: number) => {
-        return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/depost/getList`, {
+        return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/depost`, {
             params: {
                 page,
                 size
@@ -18,7 +16,7 @@ export const declarationPostAPI = {
     },
 
     findDeclarationPostByNickname: (page: number, size: number, nickname: string) => {
-        return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/depost/getList/${nickname}`, {
+        return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/depost/${nickname}`, {
             params: {
                 page,
                 size
@@ -26,16 +24,14 @@ export const declarationPostAPI = {
         });
     },
 
-    findDeclarationPostDetail:(id:number)=>{
-        return api.get<DeclarationPostModel[]>(requests.fetchUsers + `/aboard/list/${id}`);
+    findDeclarationPostDetail:(postId:number)=>{
+        return api.get<DeclarationPostModel[]>(requests.fetchUsers + `/aboard/details/${postId}`);
     },
     insert:(declarationPostModel : DeclarationPostModel)=>{
-        return api.post<DeclarationPostModel|ExceptionResponseModel>(requests.fetchUsers + `/depost/add`,declarationPostModel);
+        return api.post<DeclarationPostModel>(requests.fetchUsers + `/depost/`,declarationPostModel);
     },
     drop:(id:number) =>{
-        return api.delete<Boolean | ExceptionResponseModel>(`depost/delete/${id}`)
+        return api.delete<Boolean>(`depost/${id}`)
     }
 
 }
-
-export default declarationPostAPI;

@@ -1,8 +1,7 @@
 import { LikeBookModel } from '@/app/model/group/book.model';
-import groupsAPI from "@/app/api/generate/group.api";
 import { AppDispatch } from "@/lib/store";
 import { addLikedBook, deleteLikedBook, saveError, saveLikedBooks, saveLoading } from "@/lib/features/group/book.slice";
-import likeBookAPI from "@/app/api/generate/likeBook.api";
+import { likeBookAPI } from '@/app/api/generate/likeBook.api';
 
 // 공통 에러 처리 함수
 const handleApiError = (error: any, dispatch: AppDispatch, message: string) => {
