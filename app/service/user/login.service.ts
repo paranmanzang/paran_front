@@ -29,13 +29,12 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
 
       const resp = response.headers['nickname']
 
-      userService.findUserDetail(response.headers['nickname'], dispatch)
-      groupService.findByNickname(response.headers['nickname'], dispatch)
-      likeBookService.findByNickname(response.headers['nickname'], dispatch)
-      likeRoomService.findAllByUserNickname(response.headers['nickname'], dispatch)
-      likePostService.findAllByUserNickname(response.headers['nickname'], dispatch)
+      userService.findUserDetail(resp, dispatch)
+      groupService.findByNickname(resp, dispatch)
+      likeBookService.findByNickname(resp, dispatch)
+      likeRoomService.findAllByUserNickname(resp, dispatch)
+      likePostService.findAllByUserNickname(resp, dispatch)
 
-      // return resp
     } else {
       console.log("토큰이 안보여요 ㅠㅠ")
       throw new Error('토큰을 받지 못했습니다.');

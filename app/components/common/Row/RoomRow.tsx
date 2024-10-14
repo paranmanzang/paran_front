@@ -22,8 +22,8 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   const router = useRouter();
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
-  const totalItems = rooms; // 실제 데이터의 총 개수로 업데이트
+  const [pageSize, setPageSize] = useState(9);
+  const totalItems = 10;  // 실제 데이터의 총 개수로 업데이트
 
   useEffect(() => {
     dispatch(saveLoading(true));

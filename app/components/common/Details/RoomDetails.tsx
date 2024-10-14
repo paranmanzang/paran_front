@@ -35,7 +35,7 @@ export default function Details({roomId}: DetailsProps) {
   const groupedTimes = times.reduce((acc: Record<string, TimeModel[]>, time) => {
     const { date } = time;
     if (!acc[date]) {
-      acc[date] = []; // Create new array for this date if it doesn't exist
+      acc[date] = []; // 인스턴스만듬
     }
     acc[date].push(time);
     return acc;
@@ -57,7 +57,7 @@ export default function Details({roomId}: DetailsProps) {
       </div>
       <hr className="mx-auto my-8 w-4/5" />
       <div className="mx-auto my-8 w-[45rem]">
-        <div className="h-[300px] w-full justify-center rounded-lg bg-green-50 p-8">
+        <div className="w-full justify-center rounded-lg bg-green-50 p-8">
           <p className="mb-2">가게명: {room?.name}</p>
           <p className="mb-2">이용 정원: {room?.maxPeople} 명</p>
           <p className="mb-2">단독 사용 여부: {room?.opened ? "O" : "X"}</p>
