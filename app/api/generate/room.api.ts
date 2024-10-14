@@ -1,6 +1,6 @@
 import { RoomModel, RoomUpdateModel, TimeModel } from "@/app/model/room/room.model";
-import api from "../axios";
-import requests from "../requests";
+import requests from "@/app/api/requests";
+import api from "@/app/api/axios";
 
 export const roomAPI = {
     insert(roomModel: RoomModel) { return api.post<RoomModel>(`${requests.fetchRooms}`, roomModel)},

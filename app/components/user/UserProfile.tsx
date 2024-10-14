@@ -2,26 +2,23 @@
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { findUserDetail } from '@/app/service/user/user.service'
+import {useSelector } from 'react-redux'
 import LoadingSpinner from '@/app/components/common/status/LoadingSpinner'
 import { getCurrentUser } from '@/lib/features/users/user.slice'
 import ErrorMessage from '@/app/components/common/status/ErrorMessage'
-import { AppDispatch, RootState } from '@/lib/store' 
+import {  RootState, useAppDispatch } from '@/lib/store' 
 
 interface UserProfileProps {
     getUser: string | undefined;
 }
 export default function UserProfile({ getUser }: UserProfileProps) {
     const router = useRouter();
-    const dispatch = useDispatch<AppDispatch>();
+    const dispatch = useAppDispatch()
     const user = useSelector(getCurrentUser)
     const {isLoading, error } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-        if(getUser == user?.nickname ){
-            dispatch(findUserDetail(user?.nickname))
-        }        
+      
     }, [getUser]);
 
     if (isLoading) return <LoadingSpinner />
@@ -31,7 +28,7 @@ export default function UserProfile({ getUser }: UserProfileProps) {
         <div className="mx-auto my-[40px] py-3 px-6 h-auto w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow">
             <div className="flex mb-10">
                 <div className="flex flex-col items-center ml-3">
-                    <Image
+                    {/* <Image
                         className="mb-3 rounded-full shadow-lg"
                         width={102}
                         height={100}
@@ -40,26 +37,26 @@ export default function UserProfile({ getUser }: UserProfileProps) {
                         onError={(e) => {
                             e.currentTarget.src = `process.env.NEXT_PUBLIC_IMAGE_DEFAULT`
                         }}
-                    />
+                    /> */}
                 </div>
                 <div className="flex items-center">
                     <ul className="text-sm">
                         <li className="flex items-center">
                             닉네임
                             <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
-                                {user.nickname}
+                                {user?.nickname}
                             </h5>
                         </li>
                         <li className="flex items-center">
                             아이디
                             <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
-                                {user.username}
+                                {user?.username}
                             </h5>
                         </li>
                         <li className="flex items-center">
                             권한
                             <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
-                                {user.role}
+                                {user?.role}
                             </h5>
                         </li>
                     </ul>
