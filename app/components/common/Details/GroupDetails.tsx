@@ -28,14 +28,14 @@ export default function GroupDetails() {
             <div className="my-6">
                 <div className="h-[70%] bg-green-50 p-8 rounded-lg">
                     <h3 className="text-xl font-bold mb-4">소모임 정보:</h3>
-                    {group ? (
+                    {group && (
                         <div>
                             <p>카테고리: {group.categoryName}</p>
                             <p>설명: {group.detail}</p>
                         </div>
-                    ) : (
-                        <LoadingSpinner />
                     )}
+                    {!group && (<LoadingSpinner />)}
+
                 </div>
                 {isUserInGroup && (
                     <div className="h-[70%] bg-green-50 rounded-lg p-8 overflow-y-auto my-6">

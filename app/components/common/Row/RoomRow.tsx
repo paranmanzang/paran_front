@@ -56,9 +56,9 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   return (
     <>
       {rooms.length > 0 ? (
-        rooms.map((room) => (
+        rooms.map((room, index) => (
           <RoomCard
-            key={room.id}
+            key={index}
             room={room}
             isActive={active}
             getRoomImage={getRoomImage}
