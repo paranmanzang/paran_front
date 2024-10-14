@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { findUserDetail } from '@/app/service/user/user.service'
 import LoadingSpinner from '@/app/components/common/status/LoadingSpinner'
+import { getCurrentUser } from '@/lib/features/users/user.slice'
 import ErrorMessage from '@/app/components/common/status/ErrorMessage'
 import { AppDispatch, RootState } from '@/lib/store' 
 
@@ -14,16 +15,17 @@ interface UserProfileProps {
 export default function UserProfile({ getUser }: UserProfileProps) {
     const router = useRouter();
     const dispatch = useDispatch<AppDispatch>();
+    const user = useSelector(getCurrentUser)
     const {isLoading, error } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-        if (getUser) {
-            dispatch(findUserDetail(getUser));
-        }
+        if(getUser == user?.nickname ){
+            dispatch(findUserDetail(user?.nickname))
+        }        
     }, [getUser]);
 
-    if (isLoading) return <LoadingSpinner />;
-    if (error) return <ErrorMessage message={error} />;
+    if (isLoading) return <LoadingSpinner />
+    if (error) return <ErrorMessage message={error} />
 
     return (
         <div className="mx-auto my-[40px] py-3 px-6 h-auto w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow">
