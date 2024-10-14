@@ -1,9 +1,7 @@
 "use client"
-import Link from "next/link";
 import AccountButton from "@/app/components/common/AccountButton";
 import { useState } from "react";
 import Alert from "../common/Alert";
-import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { getLikedPosts, getLikedRooms } from "@/lib/features/users/users.slice";
 import { getLikedBooks } from "@/lib/features/group/book.slice";
@@ -13,27 +11,25 @@ interface ComLikeListProps {
 }
 
 interface LikedItem {
-  id: string | number;
-  title: string;
-  description: string;
+  id: string | number
+  title: string
+  description: string
 }
-
-const ComLikeList = ({ type } : ComLikeListProps) => {
+const ComLikeList = ({ type }: ComLikeListProps) => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
   const likedPosts = useSelector(getLikedPosts);
   const likedRooms = useSelector(getLikedRooms);
   const likedBooks = useSelector(getLikedBooks);
 
   const modalOpen = (): void => {
-    setIsModalOpen(true); 
-    <Alert message={'예약요청이 완료되었습니다.'} isOpen={isModalOpen} onClose={() => setIsModalOpen(false) }/>
-    console.log('AccountLike: ' + '예약요청이 완료되었습니다.');
+    setIsModalOpen(true);
+    <Alert message={'예약요청이 완료되었습니다.'} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    // console.log('AccountLike: ' + '예약요청이 완료되었습니다.');
   }
 
-  const renderItems = (): JSX.Element[] => {
+  const renderItems = (): [] => {
     let items: LikedItem[];
-    switch(type) {
+    switch (type) {
       case "그룹":
         items = likedPosts;
         break;
@@ -75,10 +71,10 @@ const ComLikeList = ({ type } : ComLikeListProps) => {
       </li>
     ));
   }
-  
-  return ( 
+
+  return (
     <div>
-      <h2 className="text-xl font-bold mb-4">{type} 좋아요 목록</h2>
+      {/* <h2 className="text-xl font-bold mb-4">{type} </h2> */}
       <ul>
         {renderItems()}
       </ul>

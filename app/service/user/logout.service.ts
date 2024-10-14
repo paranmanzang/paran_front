@@ -7,11 +7,10 @@ export const logout = async (): Promise<any> => {
   try {
     const response = await api.post<UserModel>(
     requests.fetchLogout);
-    console.log("로그아웃 응답: ", response.headers)
+    console.log("로그아웃 응답: ", response)
     
-    const cookie = response.headers["Cache-Control"]
-    console.log(cookie);
     removeAccessToken();
+    
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);

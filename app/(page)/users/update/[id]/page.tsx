@@ -3,7 +3,7 @@ import { getCurrentUser, saveError } from "@/lib/features/users/user.slice";
 import Link from "next/link";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
-import { modifyPassword } from "@/app/service/users/user.service";
+import { modifyPassword } from "@/app/service/user/user.service";
 import { useState } from "react";
 
 interface PageProps {

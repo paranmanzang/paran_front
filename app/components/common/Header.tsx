@@ -44,7 +44,6 @@ function LoginHeader (){
 function UserHeader() {
   const [isHidden, setIsHidden] = useState(true)
   const [user, setUser] = useState({} as any)
-  const dispatch = useAppDispatch()
   const getUser = useSelector(getCurrentUser);
   const router = useRouter()
   console.log(getUser);
@@ -53,8 +52,10 @@ function UserHeader() {
   };
 
   const onLogout = () => {
-    logout().then(() => "로그아웃됨")
-    router.push('/')
+    logout().then(() => {
+      router.push('/')
+      console.log("로그아웃됨")
+    })
   }
 
   return (
@@ -119,9 +120,10 @@ export default function Header (){
   const user = useSelector(getCurrentUser);
   return ( 
     <>
-      {user?.nickname ?  (
+      {user?.nickname && (
         <UserHeader/>
-      ):(
+      )}
+      {!user?.nickname && (
         <LoginHeader />
       )}
     </>

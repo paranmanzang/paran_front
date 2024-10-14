@@ -1,6 +1,6 @@
 "use client"
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from 'react-query/devtools'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 export default function QueryProvider({
   children,
@@ -10,8 +10,9 @@ export default function QueryProvider({
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        refetchOnWindowFocus: false,
-        retry: false,
+        gcTime: 1000 * 60 * 60 * 24 ,
+        staleTime: 5 * 60 * 1000, // 5분, 데이터의 refresh를 결정함
+        cacheTime: 10 * 60 * 1000, // 10분, 데이터의 수명을 결정함
       },
     },
   })

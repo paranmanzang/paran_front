@@ -3,11 +3,11 @@ import BookingList from "@/app/components/common/BookingList"
 import { getCurrentBooking } from "@/lib/features/room/bookings.slice"
 import { useSelector } from "react-redux"
 
-export default function bookingList() {
+export default function BookingListPage() {
   const page = useSelector(getCurrentBooking)
   return (
     <div className="my-8">
-      <BookingList id={`${page?.roomId}`}/>
+      <BookingList bookingId={`${page?.roomId}`}/>
     </div>
   )
 }

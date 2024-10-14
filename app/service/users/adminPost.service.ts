@@ -23,7 +23,6 @@ const insert = async (adminPostModel: AdminPostModel, dispatch: AppDispatch): Pr
     }
 };
 //게시물 수정
-
 const modify = async (id: number, adminPostModel: AdminPostModel, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));

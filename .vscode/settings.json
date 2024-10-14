@@ -22,6 +22,7 @@
     "lucide",
     "naver",
     "reduxjs",
-    "tailwindcss"
+    "tailwindcss",
+    "tanstack"
   ]
 }
