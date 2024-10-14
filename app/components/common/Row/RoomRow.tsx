@@ -66,7 +66,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
           />
         ))
       ) : (
-        <div><ErrorMessage message={'등록된 공간이 없습니다.'} /></div>
+        <ErrorMessage message={'등록된 공간이 없습니다.'}/>
       )}
       <Pagination
         currentPage={page}

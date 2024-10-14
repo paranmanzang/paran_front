@@ -24,7 +24,6 @@ interface DetailButtonProps {
 }
 
 export default function DetailButton({ thisPage, displayReview, displayBoard, displayReservation }: DetailButtonProps) {
-    //const nickname = 'A'; // 임의로 넣어둠
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [isAlertOpen, setIsAlertOpen] = useState(false)

@@ -21,13 +21,13 @@ export default function RootLayout({
         <link rel="shortcut icon" href="#"/>
       </head>
       <body>
-        <QueryProvider >
         <StoreProvider>
+        <QueryProvider >
           <Header />
           <main className="mb-6 pb-6">{children}</main>
           <Footer />          
-        </StoreProvider>
         </QueryProvider>
+        </StoreProvider>
       </body>
     </html>
   );

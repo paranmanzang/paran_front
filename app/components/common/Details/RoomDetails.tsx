@@ -10,7 +10,11 @@ import Image from "next/image";
 import { getCurrentFile } from "@/lib/features/file/file.slice";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 
-export default function Details() {
+interface DetailsProps {
+  roomId: string
+}
+
+export default function Details({roomId}: DetailsProps) {
   const [times, setTimes] = useState<TimeModel[]>([])
   const room = useSelector(getCurrentRoom);
   const file = useSelector(getCurrentFile);
@@ -18,7 +22,7 @@ export default function Details() {
   const user = useSelector(getCurrentUser);
 
   useEffect(() => {
-    if (room && room.id !== undefined) {
+    if (roomId && room?.id !== undefined) {
       timeService.findByRoom(room.id, dispatch).then(data => {
         if (data) {
           setTimes(data)

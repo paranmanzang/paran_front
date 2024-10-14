@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { saveCurrentGroup } from "@/lib/features/group/group.slice";
 
 interface GroupCardProps {
-  group: any; // 타입을 더 구체적으로 정의할 수 있습니다.
+  group: any; 
   active: boolean;
   onSelect: () => void;
 }

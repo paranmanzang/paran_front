@@ -3,9 +3,8 @@ import { RoomModel, RoomUpdateModel } from '../../model/room/room.model';
 import { AppDispatch } from '@/lib/store';
 import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom } from '@/lib/features/room/room.slice';
 import { roomAPI } from '@/app/api/generate/room.api';
-import { fileService } from '../File/file.service';
+import { fileService } from '../file/file.service';
 import { FileType } from '@/app/model/file/file.model';
-import { saveFiles } from '@/lib/features/file/file.slice';
 
 // 공간 등록
 const save = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<void> => {
@@ -128,10 +127,10 @@ const findByEnabled = async (page: number, size: number, dispatch: AppDispatch):
 };
 
 // 공간승인
-const modifyComfrim = async (id: number, dispatch: AppDispatch): Promise<void> => {
+const modifyConfirm = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.modifyConfrim(id)
+        const response = await roomAPI.modifyConfirm(id)
         dispatch(updateRoom(response.data))
     } catch (error: any) {
         if (error.response) {
@@ -151,5 +150,5 @@ const modifyComfrim = async (id: number, dispatch: AppDispatch): Promise<void> =
 
 export const roomService = {
     save, modify, drop,
-    findByUser, findAll, findByEnabled, modifyComfrim
+    findByUser, findAll, findByEnabled, modifyConfirm
 }
