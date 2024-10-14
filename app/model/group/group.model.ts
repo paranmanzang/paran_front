@@ -3,6 +3,7 @@ export interface GroupState {
     groups: GroupResponseModel[]
     userGroups: GroupResponseModel[]
     leadergroups: GroupResponseModel[]
+    likePosts: GroupPostResponseModel[];
     groupMembers: {groupMembers: any ;[groupId: number]: JoiningModel[]}
     groupPostsNotices: GroupPostResponseModel[]
     groupPostsGenerals: GroupPostResponseModel[]
@@ -22,6 +23,7 @@ export const initialGroupState: GroupState = {
     groups: [],
     userGroups: [],
     leadergroups:[],
+    likePosts:[],
     groupMembers: {groupMembers: []},
     groupPostsNotices: [],
     groupPostsGenerals: [],
@@ -78,3 +80,9 @@ export interface GroupPostResponseModel {
     bookId?: number;
     bookTitle?: string;
 }
+
+export interface LikePostModel {
+    id?: number; //게시물 좋아요 ID(선택)
+    postId: number; //게시물 ID(필수)
+    nickname: string; // 닉네임(필수)
+  }

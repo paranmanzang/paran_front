@@ -9,7 +9,7 @@ import { userService } from "./user.service";
 import { groupService } from "../group/group.service";
 import { likeBookService } from "../group/likeBook.service";
 import { likeRoomService } from "../users/likeRoom.service";
-import { likePostService } from "../users/likePost.service";
+import { likePostService } from "../group/likePost.service";
 
 const login = async (username: string, password: string, dispatch: AppDispatch): Promise<any> => {
   try {

@@ -2,10 +2,11 @@
 interface UserState {
   users: UserModel[];
   likeRooms: LikeRoomModel[];
-  likePosts: LikePostModel[];
   friends: FriendModel[];
+  currnetAdminpost: AdminPostModel | null;
   adminPosts: AdminPostModel[];
   declarationPosts: DeclarationPostModel[];
+  currentDeclarationPost: DeclarationPostModel | null
   checkedNames: CheckedNamesModel[];
   isLoading: boolean;
   error: string | null;
@@ -15,8 +16,9 @@ interface UserState {
 export const initialUserState: UserState = {
   users: [],
   likeRooms: [],
-  likePosts: [],
   friends: [],
+  currnetAdminpost: null,
+  currentDeclarationPost: null,
   adminPosts: [],
   declarationPosts: [],
   checkedNames: [],
@@ -67,12 +69,6 @@ export interface FriendModel {
   requestUser: string; // 친구 요청 발신자
   requestAt: string; // 요청 보낸 시간
   responseAt: string; // 요청 수락 시간
-}
-
-export interface LikePostModel {
-  id?: number; //게시물 좋아요 ID(선택)
-  postId: number; //게시물 ID(필수)
-  nickname: string; // 닉네임(필수)
 }
 
 export interface LikeRoomModel {

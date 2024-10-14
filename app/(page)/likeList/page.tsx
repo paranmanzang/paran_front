@@ -4,24 +4,18 @@ import {useRouter} from "next/navigation";
 import ComLikeList from "@/app/components/user/ComLikeList";
 import Link from "next/link";
 
-type TabType = "그룹" | "도서" | "장소";
+type TabType = "게시글" | "도서" | "장소";
 
 export default function LikeList() {
-    const [activeTab, setActiveTab] = useState<TabType>("그룹");
+    const [activeTab, setActiveTab] = useState<TabType>("게시글");
     const router = useRouter();
 
     const goBack = () => router.back();
 
     const renderContent = () => {
         switch (activeTab) {
-            case "그룹":
-                return (
-                    <>
-                        <ComLikeList type="그룹"/>
-                        <ComLikeList type="도서"/>
-                        <ComLikeList type="장소"/>
-                    </>
-                );
+            case "게시글":
+                return <ComLikeList type="게시글"/>;
             case "도서":
                 return <ComLikeList type="도서"/>;
             case "장소":
@@ -35,7 +29,7 @@ export default function LikeList() {
         <div className="max-w-lg p-6 my-8 mx-auto bg-green-100">
             <div className="mb-4">
                 <ul className="flex border-b">
-                    {["그룹", "도서" ,"장소"].map((tab) => (
+                    {["게시글", "도서" ,"장소"].map((tab) => (
                         <li key={tab} className="-mb-px mr-1">
                             <Link
                                 href="#"
