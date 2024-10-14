@@ -41,43 +41,6 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const userInfo = user?.role ?? null
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
     console.log(isUserInGroup)
-    useEffect(() => {
-        if (!user || !dispatch) return;
-
-        dispatch(saveGlobalLoading(true));
-
-        let insertPromise;
-
-        switch (thisPage) {
-            case "/books": {
-                if (!book?.id) return;
-                const likeBookModel: LikeBookModel = {
-                    bookId: Number(book.id),
-                    nickname: user.nickname ?? ""
-                };
-                insertPromise = likeBookService.insert(likeBookModel, dispatch);
-                break;
-            }
-            case "/groupPost":
-            case "/rooms": {
-                const id = thisPage === "/rooms" ? room?.id : group?.id;
-                if (!id) return;
-                const likeRoomModel: LikeRoomModel = {
-                    roomId: Number(id),
-                    nickname: user.nickname ?? ""
-                };
-                insertPromise = likeRoomService.insert(likeRoomModel, dispatch);
-                break;
-            }
-            default:
-                return;
-        }
-
-        insertPromise?.finally(() => {
-            dispatch(saveGlobalLoading(false));
-        });
-
-    }, [thisPage, book, room, group, user, dispatch]);
 
     const handleReview = () => {
         route.push(`${thisPage}/review`)
@@ -91,7 +54,31 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         setIsAlertOpen(true);
     }
     const LikeThis = () => {
-        dispatch(saveGlobalLoading(false)); // 항상 로딩 종료
+        switch (thisPage) {
+            case "/books": {
+                if (!book?.id) return;
+                const likeBookModel: LikeBookModel = {
+                    bookId: Number(book.id),
+                    nickname: nickname ?? ""
+                };
+
+                likeBookService.insert(likeBookModel, dispatch);
+                break;
+            }
+            case "/groupPost":
+            case "/rooms": {
+                const id = thisPage === "/rooms" ? room?.id : group?.id;
+                if (!id) return;
+                const likeRoomModel: LikeRoomModel = {
+                    roomId: Number(id),
+                    nickname: nickname ?? ""
+                };
+                likeRoomService.insert(likeRoomModel, dispatch);
+                break;
+            }
+            default:
+                return;
+        }
         setAlertMessage('찜 했습니다.');
         setIsAlertOpen(true);
     }

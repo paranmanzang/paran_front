@@ -47,7 +47,7 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
     <>
       {books.map((book, index) => (
         <BookCard
-          key={`${book.id}-${index}`}
+          key={index}
           book={book}
           active={active}
           file={files.bookFiles.find(file => file.refId === book.id) ?? defaultFile(FileType.BOOK, book.id)}
