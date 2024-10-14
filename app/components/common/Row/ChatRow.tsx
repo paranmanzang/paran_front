@@ -26,10 +26,12 @@ const ChatRow = ({ active, onSelect }: ChatRowProps) => {
 
   return (
     <>
+    <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
       {chatRooms?.map((room,index) => (
         <ChatCard key={index}
           chatRoom={room} active={active} onSelect={onSelect} />
       ))}
+    </div>
     </>
   );
 };

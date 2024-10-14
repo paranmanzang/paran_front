@@ -35,7 +35,7 @@ const ContentArea = ({ activeTab }: ContentAreaProps) => {
 
   return (
     <div className="flex-1 overflow-y-auto p-8">
-      <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
+      <div>
         {renderActiveContent()}
       </div>
     </div>
