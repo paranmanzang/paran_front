@@ -64,12 +64,12 @@ export default function Details({roomId}: DetailsProps) {
           <p className="mb-2">이용 가능 시간: {room?.openTime} ~ {room?.closeTime}</p>
           <p className="mb-2">시간당 이용 금액: {room?.price}원</p>
           <p className="mb-2">이용 가능 시간 {groupedTimes && Object.keys(groupedTimes).map((date) => (
-            <p key={date}>
+            <div key={date}>
               <p>{date}</p>
               {groupedTimes[date].map((time) => (
                 <span key={time.id}>{time.time} </span>
               ))}
-            </p>
+            </div>
           ))}</p>
         </div>
 

@@ -6,15 +6,15 @@ import BookingModal from "../BookingModal";
 import Alert from "../Alert";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
-import { getCurrentBook, getIsBookLiked } from "@/lib/features/group/book.slice";
+import { getCurrentBook, getIsBookLiked, getLikedBooks } from "@/lib/features/group/book.slice";
 import { getCurrentRoom } from "@/lib/features/room/room.slice";
 import { getCurrentGroup, getCurrentGroupPost, getGroupMembers } from "@/lib/features/group/group.slice";
-import { saveGlobalLoading } from "@/lib/features/error.slice";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
 import { LikeRoomModel } from "@/app/model/user/users.model";
 import { likeRoomService } from "@/app/service/users/likeRoom.service";
+import { getLikedPosts, getLikedRooms } from "@/lib/features/users/users.slice";
 
 interface DetailButtonProps {
     thisPage: string;
@@ -32,16 +32,18 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const route = useRouter()
     const dispatch = useAppDispatch()
     const book = useSelector(getCurrentBook)
-    const isBookLiked = useSelector(state => book ? getIsBookLiked(state, book.id) : false)
+    const likebooks = useSelector(getLikedBooks)
+    const likeRooms = useSelector(getLikedRooms)
+    const likePosts = useSelector(getLikedPosts)
     const room = useSelector(getCurrentRoom)
     const group = useSelector(getCurrentGroup)
+    const post = useSelector(getCurrentGroupPost)
     const user = useSelector(getCurrentUser)
     const users = useSelector(getGroupMembers)
     const nickname = useSelector(getNickname)
     const userInfo = user?.role ?? null
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
     console.log(isUserInGroup)
-
     const handleReview = () => {
         route.push(`${thisPage}/review`)
     }
@@ -56,16 +58,19 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const LikeThis = () => {
         switch (thisPage) {
             case "/books": {
-                if (!book?.id) return;
+                if (!book || !nickname) return;
                 const likeBookModel: LikeBookModel = {
                     bookId: Number(book.id),
-                    nickname: nickname ?? ""
+                    nickname: nickname
                 };
 
                 likeBookService.insert(likeBookModel, dispatch);
                 break;
             }
-            case "/groupPost":
+            case "/groupPost": {
+
+                break;
+            }
             case "/rooms": {
                 const id = thisPage === "/rooms" ? room?.id : group?.id;
                 if (!id) return;
@@ -83,13 +88,18 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         setIsAlertOpen(true);
     }
     const JoinGroups = () => {
-        setAlertMessage('이 소모임에 참여하시겠습니까? ');
+        setAlertMessage('성공적으로 소모임 참여 신청이 되었습니다.');
         setIsAlertOpen(true);
     }
     const handleConfirm = () => {
         setIsConfirmOpen(false);
         route.push('/likeList');
     }
+
+    const isBookLiked = likebooks.some((likeBook) => likeBook.bookId === book?.id)
+    const isRoomLiked = likeRooms.some((likeRoom) => likeRoom.roomId === room?.id)
+    const ispostLiked = likePosts.some((likePost) => likePost.postId === post?.id)
+
 
     return (
         <>
@@ -100,19 +110,39 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 </div>
             )}
             <div className="flex justify-center items-end">
-                {thisPage !== '/groups' && (
-                    isBookLiked ? (
-                        <button type="button" onClick={Message} className="mx-2 rounded-full border px-3 py-2">
-                            이미 찜 목록에 있습니다
-                        </button>
-                    ) : (
-                        userInfo && (
-                            <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
-                                🥰 찜하기 🥰
+                {thisPage !== '/groups' && (() => {
+
+                    let isLiked;
+                    switch (thisPage) {
+                        case '/books':
+                            isLiked = isBookLiked;
+                            break;
+                        case '/rooms':
+                            isLiked = isRoomLiked;
+                            break;
+                        case '/grouppost':
+                            isLiked = ispostLiked;
+                            break;
+                        default:
+                            return null; // 해당되지 않는 페이지일 경우 렌더링하지 않음
+                    }
+
+                    // 좋아요 여부에 따른 버튼 렌더링
+                    return (
+                        isLiked ? (
+                            <button type="button" onClick={Message} className="mx-2 rounded-full border px-3 py-2">
+                                이미 좋아요 목록에 있습니다
                             </button>
+                        ) : (
+                            userInfo && (
+                                <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
+                                    🥰 좋아요 🥰
+                                </button>
+                            )
                         )
-                    )
-                )}
+                    );
+                })()}
+
                 {/* 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것 */}
                 <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
                     style={{ display: displayReview }}
