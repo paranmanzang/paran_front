@@ -122,8 +122,8 @@ export default function ChatRoom() {
 
     const memoizedPeopleList = useMemo(() => {
         console.log("Rendering PeopleList with chatUsers:", chatUsers);
-        return chatUsers.map((user) => (
-            <PeopleList key={user.nickname} chatUser={user} />
+        return chatUsers.map((user,index) => (
+            <PeopleList key={index} chatUser={user} />
         ));
     }, [chatUsers]);
 
