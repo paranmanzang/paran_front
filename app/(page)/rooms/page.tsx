@@ -7,7 +7,7 @@ export default function Rooms() {
 
   return (
     <div>
-      <RoomDetails roomId={Number(param.id)} />
+      <RoomDetails roomId={param.id as string} />
     </div>
   );
 }

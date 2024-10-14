@@ -25,7 +25,7 @@ const insertUser = async (userModel: UserModel, dispatch: AppDispatch): Promise<
 };
 
 // 비밀번호 수정
-export const modifyPassword = async (nickname: string, newPassword: string, dispatch: AppDispatch): Promise<void> => {
+const modifyPassword = async (nickname: string, newPassword: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.modifyPassword(nickname, newPassword);
@@ -104,14 +104,11 @@ const findAllUsers = async (nickname: string, dispatch: AppDispatch): Promise<vo
     }
 };
 
-const findUserDetail = async (nickname: string): Promise<any> => {
+const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         const response = await userAPI.findDetailUser(nickname);
-
-        console.log("findUserDetail" , response);
-        return response.data
         // Redux에 유저 데이터 저장
-        // dispatch(saveCurrentUser(response.data));
+        dispatch(saveCurrentUser(response.data));
     } catch (error) {
         console.error("Error fetching user detail:", error);
         throw error; // 에러 발생 시 throw
@@ -119,7 +116,7 @@ const findUserDetail = async (nickname: string): Promise<any> => {
 };
 
 // 권한 확인
-const checkRole = async (nickname: string, dispatch: AppDispatch): Promise<any> => {
+const checkRole = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 상태 시작
         const response = await userAPI.checkRole(nickname); // 사용자 권한 확인 API 호출
@@ -139,7 +136,7 @@ const checkRole = async (nickname: string, dispatch: AppDispatch): Promise<any> 
 };
 
 // 회원 탈퇴
-const dropUser = async (nickname: string, dispatch: AppDispatch): Promise<any> => {
+const dropUser = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.drop(nickname);
