@@ -19,8 +19,8 @@ const allTabs = [
 ];
 
 export default function SideBar() {
-  const [activeTab, setActiveTab] = useState("Groups");
-  const user = useSelector(getCurrentUser);
+  const [activeTab, setActiveTab] = useState("Groups")
+  const user = useSelector(getCurrentUser)
   const userGroups = useSelector(getUserGroups)
 
   const tabs = useMemo(() => {

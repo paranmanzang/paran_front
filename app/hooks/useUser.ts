@@ -8,7 +8,7 @@ export const useUser = (nickname: string) => {
     const queryClient = useQueryClient();
     const dispatch: AppDispatch = useDispatch();
 
-    const { data: user, isLoading, error } = useQuery<UserModel, Error>(
+    const { data: user, isLoading, error} = useQuery<UserModel, Error>(
         ['user', nickname],
         () => findUserDetail(nickname, dispatch),
         {

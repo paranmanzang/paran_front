@@ -4,19 +4,22 @@ import Link from "next/link"
 import AccountButton from "./AccountButton"
 import { useState } from "react"
 import { useAppDispatch } from "@/lib/store"
-import { deleteBooking, getBookings } from "@/lib/features/room/bookings.slice"
-import { useSelector } from "react-redux"
+import { deleteBooking } from "@/lib/features/room/bookings.slice"
 import { BookingModel } from "@/app/model/room/bookings.model"
 
+import { getBookings } from "@/lib/features/room/bookings.slice"
+import { useSelector } from "react-redux"
+
 interface BookingListProps {
-  bookings: BookingModel[];
+  bookingId?: string
 }
 
-export default function BookingList({ bookings }: BookingListProps) {
+export default function BookingList({bookingId}: BookingListProps) {
   const router = useRouter()
   const [selectedBookings, setSelectedBookings] = useState<string[]>([])
   const dispatch = useAppDispatch();
-  const booking = useSelector(getBookings);
+  const bookingItem = useSelector(getBookings);
+
 
   const handleCheckboxChange = (id: string) => {
     setSelectedBookings(prev =>
@@ -34,7 +37,7 @@ export default function BookingList({ bookings }: BookingListProps) {
   return (
     <div className="max-w-lg mx-auto">
       <ul>
-        {bookings && bookings.map(booking => (
+        {bookingItem && bookingItem.map((booking: BookingModel ) => (
           <li key={booking.id} className="relative max-w-sm bg-green-100 rounded-lg mb-4" id="box">
             <form className="absolute top-2 w-full px-3">
               <div className="flex justify-between">
@@ -87,7 +90,7 @@ export default function BookingList({ bookings }: BookingListProps) {
       <div className="btn_wrap flex justify-end my-4">
         <button onClick={() => router.back()} className="p-2 bg-green-600 text-white rounded-lg">뒤로가기</button>
         <button
-          onClick={() => handleDelete(booking?.id)}
+          onClick={() => handleDelete(bookingItem?.id)}
           className="p-2 mx-2 bg-green-600 text-white rounded-lg"
         >삭제하기</button>
       </div>
