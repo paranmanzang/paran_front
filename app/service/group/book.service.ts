@@ -2,7 +2,7 @@ import { AppDispatch } from "@/lib/store";
 import { saveBooks, saveError, saveLoading, saveTotalPage } from "@/lib/features/group/book.slice";
 import bookAPI from "@/app/api/generate/book.api";
 import { FileType } from "@/app/model/file/file.model";
-import { fileService } from "../File/file.service";
+import { fileService } from "../file/file.service";
 
 
 

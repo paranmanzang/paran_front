@@ -8,6 +8,7 @@ const selectFileList = async (refIds: number[], type: string, dispatch: AppDispa
     try {
         dispatch(upLoading(true))
         const response = await fileAPI.findAll(refIds, type);
+        console.log("selectFIleList 응답: ", response)
         dispatch(saveFiles(response.data))
     } catch (error) {
         console.error('Error select files:', error);
