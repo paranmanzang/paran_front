@@ -13,7 +13,7 @@ export const likePostAPI = {
         });
     },
     findLikePostList: (nickname: string) => {
-        return api.get<LikePostModel[]>(requests.fetchUsers + `/likeposts/list/${nickname}`);
+        return api.get<LikePostModel[]>(requests.fetchUsers + `/likeposts/${nickname}`);
     }
 }
 

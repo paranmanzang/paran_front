@@ -8,6 +8,7 @@ const insert = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Prom
     try {
         dispatch(saveLoading(true));
         const response = await likeRoomAPI.insert(likeRoomModel)
+        console.log("공간 좋아요: ", response.data)
         if ('id' in response.data && 'nickname' in response.data) {
             dispatch(addLikedRoom(response.data))
         }

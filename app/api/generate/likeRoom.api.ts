@@ -5,15 +5,15 @@ import { ExceptionResponseModel } from "@/app/model/error.model";
 
 export const likeRoomAPI = {
     insert: (likeRoomModel: LikeRoomModel) => {
-        return api.post<LikeRoomModel | ExceptionResponseModel>(requests.fetchUsers + `/likeRoom/add`, likeRoomModel);
+        return api.post<LikeRoomModel | ExceptionResponseModel>(requests.fetchUsers + `/likeRooms`, likeRoomModel);
     },
     drop: (likeRoomModel: LikeRoomModel) => {
-        return api.delete<boolean | ExceptionResponseModel>(requests.fetchUsers + '/likeRoom/remove', {
+        return api.delete<boolean | ExceptionResponseModel>(requests.fetchUsers + '/likeRooms', {
             data: likeRoomModel
         });
     },
     findLikeRoomList: (nickname: string) => {
-        return api.get<LikeRoomModel[]>(requests.fetchUsers + `/likeRoom/list/${nickname}`);
+        return api.get<LikeRoomModel[]>(requests.fetchUsers + `/likeRooms/${nickname}`);
     }
 }
 
