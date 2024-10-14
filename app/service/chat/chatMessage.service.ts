@@ -18,7 +18,7 @@ const findList = async ({ roomId, nickname, onMessage }: {
             throw new Error('No access token available');
         }
         eventSource = new EventSourcePolyfill(
-            `http://223.130.150.223:8000/api/chats/messages/${roomId}?nickname=${nickname}`,
+            process.env.NEXT_PUBLIC_BACK_URL+`/api/chats/messages/${roomId}?nickname=${nickname}`,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`

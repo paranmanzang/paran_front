@@ -10,7 +10,7 @@ export const logout = async (): Promise<any> => {
     console.log("로그아웃 응답: ", response)
     
     removeAccessToken();
-    
+    window.location.reload();
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);

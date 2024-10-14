@@ -1,8 +1,8 @@
 import { AppDispatch } from "@/lib/store";
 import { addLikedRoom, deleteLikedRoom, saveLikedRooms } from "@/lib/features/users/users.slice";
 import { saveError, saveLoading } from "@/lib/features/users/user.slice";
-import likeRoomAPI from "@/app/api/generate/likeRoom.api";
 import { LikeRoomModel } from "@/app/model/user/users.model";
+import { likeRoomAPI } from "@/app/api/generate/likeRoom.api";
 
 const insert = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promise<void> => {
     try {
@@ -36,11 +36,13 @@ const drop = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promis
 };
 
 // 좋아요 마이페이지 확인
-const findAllByUserNickname = async (nickname: String, dispatch: AppDispatch): Promise<void> => {
+const findAllByUserNickname = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await likeRoomAPI.findLikeRoomList(nickname)
-        dispatch(saveLikedRooms(response.data))
+        if (response.data !== null) {
+            dispatch(saveLikedRooms(response.data))
+        }
     } catch (error) {
         dispatch(saveError("찜한 공간을 찾는 중 오류 발생했습니다."));
         console.error('Error finding likeRoom:', error);

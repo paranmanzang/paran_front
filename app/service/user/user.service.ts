@@ -104,14 +104,13 @@ const findAllUsers = async (nickname: string, dispatch: AppDispatch): Promise<vo
     }
 };
 
-const findUserDetail = async (nickname: string): Promise<any> => {
+const findUserDetail = async (nickname: string,dispatch: AppDispatch): Promise<any> => {
     try {
         const response = await userAPI.findDetailUser(nickname);
 
         console.log("findUserDetail" , response);
-        return response.data
         // Redux에 유저 데이터 저장
-        // dispatch(saveCurrentUser(response.data));
+        dispatch(saveCurrentUser(response.data));
     } catch (error) {
         console.error("Error fetching user detail:", error);
         throw error; // 에러 발생 시 throw
