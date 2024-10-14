@@ -27,5 +27,3 @@ export const groupPostAPI = {
         return api.put<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/posts/${postId}`);
     }
 }
-
-export default groupPostAPI;

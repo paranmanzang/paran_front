@@ -7,9 +7,7 @@ export const likeRoomAPI = {
         return api.post<LikeRoomModel>(requests.fetchUsers + `/likerooms`, likeRoomModel);
     },
     drop: (likeRoomModel: LikeRoomModel) => {
-        return api.delete<boolean>(requests.fetchUsers + '/likerooms', {
-            data: likeRoomModel
-        });
+        return api.delete<boolean>(requests.fetchUsers + '/likerooms', likeRoomModel);
     },
     findLikeRoomList: (nickname: string) => {
         return api.get<LikeRoomModel[]>(requests.fetchUsers + `/likerooms/${nickname}`);

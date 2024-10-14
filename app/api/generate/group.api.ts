@@ -72,5 +72,3 @@ export const groupApi = {
         });
     }
 }
-
-export default groupApi;
