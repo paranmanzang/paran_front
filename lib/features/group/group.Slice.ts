@@ -7,8 +7,6 @@ import {
 } from '@/app/model/group/group.model';
 import { RootState } from '@/lib/store';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { useSelector } from 'react-redux';
-import { getNickname } from '../users/user.slice';
 
 
 const groupSlice = createSlice({
@@ -105,6 +103,15 @@ const groupSlice = createSlice({
     saveCurrentGroupPost: (state, action: PayloadAction<GroupPostResponseModel | null>) => {
       state.currentGroupPost = action.payload;
     },
+    saveLikedPosts: (state, action: PayloadAction<GroupPostResponseModel[]>) => {
+      state.likePosts = action.payload;
+    },
+    addLikedPost: (state, action: PayloadAction<GroupPostResponseModel>) => {
+      state.likePosts.push(action.payload)
+    },
+    deleteLikedPost: (state, action: PayloadAction<number>) => {
+      state.likePosts = state.likePosts.filter(likePost => likePost.id !== action.payload);
+    },
     saveLoading: (state, action: PayloadAction<boolean>) => {
       state.isLoading = action.payload;
     },
@@ -122,6 +129,7 @@ export const getGroupPosts = createSelector(
   })
 );
 export const getGroups = (state: RootState) => state.group.groups;
+export const getLikedPosts = (state: RootState) => state.group.likePosts;
 export const getUserGroups = (state: RootState) => state.group.userGroups;
 export const getGroupMembers = (state: RootState) => state.group.groupMembers;
 export const getCurrentGroup = (state: RootState) => state.group.currentGroup;
@@ -146,6 +154,9 @@ export const {
   deleteGroupPost,
   saveCurrentGroup,
   saveCurrentGroupPost,
+  saveLikedPosts,
+  deleteLikedPost,
+  addLikedPost,
   saveLoading,
   saveError,
 } = groupSlice.actions;

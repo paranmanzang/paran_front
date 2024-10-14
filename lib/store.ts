@@ -6,21 +6,27 @@ import accountSlice from './features/room/account.slice'
 import reviewSlice from './features/room/review.slice'
 import bookingsSlice from './features/room/bookings.slice'
 import { useDispatch } from "react-redux"
-import  userSlice  from './features/users/user.slice'
-import  groupSlice  from './features/group/group.slice'
-import  usersSlice  from './features/users/users.slice'
-import  errorSlice  from './features/error.slice'
-import  commentSlice  from './features/comment/comment.slice'
-import  chatSlice  from './features/chat/chat.slice'
-import  bookSlice  from './features/group/book.slice'
-import  dataSlice  from './features/data.slice'
+import userSlice from './features/users/user.slice'
+import groupSlice from './features/group/group.slice'
+import errorSlice from './features/error.slice'
+import commentSlice from './features/comment/comment.slice'
+import chatSlice from './features/chat/chat.slice'
+import bookSlice from './features/group/book.slice'
+import dataSlice from './features/data.slice'
+import adminPostSlice from './features/users/adminPost.slice'
+import declarationPostSlice from './features/users/declarationPost.slice'
+import freindSlice from './features/users/friend.slice'
+import likeRoomSlice from './features/users/likeRoom.slice'
 
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       user: userSlice,
-      users: usersSlice,
+      adminPost: adminPostSlice,
+      declarationPost: declarationPostSlice,
+      friend: freindSlice,
+      likeRoom: likeRoomSlice,
       file: fileSlice,
       room: roomSlice,
       address: addressSlice,
