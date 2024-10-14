@@ -2,6 +2,7 @@
 export interface GroupState {
     groups: GroupResponseModel[]
     userGroups: GroupResponseModel[]
+    leadergroups: GroupResponseModel[]
     groupMembers: {groupMembers: any ;[groupId: number]: JoiningModel[]}
     groupPostsNotices: GroupPostResponseModel[]
     groupPostsGenerals: GroupPostResponseModel[]
@@ -20,6 +21,7 @@ export enum PostCategory {
 export const initialGroupState: GroupState = {
     groups: [],
     userGroups: [],
+    leadergroups:[],
     groupMembers: {groupMembers: []},
     groupPostsNotices: [],
     groupPostsGenerals: [],

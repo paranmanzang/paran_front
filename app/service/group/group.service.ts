@@ -10,6 +10,7 @@ import {
     saveGroups,
     saveLoading,
     updateGroup,
+    saveLeaderGroups,
 } from "@/lib/features/group/group.slice";
 import { AppDispatch } from "@/lib/store";
 
@@ -48,6 +49,7 @@ const findByNickname = async (nickname: string, dispatch: AppDispatch): Promise<
         try {
             const response = await groupApi.findByNickname(nickname);
             dispatch(saveUserGroups(response.data));
+            dispatch(saveLeaderGroups(response.data.filter((group) => group.nickname === nickname)))
         } catch (error: any) {
             handleApiError(error, dispatch, "참여 중인 소모임 조회 중 오류 발생했습니다.");
         }

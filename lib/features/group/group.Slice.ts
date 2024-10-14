@@ -8,6 +8,8 @@ import {
 } from '@/app/model/group/group.model';
 import { RootState } from '@/lib/store';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { useSelector } from 'react-redux';
+import { getNickname } from '../users/user.slice';
 
 
 const groupSlice = createSlice({
@@ -16,6 +18,9 @@ const groupSlice = createSlice({
   reducers: {
     saveGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
       state.groups = action.payload;
+    },
+    saveLeaderGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
+      state.leadergroups = action.payload;
     },
     saveGroupMembers: (state, action: PayloadAction<JoiningModel[]>) => {
       if (action.payload.length > 0) {
@@ -122,12 +127,14 @@ export const getUserGroups = (state: RootState) => state.group.userGroups;
 export const getGroupMembers = (state: RootState) => state.group.groupMembers;
 export const getCurrentGroup = (state: RootState) => state.group.currentGroup;
 export const getCurrentGroupPost = (state: RootState) => state.group.currentGroupPost;
+export const getLeaderGroups = (state: RootState) => state.group.leadergroups;
 export const getIsLoading = (state: RootState) => state.group.isLoading;
 export const getError = (state: RootState) => state.group.error
 
 export const {
   saveGroups,
   saveUserGroups,
+  saveLeaderGroups,
   saveGroupMembers,
   addGroupMember,
   deleteGroupMember,
