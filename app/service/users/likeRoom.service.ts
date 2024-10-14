@@ -1,5 +1,5 @@
 import { AppDispatch } from "@/lib/store";
-import { addLikedRoom, deleteLikedRoom, saveLikedRooms } from "@/lib/features/users/users.slice";
+import { addLikedRoom, deleteLikedRoom, saveLikedRooms } from "@/lib/features/users/likeRoom.slice";
 import { saveError, saveLoading } from "@/lib/features/users/user.slice";
 import { LikeRoomModel } from "@/app/model/user/users.model";
 import { likeRoomAPI } from "@/app/api/generate/likeRoom.api";
