@@ -1,22 +1,31 @@
 "use client";
 import NaverMap from "./NaverMap";
-import { useEffect } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useAppDispatch } from "@/lib/store";
-import { useSelector } from "react-redux";
-import { getAddresses, saveLoading } from "@/lib/features/room/address.slice";
+import { saveLoading } from "@/lib/features/room/address.slice";
 import { addressService } from "@/app/service/room/address.service";
+import { roomService } from "@/app/service/room/room.service";
 
 export default function Map() {
   const dispatch = useAppDispatch()
-
+  const [query, setQuery] = useState("")
   useEffect(() => {
+    roomService.findByEnabled(0, 100, dispatch)
     addressService.findAll(dispatch)
     dispatch(saveLoading(false))
   }, [dispatch])
-  function search(query: string) {
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+    setQuery(value);
+  };
+
+  function search() {
     addressService.findByQuery(query, dispatch)
     dispatch(saveLoading(false))
   }
+
+
   return (
     <div id="map-wrap" className="relative">
       <span
@@ -41,6 +50,7 @@ export default function Map() {
               id="floating_address"
               className="peer block w-full appearance-none border-0 border-b-2 border-gray-300 bg-transparent px-0 py-2.5 text-sm text-gray-900 focus:border-green-400 focus:outline-none focus:ring-0"
               placeholder=" "
+              onChange={handleChange}
               required
             />
             <label
@@ -50,7 +60,7 @@ export default function Map() {
               주소를 입력해주세요
             </label>
           </div>
-          <div className="group relative z-0 mb-5 w-full">
+          {/* <div className="group relative z-0 mb-5 w-full">
             <input
               type="text"
               name="floating_detail"
@@ -65,9 +75,9 @@ export default function Map() {
             >
               상세주소
             </label>
-          </div>
-          <button
-            onClick={(event) => { event.preventDefault(); search("강남") }}
+          </div> */}
+          <button 
+            onClick={search}
             className="w-full rounded-lg bg-green-400 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 sm:w-auto"
           >
             검색

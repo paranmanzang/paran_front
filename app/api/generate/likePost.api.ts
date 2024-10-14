@@ -1,7 +1,7 @@
-import api from '../axios';
-import requests from "@/app/api/requests";
 import { LikePostModel } from "@/app/model/user/users.model";
 import { ExceptionResponseModel } from "@/app/model/error.model";
+import requests from "@/app/api/requests";
+import api from "@/app/api/axios";
 
 export const likePostAPI = {
     insert: (likePostModel: LikePostModel) => {
@@ -13,8 +13,6 @@ export const likePostAPI = {
         });
     },
     findLikePostList: (nickname: string) => {
-        return api.get<LikePostModel[]>(requests.fetchUsers + `/likeposts/list/${nickname}`);
+        return api.get<LikePostModel[]>(requests.fetchUsers + `/likeposts/${nickname}`);
     }
 }
-
-export default likePostAPI;

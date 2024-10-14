@@ -1,7 +1,7 @@
 import { ExceptionResponseModel } from "@/app/model/error.model";
 import requests from "@/app/api/requests";
 import api from "@/app/api/axios";
-import { BookResponseModel, LikeBookModel } from "@/app/model/group/book.model";
+import {LikeBookModel } from "@/app/model/group/book.model";
 
 export const likeBookAPI = {
     insert(likeBookModel: LikeBookModel) {
@@ -16,5 +16,3 @@ export const likeBookAPI = {
         return api.get<LikeBookModel[]>(requests.fetchGroups + `/like-book/list/${nickname}`);
     }
 }
-
-export default likeBookAPI;
