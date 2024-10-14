@@ -3,7 +3,7 @@ import React from 'react';
 interface PaginationProps {
   currentPage: number;
   pageSize: number;
-  totalItems: number;
+  totalItems: any;
   onPageChange: (page: number) => void;
   onPageSizeChange: (size: number) => void;
 }

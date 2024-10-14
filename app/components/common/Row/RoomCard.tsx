@@ -17,7 +17,7 @@ const RoomCard = ({ room, isActive, getRoomImage, onClickToDetail }: RoomCardPro
       <Image
         width={400}
         height={380}
-        className="size-80 cursor-pointer rounded-t-lg object-cover"
+        className="w-full h-40 cursor-pointer rounded-t-lg object-cover"
         src={getRoomImage(room.id)}
         alt={`cover of ${room.title}`}
         priority

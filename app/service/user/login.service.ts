@@ -26,6 +26,7 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
       setAccessToken(token);
 
       dispatch(saveNickname(response.headers['nickname']))
+
       const resp = response.headers['nickname']
 
       userService.findUserDetail(response.headers['nickname'], dispatch)
@@ -34,7 +35,7 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
       likeRoomService.findAllByUserNickname(response.headers['nickname'], dispatch)
       likePostService.findAllByUserNickname(response.headers['nickname'], dispatch)
 
-      return resp
+      // return resp
     } else {
       console.log("토큰이 안보여요 ㅠㅠ")
       throw new Error('토큰을 받지 못했습니다.');

@@ -22,8 +22,8 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   const router = useRouter();
 
   const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(9);
-  const totalItems = 10; // 실제 데이터의 총 개수로 업데이트
+  const [pageSize, setPageSize] = useState(5);
+  const totalItems = rooms; // 실제 데이터의 총 개수로 업데이트
 
   useEffect(() => {
     dispatch(saveLoading(true));
@@ -55,6 +55,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
 
   return (
     <>
+    <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
       {rooms.length > 0 ? (
         rooms.map((room, index) => (
           <RoomCard
@@ -68,6 +69,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
       ) : (
         <ErrorMessage message={'등록된 공간이 없습니다.'}/>
       )}
+      </div>
       <Pagination
         currentPage={page}
         pageSize={pageSize}

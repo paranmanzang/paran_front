@@ -91,6 +91,10 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         setAlertMessage('성공적으로 소모임 참여 신청이 되었습니다.');
         setIsAlertOpen(true);
     }
+    const groupConfirm = () => {
+        setIsConfirmOpen(false);
+        route.push('/');
+    }
     const handleConfirm = () => {
         setIsConfirmOpen(false);
         route.push('/likeList');
@@ -149,7 +153,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 >
                     리뷰보기
                 </button>
-                {user?.nickname === group?.nickname && (
+                {thisPage == '/rooms' && (
                     <button type="button" onClick={() => setIsModalOpen(true)} className="mx-2 rounded-full border px-3 py-2"
                         style={{ display: displayReview }}
                     >
@@ -184,14 +188,24 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 isOpen={isAlertOpen}
                 onClose={handleAlertClose}
             />
-
-            <Alert
-                message="목록으로 이동하시겠습니까?"
-                isOpen={isConfirmOpen}
-                onClose={() => { setIsConfirmOpen(false) }}
-                onConfirm={handleConfirm}
-                showConfirm={true}
-            />
+            {thisPage === '/rooms' && (
+                <Alert
+                    message="목록으로 이동하시겠습니까?"
+                    isOpen={isConfirmOpen}
+                    onClose={() => { setIsConfirmOpen(false) }}
+                    onConfirm={handleConfirm}
+                    showConfirm={true}
+                />
+            )}
+            {thisPage === '/groups' && (
+                <Alert
+                    message="목록으로 이동하시겠습니까?"
+                    isOpen={isConfirmOpen}
+                    onClose={() => {setIsConfirmOpen(false)}}
+                    onConfirm={groupConfirm}
+                    showConfirm={true}
+                />
+            )}
         </>
     )
 }

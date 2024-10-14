@@ -22,11 +22,11 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(9);
   const [currentPage, setCurrentPage] = useState();
-  const totalItems = 10; 
+  const totalItems = 10;
 
   useEffect(() => {
     groupService.findList(page, pageSize, dispatch);
-    
+
   }, [page, pageSize]);
 
   if (loading) return <LoadingSpinner />;
@@ -34,17 +34,20 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
 
   return (
     <>
-      {groups.map((group,index) => (
-        <GroupCard key={index} group={group} active={active} onSelect={onSelect} />
-      ))}
-      <Pagination 
-        currentPage={page} 
-        pageSize={pageSize} 
-        totalItems={totalItems} 
-        onPageChange={setPage} 
-        onPageSizeChange={setPageSize} 
+      <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-6 md:grid-cols-3">
+        {groups.map((group, index) => (
+          <GroupCard key={index} group={group} active={active} onSelect={onSelect} />
+        ))}
+      </div>
+      <Pagination
+        currentPage={page}
+        pageSize={pageSize}
+        totalItems={totalItems}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
       />
     </>
+
   );
 };
 

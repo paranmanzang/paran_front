@@ -18,7 +18,7 @@ export default function Details() {
 
     return (
         <div className="w-[45rem] mx-auto my-10">
-            <div className="h-auto justify-center bg-green-200 relative mb-8">
+            <div className="h-auto mx-auto w-1/2 justify-center content-center items-center bg-green-200 relative mb-8">
                 {file &&(
                     <Image
                         src={file.path === process.env.NEXT_PUBLIC_IMAGE_DEFAULT ? process.env.NEXT_PUBLIC_IMAGE_DEFAULT : `http://localhost:8000/api/files?path=${file.path}`}
