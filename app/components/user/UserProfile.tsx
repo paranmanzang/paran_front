@@ -24,8 +24,8 @@ export default function UserProfile({ getUser }: UserProfileProps) {
         }        
     }, [getUser]);
 
-    if (isLoading) return <LoadingSpinner />
-    if (error) return <ErrorMessage message={error} />
+    if (isLoading) return <LoadingSpinner />;
+    if (error) return <ErrorMessage message={error} />;
 
     return (
         <div className="mx-auto my-[40px] py-3 px-6 h-auto w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white shadow">
