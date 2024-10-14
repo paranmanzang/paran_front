@@ -24,6 +24,7 @@ const handleLoading = async (dispatch: AppDispatch, callback: () => Promise<void
 // 좋아요 추가
 const insert = async (likeBookModel: LikeBookModel, dispatch: AppDispatch): Promise<void> => {
     await handleLoading(dispatch, async () => {
+        console.log(likeBookModel)
         try {
             const response = await likeBookAPI.insert(likeBookModel);
             if ('id' in response.data && 'nickname' in response.data) {

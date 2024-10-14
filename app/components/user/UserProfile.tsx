@@ -82,6 +82,13 @@ export default function UserProfile({ getUser }: UserProfileProps) {
                     onClick={() => {router.push(`/users/update/${getUser}`)}}
                     className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400 text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
                 >
+                    소모임 신청 내역
+                </button>
+                <button
+                    type="button"
+                    onClick={() => {router.push(`/users/update/${getUser}`)}}
+                    className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400 text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
+                >
                     내정보수정
                 </button>
                 <button
