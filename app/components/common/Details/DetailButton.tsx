@@ -1,6 +1,6 @@
 // components/DetailButton.tsx
 "use client"
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import BookingModal from "../BookingModal";
 import Alert from "../Alert";
@@ -116,9 +116,9 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     return (
         <>
             {userInfo === 'ROLE_admin' && (
-                <div className="max-w-sm mx-auto">
-                    <button type="button" onClick={() => { route.push('/admin/update') }} className="p-3 bg-green-500 text-white">수정</button>
-                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="p-3 bg-green-500 text-white">삭제</button>
+                <div className="mx-auto max-w-sm">
+                    <button type="button" onClick={() => { route.push('/admin/update') }} className="bg-green-500 p-3 text-white">수정</button>
+                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="bg-green-500 p-3 text-white">삭제</button>
                 </div>
             )}
             <div className="flex justify-center items-end">

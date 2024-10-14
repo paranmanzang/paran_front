@@ -37,23 +37,8 @@ const drop = async (likeRoomModel: LikeRoomModel, dispatch: AppDispatch): Promis
 };
 
 // 좋아요 마이페이지 확인
-const findAllByUserNickname = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true));
-        const response = await likeRoomAPI.findLikeRoomList(nickname)
-        if (response.data !== null) {
-            dispatch(saveLikedRooms(response.data))
-        }
-    } catch (error) {
-        dispatch(saveError("찜한 공간을 찾는 중 오류 발생했습니다."));
-        console.error('Error finding likeRoom:', error);
-    } finally {
-        dispatch(saveLoading(false));
-    }
-}
 
 export const likeRoomService = {
     insert,
     drop,
-    findAllByUserNickname
 };

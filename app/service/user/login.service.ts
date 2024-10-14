@@ -10,6 +10,7 @@ import { groupService } from "../group/group.service";
 import { likeBookService } from "../group/likeBook.service";
 import { likeRoomService } from "../users/likeRoom.service";
 import { likePostService } from "../group/likePost.service";
+import { roomService } from "../room/room.service";
 
 const login = async (username: string, password: string, dispatch: AppDispatch): Promise<any> => {
   try {
@@ -32,7 +33,7 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
       userService.findUserDetail(response.headers['nickname'], dispatch)
       groupService.findByNickname(response.headers['nickname'], dispatch)
       likeBookService.findByNickname(response.headers['nickname'], dispatch)
-      likeRoomService.findAllByUserNickname(response.headers['nickname'], dispatch)
+      roomService.findAllByUserNickname(response.headers['nickname'], dispatch)
       likePostService.findAllByUserNickname(response.headers['nickname'], dispatch)
 
       // return resp

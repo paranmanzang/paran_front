@@ -1,5 +1,4 @@
 // groupSlice.ts
-
 import {
   GroupPostResponseModel,
   GroupResponseModel,

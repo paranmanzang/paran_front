@@ -47,6 +47,7 @@ export interface TimeModel {
 // 상태 인터페이스 정의
 interface RoomState {
     rooms: RoomModel[];
+    roomsLiked: RoomModel[];
     currentRoom: RoomModel | null;
     isLoading: boolean;
     error: string | null;
@@ -55,6 +56,7 @@ interface RoomState {
 // 초기 상태
 export const initialRoomState: RoomState = {
     rooms: [],
+    roomsLiked: [],
     currentRoom: null,
     isLoading: false,
     error: null
