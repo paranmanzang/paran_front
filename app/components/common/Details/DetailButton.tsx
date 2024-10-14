@@ -1,6 +1,6 @@
 // components/DetailButton.tsx
 "use client"
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import BookingModal from "../BookingModal";
 import Alert from "../Alert";
@@ -15,6 +15,7 @@ import { likeBookService } from "@/app/service/group/likeBook.service";
 import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
 import { LikeRoomModel } from "@/app/model/user/users.model";
 import { likeRoomService } from "@/app/service/users/likeRoom.service";
+import { reviewService } from "@/app/service/room/review.service";
 
 interface DetailButtonProps {
     thisPage: string;
@@ -41,6 +42,9 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const userInfo = user?.role ?? null
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
     console.log(isUserInGroup)
+
+    const params = useParams();
+    const id = params.id;
     useEffect(() => {
         if (!user || !dispatch) return;
 
@@ -107,12 +111,12 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     return (
         <>
             {userInfo === 'ROLE_admin' && (
-                <div className="max-w-sm mx-auto">
-                    <button type="button" onClick={() => { route.push('/admin/update') }} className="p-3 bg-green-500 text-white">수정</button>
-                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="p-3 bg-green-500 text-white">삭제</button>
+                <div className="mx-auto max-w-sm">
+                    <button type="button" onClick={() => { route.push('/admin/update') }} className="bg-green-500 p-3 text-white">수정</button>
+                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="bg-green-500 p-3 text-white">삭제</button>
                 </div>
             )}
-            <div className="flex justify-center items-end">
+            <div className="flex items-end justify-center">
                 {thisPage !== '/groups' && (
                     isBookLiked ? (
                         <button type="button" onClick={Message} className="mx-2 rounded-full border px-3 py-2">
