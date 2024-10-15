@@ -56,12 +56,12 @@ export const groupApi = {
     },
     
     dropUser(nickname: string, groupId: number) {
-        return api.delete<Boolean>(`${requests.fetchGroups}/users/${groupId}`, {
-            params: { nickname }
+        return api.delete<Boolean>(`${requests.fetchGroups}/groups/users/${groupId}`, {
+            data: { nickname }
         });
     },
     findEnableUser(groupId:number) {
-        return api.get<JoiningModel[]>(`${requests.fetchGroups}/users/enable/${groupId}`);
+        return api.get<JoiningModel[]>(`${requests.fetchGroups}/groups/users/enable/${groupId}`);
     }
 
 }
