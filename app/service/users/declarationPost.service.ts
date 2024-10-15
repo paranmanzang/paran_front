@@ -2,7 +2,7 @@ import { DeclarationPostModel } from "@/app/model/user/users.model";
 import { AppDispatch } from "@/lib/store";
 import { saveError, saveLoading } from "@/lib/features/users/user.slice";
 import { declarationPostAPI } from "@/app/api/generate/declarationPost.api";
-import { addDeclarationPost, deleteDeclarationPost, saveDeclarationPosts } from "@/lib/features/users/declarationPost.slice";
+import { addDeclarationPost, addDeclarationPostByNickname, deleteDeclarationPost, deleteDeclarationPostByNickname, saveDeclarationPosts, saveDeclarationPostsByNickname } from "@/lib/features/users/declarationPost.slice";
 
 
 
@@ -13,6 +13,7 @@ const insert = async (declarationPostModel: DeclarationPostModel, dispatch: AppD
         const response = await declarationPostAPI.insert(declarationPostModel)
         if ('id' in response.data && 'name' in response.data) {
             dispatch(addDeclarationPost(response.data))
+            dispatch(addDeclarationPostByNickname(response.data))
         }
     } catch (error: any) {
         dispatch(saveError("게시글 등록 중 오류 발생했습니다."));
@@ -31,6 +32,7 @@ const drop = async (id: number, dispatch: AppDispatch): Promise<void> => {
         // 응답 상태가 성공적인 경우만 디스패치
         if (response.status === 200) {
             dispatch(deleteDeclarationPost(id)); // id만 전달
+            dispatch(deleteDeclarationPostByNickname(id))
         } else {
             throw new Error('게시글 삭제 실패');
         }
@@ -64,7 +66,7 @@ const findAllByNickname = async (page: number, size: number, nickname: string, d
         dispatch(saveLoading(true));
         const response = await declarationPostAPI.findDeclarationPostByNickname(page, size, nickname)
         if (Array.isArray(response.data)) {
-            dispatch(saveDeclarationPosts(response.data))
+            dispatch(saveDeclarationPostsByNickname(response.data))
         }
     } catch (error: any) {
         dispatch(saveError("게시물 목록 조회 중 오류 발생했습니다."));
