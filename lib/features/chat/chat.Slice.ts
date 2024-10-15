@@ -2,6 +2,7 @@ import { ChatRoomModel, initialChatState } from '@/app/model/chat/chat.model';
 import { RootState } from '@/lib/store';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+
 const chatSlice = createSlice({
     name: 'chat',
     initialState: initialChatState,

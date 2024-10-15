@@ -9,6 +9,7 @@ import ErrorMessage from "../status/ErrorMessage";
 import Pagination from "./pagination/Pagination";
 import RoomCard from "./RoomCard";
 import { useRouter } from "next/navigation";
+import LoadingSpinner from "../status/LoadingSpinner";
 
 interface RoomRowProps {
   active: boolean;
@@ -16,21 +17,22 @@ interface RoomRowProps {
 }
 
 const RoomRow = ({ active, onSelect }: RoomRowProps) => {
-  const rooms = useSelector(getRooms);
-  const files = useSelector(getFiles);
-  const dispatch = useAppDispatch();
-  const router = useRouter();
+  const rooms = useSelector(getRooms)
+  const files = useSelector(getFiles)
+  const dispatch = useAppDispatch()
+  const router = useRouter()
+  const loading = useSelector(saveLoading)
 
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(9);
-  const totalItems = 10;  // 실제 데이터의 총 개수로 업데이트
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(9)
+  const totalItems = 
+  // 실제 데이터의 총 개수로 업데이트
 
   useEffect(() => {
-    dispatch(saveLoading(true));
-    roomService.findByEnabled(page, pageSize, dispatch);
-    dispatch(saveLoading(false));
-  }, [page, pageSize, dispatch]);
+    const roomElement = roomService.findByEnabled(page, pageSize, dispatch)
+  }, [page, pageSize, dispatch])
 
+  if (loading) return <LoadingSpinner />
 
   const getRoomImage = (roomId: number | undefined): string => {
     if (roomId !== undefined) {

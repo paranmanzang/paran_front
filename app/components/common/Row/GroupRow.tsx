@@ -25,7 +25,6 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
 
   useEffect(() => {
     groupService.findList(page, pageSize, dispatch);
-
   }, [page, pageSize]);
 
   if (loading) return <LoadingSpinner />;
