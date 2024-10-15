@@ -108,7 +108,8 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         route.push('/likeList');
     }
 
-    const isBookLiked = likebooks.some((likeBook) => likeBook.bookId === book?.id)
+
+    const isBookLiked = likebooks.some((likeBook) => likeBook.id === book?.id)
     const isRoomLiked = likeRooms.some((likeRoom) => likeRoom.id === room?.id)
     const ispostLiked = likePosts.some((likePost) => likePost.id === post?.id)
 
