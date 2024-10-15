@@ -105,7 +105,7 @@ const findAll = async (page: number, size: number, dispatch: AppDispatch): Promi
         }
     }
 };
-<<<<<<< HEAD
+
 // 승인된 공간 전체 조회
 const findAllByEnabled = async (dispatch: AppDispatch): Promise<void> => {
     try {
@@ -128,10 +128,7 @@ const findAllByEnabled = async (dispatch: AppDispatch): Promise<void> => {
 };
 // 승인된 공간 조회-페이지네이션
 const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
-=======
-// 승인된 공간 조회 
-const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<any> => {
->>>>>>> 16b894fddfe1f03b7ca1b5a8be027ac100a1eeb1
+
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.findByEnabled(page, size)

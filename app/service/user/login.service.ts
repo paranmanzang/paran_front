@@ -8,7 +8,6 @@ import { saveNickname } from "@/lib/features/users/user.slice";
 import { userService } from "./user.service";
 import { groupService } from "../group/group.service";
 import { likeBookService } from "../group/likeBook.service";
-import { likeRoomService } from "../users/likeRoom.service";
 import { likePostService } from "../group/likePost.service";
 import { roomService } from "../room/room.service";
 
@@ -48,7 +47,7 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
       throw new Error('서버 응답이 없습니다.');
     } else {
       console.error('Error:', error.message);
-      throw new Error('주소 검색 중 오류 발생');
+      throw new Error('로그인 중 오류 발생');
     }
   }
 };
@@ -69,7 +68,7 @@ const get = async (): Promise<UserModel> => {
       throw new Error('서버 응답이 없습니다.');
     } else {
       console.error('Error:', error.message);
-      throw new Error('주소 검색 중 오류 발생');
+      throw new Error('get 중 오류 발생');
     }
   }
 };
