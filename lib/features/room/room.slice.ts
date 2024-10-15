@@ -14,9 +14,9 @@ export const roomSlice = createSlice({
             });
         },
         saveLikedRooms: (state, action: PayloadAction<RoomModel[]>) => {
-            action.payload.forEach(newRoom => {
-                if (!state.rooms.some(room => room.id === newRoom.id)) {
-                    state.rooms.push(newRoom);
+            action.payload.forEach(LikedRoom => {
+                if (!state.roomsLiked.some(room => room.id === LikedRoom.id)) {
+                    state.roomsLiked.push(LikedRoom);
                 }
             });
         },
@@ -32,6 +32,9 @@ export const roomSlice = createSlice({
         addRoom: (state, action: PayloadAction<RoomModel>) => {
             state.rooms.push(action.payload)
         },
+        addLikedRoom: (state, action: PayloadAction<RoomModel>) => {
+            state.roomsLiked.push(action.payload);
+        },
         updateRoom: (state, action: PayloadAction<RoomModel>) => {
             const index = state.rooms.findIndex(room => room.id === action.payload.id)
             if (index !== -1) {
@@ -40,6 +43,9 @@ export const roomSlice = createSlice({
         },
         removeRoom: (state, action: PayloadAction<number>) => {
             state.rooms.filter(room => room.id !== action.payload)
+        },
+        removeLikedRoom: (state, action: PayloadAction<number>) => {
+            state.roomsLiked.filter(room => room.id !== action.payload)
         }
     },
 });
@@ -61,6 +67,8 @@ export const {
     addRoom,
     updateRoom,
     removeRoom,
+    addLikedRoom,
+    removeLikedRoom,
 } = roomSlice.actions;
 
 // 리듀서를 export

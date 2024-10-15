@@ -1,20 +1,19 @@
 // components/DetailButton.tsx
 "use client"
-import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import {  useRouter } from "next/navigation";
+import {  useState } from "react";
 import BookingModal from "../BookingModal";
 import Alert from "../Alert";
 import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
 import { getCurrentBook, getLikedBooks } from "@/lib/features/group/book.slice";
-import { getCurrentRoom } from "@/lib/features/room/room.slice";
+import { getCurrentRoom, getLikedRooms } from "@/lib/features/room/room.slice";
 import { getCurrentGroup, getCurrentGroupPost, getGroupMembers, getLeaderGroups, getLikedPosts } from "@/lib/features/group/group.slice";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
 import { LikeRoomModel } from "@/app/model/user/users.model";
 import { likeRoomService } from "@/app/service/users/likeRoom.service";
-import { getLikedRooms } from "@/lib/features/users/likeRoom.slice";
 import { likePostService } from "@/app/service/group/likePost.service";
 import { LikePostModel } from "@/app/model/group/group.model";
 
@@ -87,7 +86,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                     roomId: Number(room.id),
                     nickname: nickname
                 };
-                likeRoomService.insert(likeRoomModel, dispatch);
+                likeRoomService.insert(likeRoomModel, dispatch, room);
                 break;
             }
             default:
@@ -109,8 +108,9 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         route.push('/likeList');
     }
 
+
     const isBookLiked = likebooks.some((likeBook) => likeBook.id === book?.id)
-    const isRoomLiked = likeRooms.some((likeRoom) => likeRoom.roomId === room?.id)
+    const isRoomLiked = likeRooms.some((likeRoom) => likeRoom.id === room?.id)
     const ispostLiked = likePosts.some((likePost) => likePost.id === post?.id)
 
     return (
@@ -121,7 +121,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                     <button type="button" onClick={() => { route.push('/admin/delete') }} className="bg-green-500 p-3 text-white">삭제</button>
                 </div>
             )}
-            <div className="flex justify-center items-end">
+            <div className="flex items-end justify-center">
                 {thisPage !== '/groups' && (() => {
 
                     let isLiked;

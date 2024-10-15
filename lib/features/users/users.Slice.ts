@@ -6,15 +6,6 @@ export const usersSlice = createSlice({
     name: 'user',
     initialState: initialUserState,
     reducers: {
-        saveLikedRooms: (state, action: PayloadAction<LikeRoomModel[]>) => {
-            state.likeRooms.push(...action.payload);
-        },
-        addLikedRoom: (state, action: PayloadAction<LikeRoomModel>) => {
-            state.likeRooms.push(action.payload);
-        },
-        deleteLikedRoom: (state, action: PayloadAction<number>) => {
-            state.likeRooms = state.likeRooms.filter(likeRoom => likeRoom.id !== action.payload);
-        },
         saveLikedPosts: (state, action: PayloadAction<LikePostModel[]>) => {
             state.likePosts.push(...action.payload)
         },
@@ -69,7 +60,6 @@ export const usersSlice = createSlice({
 });
 
 // 셀렉터 정의
-export const getLikedRooms = (state: RootState) => state.users.likeRooms;
 export const getLikedPosts = (state: RootState) => state.users.likePosts;
 export const getFriends = (state: RootState) => state.users.friends;
 export const getCheckedNames = (state: RootState) => state.users.checkedNames;
@@ -77,9 +67,6 @@ export const getAdminPosts = (state: RootState) => state.users.adminPosts;
 export const getDeclarationPosts = (state: RootState) => state.users.declarationPosts;
 
 export const {
-    addLikedRoom,
-    saveLikedRooms,
-    deleteLikedRoom,
     addLikedPost,
     saveLikedPosts,
     deleteLikedPost,
