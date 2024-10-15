@@ -18,6 +18,7 @@ export default function Account() {
 
   useEffect(() => {
     if (nickname !== null) {
+      setAccounts([])
       leaderGroups.forEach(group => {
         accountService.findByGroup(group.id, 0, 10, dispatch).then(data => {
           data.forEach(account => {
@@ -26,7 +27,7 @@ export default function Account() {
         })
       })
     }
-  }, [dispatch, leaderGroups, nickname])
+  }, [])
   return (
     <div className="mx-auto max-w-lg">
       <ul className="my-8 rounded-lg bg-green-100 p-6">
@@ -35,12 +36,13 @@ export default function Account() {
           <li key={index} className="my-2 rounded-lg bg-green-50 p-4">
             <div className="flex items-end justify-evenly">
               <h2 className="text-xl">{account.orderName}</h2>
-              <p>{account.createAt.split('T')[0]}</p>
+              <p>결제일: {account.createAt.split('T')[0]}</p>
               <p className="text-sm">{account.amount.toLocaleString()}원</p>
               <span className="rounded-full bg-green-500 p-1 text-sm text-white">{account.canceled}</span>
             </div>
           </li>
-        ))}
+        ))
+        }
         {/*         
         <li className="my-2 rounded-lg bg-green-50 p-4">
           <div className="flex items-end justify-evenly">
