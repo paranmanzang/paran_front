@@ -43,7 +43,6 @@ export interface TimeModel {
     time: string; // 이용 시간
 }
 
-
 // 상태 인터페이스 정의
 interface RoomState {
     rooms: RoomModel[];

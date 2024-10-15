@@ -9,11 +9,6 @@ interface ContentAreaProps {
   activeTab: string
 }
 
-interface UserInfo {
-  nickname: string
-  groupId: string
-}
-
 const ContentArea = ({ activeTab }: ContentAreaProps) => {
 
   const renderActiveContent = () => {

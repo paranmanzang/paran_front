@@ -1,25 +1,16 @@
 "use client";
-import { TimeModel } from "@/app/model/room/room.model";
-import { timeService } from "@/app/service/room/time.service";
-import { getCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
-import { useEffect, useState } from "react";
+import { getCurrentRoom } from "@/lib/features/room/room.slice";
 import DetailButton from "./DetailButton";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/lib/store";
 import Image from "next/image";
 import { getCurrentFile } from "@/lib/features/file/file.slice";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 
-interface DetailsProps {
-  roomId: string
-}
 
-export default function Details({ roomId }: DetailsProps) {
+export default function Details() {
   const room = useSelector(getCurrentRoom);
   const file = useSelector(getCurrentFile);
-  const dispatch = useAppDispatch();
   const user = useSelector(getCurrentUser);
-
 
   return (
     <div>
@@ -36,7 +27,7 @@ export default function Details({ roomId }: DetailsProps) {
       </div>
       <hr className="mx-auto my-8 w-4/5" />
       <div className="mx-auto my-8 w-[45rem]">
-        <div className="h-[300px] w-full justify-center rounded-lg bg-green-50 p-8">
+        <div className="w-full justify-center rounded-lg bg-green-50 p-8">
           <p className="mb-2">가게명: {room?.name}</p>
           <p className="mb-2">이용 정원: {room?.maxPeople} 명</p>
           <p className="mb-2">단독 사용 여부: {room?.opened ? "O" : "X"}</p>

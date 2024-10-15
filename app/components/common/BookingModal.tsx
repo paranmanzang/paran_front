@@ -1,6 +1,8 @@
 import { useRouter } from "next/navigation";
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import Alert from "./Alert";
+import { useSelector } from "react-redux";
+import { getCurrentRoom } from "@/lib/features/room/room.slice";
 import { useAppDispatch } from "@/lib/store";
 import { BookingModel } from "@/app/model/room/bookings.model";
 import { bookingService } from "@/app/service/room/booking.service";
@@ -14,8 +16,9 @@ interface BookingModalProps {
 }
 
 export default function BookingModal({ id, isOpen, onClose }: BookingModalProps) {
-  const router = useRouter()
-  const dispatch = useAppDispatch()
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const room = useSelector(getCurrentRoom);
   const [alertMessage, setAlertMessage] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -62,19 +65,28 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData(prevState => ({
       ...prevState,
-      date: e.target.value
+      date: e.target.value,
+      usingTime: []
     }));
     setIsDateSelected(true);
   };
 
   const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      usingTime: checked
-        ? [...prevState.usingTime, value]
-        : prevState.usingTime.filter(item => item !== value)
-    }));
+    if (!isTimeSlotDisabled(value, formData.date)) {
+      setFormData(prevState => ({
+        ...prevState,
+        usingTime: checked
+          ? [...prevState.usingTime, value]
+          : prevState.usingTime.filter(item => item !== value)
+      }));
+    }
+  };
+
+  const isTimeSlotDisabled = (time: string, date: string) => {
+    const now = new Date();
+    const slotDateTime = new Date(`${date}T${time}`);
+    return slotDateTime <= now;
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -100,6 +112,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
   };
 
   const timeSlots = groupedTimes[formData.date]?.map(time => time.time) || [];
+
 
   return (
     <>
@@ -170,10 +183,10 @@ function ModalBody({
   handleDateChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleTimeChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: FormEvent) => void;
-  timeSlots: string[];
   isDateSelected: boolean;
   minDate: string;
   maxDate: string;
+  timeSlots: string[];
 }) {
   return (
     <div className="p-4 md:p-5">
@@ -192,6 +205,7 @@ function ModalBody({
             timeSlots={timeSlots}
             handleChange={handleTimeChange}
             selectedTimes={formData.usingTime}
+            selectedDate={formData.date}
           />
         )}
         <button
@@ -204,38 +218,47 @@ function ModalBody({
         <div className="text-sm font-medium text-green-700 hover:underline">
           요청이 수락되면 알려드릴게요!^^
         </div>
-      </form>
-    </div>
+      </form >
+    </div >
   );
 }
 
-function TimeSlots({ timeSlots, handleChange, selectedTimes }: {
-  timeSlots: string[];
+function TimeSlots({ handleChange, selectedTimes, selectedDate, timeSlots }: {
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   selectedTimes: string[];
+  selectedDate: string;
+  timeSlots: string[];
 }) {
+  const isTimeSlotDisabled = (time: string, date: string) => {
+    const now = new Date();
+    const slotDateTime = new Date(`${date}T${time}`);
+    return slotDateTime <= now;
+  };
+
   return (
     <ul className="grid grid-cols-6 gap-2">
-      {timeSlots.map((time) => (
-        <li key={time}>
-          <input
-            type="checkbox"
-            id={`time${time}`}
-            name="time"
-            value={time}
-            onChange={handleChange}
-            checked={selectedTimes.includes(time)}
-            className="peer hidden"
-            
-          />
-          <label
-            htmlFor={`time${time}`}
-            className="cursor-pointer rounded-lg border-2 border-green-200 bg-white p-2 text-center text-green-500 hover:bg-green-500 hover:text-green-600  peer-checked:border-green-600 peer-checked:text-green-600"
-          >
-            {time}
-          </label>
-        </li>
-      ))}
-    </ul>
+      {
+        timeSlots.map((time) => (
+          <li key={time}>
+            <input
+              type="checkbox"
+              id={`time${time}`}
+              name="time"
+              value={time}
+              onChange={handleChange}
+              checked={selectedTimes.includes(time)}
+              className="peer hidden"
+            />
+            <label
+              htmlFor={`time${time}`}
+              className="cursor-pointer rounded-lg border-2 border-green-200 bg-white p-2 text-center text-green-500 hover:bg-green-500 hover:text-green-600  peer-checked:border-green-600 peer-checked:text-green-600"
+            >
+              {time}
+            </label>
+          </li>
+        ))
+      }
+
+    </ul >
   );
 }

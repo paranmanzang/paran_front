@@ -24,8 +24,8 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
   const error = useSelector(getError);
   const totalPage = useSelector(getTotalPage)
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [pageSize, setPageSize] = useState(5);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageSize, setPageSize] = useState(9);
 
   useEffect(() => {
     bookService.findList(currentPage, pageSize, dispatch)
@@ -37,7 +37,7 @@ export default function BookRow({ active, onSelect }: BookRowProps) {
 
   const handlePageSizeChange = (size: number) => {
     setPageSize(size);
-    setCurrentPage(1);
+    setCurrentPage(0);
   };
 
   if (isLoading) return <LoadingSpinner />;
