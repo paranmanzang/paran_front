@@ -7,6 +7,7 @@ import LoadingSpinner from '@/app/components/common/status/LoadingSpinner'
 import { getCurrentUser } from '@/lib/features/users/user.slice'
 import ErrorMessage from '@/app/components/common/status/ErrorMessage'
 import { RootState, useAppDispatch } from '@/lib/store'
+import { getLeaderGroups } from '@/lib/features/group/group.slice'
 
 interface UserProfileProps {
     getUser: string | undefined;
@@ -15,6 +16,7 @@ export default function UserProfile({ getUser }: UserProfileProps) {
     const router = useRouter();
     const dispatch = useAppDispatch()
     const user = useSelector(getCurrentUser)
+    const leaderGroup = useSelector(getLeaderGroups)
     const { isLoading, error } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
@@ -63,20 +65,25 @@ export default function UserProfile({ getUser }: UserProfileProps) {
                 </div>
             </div>
             <div className="flex items-center justify-center">
-                <button
-                    type="button"
-                    onClick={() => { router.push('/booking') }}
-                    className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
-                >
-                    예약내역보기
-                </button>
-                <button
-                    type="button"
-                    onClick={() => { router.push('/account') }}
-                    className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
-                >
-                    결제내역보기
-                </button>
+                {leaderGroup.length > 0 && (
+                    <>
+                        <button
+                            type="button"
+                            onClick={() => { router.push('/booking') }}
+                            className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
+                        >
+                            예약내역보기
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => { router.push('/account') }}
+                            className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
+                        >
+                            결제내역보기
+                        </button>
+                    </>
+                )}
+
                 <button
                     type="button"
                     onClick={() => { router.push('/likeList') }}

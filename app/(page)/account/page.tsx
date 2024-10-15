@@ -32,7 +32,7 @@ export default function Account() {
     <div className="mx-auto max-w-lg">
       <ul className="my-8 rounded-lg bg-green-100 p-6">
         {/* 맵으로 돌리기 */}
-        {accounts.map((account, index) => (
+        {accounts.length > 0 && accounts.map((account, index) => (
           <li key={index} className="my-2 rounded-lg bg-green-50 p-4">
             <div className="flex items-end justify-evenly">
               <h2 className="text-xl">{account.orderName}</h2>
@@ -43,6 +43,7 @@ export default function Account() {
           </li>
         ))
         }
+        {accounts.length === 0 && <p>결제내역이 없습니다.</p>}
         {/*         
         <li className="my-2 rounded-lg bg-green-50 p-4">
           <div className="flex items-end justify-evenly">
