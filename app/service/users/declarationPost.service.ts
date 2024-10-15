@@ -1,8 +1,9 @@
-import { AdminPostModel, DeclarationPostModel } from "@/app/model/user/users.model";
+import { DeclarationPostModel } from "@/app/model/user/users.model";
 import { AppDispatch } from "@/lib/store";
 import { saveError, saveLoading } from "@/lib/features/users/user.slice";
 import { declarationPostAPI } from "@/app/api/generate/declarationPost.api";
-import { addDeclarationPost, deleteDeclarationPost, saveDeclarationPosts, } from "@/lib/features/users/users.slice";
+import { addDeclarationPost, deleteDeclarationPost, saveDeclarationPosts } from "@/lib/features/users/declarationPost.slice";
+
 
 
 //게시물 추가

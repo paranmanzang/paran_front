@@ -10,7 +10,7 @@ const chatUserAPI = {
         return api.get<Boolean | ChatUserModel>(`${requests.fetchChats}/users/list/${roomId}`);
     },
     drop(roomId: string, nickname: string) {
-        return api.delete<Boolean>(`${requests.fetchChats}/users/${roomId}&nickname=${nickname}`)
+        return api.delete<Boolean>(`${requests.fetchChats}/users/${roomId}?nickname=${nickname}`)
     },
 };
 
