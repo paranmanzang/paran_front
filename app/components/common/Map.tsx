@@ -10,7 +10,7 @@ export default function Map() {
   const dispatch = useAppDispatch()
   const [query, setQuery] = useState("")
   useEffect(() => {
-    roomService.findByEnabled(0, 100, dispatch)
+    // roomService.findByEnabled(0, 100, dispatch)
     addressService.findAll(dispatch)
     dispatch(saveLoading(false))
   }, [dispatch])

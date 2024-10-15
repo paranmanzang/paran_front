@@ -32,7 +32,7 @@ const modify = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): Promis
         dispatch(saveLoading(true))
         const response = await roomAPI.modify(roomModel)
         console.log(response)
-        dispatch(updateRoom(response.status.data));
+        dispatch(updateRoom(response.data));
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
@@ -86,7 +86,7 @@ const findByUser = async (nickname: string, page: number, size: number, dispatch
     }
 };
 
-// 전체 공간 조회 
+// 전체 공간 조회 -> admin 에서 볼 수 있음. 
 const findAll = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
@@ -105,14 +105,18 @@ const findAll = async (page: number, size: number, dispatch: AppDispatch): Promi
         }
     }
 };
-// 승인된 공간 조회
-const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+// 승인된 공간 조회 
+const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<any> => {
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.findByEnabled(page, size)
-        console.log("findByEnabled - service에서 사용됨",response.data);
-        fileService.selectFileList(response.data.content.map((room) => room.id).filter((id): id is number => id !== undefined), FileType.ROOM, dispatch);
+
+        //console.log("findByEnabled - service await 부분임",response.data.content)
         dispatch(saveRooms(response.data.content))
+        fileService.selectFileList(
+            response.data.content.map((room: RoomModel) => room.id)
+            .filter((id): id is number => id !== undefined), 
+            FileType.ROOM, dispatch)
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getRooms, saveCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
+import { getRooms, saveRooms, saveCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
 import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { roomService } from "@/app/service/room/room.service";
@@ -9,7 +9,6 @@ import ErrorMessage from "../status/ErrorMessage";
 import Pagination from "./pagination/Pagination";
 import RoomCard from "./RoomCard";
 import { useRouter } from "next/navigation";
-import LoadingSpinner from "../status/LoadingSpinner";
 
 interface RoomRowProps {
   active: boolean;
@@ -21,18 +20,14 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   const files = useSelector(getFiles)
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const loading = useSelector(saveLoading)
 
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(9)
-  const totalItems = 
-  // 실제 데이터의 총 개수로 업데이트
+  const [page, setPage] = useState(0);
+  const [pageSize, setPageSize] = useState(9);
+  const totalItems = 10;
 
   useEffect(() => {
-    const roomElement = roomService.findByEnabled(page, pageSize, dispatch)
+    roomService.findByEnabled(page, pageSize, dispatch);
   }, [page, pageSize, dispatch])
-
-  if (loading) return <LoadingSpinner />
 
   const getRoomImage = (roomId: number | undefined): string => {
     if (roomId !== undefined) {
@@ -54,30 +49,35 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
       }
     }
   };
+  const handlePageChange = (page: number) => {
+    setPage(page);
+  };
 
+  const handlePageSizeChange = (size: number) => {
+    setPageSize(size);
+    setPage(0);
+  };
   return (
     <>
     <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
-      {rooms.length > 0 ? (
-        rooms.map((room, index) => (
+      {/* {rooms.length > 0 ? ( */}
+        {rooms.map((room, index) =>(
           <RoomCard
             key={index}
             room={room}
             isActive={active}
             getRoomImage={getRoomImage}
+            onSelect={onSelect}
             onClickToDetail={onClickToDetail}
           />
-        ))
-      ) : (
-        <ErrorMessage message={'등록된 공간이 없습니다.'}/>
-      )}
+      ))}
       </div>
       <Pagination
-        currentPage={page}
+        currentPage={page} 
         pageSize={pageSize}
         totalItems={totalItems}
-        onPageChange={setPage}
-        onPageSizeChange={setPageSize}
+        onPageChange={handlePageChange}
+        onPageSizeChange={handlePageSizeChange}
       />
     </>
   );
