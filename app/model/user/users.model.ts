@@ -8,6 +8,7 @@ interface UserState {
   currnetAdminpost: AdminPostModel | null;
   adminPosts: AdminPostModel[];
   declarationPosts: DeclarationPostModel[];
+  declarationPostsByNickname: DeclarationPostModel[];
   currentDeclarationPost: DeclarationPostModel | null
   checkedNames: CheckedNamesModel[];
   isLoading: boolean;
@@ -25,6 +26,7 @@ export const initialUserState: UserState = {
   currentDeclarationPost: null,
   adminPosts: [],
   declarationPosts: [],
+  declarationPostsByNickname: [],
   checkedNames: [],
   isLoading: false,
   error: null

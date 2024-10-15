@@ -10,7 +10,7 @@ interface RoomIdProps {
 export default function RoomOne({params} : RoomIdProps) {
   return (
     <div>
-      <RoomDetails roomId={params.id} />
+      <RoomDetails/>
     </div>
   );
 }
