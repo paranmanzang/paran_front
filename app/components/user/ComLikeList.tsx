@@ -4,8 +4,8 @@ import { useState } from "react";
 import Alert from "../common/Alert";
 import { useSelector } from "react-redux";
 import { getLikedBooks } from "@/lib/features/group/book.slice";
-import { getLikedRooms } from "@/lib/features/users/likeRoom.slice";
 import { getLikedPosts } from "@/lib/features/group/group.slice";
+import { getLikedRooms } from "@/lib/features/room/room.slice";
 
 interface ComLikeListProps {
   type: "게시글" | "도서" | "장소";

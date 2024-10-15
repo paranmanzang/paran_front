@@ -10,6 +10,7 @@ export interface AccountModel {
   usePoint: number;       // 사용한 포인트
   canceled: boolean;      // 취소 여부
   reason: string;         // 취소 사유
+  createAt: string;       // 결제 일자
 }
 
 export interface AccountResultModel {
