@@ -13,11 +13,7 @@ export default function GroupBoard() {
     const groupId = useSelector(getCurrentGroup)?.id
     const page = 0 // 임의 값
     const size = 5 // 임의 값
-    const [selectedCategory, setSelectedCategory] = useState<'공지 사항' | '자유게시판'>('공지 사항');
-
-    console.log(groupPostsGeneral)
-    console.log(selectedCategory)
-
+    const [selectedCategory, setSelectedCategory] = useState<'공지 사항' | '자유게시판' | '스케쥴'>('공지 사항');
 
     useEffect(() => {
         if (!groupId) {
@@ -28,6 +24,10 @@ export default function GroupBoard() {
 
     const postsToShow = selectedCategory === "공지 사항" ? groupPostsNotice : groupPostsGeneral;
     console.log(postsToShow)
+
+    const handleTabClick = (category: '공지 사항' | '자유게시판' | '스케쥴') => {
+        setSelectedCategory(category);
+    };
 
     const onClickToDetail = (currentId: number | undefined) => {
         if (currentId !== undefined) {
@@ -46,45 +46,47 @@ export default function GroupBoard() {
     return (
         <div className="mx-auto my-8 max-w-lg bg-green-100 p-6 rounded-lg shadow-md">
             {/* 카테고리 선택 탭 */}
-            <div className="mb-6 flex justify-around">
+            <div className="flex space-x-4">
                 <button
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${selectedCategory === '공지 사항'
-                            ? 'bg-green-500 text-white shadow'
-                            : 'bg-gray-200 hover:bg-gray-300'
-                        }`}
-                    onClick={() => setSelectedCategory('공지 사항')}
+                    className={`px-4 py-2 ${selectedCategory === '공지 사항' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+                    onClick={() => handleTabClick('공지 사항')}
                 >
                     공지 사항
                 </button>
                 <button
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-300 ${selectedCategory === '자유게시판'
-                            ? 'bg-green-500 text-white shadow'
-                            : 'bg-gray-200 hover:bg-gray-300'
-                        }`}
-                    onClick={() => setSelectedCategory('자유게시판')}
+                    className={`px-4 py-2 ${selectedCategory === '자유게시판' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+                    onClick={() => handleTabClick('자유게시판')}
                 >
                     자유게시판
+                </button>
+                <button
+                    className={`px-4 py-2 ${selectedCategory === '스케쥴' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+                    onClick={() => handleTabClick('스케쥴')}
+                >
+                    스케쥴
                 </button>
             </div>
 
             {/* 게시물 목록 */}
-            <ul className="space-y-4">
-                {postsToShow.length > 0 ? (
-                    postsToShow.map((post, index) => (
-                        <li
-                            key={index}
-                            className="cursor-pointer rounded-lg bg-white p-6 shadow-md transition-transform duration-200 hover:scale-105 hover:bg-green-50"
-                            onClick={() => onClickToDetail(post.id)}
-                        >
-                            <p className="text-xl font-semibold text-gray-900 mb-1">{post.title}</p>
-                            <p className="text-sm text-gray-600 mb-1">작성자: {post.nickname}</p>
-                            <p className="text-sm text-gray-600">조회수: {post.viewCount}</p>
-                        </li>
-                    ))
-                ) : (
-                    <li className="text-center text-gray-500">게시물이 없습니다.</li>
-                )}
-            </ul>
+            {(selectedCategory === '공지 사항' || selectedCategory === '자유게시판') && (
+                <ul className="space-y-4">
+                    {postsToShow.length > 0 ? (
+                        postsToShow.map((post, index) => (
+                            <li
+                                key={index}
+                                className="cursor-pointer rounded-lg bg-white p-6 shadow-md transition-transform duration-200 hover:scale-105 hover:bg-green-50"
+                                onClick={() => onClickToDetail(post.id)}
+                            >
+                                <p className="text-xl font-semibold text-gray-900 mb-1">{post.title}</p>
+                                <p className="text-sm text-gray-600 mb-1">작성자: {post.nickname}</p>
+                                <p className="text-sm text-gray-600">조회수: {post.viewCount}</p>
+                            </li>
+                        ))
+                    ) : (
+                        <li className="text-center text-gray-500">게시물이 없습니다.</li>
+                    )}
+                </ul>
+            )}
 
             {/* 뒤로가기 버튼 */}
             <div className="mt-8 flex justify-center">

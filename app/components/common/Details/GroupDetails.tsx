@@ -14,6 +14,7 @@ import { chatUserService } from "@/app/service/chat/chatUser.service";
 import { FaExclamationTriangle } from "react-icons/fa";
 import { declarationService } from "@/app/service/users/declarationPost.service";
 import { DeclarationPostModel } from "@/app/model/user/users.model";
+import Modal from "../../Modal";
 
 export default function GroupDetails() {
     const dispatch = useAppDispatch()
@@ -22,6 +23,11 @@ export default function GroupDetails() {
     const enableUsers = useSelector(getGroupEnableMembers)
     const nickname = useSelector(getNickname)
     const [chatUsers, setChatUsers] = useState<ChatUserModel[]>([]);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
 
     const declarationUser = (name: string) => {
         const title = prompt("신고 제목을 입력하세요:");
@@ -183,11 +189,25 @@ export default function GroupDetails() {
                     </div>
                 )}
 
+                {/* 모달을 여는 버튼 */}
                 {group?.nickname === nickname && enableUsers[group.id]?.length > 0 && (
                     <div>
+                        <button
+                            type="button"
+                            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                            onClick={openModal}
+                        >
+                            참여 신청자 보기
+                        </button>
+                    </div>
+                )}
+
+                {/* 모달 컴포넌트 */}
+                {isModalOpen && group && (
+                    <Modal onClose={closeModal}>
                         <h3 className="text-xl font-bold text-center mb-6">참여하고 싶어하는 유저</h3>
                         <ul className="space-y-4">
-                            {enableUsers[group.id].map((user: JoiningModel, index) => (
+                            {enableUsers[group.id]?.map((user: JoiningModel, index) => (
                                 <li key={index} className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm hover:bg-gray-100">
                                     <div className="text-left">
                                         <p className="font-bold text-gray-800">{user.nickname}</p>
@@ -202,7 +222,7 @@ export default function GroupDetails() {
                                 </li>
                             ))}
                         </ul>
-                    </div>
+                    </Modal>
                 )}
             </div>
             <DetailButton thisPage={`/groups`} displayBoard="block" displayReview="none" displayReservation="block" />

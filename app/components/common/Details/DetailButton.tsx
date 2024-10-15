@@ -8,18 +8,17 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
 import { getCurrentBook, getLikedBooks } from "@/lib/features/group/book.slice";
 import { getCurrentRoom, getLikedRooms } from "@/lib/features/room/room.slice";
-import { getCurrentGroup, getCurrentGroupPost, getGroupMembers, getLeaderGroups, getLikedPosts } from "@/lib/features/group/group.slice";
+import { getCurrentGroup, getCurrentGroupPost, getGroupEnableMembers, getGroupMembers, getLeaderGroups, getLikedPosts } from "@/lib/features/group/group.slice";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
 import { LikeRoomModel } from "@/app/model/user/users.model";
 import { likeRoomService } from "@/app/service/users/likeRoom.service";
 import { likePostService } from "@/app/service/group/likePost.service";
-import { LikePostModel } from "@/app/model/group/group.model";
+import { JoiningModel, LikePostModel } from "@/app/model/group/group.model";
 import { groupService } from "@/app/service/group/group.service";
 import { chatUserService } from "@/app/service/chat/chatUser.service";
 import { chatRoomService } from "@/app/service/chat/chatRoom.service";
-import { ChatUserModel } from "@/app/model/chat/chat.model";
 
 interface DetailButtonProps {
     thisPage: string;
@@ -29,7 +28,7 @@ interface DetailButtonProps {
 
 }
 
-export default function DetailButton({ thisPage, displayReview, displayBoard, displayReservation}: DetailButtonProps) {
+export default function DetailButton({ thisPage, displayReview, displayBoard, displayReservation }: DetailButtonProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [isAlertOpen, setIsAlertOpen] = useState(false)
@@ -50,6 +49,8 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const nickname = useSelector(getNickname)
     const userInfo = user?.role ?? null
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
+    const enableUsers = useSelector(getGroupEnableMembers)
+    const isPendingGroup = group?.id && enableUsers[group.id]?.some((user) => user.nickname === nickname);
 
     const handleReview = () => {
         route.push(`${thisPage}/review`)
@@ -118,7 +119,16 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         }
     }
     const JoinGroups = () => {
+        if (group && nickname) {
+            const joiningModel: JoiningModel = {
+                nickname: nickname,
+                groupId: group.id
+            }
+            groupService.insertUser(joiningModel, dispatch)
+        }
+        setAlertMessage('소모임 신청이 완료 됐습니다.');
     }
+
     const groupConfirm = () => {
         setIsConfirmOpen(false);
         route.push('/');
@@ -188,7 +198,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                     </button>
                 )}
                 <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={room?.id ?? 0} />
-                {userInfo && thisPage === '/groups' && group && !isUserInGroup && (
+                {userInfo && thisPage === '/groups' && group && !isUserInGroup && !isPendingGroup &&(
                     <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
                         style={{ display: displayReservation }}
                     >
