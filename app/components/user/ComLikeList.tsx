@@ -11,6 +11,7 @@ import { useAppDispatch } from "@/lib/store";
 import { getLikedRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
 
 
+
 interface ComLikeListProps {
   type: "게시글" | "도서" | "장소";
 }
@@ -106,10 +107,10 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
 
     return items.map((item: LikedItem, index: number) => (
       <li key={item.id || index} className="w-full relative">
-        <div className="flex items-center justify-evenly my-2 rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100">
+        <div className="flex justify-around my-2 rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100">
           <div>
             <h5
-              className="mb-2 w-60 text-base text-center font-semibold tracking-tight text-gray-900"
+              className="mb-2 text-2xl font-bold tracking-tight text-gray-900"
               onClick={() => onClickToDetail(Number(item.id))}
             >
               {item.title}
