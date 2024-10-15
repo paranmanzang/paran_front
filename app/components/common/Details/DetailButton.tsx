@@ -71,7 +71,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 likeBookService.insert(likeBookModel, dispatch);
                 break;
             }
-            case "/groupPost": {
+            case "/groups/board/detail": {
                 if (!post || !nickname) return;
                 const likePostModel: LikePostModel = {
                     postId: post.id,
@@ -132,7 +132,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                         case '/rooms':
                             isLiked = isRoomLiked;
                             break;
-                        case '/grouppost':
+                        case '/groups/board/detail':
                             isLiked = ispostLiked;
                             break;
                         default:
