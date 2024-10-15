@@ -15,7 +15,7 @@ import bookSlice from './features/group/book.slice'
 import dataSlice from './features/data.slice'
 import adminPostSlice from './features/users/adminPost.slice'
 import declarationPostSlice from './features/users/declarationPost.slice'
-import freindSlice from './features/users/friend.slice'
+import friendSlice from './features/users/friend.slice'
 
 
 export const makeStore = () => {
@@ -24,7 +24,7 @@ export const makeStore = () => {
       user: userSlice,
       adminPost: adminPostSlice,
       declarationPost: declarationPostSlice,
-      friend: freindSlice,
+      friend: friendSlice,
       file: fileSlice,
       room: roomSlice,
       address: addressSlice,

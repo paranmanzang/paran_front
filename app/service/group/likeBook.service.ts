@@ -41,8 +41,8 @@ const drop = async (likeBookModel: LikeBookModel, dispatch: AppDispatch): Promis
     await handleLoading(dispatch, async () => {
         try {
             const response = await likeBookAPI.drop(likeBookModel);
-            if (likeBookModel.id !== undefined) {
-                dispatch(deleteLikedBook(likeBookModel.id));
+            if (likeBookModel.bookId !== undefined) {
+                dispatch(deleteLikedBook(likeBookModel.bookId));
             }
         } catch (error: any) {
             handleApiError(error, dispatch, "좋아요 취소 중 오류 발생했습니다.");
