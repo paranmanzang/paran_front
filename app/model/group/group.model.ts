@@ -5,6 +5,7 @@ export interface GroupState {
     leadergroups: GroupResponseModel[]
     likePosts: GroupPostResponseModel[];
     groupMembers: {groupMembers: any ;[groupId: number]: JoiningModel[]}
+    groupEnableMembers: {groupEnableMembers: any ;[groupId: number]: JoiningModel[]}
     groupPostsNotices: GroupPostResponseModel[]
     groupPostsGenerals: GroupPostResponseModel[]
     currentGroup: GroupResponseModel | null
@@ -25,6 +26,7 @@ export const initialGroupState: GroupState = {
     leadergroups:[],
     likePosts:[],
     groupMembers: {groupMembers: []},
+    groupEnableMembers: {groupEnableMembers: []},
     groupPostsNotices: [],
     groupPostsGenerals: [],
     currentGroup: null,
@@ -40,6 +42,7 @@ export interface GroupModel {
 }
 
 export interface JoiningModel {
+    id: number;
     nickname: string;
     enabled: boolean;
     groupId: number;

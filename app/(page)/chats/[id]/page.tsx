@@ -62,7 +62,7 @@ export default function ChatRoom() {
                 }
             })
             .finally(() => {
-                router.push("/chats/list");
+                router.push("/List");
             });
     }, [chatRoom, dispatch, nickname, roomId, router]);
 
@@ -122,8 +122,8 @@ export default function ChatRoom() {
 
     const memoizedPeopleList = useMemo(() => {
         console.log("Rendering PeopleList with chatUsers:", chatUsers);
-        return chatUsers.map((user,index) => (
-            <PeopleList key={index} chatUser={user} />
+        return chatUsers.map((user, index) => (
+            user.nickname !== nickname && <PeopleList key={index} chatUser={user} />
         ));
     }, [chatUsers]);
 

@@ -2,7 +2,7 @@ import { FriendModel } from "@/app/model/user/users.model";
 import { AppDispatch } from "@/lib/store";
 import { saveError, saveLoading } from "@/lib/features/users/user.slice";
 import { friendAPI } from "@/app/api/generate/friend.api";
-import { addFriend, deleteFriend, saveFriends } from "@/lib/features/users/friend.slice";
+import { addFriend, deleteFriend, saveAlreadyFriends, saveFriends, savePendingFriends } from "@/lib/features/users/friend.slice";
 
 // 친구 추가
 const insert = async (friendModel: FriendModel, dispatch: AppDispatch): Promise<void> => {
@@ -47,7 +47,14 @@ const findFriendList = async (nickname: string, dispatch: AppDispatch): Promise<
     try {
         dispatch(saveLoading(true));
         const response = await friendAPI.findFriendList(nickname)
-        dispatch(saveFriends(response.data))
+        if (Array.isArray(response.data)) {
+            const previousFriends = response.data.filter((user) => user.responseAt !== null);
+            const pendingFriends = response.data.filter((user) => user.responseAt === null);
+
+            dispatch(saveAlreadyFriends(previousFriends));
+            dispatch(savePendingFriends(pendingFriends));
+            dispatch(saveFriends(response.data))
+        }
     } catch (error) {
         dispatch(saveError("친구를 찾는 중 오류 발생했습니다."));
         console.error('Error finding friend:', error);

@@ -18,7 +18,7 @@ const findList = async ({ roomId, nickname, onMessage }: {
             throw new Error('No access token available');
         }
         eventSource = new EventSourcePolyfill(
-            process.env.NEXT_PUBLIC_BACK_URL+`/api/chats/messages/${roomId}?nickname=${nickname}`,
+            process.env.NEXT_PUBLIC_BACK_URL + `/api/chats/messages/${roomId}?nickname=${nickname}`,
             {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -65,7 +65,19 @@ const findList = async ({ roomId, nickname, onMessage }: {
         // 오류가 발생했을 때 처리
         eventSource.onerror = (error) => {
             console.error("SSE 연결 오류 발생:", error);
-            eventSource?.close();
+            setTimeout(() => {
+                console.log("SSE 재연결 시도 중...");
+                eventSource?.close();
+                eventSource = new EventSourcePolyfill(
+                    `${process.env.NEXT_PUBLIC_BACK_URL}/api/chats/messages/${roomId}?nickname=${nickname}`,
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                        heartbeatTimeout: 60000,  // 재연결 시에도 동일한 설정 사용
+                    }
+                );
+            }, 3000);
         };
 
         // 함수가 호출되면 EventSource 연결을 닫아 구독을 취소하는 unsubscribe 함수 반환

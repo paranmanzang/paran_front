@@ -25,12 +25,12 @@ export default function SideBar() {
 
   const tabs = useMemo(() => {
     // 사용자가 그룹에 참여 중이면 모든 탭을 표시
-    if (userGroups) {
+    if (userGroups.length > 0) {
       console.log(userGroups);
       return allTabs;
     } else {
       // 그룹에 참여하지 않았으면 Chats 탭을 제외
-      return allTabs.filter(tab => tab.name !== "Chats"  && tab.name !== "MyGroups");
+      return allTabs.filter(tab => tab.name !== "Chats" && tab.name !== "MyGroups");
     }
   }, [user]);
 

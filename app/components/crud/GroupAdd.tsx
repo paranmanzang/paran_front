@@ -5,8 +5,9 @@ import Alert from "../common/Alert";
 import { useState } from "react";
 import { useAppDispatch } from "@/lib/store";
 import { groupService } from "@/app/service/group/group.service";
-import { getCurrentUser } from "@/lib/features/users/user.slice";
+import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
 import { useSelector } from "react-redux";
+import { GroupModel } from "@/app/model/group/group.model";
 
 export default function GroupAdd() {
     const route = useRouter();
@@ -14,22 +15,26 @@ export default function GroupAdd() {
     const dispatch = useAppDispatch()
     const [groupName, setGroupName] = useState("");
     const [categoryName, setCategoryName] = useState("");
-    const user = useSelector(getCurrentUser);
+    const nickname = useSelector(getNickname)
 
     const handleCategoryChange = (selectedCategory: string) => {
         setCategoryName(selectedCategory);
     };
 
     const createGroup = () => {
-        {!user && (
-            <Alert message="로그인 후 재접속 바랍니다" isOpen={isOpen} onClose={() => {}}  />
-        )}
-        const groupModel = {
-            groupName: groupName,
-            categoryName: categoryName,
-            nickname: user.nickname,
-        };
-        groupService.insert(groupModel, dispatch)
+        {
+            !nickname && (
+                <Alert message="로그인 후 재접속 바랍니다" isOpen={isOpen} onClose={() => { }} />
+            )
+        }
+        if (nickname) {
+            const groupModel: GroupModel = {
+                groupName: groupName,
+                categoryName: categoryName,
+                nickname: nickname,
+            };
+            groupService.insert(groupModel, dispatch)
+        }
     }
     const goBack = () => {
         route.back();

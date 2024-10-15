@@ -3,6 +3,8 @@ interface UserState {
   users: UserModel[];
   likeRooms: LikeRoomModel[];
   friends: FriendModel[];
+  alreadyFriends: FriendModel[];
+  pendingFriends: FriendModel[];
   currnetAdminpost: AdminPostModel | null;
   adminPosts: AdminPostModel[];
   declarationPosts: DeclarationPostModel[];
@@ -17,6 +19,8 @@ export const initialUserState: UserState = {
   users: [],
   likeRooms: [],
   friends: [],
+  alreadyFriends: [],
+  pendingFriends: [],
   currnetAdminpost: null,
   currentDeclarationPost: null,
   adminPosts: [],
