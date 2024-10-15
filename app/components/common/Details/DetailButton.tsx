@@ -1,7 +1,7 @@
 // components/DetailButton.tsx
 "use client"
-import {  useRouter } from "next/navigation";
-import {  useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import BookingModal from "../BookingModal";
 import Alert from "../Alert";
 import { useSelector } from "react-redux";
@@ -168,7 +168,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                         예약하기
                     </button>
                 )}
-                <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={3} />
+                <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={room?.id ?? 0} />
                 {userInfo && thisPage === '/groups' && group && !isUserInGroup && (
                     <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
                         style={{ display: displayReservation }}

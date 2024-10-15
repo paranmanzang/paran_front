@@ -9,12 +9,13 @@ import { BookingModel } from "@/app/model/room/bookings.model"
 
 import { getBookings } from "@/lib/features/room/bookings.slice"
 import { useSelector } from "react-redux"
+import { bookingService } from "@/app/service/room/booking.service"
 
 interface BookingListProps {
   bookingId?: string
 }
 
-export default function BookingList({bookingId}: BookingListProps) {
+export default function BookingList({ bookingId }: BookingListProps) {
   const router = useRouter()
   const [selectedBookings, setSelectedBookings] = useState<string[]>([])
   const dispatch = useAppDispatch();
@@ -23,22 +24,24 @@ export default function BookingList({bookingId}: BookingListProps) {
 
   const handleCheckboxChange = (id: string) => {
     setSelectedBookings(prev =>
-    prev.includes(id) ? prev.filter(bookingId => bookingId !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter(bookingId => bookingId !== id) : [...prev, id]
     )
   }
 
-  const handleDelete = (id: number) => {
-    console.log('삭제하기:', id)
-    if (selectedBookings.includes(String(id))) {
-      dispatch(deleteBooking(id))
+  const handleDelete = () => {
+    console.log('삭제하기:', selectedBookings)
+    if (selectedBookings.length > 0) {
+      selectedBookings.forEach(id => {
+        bookingService.drop(Number(id), dispatch)
+      })
     }
   }
 
   return (
-    <div className="max-w-lg mx-auto">
+    <div className="mx-auto max-w-lg">
       <ul>
-        {bookingItem && bookingItem.map((booking: BookingModel ) => (
-          <li key={booking.id} className="relative max-w-sm bg-green-100 rounded-lg mb-4" id="box">
+        {bookingItem && bookingItem.map((booking: BookingModel) => (
+          <li key={booking.id} className="relative mb-4 max-w-sm rounded-lg bg-green-100" id="box">
             <form className="absolute top-2 w-full px-3">
               <div className="flex justify-between">
                 <div id="selectBtn">
@@ -47,7 +50,7 @@ export default function BookingList({bookingId}: BookingListProps) {
                     type="checkbox"
                     checked={selectedBookings.includes(String(booking.id))}
                     onChange={() => handleCheckboxChange(String(booking.id))}
-                    className="size-6 text-green-600 bg-gray-100 border-gray-300 rounded focus:ring-green-500"
+                    className="size-6 rounded border-gray-300 bg-gray-100 text-green-600 focus:ring-green-500"
                   />
                   <label htmlFor={`select-${booking.id}`} hidden>Select</label>
                 </div>
@@ -72,11 +75,11 @@ export default function BookingList({bookingId}: BookingListProps) {
                 <p className="mb-3 text-sm font-medium text-gray-700">
                   {booking.enabled}
                 </p>
-                <div className="flex mt-5 w-full items-center justify-center">
+                <div className="mt-5 flex w-full items-center justify-center">
                   <button
                     type="button"
                     onClick={() => router.push(`/rooms/${booking.id}`)}
-                    className="rounded-lg p-2 mx-2 text-sm font-medium bg-green-600 text-white"
+                    className="mx-2 rounded-lg bg-green-600 p-2 text-sm font-medium text-white"
                   >
                     상세보기
                   </button>
@@ -87,11 +90,11 @@ export default function BookingList({bookingId}: BookingListProps) {
           </li>
         ))}
       </ul>
-      <div className="btn_wrap flex justify-end my-4">
-        <button onClick={() => router.back()} className="p-2 bg-green-600 text-white rounded-lg">뒤로가기</button>
+      <div className="btn_wrap my-4 flex justify-end">
+        <button onClick={() => router.back()} className="rounded-lg bg-green-600 p-2 text-white">뒤로가기</button>
         <button
-          onClick={() => handleDelete(bookingItem?.id)}
-          className="p-2 mx-2 bg-green-600 text-white rounded-lg"
+          onClick={() => handleDelete()}
+          className="mx-2 rounded-lg bg-green-600 p-2 text-white"
         >삭제하기</button>
       </div>
     </div>

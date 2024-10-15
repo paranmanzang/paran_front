@@ -2,8 +2,10 @@ import { useRouter } from "next/navigation";
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import Alert from "./Alert";
 import { useAppDispatch } from "@/lib/store";
-import { saveBookings } from "@/lib/features/room/bookings.slice";
 import { BookingModel } from "@/app/model/room/bookings.model";
+import { bookingService } from "@/app/service/room/booking.service";
+import { TimeModel } from "@/app/model/room/room.model";
+import { timeService } from "@/app/service/room/time.service";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -26,6 +28,8 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
   });
   const [isDateSelected, setIsDateSelected] = useState(false);
   const [minDate, setMinDate] = useState("");
+  const [maxDate, setMaxDate] = useState("");
+  const [times, setTimes] = useState<TimeModel[]>([])
 
   useEffect(() => {
     const today = new Date();
@@ -33,7 +37,25 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     setMinDate(`${year}-${month}-${day}`);
+
+    if (id) {
+      timeService.findByRoom(id, dispatch).then(data => {
+        if (data) {
+          setTimes(data)
+          setMaxDate(data[data.length - 1].date)
+        }
+      })
+    }
   }, []);
+
+  const groupedTimes = times.reduce((acc: Record<string, TimeModel[]>, time) => {
+    const { date } = time;
+    if (!acc[date]) {
+      acc[date] = []; // Create new array for this date if it doesn't exist
+    }
+    acc[date].push(time);
+    return acc;
+  }, {});
 
   if (!isOpen) return null;
 
@@ -58,7 +80,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log(formData);
-    dispatch(saveBookings([formData]));
+    bookingService.save(formData, dispatch)
     setAlertMessage("예약 되었습니다.");
     setIsAlertOpen(true);
   };
@@ -77,15 +99,15 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
     setIsConfirmOpen(false);
   };
 
-  const timeSlots = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00'];
+  const timeSlots = groupedTimes[formData.date]?.map(time => time.time) || [];
 
   return (
     <>
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-        <div className="relative p-4 w-full max-w-lg max-h-full">
-          <div className="relative bg-white rounded-lg shadow">
+      <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="relative max-h-full w-full max-w-lg p-4">
+          <div className="relative rounded-lg bg-white shadow">
             <ModalHeader onClose={onClose} />
-            <ModalBody 
+            <ModalBody
               formData={formData}
               handleDateChange={handleDateChange}
               handleTimeChange={handleTimeChange}
@@ -93,6 +115,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
               timeSlots={timeSlots}
               isDateSelected={isDateSelected}
               minDate={minDate}
+              maxDate={maxDate}
             />
           </div>
         </div>
@@ -115,14 +138,14 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
 
 const ModalHeader = ({ onClose }: { onClose: () => void }) => {
   return (
-    <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+    <div className="flex items-center justify-between rounded-t border-b p-4 md:p-5">
       <h3 className="text-xl font-semibold text-gray-900">
         예약하기
       </h3>
-      <button 
-        type="button" 
-        onClick={onClose} 
-        className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
+      <button
+        type="button"
+        onClick={onClose}
+        className="end-2.5 ms-auto inline-flex size-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900"
       >
         <svg className="size-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
           <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -133,14 +156,15 @@ const ModalHeader = ({ onClose }: { onClose: () => void }) => {
   );
 }
 
-function ModalBody({ 
-  formData, 
-  handleDateChange, 
-  handleTimeChange, 
-  handleSubmit, 
+function ModalBody({
+  formData,
+  handleDateChange,
+  handleTimeChange,
+  handleSubmit,
   timeSlots,
   isDateSelected,
-  minDate
+  minDate,
+  maxDate
 }: {
   formData: BookingModel;
   handleDateChange: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -149,28 +173,30 @@ function ModalBody({
   timeSlots: string[];
   isDateSelected: boolean;
   minDate: string;
+  maxDate: string;
 }) {
   return (
     <div className="p-4 md:p-5">
       <form className="space-y-4" action="#" onSubmit={handleSubmit}>
-        <input 
-          type="date" 
+        <input
+          type="date"
           value={formData.date}
           onChange={handleDateChange}
           min={minDate}
-          className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full px-2.5" 
+          max={maxDate}
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2.5 text-sm leading-none text-gray-900 focus:border-green-500 focus:ring-green-500"
         />
         {formData.date && <span className="text-green-600">예약가능 날짜 입니다.</span>}
         {isDateSelected && (
-          <TimeSlots 
-            timeSlots={timeSlots} 
+          <TimeSlots
+            timeSlots={timeSlots}
             handleChange={handleTimeChange}
             selectedTimes={formData.usingTime}
           />
         )}
-        <button 
-          type="submit" 
-          className="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+        <button
+          type="submit"
+          className="w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300"
           disabled={!isDateSelected || formData.usingTime.length === 0}
         >
           예약 신청하기
@@ -192,18 +218,19 @@ function TimeSlots({ timeSlots, handleChange, selectedTimes }: {
     <ul className="grid grid-cols-6 gap-2">
       {timeSlots.map((time) => (
         <li key={time}>
-          <input 
-            type="checkbox" 
-            id={`time${time}`} 
-            name="time" 
-            value={time} 
-            onChange={handleChange} 
+          <input
+            type="checkbox"
+            id={`time${time}`}
+            name="time"
+            value={time}
+            onChange={handleChange}
             checked={selectedTimes.includes(time)}
-            className="hidden peer" 
+            className="peer hidden"
+            
           />
-          <label 
-            htmlFor={`time${time}`} 
-            className="p-2 text-center text-green-500 bg-white border-2 border-green-200 rounded-lg cursor-pointer peer-checked:border-green-600 hover:text-green-600  peer-checked:text-green-600 hover:bg-green-500"
+          <label
+            htmlFor={`time${time}`}
+            className="cursor-pointer rounded-lg border-2 border-green-200 bg-white p-2 text-center text-green-500 hover:bg-green-500 hover:text-green-600  peer-checked:border-green-600 peer-checked:text-green-600"
           >
             {time}
           </label>

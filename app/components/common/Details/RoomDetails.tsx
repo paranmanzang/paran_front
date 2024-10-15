@@ -14,32 +14,11 @@ interface DetailsProps {
   roomId: string
 }
 
-export default function Details({roomId}: DetailsProps) {
-  const [times, setTimes] = useState<TimeModel[]>([])
+export default function Details({ roomId }: DetailsProps) {
   const room = useSelector(getCurrentRoom);
   const file = useSelector(getCurrentFile);
   const dispatch = useAppDispatch();
   const user = useSelector(getCurrentUser);
-
-  useEffect(() => {
-    if (roomId && room?.id !== undefined) {
-      timeService.findByRoom(room.id, dispatch).then(data => {
-        if (data) {
-          setTimes(data)
-        }
-      })
-    }
-    dispatch(saveLoading(false))
-  }, [dispatch, room])
-
-  const groupedTimes = times.reduce((acc: Record<string, TimeModel[]>, time) => {
-    const { date } = time;
-    if (!acc[date]) {
-      acc[date] = []; // Create new array for this date if it doesn't exist
-    }
-    acc[date].push(time);
-    return acc;
-  }, {});
 
 
   return (
@@ -63,14 +42,6 @@ export default function Details({roomId}: DetailsProps) {
           <p className="mb-2">단독 사용 여부: {room?.opened ? "O" : "X"}</p>
           <p className="mb-2">이용 가능 시간: {room?.openTime} ~ {room?.closeTime}</p>
           <p className="mb-2">시간당 이용 금액: {room?.price}원</p>
-          <p className="mb-2">이용 가능 시간 {groupedTimes && Object.keys(groupedTimes).map((date) => (
-            <div key={date}>
-              <p>{date}</p>
-              {groupedTimes[date].map((time) => (
-                <span key={time.id}>{time.time} </span>
-              ))}
-            </div>
-          ))}</p>
         </div>
 
       </div>
@@ -78,7 +49,7 @@ export default function Details({roomId}: DetailsProps) {
         <DetailButton thisPage="/rooms" displayBoard="block" displayReview="block" displayReservation="block" />
       }
       {!user?.role &&
-          <DetailButton thisPage="/rooms" displayBoard="none" displayReview="none" displayReservation="none" />
+        <DetailButton thisPage="/rooms" displayBoard="none" displayReview="none" displayReservation="none" />
       }
 
     </div >
