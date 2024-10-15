@@ -1,46 +1,16 @@
 "use client";
-import { TimeModel } from "@/app/model/room/room.model";
-import { timeService } from "@/app/service/room/time.service";
-import { getCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
-import { useEffect, useState } from "react";
+import { getCurrentRoom } from "@/lib/features/room/room.slice";
 import DetailButton from "./DetailButton";
 import { useSelector } from "react-redux";
-import { useAppDispatch } from "@/lib/store";
 import Image from "next/image";
 import { getCurrentFile } from "@/lib/features/file/file.slice";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 
-interface DetailsProps {
-  roomId: string
-}
 
-export default function Details({roomId}: DetailsProps) {
-  const [times, setTimes] = useState<TimeModel[]>([])
+export default function Details() {
   const room = useSelector(getCurrentRoom);
   const file = useSelector(getCurrentFile);
-  const dispatch = useAppDispatch();
   const user = useSelector(getCurrentUser);
-
-  useEffect(() => {
-    if (roomId && room?.id !== undefined) {
-      timeService.findByRoom(room.id, dispatch).then(data => {
-        if (data) {
-          setTimes(data)
-        }
-      })
-    }
-    dispatch(saveLoading(false))
-  }, [dispatch, room])
-
-  const groupedTimes = times.reduce((acc: Record<string, TimeModel[]>, time) => {
-    const { date } = time;
-    if (!acc[date]) {
-      acc[date] = []; // 인스턴스만듬
-    }
-    acc[date].push(time);
-    return acc;
-  }, {});
-
 
   return (
     <div>
@@ -63,14 +33,6 @@ export default function Details({roomId}: DetailsProps) {
           <p className="mb-2">단독 사용 여부: {room?.opened ? "O" : "X"}</p>
           <p className="mb-2">이용 가능 시간: {room?.openTime} ~ {room?.closeTime}</p>
           <p className="mb-2">시간당 이용 금액: {room?.price}원</p>
-          <p className="mb-2">이용 가능 시간 {groupedTimes && Object.keys(groupedTimes).map((date) => (
-            <div key={date}>
-              <p>{date}</p>
-              {groupedTimes[date].map((time) => (
-                <span key={time.id}>{time.time} </span>
-              ))}
-            </div>
-          ))}</p>
         </div>
 
       </div>
@@ -78,7 +40,7 @@ export default function Details({roomId}: DetailsProps) {
         <DetailButton thisPage="/rooms" displayBoard="block" displayReview="block" displayReservation="block" />
       }
       {!user?.role &&
-          <DetailButton thisPage="/rooms" displayBoard="none" displayReview="none" displayReservation="none" />
+        <DetailButton thisPage="/rooms" displayBoard="none" displayReview="none" displayReservation="none" />
       }
 
     </div >

@@ -1,7 +1,7 @@
 
 import { RoomModel, RoomUpdateModel } from '../../model/room/room.model';
 import { AppDispatch } from '@/lib/store';
-import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom, saveError, saveLikedRooms } from '@/lib/features/room/room.slice';
+import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom, saveError, saveLikedRooms, saveAllRooms } from '@/lib/features/room/room.slice';
 import { roomAPI } from '@/app/api/generate/room.api';
 import { FileType } from '@/app/model/file/file.model';
 import { fileService } from '../File/file.service';
@@ -105,8 +105,33 @@ const findAll = async (page: number, size: number, dispatch: AppDispatch): Promi
         }
     }
 };
+<<<<<<< HEAD
+// 승인된 공간 전체 조회
+const findAllByEnabled = async (dispatch: AppDispatch): Promise<void> => {
+    try {
+        dispatch(saveLoading(true))
+        const response = await roomAPI.findAllByEnabled()
+        fileService.selectFileList(response.data.map((room) => room.id).filter((id): id is number => id !== undefined), FileType.ROOM, dispatch);
+        dispatch(saveAllRooms(response.data))
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
+    }
+};
+// 승인된 공간 조회-페이지네이션
+const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+=======
 // 승인된 공간 조회 
 const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<any> => {
+>>>>>>> 16b894fddfe1f03b7ca1b5a8be027ac100a1eeb1
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.findByEnabled(page, size)
@@ -170,5 +195,5 @@ const findAllByUserNickname = async (nickname: string, dispatch: AppDispatch): P
 
 export const roomService = {
     save, modify, drop,
-    findByUser, findAll, findByEnabled, findAllByUserNickname, modifyConfirm
+    findByUser, findAll, findAllByEnabled, findByEnabled, findAllByUserNickname, modifyConfirm
 }
