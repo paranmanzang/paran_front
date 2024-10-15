@@ -8,8 +8,7 @@ import { getLikedPosts, saveCurrentGroupPost } from "@/lib/features/group/group.
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/store";
 import { getLikedRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
-import { getFiles } from "@/lib/features/file/file.slice";
-import { fileService } from "@/app/service/File/file.service";
+
 
 interface ComLikeListProps {
   type: "게시글" | "도서" | "장소";
