@@ -5,7 +5,6 @@ import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { roomService } from "@/app/service/room/room.service";
 import { getFiles, saveCurrentFile } from "@/lib/features/file/file.slice";
-import ErrorMessage from "../status/ErrorMessage";
 import Pagination from "./pagination/Pagination";
 import RoomCard from "./RoomCard";
 import { useRouter } from "next/navigation";
