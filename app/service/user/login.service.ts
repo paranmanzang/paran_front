@@ -1,16 +1,15 @@
 import { UserModel } from "@/app/model/user/user.model";
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
-// import { setToken } from "@/lib/features/auth.slice";
 import { setAccessToken } from "@/app/api/authUtils";
 import { AppDispatch } from "@/lib/store";
-import { saveNickname } from "@/lib/features/users/user.slice";
+import {getCurrentUser, saveNickname } from "@/lib/features/users/user.slice";
 import { userService } from "./user.service";
 import { groupService } from "../group/group.service";
 import { likeBookService } from "../group/likeBook.service";
-import { likeRoomService } from "../users/likeRoom.service";
 import { likePostService } from "../group/likePost.service";
 import { roomService } from "../room/room.service";
+import { useSelector } from "react-redux";
 
 const login = async (username: string, password: string, dispatch: AppDispatch): Promise<any> => {
   try {
@@ -19,21 +18,18 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
     )
 
     const token = response.headers['authorization'].replace("Bearer ", "")
-    console.log("전체 응답 헤더:", response.headers);
-    console.log("authorization :", response.headers['authorization']);
+    //console.log("전체 응답 헤더:", response.headers);
 
     if (token) {
-      console.log("토큰이 보이긴 해요")
       setAccessToken(token);
-
       dispatch(saveNickname(response.headers['nickname']))
 
-      const resp = response.headers['nickname']
-      userService.findUserDetail(response.headers['nickname'], dispatch)
-      groupService.findByNickname(response.headers['nickname'], dispatch)
-      likeBookService.findByNickname(response.headers['nickname'], dispatch)
-      roomService.findAllByUserNickname(response.headers['nickname'], dispatch)
-      likePostService.findAllByUserNickname(response.headers['nickname'], dispatch)
+      const nickname = response.headers['nickname']
+      userService.findUserDetail(nickname, dispatch)
+      groupService.findByNickname(nickname, dispatch)
+      likeBookService.findByNickname(nickname, dispatch)
+      roomService.findAllByUserNickname(nickname, dispatch)
+      likePostService.findAllByUserNickname(nickname, dispatch)
 
     } else {
       console.log("토큰이 안보여요 ㅠㅠ")
@@ -58,6 +54,7 @@ const get = async (): Promise<UserModel> => {
     const response = await api.get<any>("/get")
 
     console.log("GET: ", response)
+
     return response.data;
 
   } catch (error: any) {

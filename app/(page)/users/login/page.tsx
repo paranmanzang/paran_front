@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from "next/image";
 import Naver from "@/app/assets/btnG.png"
 import { useRouter } from "next/navigation";
@@ -8,28 +8,41 @@ import { useAppDispatch } from '@/lib/store';
 import { loginService } from '@/app/service/user/login.service';
 import { useSelector } from 'react-redux';
 import { getCurrentUser } from '@/lib/features/users/user.slice';
+import { userService } from '@/app/service/user/user.service';
 
 export default function Login() {
     const router = useRouter();
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+    const [loading, setLoading] = useState(false);
     const dispatch = useAppDispatch()
-    const userRole = useSelector(getCurrentUser);
+    const role = useSelector(getCurrentUser)?.role
 
     const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         try {
-            loginService.login(username, password,dispatch);
-            console.log("user role 체크 해봅시다." ,userRole?.role);
-            if(userRole?.role === "ROLE_ADMIN"){
-              router.push('/admin')
-            } else {
-             router.push('/')
-            }
+            loginService.login(username, password, dispatch)
         } catch (error) {
-            console.error('로그인 실패:', error);
+            console.error('로그인 실패:', error)
+        } finally {
+            setLoading(false)
         }
     };
+    // login 로직 끝난 후로 추가하기
+    useEffect(() => {
+        if (!loading && role) {
+        console.log("user 의 role 을 사용해볼게요", role)
+        {
+            role === "ROLE_ADMIN" && (
+                router.push('/admin'))
+        }
+        {
+            role !== "ROLE_ADMIN" && (
+                router.push('/'))
+        }
+    }
+    }, [role, router]);
+
 
     const moveToOath = () => {
         const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;

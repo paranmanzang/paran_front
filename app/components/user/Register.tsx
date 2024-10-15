@@ -1,7 +1,8 @@
 "use client"
-import { userService } from "@/app/service/user/user.service";
-import { useAppDispatch } from "@/lib/store";
-import { ChangeEvent, useState } from "react";
+import { userService } from "@/app/service/user/user.service"
+import { useAppDispatch } from "@/lib/store"
+import { useRouter } from "next/navigation"
+import { ChangeEvent, useState } from "react"
 
 interface FormData {
   username: string;
@@ -13,7 +14,8 @@ interface FormData {
 }
 
 export default function Register() {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
+  const route = useRouter()
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const [formData, setFormData] = useState<FormData>({
     username: '',
@@ -35,7 +37,8 @@ export default function Register() {
   const onSubmit = () => {
     console.log(formData);
     userService.insertUser(formData, dispatch);
-  };
+    route.push("/users/login")
+  }
 
   return (
     <div className="my-6 py-40">

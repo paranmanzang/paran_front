@@ -4,7 +4,7 @@ import { AppDispatch } from '@/lib/store';
 import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom, saveError, saveLikedRooms, saveAllRooms } from '@/lib/features/room/room.slice';
 import { roomAPI } from '@/app/api/generate/room.api';
 import { FileType } from '@/app/model/file/file.model';
-import { fileService } from '../File/file.service';
+import { fileService } from '../file/file.service';
 
 // 공간 등록
 const save = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<void> => {

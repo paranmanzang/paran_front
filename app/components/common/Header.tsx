@@ -7,7 +7,6 @@ import Nav from "./Nav";
 import paranLogo from "@/app/assets/paranLogo.png";
 import { logout } from "@/app/service/user/logout.service";
 import BellService from "./BellService";
-import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 import { useRouter } from "next/navigation";

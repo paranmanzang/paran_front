@@ -17,7 +17,7 @@ import {
     addGroup,
 } from "@/lib/features/group/group.slice";
 import { AppDispatch } from "@/lib/store";
-import chatUserAPI from '@/app/api/generate/chatUser.api';
+
 
 // 그룹 관련 서비스 로직
 const handleApiError = (error: any, dispatch: AppDispatch, message: string) => {
