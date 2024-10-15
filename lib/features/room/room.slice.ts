@@ -13,6 +13,13 @@ export const roomSlice = createSlice({
                 }
             });
         },
+        saveAllRooms: (state, action: PayloadAction<RoomModel[]>) => {
+            action.payload.forEach(newRoom => {
+                if (!state.rooms.some(room => room.id === newRoom.id)) {
+                    state.rooms.push(newRoom);
+                }
+            });
+        },
         saveLikedRooms: (state, action: PayloadAction<RoomModel[]>) => {
             action.payload.forEach(LikedRoom => {
                 if (!state.roomsLiked.some(room => room.id === LikedRoom.id)) {
@@ -52,6 +59,7 @@ export const roomSlice = createSlice({
 
 // Selector 함수들
 export const getRooms = (state: RootState) => state.room.rooms;
+export const getAllRooms = (state: RootState) => state.room.allRooms;
 export const getLikedRooms = (state: RootState) => state.room.roomsLiked;
 export const getCurrentRoom = (state: RootState) => state.room.currentRoom;
 export const getIsLoading = (state: RootState) => state.room.isLoading;
@@ -60,6 +68,7 @@ export const getError = (state: RootState) => state.room.error;
 // 액션 생성자들을 export
 export const {
     saveRooms,
+    saveAllRooms,
     saveLikedRooms,
     saveCurrentRoom,
     saveLoading,

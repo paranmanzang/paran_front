@@ -13,6 +13,8 @@ export const roomAPI = {
 
     findAll(page: number, size: number) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}`, { params: { page, size } }) },
 
+    findAllByEnabled() { return api.get<RoomModel[]>(requests.fetchRooms + '/enabled-all') },
+
     findByEnabled(page: number, size: number) { return api.get<Page<RoomModel>>(requests.fetchRooms + '/enabled', { params: { page, size } }) },
 
     modifyConfirm(id: number) { return api.put<RoomModel>(requests.fetchRooms + `/confirm/${id}`) },

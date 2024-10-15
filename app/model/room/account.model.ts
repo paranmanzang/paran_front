@@ -35,22 +35,16 @@ export interface AmountModel {
 
 // 상태 인터페이스 정의
 interface AccountState {
-  account: AccountModel | null;
-  accountResults: AccountResultModel[];
-  currentAccountResult: AccountResultModel | null;
-  accountCancels: AccountCancelModel[];
-  currentAccountCancel: AccountCancelModel | null;
+  accounts: AccountModel[];
+  currentAccount: AccountModel | null;
   isLoading: boolean;
   error: string | null;
 }
 
 // 초기 상태
 export const initialAccountState: AccountState = {
-  account: null,
-  accountResults: [],
-  currentAccountResult: null,
-  accountCancels: [],
-  currentAccountCancel: null,
+  accounts: [],
+  currentAccount: null,
   isLoading: false,
   error: null
 };
