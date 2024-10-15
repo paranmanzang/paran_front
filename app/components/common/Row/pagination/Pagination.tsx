@@ -37,7 +37,7 @@ const Pagination = ({
   };
  
   return ( 
-    <div className="pagination flex justify-end items-center">
+    <div className="pagination flex justify-center items-center">
       <button onClick={handleFirst} disabled={currentPage === 0} className='p-3 border-1'>
         맨앞으로
       </button>
