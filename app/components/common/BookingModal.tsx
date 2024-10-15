@@ -1,9 +1,13 @@
 import { useRouter } from "next/navigation";
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import Alert from "./Alert";
+import { useSelector } from "react-redux";
+import { getCurrentRoom } from "@/lib/features/room/room.slice";
 import { useAppDispatch } from "@/lib/store";
 import { saveBookings } from "@/lib/features/room/bookings.slice";
 import { BookingModel } from "@/app/model/room/bookings.model";
+import { TimeModel } from "@/app/model/room/room.model";
+import { timeService } from "@/app/service/room/time.service";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -12,8 +16,9 @@ interface BookingModalProps {
 }
 
 export default function BookingModal({ id, isOpen, onClose }: BookingModalProps) {
-  const router = useRouter()
-  const dispatch = useAppDispatch()
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const room = useSelector(getCurrentRoom);
   const [alertMessage, setAlertMessage] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -26,6 +31,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
   });
   const [isDateSelected, setIsDateSelected] = useState(false);
   const [minDate, setMinDate] = useState("");
+  const [availableTimes, setAvailableTimes] = useState<TimeModel[]>([]);
 
   useEffect(() => {
     const today = new Date();
@@ -35,24 +41,48 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
     setMinDate(`${year}-${month}-${day}`);
   }, []);
 
-  if (!isOpen) return null;
+
+
+  useEffect(() => {
+    if (formData.date && room?.id) {
+      timeService.findByRoom(room.id, dispatch).then(data => {
+        if (data) {
+          const timesForSelectedDate = data.filter(time => time.date === formData.date)
+          setAvailableTimes(timesForSelectedDate)
+        }
+      });
+    } else {
+      setAvailableTimes([])
+    }
+  }, [formData.date, room?.id, dispatch])
+
+  if (!isOpen) return null
 
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData(prevState => ({
       ...prevState,
-      date: e.target.value
+      date: e.target.value,
+      usingTime: []
     }));
     setIsDateSelected(true);
   };
 
   const handleTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      usingTime: checked
-        ? [...prevState.usingTime, value]
-        : prevState.usingTime.filter(item => item !== value)
-    }));
+    if (!isTimeSlotDisabled(value, formData.date)) {
+      setFormData(prevState => ({
+        ...prevState,
+        usingTime: checked
+          ? [...prevState.usingTime, value]
+          : prevState.usingTime.filter(item => item !== value)
+      }));
+    }
+  };
+  
+  const isTimeSlotDisabled = (time: string, date: string) => {
+    const now = new Date();
+    const slotDateTime = new Date(`${date}T${time}`);
+    return slotDateTime <= now;
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -77,7 +107,6 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
     setIsConfirmOpen(false);
   };
 
-  const timeSlots = ['00:00', '01:00', '02:00', '03:00', '04:00', '05:00'];
 
   return (
     <>
@@ -85,12 +114,12 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
         <div className="relative p-4 w-full max-w-lg max-h-full">
           <div className="relative bg-white rounded-lg shadow">
             <ModalHeader onClose={onClose} />
-            <ModalBody 
+            <ModalBody
               formData={formData}
               handleDateChange={handleDateChange}
               handleTimeChange={handleTimeChange}
               handleSubmit={handleSubmit}
-              timeSlots={timeSlots}
+              availableTimes={availableTimes}
               isDateSelected={isDateSelected}
               minDate={minDate}
             />
@@ -119,9 +148,9 @@ const ModalHeader = ({ onClose }: { onClose: () => void }) => {
       <h3 className="text-xl font-semibold text-gray-900">
         예약하기
       </h3>
-      <button 
-        type="button" 
-        onClick={onClose} 
+      <button
+        type="button"
+        onClick={onClose}
         className="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
       >
         <svg className="size-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -133,12 +162,12 @@ const ModalHeader = ({ onClose }: { onClose: () => void }) => {
   );
 }
 
-function ModalBody({ 
-  formData, 
-  handleDateChange, 
-  handleTimeChange, 
-  handleSubmit, 
-  timeSlots,
+function ModalBody({
+  formData,
+  handleDateChange,
+  handleTimeChange,
+  handleSubmit,
+  availableTimes,
   isDateSelected,
   minDate
 }: {
@@ -146,30 +175,34 @@ function ModalBody({
   handleDateChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleTimeChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: FormEvent) => void;
-  timeSlots: string[];
+  availableTimes: TimeModel[];
   isDateSelected: boolean;
   minDate: string;
 }) {
   return (
     <div className="p-4 md:p-5">
       <form className="space-y-4" action="#" onSubmit={handleSubmit}>
-        <input 
-          type="date" 
+        <input
+          type="date"
           value={formData.date}
           onChange={handleDateChange}
           min={minDate}
-          className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full px-2.5" 
+          className="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full px-2.5"
         />
         {formData.date && <span className="text-green-600">예약가능 날짜 입니다.</span>}
-        {isDateSelected && (
-          <TimeSlots 
-            timeSlots={timeSlots} 
+        {isDateSelected && availableTimes.length > 0 && (
+          <TimeSlots
+            availableTimes={availableTimes}
             handleChange={handleTimeChange}
             selectedTimes={formData.usingTime}
+            selectedDate={formData.date}
           />
         )}
-        <button 
-          type="submit" 
+        {isDateSelected && availableTimes.length === 0 && (
+          <p className="text-red-500">선택한 날짜에 예약 가능한 시간이 없습니다.</p>
+        )}
+        <button
+          type="submit"
           className="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
           disabled={!isDateSelected || formData.usingTime.length === 0}
         >
@@ -183,32 +216,43 @@ function ModalBody({
   );
 }
 
-function TimeSlots({ timeSlots, handleChange, selectedTimes }: {
-  timeSlots: string[];
+function TimeSlots({ availableTimes, handleChange, selectedTimes, selectedDate }: {
+  availableTimes: TimeModel[];
   handleChange: (e: ChangeEvent<HTMLInputElement>) => void;
   selectedTimes: string[];
+  selectedDate: string;
 }) {
+  const isTimeSlotDisabled = (time: string, date: string) => {
+    const now = new Date();
+    const slotDateTime = new Date(`${date}T${time}`);
+    return slotDateTime <= now;
+  };
+
   return (
     <ul className="grid grid-cols-6 gap-2">
-      {timeSlots.map((time) => (
-        <li key={time}>
-          <input 
-            type="checkbox" 
-            id={`time${time}`} 
-            name="time" 
-            value={time} 
-            onChange={handleChange} 
-            checked={selectedTimes.includes(time)}
-            className="hidden peer" 
-          />
-          <label 
-            htmlFor={`time${time}`} 
-            className="p-2 text-center text-green-500 bg-white border-2 border-green-200 rounded-lg cursor-pointer peer-checked:border-green-600 hover:text-green-600  peer-checked:text-green-600 hover:bg-green-500"
-          >
-            {time}
-          </label>
-        </li>
-      ))}
+      {availableTimes.map((time) => {
+        const isDisabled = isTimeSlotDisabled(time.time, selectedDate);
+        return (
+          <li key={time.id} className="mb-4">
+            <input
+              type="checkbox"
+              id={`time-${time.id}`}
+              name="time"
+              value={time.time}
+              onChange={handleChange}
+              checked={selectedTimes.includes(time.time)}
+              disabled={isDisabled}
+              className="hidden peer"
+            />
+            <label
+              htmlFor={`time-${time.id}`}
+              className={`p-2 text-center text-green-400 bg-white border-2 border-green-200 rounded-lg cursor-pointer peer-checked:border-green-600 hover:text-green-300 peer-checked:text-green-400 hover:bg-green-500 ${isDisabled ? 'opacity-50 cursor-not-allowed' : ''}`}
+            >
+              {time.time}
+            </label>
+          </li>
+        );
+      })}
     </ul>
   );
 }

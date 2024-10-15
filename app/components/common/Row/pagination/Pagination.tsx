@@ -17,7 +17,7 @@ const Pagination = ({
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const handleFirst = () => {
-    onPageChange(1);
+    onPageChange(0);
   }
 
   const handleLast = () => {
@@ -25,7 +25,7 @@ const Pagination = ({
   }
 
   const handlePrevious = () => {
-    if (currentPage > 1) {
+    if (currentPage > -1) {
       onPageChange(currentPage - 1);
     }
   };
@@ -37,11 +37,11 @@ const Pagination = ({
   };
  
   return ( 
-    <div className="pagination flex max-w-lg items-center">
-      <button onClick={handleFirst} disabled={currentPage === 1} className='p-3 border-1'>
+    <div className="pagination flex justify-end items-center">
+      <button onClick={handleFirst} disabled={currentPage === 0} className='p-3 border-1'>
         맨앞으로
       </button>
-      <button onClick={handlePrevious} disabled={currentPage === 1} className='p-3 border-1'>
+      <button onClick={handlePrevious} disabled={currentPage === 0} className='p-3 border-1'>
         이전
       </button>
       <span>

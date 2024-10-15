@@ -8,7 +8,6 @@ import {
 import { RootState } from '@/lib/store';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-
 const groupSlice = createSlice({
   name: 'group',
   initialState: initialGroupState,
