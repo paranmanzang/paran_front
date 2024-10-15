@@ -1,7 +1,7 @@
 // src/services/userService.ts
 import api from '../axios';
 import requests from "@/app/api/requests";
-import { DeclarationPostModel} from "@/app/model/user/users.model";
+import { DeclarationPostModel } from "@/app/model/user/users.model";
 //insert, drop, modify, find**
 
 export const declarationPostAPI = {
@@ -24,13 +24,13 @@ export const declarationPostAPI = {
         });
     },
 
-    findDeclarationPostDetail:(postId:number)=>{
+    findDeclarationPostDetail: (postId: number) => {
         return api.get<DeclarationPostModel[]>(requests.fetchUsers + `/aboard/details/${postId}`);
     },
-    insert:(declarationPostModel : DeclarationPostModel)=>{
-        return api.post<DeclarationPostModel>(requests.fetchUsers + `/depost/`,declarationPostModel);
+    insert: (declarationPostModel: DeclarationPostModel) => {
+        return api.post<DeclarationPostModel>(requests.fetchUsers + `/depost`, declarationPostModel);
     },
-    drop:(id:number) =>{
+    drop: (id: number) => {
         return api.delete<Boolean>(`depost/${id}`)
     }
 

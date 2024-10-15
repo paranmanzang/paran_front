@@ -147,7 +147,7 @@ const ableUser = async (groupId: number, nickname: string, dispatch: AppDispatch
             const response = await groupApi.ableUser(groupId, nickname);
             if ('groupId' in response.data && 'nickname' in response.data) {
                 dispatch(addGroupMember(response.data));
-                dispatch(deleteGroupEnableMember({groupId,nickname}))
+                dispatch(deleteGroupEnableMember({ groupId, nickname }))
             }
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 멤버 승인 중 오류 발생했습니다.");
@@ -182,10 +182,11 @@ const enableList = async (page: number, size: number, dispatch: AppDispatch): Pr
 const dropUser = async (nickname: string, groupId: number, dispatch: AppDispatch): Promise<void> => {
     await handleLoading(dispatch, async () => {
         try {
-           const response =  await groupApi.dropUser(nickname, groupId);
-           if(response.data){
-               dispatch(deleteGroupMember({ groupId, nickname }));
-           }
+            const response = await groupApi.dropUser(nickname, groupId);
+            if (response.data) {
+                dispatch(deleteGroupMember({ groupId, nickname }));
+                dispatch(deleteGroupEnableMember({ groupId, nickname }));
+            }
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임을 탈퇴하는 중 오류 발생했습니다.");
         }

@@ -118,7 +118,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
             chatRoomService.drop({ roomId: group.chatRoomId, dispatch })
         }
     }
-    const JoinGroups = () => {
+    const joinGroup = () => {
         if (group && nickname) {
             const joiningModel: JoiningModel = {
                 nickname: nickname,
@@ -126,7 +126,12 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
             }
             groupService.insertUser(joiningModel, dispatch)
         }
-        setAlertMessage('소모임 신청이 완료 됐습니다.');
+    }
+
+    const delteJoinGroup = () => {
+        if (group && nickname) {
+            groupService.dropUser(nickname, group.id, dispatch)
+        }
     }
 
     const groupConfirm = () => {
@@ -198,13 +203,20 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                     </button>
                 )}
                 <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={room?.id ?? 0} />
-                {userInfo && thisPage === '/groups' && group && !isUserInGroup && !isPendingGroup &&(
-                    <button type="button" onClick={JoinGroups} className="mx-2 rounded-full border px-3 py-2"
+                {userInfo && thisPage === '/groups' && group && !isUserInGroup && !isPendingGroup && (
+                    <button type="button" onClick={joinGroup} className="mx-2 rounded-full border px-3 py-2"
                         style={{ display: displayReservation }}
                     >
                         참여하기
                     </button>
                 )}
+                {isPendingGroup &&
+                    <button type="button" onClick={delteJoinGroup} className="mx-2 rounded-full border px-3 py-2"
+                        style={{ display: displayReservation }}
+                    >
+                        참여신청 취소
+                    </button>
+                }
                 {nickname && thisPage === '/groups' && isUserInGroup && (
                     <>
                         {group.nickname !== nickname &&
