@@ -15,8 +15,8 @@ export const roomSlice = createSlice({
         },
         saveAllRooms: (state, action: PayloadAction<RoomModel[]>) => {
             action.payload.forEach(newRoom => {
-                if (!state.rooms.some(room => room.id === newRoom.id)) {
-                    state.rooms.push(newRoom);
+                if (!state.allRooms.some(room => room.id === newRoom.id)) {
+                    state.allRooms.push(newRoom);
                 }
             });
         },
