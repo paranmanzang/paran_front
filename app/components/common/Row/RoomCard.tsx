@@ -1,4 +1,3 @@
-import React from 'react';
 import Image from 'next/image';
 import { RoomModel } from '@/app/model/room/room.model';
 
