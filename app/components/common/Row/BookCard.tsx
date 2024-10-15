@@ -27,11 +27,11 @@ const BookCard = ({ book, active, file }: BookCardProps) => {
     return (
         <li className="list-none">
             <div
-                className={`max-w-sm max-h-30 overflow-hidden rounded-lg border border-gray-200 bg-white shadow ${active ? "ring-2 ring-green-500" : ""}`}>
+                className={`max-w-80 rounded-lg border border-gray-200 bg-white shadow ${active ? 'ring-2 ring-green-500' : ''}`}>
                 <Image
                     width={260}
                     height={210}
-                    className="w-full h-25 cursor-pointer rounded-t-lg object-cover"
+                    className="w-80 h-40 cursor-pointer rounded-t-lg object-cover"
                     src={file.path === process.env.NEXT_PUBLIC_IMAGE_DEFAULT ? process.env.NEXT_PUBLIC_IMAGE_DEFAULT : `http://localhost:8000/api/files?path=${file.path}`}
                     alt={`cover of ${book.title}`}
                     priority

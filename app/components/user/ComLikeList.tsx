@@ -16,7 +16,6 @@ import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 
 
-
 interface ComLikeListProps {
   type: "게시글" | "도서" | "장소";
 }
