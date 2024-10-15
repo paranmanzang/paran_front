@@ -8,6 +8,8 @@ import { BookingModel } from "@/app/model/room/bookings.model";
 import { bookingService } from "@/app/service/room/booking.service";
 import { TimeModel } from "@/app/model/room/room.model";
 import { timeService } from "@/app/service/room/time.service";
+import { getLeaderGroups } from "@/lib/features/group/group.slice";
+import { GroupResponseModel } from "@/app/model/group/group.model";
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -19,6 +21,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
   const router = useRouter();
   const dispatch = useAppDispatch();
   const room = useSelector(getCurrentRoom);
+  const leaderGroup = useSelector(getLeaderGroups)
   const [alertMessage, setAlertMessage] = useState("");
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
@@ -26,7 +29,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
     enabled: false,
     date: '',
     usingTime: [],
-    roomId: id,
+    roomId: room?.id || 0,
     groupId: 0
   });
   const [isDateSelected, setIsDateSelected] = useState(false);
@@ -43,7 +46,8 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
 
     if (id) {
       timeService.findByRoom(id, dispatch).then(data => {
-        if (data) {
+        console.log("타임서비스 공간으로 찾기: ", data)
+        if (data && data.length > 0) {
           setTimes(data)
           setMaxDate(data[data.length - 1].date)
         }
@@ -62,6 +66,14 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
 
   if (!isOpen) return null;
 
+  const handleGroupChange = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = e.target;
+    setFormData(prevState => ({
+      ...prevState,
+      groupId: Number(value)
+    }));
+    console.log(formData)
+  };
   const handleDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData(prevState => ({
       ...prevState,
@@ -122,6 +134,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
             <ModalHeader onClose={onClose} />
             <ModalBody
               formData={formData}
+              handleGroupChange={handleGroupChange}
               handleDateChange={handleDateChange}
               handleTimeChange={handleTimeChange}
               handleSubmit={handleSubmit}
@@ -129,6 +142,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
               isDateSelected={isDateSelected}
               minDate={minDate}
               maxDate={maxDate}
+              leaderGroup={leaderGroup}
             />
           </div>
         </div>
@@ -174,12 +188,15 @@ function ModalBody({
   handleDateChange,
   handleTimeChange,
   handleSubmit,
+  handleGroupChange,
   timeSlots,
   isDateSelected,
   minDate,
-  maxDate
+  maxDate,
+  leaderGroup
 }: {
   formData: BookingModel;
+  handleGroupChange: (e: ChangeEvent<HTMLSelectElement>) => void;
   handleDateChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleTimeChange: (e: ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: FormEvent) => void;
@@ -187,6 +204,7 @@ function ModalBody({
   minDate: string;
   maxDate: string;
   timeSlots: string[];
+  leaderGroup: GroupResponseModel[];
 }) {
   return (
     <div className="p-4 md:p-5">
@@ -208,6 +226,19 @@ function ModalBody({
             selectedDate={formData.date}
           />
         )}
+        <select
+          id="leaderGroup"
+          value={formData.groupId}
+          onChange={handleGroupChange}
+          className="block w-full rounded-lg border border-gray-300 bg-gray-50 px-2.5 text-sm leading-none text-gray-900 focus:border-green-500 focus:ring-green-500"
+        >
+          <option value={0}>그룹 선택</option> {/* 기본 선택지 */}
+          {leaderGroup.map(group => (
+            <option key={group.id} value={group.id}>
+              {group.name}
+            </option>
+          ))}
+        </select>
         <button
           type="submit"
           className="w-full rounded-lg bg-green-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300"

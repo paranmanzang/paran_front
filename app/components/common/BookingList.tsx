@@ -2,7 +2,7 @@
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import AccountButton from "./AccountButton"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useAppDispatch } from "@/lib/store"
 import { BookingModel } from "@/app/model/room/bookings.model"
 
@@ -25,10 +25,9 @@ export default function BookingList({ bookingId }: BookingListProps) {
   const page = 0;
   const size = 10;
 
-  if (bookingItem.length === 0) {
+  useEffect(() => {
     bookingService.findByGroupIds(leaderGorup.map(group => group.id), page, size, dispatch)
-
-  }
+  }, [])
 
   const handleCheckboxChange = (id: string) => {
     setSelectedBookings(prev =>
@@ -48,7 +47,7 @@ export default function BookingList({ bookingId }: BookingListProps) {
   return (
     <div className="mx-auto max-w-lg">
       <ul>
-        {bookingItem && bookingItem.map((booking: BookingModel) => (
+        {bookingItem.length > 0 && bookingItem.map((booking: BookingModel) => (
           <li key={booking.id} className="relative mb-4 max-w-sm rounded-lg bg-green-100" id="box">
             <form className="absolute top-2 w-full px-3">
               <div className="flex justify-between">
@@ -98,6 +97,7 @@ export default function BookingList({ bookingId }: BookingListProps) {
             </div>
           </li>
         ))}
+        {bookingItem.length === 0 && <p>예약내역이 없습니다.</p>}
       </ul>
       <div className="btn_wrap my-4 flex justify-end">
         <button onClick={() => router.back()} className="rounded-lg bg-green-600 p-2 text-white">뒤로가기</button>

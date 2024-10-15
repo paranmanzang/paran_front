@@ -105,6 +105,7 @@ const findAll = async (page: number, size: number, dispatch: AppDispatch): Promi
         }
     }
 };
+
 // 승인된 공간 전체 조회
 const findAllByEnabled = async (dispatch: AppDispatch): Promise<void> => {
     try {

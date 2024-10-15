@@ -14,6 +14,8 @@ import { getNickname } from "@/lib/features/users/user.slice";
 import { LikePostModel } from "@/app/model/group/group.model";
 import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
+import { LikeRoomModel } from "@/app/model/user/users.model";
+import { likeRoomService } from "@/app/service/users/likeRoom.service";
 
 
 interface ComLikeListProps {
@@ -128,6 +130,11 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
           likeBookService.drop(likeBookModel, dispatch)
           break;
         case "장소":
+          const likeRoomModel: LikeRoomModel = {
+            roomId: id,
+            nickname: nickname
+          };
+          likeRoomService.drop(likeRoomModel, dispatch) 
           break;
         default:
           break;
