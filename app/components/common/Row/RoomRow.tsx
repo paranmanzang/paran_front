@@ -8,7 +8,6 @@ import { getFiles, saveCurrentFile } from "@/lib/features/file/file.slice";
 import Pagination from "./pagination/Pagination";
 import RoomCard from "./RoomCard";
 import { useRouter } from "next/navigation";
-import { RoomModel } from "@/app/model/room/room.model";
 import SellerButton from "../../user/seller/SellerButton";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 

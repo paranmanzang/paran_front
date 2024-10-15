@@ -25,7 +25,7 @@ export default function SellerButton() {
 
   return (
     <>
-    <div className="flex justify-end h-[3.75rem] items-center bg-green-100">
+    <div className="flex justify-end h-[3.75rem] items-center">
       {user?.role === "ROLE_SELLER" && (
         <button type="button" onClick={moveToAddPage} className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 ">등록하기</button>
       )}
