@@ -9,6 +9,11 @@ import { getLikedPosts, saveCurrentGroupPost } from "@/lib/features/group/group.
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/store";
 import { getLikedRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
+import { likePostService } from "@/app/service/group/likePost.service";
+import { getNickname } from "@/lib/features/users/user.slice";
+import { LikePostModel } from "@/app/model/group/group.model";
+import { LikeBookModel } from "@/app/model/group/book.model";
+import { likeBookService } from "@/app/service/group/likeBook.service";
 
 
 
@@ -26,6 +31,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
   const likedPosts = useSelector(getLikedPosts);
   const likedRooms = useSelector(getLikedRooms);
   const likedBooks = useSelector(getLikedBooks);
+  const nickname = useSelector(getNickname)
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -105,6 +111,30 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
       }
     };
 
+    const onClickDisLike = (id: number) => {
+      if (!nickname) return;
+      switch (type) {
+        case "게시글":
+          const likePostModel: LikePostModel = {
+            postId: id,
+            nickname: nickname
+          };
+          likePostService.drop(likePostModel, dispatch)
+          break;
+        case "도서":
+          const likeBookModel: LikeBookModel = {
+            bookId: id,
+            nickname: nickname
+          };
+          likeBookService.drop(likeBookModel, dispatch)
+          break;
+        case "장소":
+          break;
+        default:
+          break;
+      }
+    }
+
     return items.map((item: LikedItem, index: number) => (
       <li key={item.id || index} className="w-full relative">
         <div className="flex justify-around my-2 rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100">
@@ -117,6 +147,13 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
             </h5>
           </div>
           <div className="btn_wrap flex items-center">
+            <button
+              type="button"
+              onClick={() => onClickDisLike(Number(item.id))}
+              className="text-sm p-2 mx-3 bg-green-100 rounded-lg"
+            >
+              좋아요 취소
+            </button>
             {type === "장소" && (
               <>
                 <button
