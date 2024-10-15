@@ -10,6 +10,7 @@ const save = async (bookingModel: BookingModel, dispatch: AppDispatch): Promise<
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.insert(bookingModel);
+    console.log("예약 등록: ", response)
     dispatch(addBooking(response.data))
   } catch (error: any) {
     if (error.response) {

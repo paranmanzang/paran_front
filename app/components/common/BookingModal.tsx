@@ -29,7 +29,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
     enabled: false,
     date: '',
     usingTime: [],
-    roomId: room?.id || 0, 
+    roomId: room?.id || 0,
     groupId: 0
   });
   const [isDateSelected, setIsDateSelected] = useState(false);
@@ -46,7 +46,8 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
 
     if (id) {
       timeService.findByRoom(id, dispatch).then(data => {
-        if (data) {
+        console.log("타임서비스 공간으로 찾기: ", data)
+        if (data && data.length > 0) {
           setTimes(data)
           setMaxDate(data[data.length - 1].date)
         }
@@ -69,7 +70,7 @@ export default function BookingModal({ id, isOpen, onClose }: BookingModalProps)
     const { value } = e.target;
     setFormData(prevState => ({
       ...prevState,
-      groupId: Number(value)  
+      groupId: Number(value)
     }));
     console.log(formData)
   };
