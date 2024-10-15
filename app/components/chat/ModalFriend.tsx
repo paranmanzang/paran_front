@@ -106,55 +106,74 @@ export default function ModalFriend({ name }: ModalFriendProps) {
 
     return (
         <>
-            <ul className="transition-opacity duration-300 ease-in-out">
-                {/* <li>{name || "사용자 이름"}</li> */}
+            <ul className="space-y-4 transition-opacity duration-300 ease-in-out">
                 {isFriend && (
-                    <button
-                        type="button"
-                        className="p-2 bg-red-500 text-white"
-                        onClick={() => onRejectRequest('delete')}
-                    >
-                        친구 삭제하기
-                    </button>
+                    <li>
+                        <button
+                            type="button"
+                            className="w-full p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                            onClick={() => onRejectRequest('delete')}
+                        >
+                            친구 삭제하기
+                        </button>
+                    </li>
                 )}
+
                 {isRequestPendingToMe && (
                     <>
-                        <button
-                            type="button"
-                            className="p-2 bg-blue-500 text-white"
-                            onClick={onAcceptRequest}
-                        >
-                            친구 요청 수락
-                        </button>
-                        <button
-                            type="button"
-                            className="p-2 bg-blue-500 text-white"
-                            onClick={() => onRejectRequest('reject')}
-                        >
-                            친구 요청 거절
-                        </button>
+                        <li>
+                            <button
+                                type="button"
+                                className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                                onClick={onAcceptRequest}
+                            >
+                                친구 요청 수락
+                            </button>
+                        </li>
+                        <li>
+                            <button
+                                type="button"
+                                className="w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                                onClick={() => onRejectRequest('reject')}
+                            >
+                                친구 요청 거절
+                            </button>
+                        </li>
                     </>
                 )}
+
                 {isRequestPendingFromMe && (
                     <li>
                         <button
                             type="button"
-                            className="p-2 bg-gray-500 text-white w-full"
-                            onClick={() => onRejectRequest('cancel')}  // 요청 대기 중일 때 취소 기능
+                            className="w-full p-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                            onClick={() => onRejectRequest('cancel')}
                         >
                             요청 대기 취소
                         </button>
                     </li>
                 )}
+
                 {!isFriend && !isRequestPendingFromMe && !isRequestPendingToMe && (
-                    <button type="button" className="p-2 bg-green-500 text-white" onClick={onFriends}>친구요청하기</button>
+                    <li>
+                        <button
+                            type="button"
+                            className="w-full p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                            onClick={onFriends}
+                        >
+                            친구 요청하기
+                        </button>
+                    </li>
                 )}
             </ul>
+
+            {/* 알림 모달 */}
             <Alert
                 message={alertState.message}
                 isOpen={alertState.isOpen}
                 onClose={closeAlert}
             />
         </>
+
     );
 }

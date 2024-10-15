@@ -22,8 +22,7 @@ const findList = async ({ roomId, nickname, onMessage }: {
             {
                 headers: {
                     'Authorization': `Bearer ${token}`
-                },
-                heartbeatTimeout: 60000
+                }
             }
         );
 
@@ -55,29 +54,10 @@ const findList = async ({ roomId, nickname, onMessage }: {
             }
         });
 
-        // Heartbeat 이벤트를 처리하여 연결을 유지
-        eventSource.addEventListener('ping', {
-            handleEvent(event: MessageEvent) {
-                console.log('Heartbeat received:', event.data);
-            }
-        });
-
         // 오류가 발생했을 때 처리
         eventSource.onerror = (error) => {
             console.error("SSE 연결 오류 발생:", error);
-            setTimeout(() => {
-                console.log("SSE 재연결 시도 중...");
-                eventSource?.close();
-                eventSource = new EventSourcePolyfill(
-                    `${process.env.NEXT_PUBLIC_BACK_URL}/api/chats/messages/${roomId}?nickname=${nickname}`,
-                    {
-                        headers: {
-                            'Authorization': `Bearer ${token}`,
-                        },
-                        heartbeatTimeout: 60000,  // 재연결 시에도 동일한 설정 사용
-                    }
-                );
-            }, 3000);
+            eventSource?.close();
         };
 
         // 함수가 호출되면 EventSource 연결을 닫아 구독을 취소하는 unsubscribe 함수 반환

@@ -17,6 +17,7 @@ import {
     addGroup,
 } from "@/lib/features/group/group.slice";
 import { AppDispatch } from "@/lib/store";
+import chatUserAPI from '@/app/api/generate/chatUser.api';
 
 // 그룹 관련 서비스 로직
 const handleApiError = (error: any, dispatch: AppDispatch, message: string) => {
@@ -181,8 +182,10 @@ const enableList = async (page: number, size: number, dispatch: AppDispatch): Pr
 const dropUser = async (nickname: string, groupId: number, dispatch: AppDispatch): Promise<void> => {
     await handleLoading(dispatch, async () => {
         try {
-            await groupApi.dropUser(nickname, groupId);
-            dispatch(deleteGroupMember({ groupId, nickname }));
+           const response =  await groupApi.dropUser(nickname, groupId);
+           if(response.data){
+               dispatch(deleteGroupMember({ groupId, nickname }));
+           }
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임을 탈퇴하는 중 오류 발생했습니다.");
         }

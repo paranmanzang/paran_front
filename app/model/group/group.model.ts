@@ -4,8 +4,8 @@ export interface GroupState {
     userGroups: GroupResponseModel[]
     leadergroups: GroupResponseModel[]
     likePosts: GroupPostResponseModel[];
-    groupMembers: {groupMembers: any ;[groupId: number]: JoiningModel[]}
-    groupEnableMembers: {groupEnableMembers: any ;[groupId: number]: JoiningModel[]}
+    groupMembers: { groupMembers: any;[groupId: number]: JoiningModel[] }
+    groupEnableMembers: { groupEnableMembers: any;[groupId: number]: JoiningModel[] }
     groupPostsNotices: GroupPostResponseModel[]
     groupPostsGenerals: GroupPostResponseModel[]
     currentGroup: GroupResponseModel | null
@@ -23,10 +23,10 @@ export enum PostCategory {
 export const initialGroupState: GroupState = {
     groups: [],
     userGroups: [],
-    leadergroups:[],
-    likePosts:[],
-    groupMembers: {groupMembers: []},
-    groupEnableMembers: {groupEnableMembers: []},
+    leadergroups: [],
+    likePosts: [],
+    groupMembers: { groupMembers: [] },
+    groupEnableMembers: { groupEnableMembers: [] },
     groupPostsNotices: [],
     groupPostsGenerals: [],
     currentGroup: null,
@@ -42,12 +42,12 @@ export interface GroupModel {
 }
 
 export interface JoiningModel {
-    id: number;
+    id?: number;
     nickname: string;
-    enabled: boolean;
+    enabled?: boolean;
     groupId: number;
-    requestAt: string;
-    responseAt: string;
+    requestAt?: string;
+    responseAt?: string;
 }
 
 export interface GroupResponseModel {
@@ -88,4 +88,4 @@ export interface LikePostModel {
     id?: number; //게시물 좋아요 ID(선택)
     postId: number; //게시물 ID(필수)
     nickname: string; // 닉네임(필수)
-  }
+}

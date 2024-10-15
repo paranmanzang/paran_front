@@ -3,7 +3,7 @@ import requests from "@/app/api/requests";
 
 const chatMessageAPI = {
     insert(nickname: string, roomId: string, message: string) {
-        return api.post<boolean>(`${requests.fetchChats}/messages??nickname=${nickname}}`, {
+        return api.post<boolean>(`${requests.fetchChats}/messages?nickname=${nickname}`, {
             message,
             roomId
         });
