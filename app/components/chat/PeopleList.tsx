@@ -3,9 +3,6 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import ModalFriend from "./ModalFriend";
 import styles from './PeopleList.module.css';
-import { useAppDispatch } from "@/lib/store";
-import { useSelector } from "react-redux";
-import { getCurrentUser } from "@/lib/features/users/user.slice";
 
 interface PeopleListProps {
   chatUser: ChatUserModel;
@@ -69,7 +66,7 @@ export default function PeopleList({ chatUser }: PeopleListProps) {
             onToggle ? styles.visible : styles.invisible
           }`}
         >
-          <ModalFriend />
+          <ModalFriend name={chatUser.nickname} />
         </div>
       </div>
     </li>
