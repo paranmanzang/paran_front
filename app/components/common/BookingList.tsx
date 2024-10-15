@@ -4,12 +4,13 @@ import Link from "next/link"
 import AccountButton from "./AccountButton"
 import { useState } from "react"
 import { useAppDispatch } from "@/lib/store"
-import { deleteBooking } from "@/lib/features/room/bookings.slice"
 import { BookingModel } from "@/app/model/room/bookings.model"
 
 import { getBookings } from "@/lib/features/room/bookings.slice"
 import { useSelector } from "react-redux"
 import { bookingService } from "@/app/service/room/booking.service"
+import { getLeaderGroups } from "@/lib/features/group/group.slice"
+import { accountService } from "@/app/service/room/account.service"
 
 interface BookingListProps {
   bookingId?: string
@@ -20,7 +21,14 @@ export default function BookingList({ bookingId }: BookingListProps) {
   const [selectedBookings, setSelectedBookings] = useState<string[]>([])
   const dispatch = useAppDispatch();
   const bookingItem = useSelector(getBookings);
+  const leaderGorup = useSelector(getLeaderGroups)
+  const page = 0;
+  const size = 10;
 
+  if (bookingItem.length === 0) {
+    bookingService.findByGroupIds(leaderGorup.map(group => group.id), page, size, dispatch)
+
+  }
 
   const handleCheckboxChange = (id: string) => {
     setSelectedBookings(prev =>
@@ -70,7 +78,7 @@ export default function BookingList({ bookingId }: BookingListProps) {
                   {booking.groupId}
                 </p>
                 <p className="mb-3 text-sm font-medium text-gray-700">
-                  {booking.usingTime}
+                  {booking.usingTime.length > 1 && booking.usingTime[0] + "-" + booking.usingTime[booking.usingTime.length - 1]}
                 </p>
                 <p className="mb-3 text-sm font-medium text-gray-700">
                   {booking.enabled}
@@ -83,7 +91,8 @@ export default function BookingList({ bookingId }: BookingListProps) {
                   >
                     상세보기
                   </button>
-                  <AccountButton />
+                  {new Date(booking.date) > new Date() && accountService.findByBooking(booking.id ?? 0, dispatch) == null && <AccountButton />}
+                  {new Date(booking.date) > new Date() && accountService.findByBooking(booking.id ?? 0, dispatch) != null && (<p>결제정보보기?</p>)}
                 </div>
               </div>
             </div>

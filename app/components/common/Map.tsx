@@ -10,7 +10,7 @@ export default function Map() {
   const dispatch = useAppDispatch()
   const [query, setQuery] = useState("")
   useEffect(() => {
-    roomService.findByEnabled(0, 100, dispatch)
+    roomService.findAllByEnabled(dispatch)
     addressService.findAll(dispatch)
     dispatch(saveLoading(false))
   }, [dispatch])
@@ -76,7 +76,7 @@ export default function Map() {
               상세주소
             </label>
           </div> */}
-          <button 
+          <button
             onClick={search}
             className="w-full rounded-lg bg-green-400 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-green-400 focus:outline-none focus:ring-4 focus:ring-green-400 sm:w-auto"
           >

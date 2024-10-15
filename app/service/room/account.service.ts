@@ -85,10 +85,10 @@ const findByOrderId = async (orderId: string, dispath: AppDispatch): Promise<str
 
 
 // 예약 정보로 결제 정보 조회
-const findByBooking = async (bookingId: number, page: number, size: number, dispath: AppDispatch): Promise<AccountModel> => {
+const findByBooking = async (bookingId: number, dispath: AppDispatch): Promise<AccountModel> => {
   try {
     dispath(saveLoading(true))
-    const response = await accountAPI.findByBooking(bookingId, page, size);
+    const response = await accountAPI.findByBooking(bookingId);
     return response.data;
   } catch (error: any) {
     if (error.response) {
