@@ -1,7 +1,7 @@
 // components/DetailButton.tsx
 "use client"
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookingModal from "../BookingModal";
 import Alert from "../Alert";
 import { useSelector } from "react-redux";
@@ -19,15 +19,17 @@ import { LikePostModel } from "@/app/model/group/group.model";
 import { groupService } from "@/app/service/group/group.service";
 import { chatUserService } from "@/app/service/chat/chatUser.service";
 import { chatRoomService } from "@/app/service/chat/chatRoom.service";
+import { ChatUserModel } from "@/app/model/chat/chat.model";
 
 interface DetailButtonProps {
     thisPage: string;
     displayReview: 'none' | 'block';
     displayBoard: 'none' | 'block';
     displayReservation: 'none' | 'block';
+
 }
 
-export default function DetailButton({ thisPage, displayReview, displayBoard, displayReservation }: DetailButtonProps) {
+export default function DetailButton({ thisPage, displayReview, displayBoard, displayReservation}: DetailButtonProps) {
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [alertMessage, setAlertMessage] = useState("")
     const [isAlertOpen, setIsAlertOpen] = useState(false)
@@ -125,7 +127,6 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         setIsConfirmOpen(false);
         route.push('/likeList');
     }
-
 
     const isBookLiked = likebooks.some((likeBook) => likeBook.id === book?.id)
     const isRoomLiked = likeRooms.some((likeRoom) => likeRoom.id === room?.id)

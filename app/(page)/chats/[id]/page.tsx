@@ -20,12 +20,13 @@ const MyProfile = dynamic(() => import("@/app/components/chat/MyProfile"), { ssr
 export default function ChatRoom() {
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const chatRoom = useSelector(getCurrentChatRoom)
     const loading = useSelector(getIsLoading);
     const error = useSelector(getError);
-
+    
     const nickname = useSelector(getNickname) as string;
+    const chatRoom = useSelector(getCurrentChatRoom)
     const roomId = chatRoom?.roomId ?? '';
+
     const [messages, setMessages] = useState<ChatMessageModel[]>([]);
     const [chatRooms, setChatRooms] = useState<ChatRoomModel[]>([]);
     const [chatUsers, setChatUsers] = useState<ChatUserModel[]>([]);

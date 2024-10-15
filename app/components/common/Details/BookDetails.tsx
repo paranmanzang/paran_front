@@ -37,7 +37,7 @@ export default function Details() {
                 <p className="my-2 font-base text-lg">좋아요 수 | {book.likeBookCount}</p>
             </div>
             <div className="mx-auto max-w-sm">
-                <DetailButton thisPage={'/books'} displayBoard="none" displayReview="none" displayReservation="none" />
+                <DetailButton thisPage={'/books'} displayBoard="none" displayReview="none" displayReservation="none"/>
             </div>
         </div>
     );

@@ -54,7 +54,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
         case "장소":
           return {
             id: item.id,
-            title: item.roomName || item.title,
+            title: item.name,
           };
         default:
           return {
