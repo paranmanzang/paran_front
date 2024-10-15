@@ -108,6 +108,7 @@ const findByGroup = async (groupId: number, page: number, size: number, dispath:
   try {
     dispath(saveLoading(true))
     const response = await accountAPI.findByGroup(groupId, page, size);
+    console.log('findByGroup: ' + response.data);
     return response.data.content;
   } catch (error: any) {
     if (error.response) {
