@@ -8,7 +8,6 @@ import {
     JoiningModel,
 } from "@/app/model/group/group.model";
 
-
 export const groupApi = {
     findList(page: number, size: number) {
         return api.get<Page<GroupResponseModel>>(requests.fetchGroups + '/groups', {params: {page, size}});
@@ -24,13 +23,13 @@ export const groupApi = {
         return api.post<GroupResponseModel>(requests.fetchGroups + '/groups', groupModel);
     },
     able(groupId: number) {
-        return api.put<GroupResponseModel>(requests.fetchGroups + `/groups/able?groupId${groupId}`);
+        return api.put<GroupResponseModel>(requests.fetchGroups + `/groups/able?groupId=${groupId}`);
     },
     enable(groupId: number) {
-        return api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/groups/enable?groupId${groupId}`);
+        return api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/groups/enable?groupId=${groupId}`);
     },
     enableUser(groupId: number, nickname: string) {
-        return api.put<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/groups/enable-user?${groupId}&nickname=${nickname}`);
+        return api.put<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/groups/enable-user?groupId=${groupId}&nickname=${nickname}`);
     },
     findUserById(groupId: number) {
         return api.get<JoiningModel[]>(requests.fetchGroups + `/groups/users/${groupId}`);
@@ -42,7 +41,7 @@ export const groupApi = {
         return api.post<JoiningModel | ExceptionResponseModel>(requests.fetchGroups + '/groups/user', joiningModel);
     },
     ableUser(groupId: number, nickname: string) {
-        return api.put<JoiningModel | ExceptionResponseModel>(requests.fetchGroups + `/groups/able-user?${groupId}&nickname=${nickname}`);
+        return api.put<JoiningModel | ExceptionResponseModel>(requests.fetchGroups + `/groups/able-user?groupId=${groupId}&nickname=${nickname}`);
     },
     drop(groupId: number) {
         return api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/groups/${groupId}`);
