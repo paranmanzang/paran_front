@@ -110,6 +110,7 @@ const findUserDetail = async (nickname: string,dispatch: AppDispatch): Promise<a
         console.log("findUserDetail" , response);
         // Redux에 유저 데이터 저장
         dispatch(saveCurrentUser(response.data));
+        
     } catch (error) {
         console.error("Error fetching user detail:", error);
         throw error; // 에러 발생 시 throw
@@ -120,7 +121,7 @@ const findUserDetail = async (nickname: string,dispatch: AppDispatch): Promise<a
 const checkRole = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 상태 시작
-        const response = await userAPI.checkRole(nickname); // 사용자 권한 확인 API 호출
+        const response = await userAPI.checkRole(nickname); // 사용자 권한 확인 API 호출 이거 안됨
 
         if (response.data) {
             dispatch(saveSuccess("확인 완료")); // 권한 정보를 저장하는 액션

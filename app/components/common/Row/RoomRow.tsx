@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getRooms, saveRooms, saveCurrentRoom, saveLoading } from "@/lib/features/room/room.slice";
+import { getRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
 import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { roomService } from "@/app/service/room/room.service";
@@ -8,6 +8,8 @@ import { getFiles, saveCurrentFile } from "@/lib/features/file/file.slice";
 import Pagination from "./pagination/Pagination";
 import RoomCard from "./RoomCard";
 import { useRouter } from "next/navigation";
+import SellerButton from "../../user/seller/SellerButton";
+import { getCurrentUser } from "@/lib/features/users/user.slice";
 
 interface RoomRowProps {
   active: boolean;
@@ -19,7 +21,9 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   const files = useSelector(getFiles)
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const user = useSelector(getCurrentUser)
 
+  // const [items, setItems] = useState<RoomModel[]>([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(9);
   const totalItems = 10;
@@ -58,8 +62,8 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   };
   return (
     <>
+    {user?.role === 'ROLE_SELLER' && <SellerButton />}
     <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
-      {/* {rooms.length > 0 ? ( */}
         {rooms.map((room, index) =>(
           <RoomCard
             key={index}
@@ -69,7 +73,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
             onSelect={onSelect}
             onClickToDetail={onClickToDetail}
           />
-      ))}
+        ))}
       </div>
       <Pagination
         currentPage={page} 

@@ -45,7 +45,7 @@ const modify = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): Promis
             throw new Error('요청 설정 중 오류가 발생했습니다.');
         }
     }
-};
+}
 // 공간 삭제, 공간 승인 거절
 const drop = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
     try {
@@ -125,10 +125,9 @@ const findAllByEnabled = async (dispatch: AppDispatch): Promise<void> => {
             throw new Error('요청 설정 중 오류가 발생했습니다.');
         }
     }
-};
+}
 // 승인된 공간 조회-페이지네이션
-const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
-
+const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<any> => {
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.findByEnabled(page, size)
@@ -151,7 +150,7 @@ const findByEnabled = async (page: number, size: number, dispatch: AppDispatch):
             throw new Error('요청 설정 중 오류가 발생했습니다.');
         }
     }
-};
+}
 
 // 공간승인
 const modifyConfirm = async (id: number, dispatch: AppDispatch): Promise<void> => {
@@ -171,7 +170,7 @@ const modifyConfirm = async (id: number, dispatch: AppDispatch): Promise<void> =
             throw new Error('요청 설정 중 오류가 발생했습니다.');
         }
     }
-};
+}
 
 // 좋아요한 공간 조회
 const findAllByUserNickname = async (nickname: string, dispatch: AppDispatch): Promise<void> => {

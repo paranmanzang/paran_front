@@ -7,6 +7,8 @@ import ErrorMessage from '../status/ErrorMessage'
 import { groupService } from '@/app/service/group/group.service'
 import { useAppDispatch } from '@/lib/store'
 import Pagination from './pagination/Pagination'
+import { getCurrentUser } from '@/lib/features/users/user.slice'
+import SellerButton from '../../user/seller/SellerButton'
 
 interface GroupRowProps {
   active: boolean
@@ -18,6 +20,7 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
   const groups = useSelector(getGroups)
   const loading = useSelector(getIsLoading)
   const error = useSelector(getError)
+  const user = useSelector(getCurrentUser)
 
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(9)
@@ -32,6 +35,7 @@ const GroupRow = ({ active, onSelect }: GroupRowProps) => {
 
   return (
     <>
+      {user?.role === 'ROLE_USER' && <SellerButton />}
       <ul className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-6 md:grid-cols-3">
         {groups.map((group) => (
           <GroupCard key={group.id} group={group} active={active} onSelect={onSelect} />
