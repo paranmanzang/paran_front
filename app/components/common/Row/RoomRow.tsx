@@ -9,6 +9,8 @@ import Pagination from "./pagination/Pagination";
 import RoomCard from "./RoomCard";
 import { useRouter } from "next/navigation";
 import { RoomModel } from "@/app/model/room/room.model";
+import SellerButton from "../../user/seller/SellerButton";
+import { getCurrentUser } from "@/lib/features/users/user.slice";
 
 interface RoomRowProps {
   active: boolean;
@@ -20,11 +22,12 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   const files = useSelector(getFiles)
   const dispatch = useAppDispatch()
   const router = useRouter()
+  const user = useSelector(getCurrentUser)
 
-  const [items, setItems] = useState<RoomModel[]>([]);
+  // const [items, setItems] = useState<RoomModel[]>([]);
   const [page, setPage] = useState(0);
   const [pageSize, setPageSize] = useState(9);
-  const totalItems = items;
+  const totalItems = 10;
 
   useEffect(() => {
     roomService.findByEnabled(page, pageSize, dispatch);
@@ -60,6 +63,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   };
   return (
     <>
+    {user?.role === 'ROLE_SELLER' && <SellerButton />}
     <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
         {rooms.map((room, index) =>(
           <RoomCard

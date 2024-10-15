@@ -36,7 +36,6 @@ export default function SideBar() {
 
   return (
     <div>
-      {user?.role === 'ROLE_seller' && <SellerButton />}
       <div className="flex min-h-screen w-full">
         <aside id="default-sidebar" className="w-64 bg-green-100" aria-label="Sidebar">
           <div className="h-full overflow-y-auto px-3 py-4">
