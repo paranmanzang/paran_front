@@ -24,6 +24,12 @@ const groupSlice = createSlice({
         state.groupMembers[groupId] = action.payload;
       }
     },
+    saveGroupEnableMembers: (state, action: PayloadAction<JoiningModel[]>) => {
+      if (action.payload.length > 0) {
+        const groupId = action.payload[0].groupId;
+        state.groupEnableMembers[groupId] = action.payload;
+      }
+    },
     saveUserGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
       state.userGroups = action.payload;
     },
@@ -36,6 +42,13 @@ const groupSlice = createSlice({
         state.groupMembers[groupId] = [];
       }
       state.groupMembers[groupId].push(action.payload);
+    },
+    addGroupEnableMember: (state, action: PayloadAction<JoiningModel>) => {
+      const { groupId } = action.payload;
+      if (!state.groupEnableMembers[groupId]) {
+        state.groupEnableMembers[groupId] = [];
+      }
+      state.groupEnableMembers[groupId].push(action.payload);
     },
     updateGroup: (state, action: PayloadAction<GroupResponseModel>) => {
       const index = state.groups.findIndex(group => group.id === action.payload.id);
@@ -50,6 +63,12 @@ const groupSlice = createSlice({
       const { groupId, nickname } = action.payload;
       if (state.groupMembers[groupId]) {
         state.groupMembers[groupId] = state.groupMembers[groupId].filter(user => user.nickname !== nickname);
+      }
+    },
+    deleteGroupEnableMember: (state, action: PayloadAction<{ groupId: number; nickname: string }>) => {
+      const { groupId, nickname } = action.payload;
+      if (state.groupEnableMembers[groupId]) {
+        state.groupEnableMembers[groupId] = state.groupEnableMembers[groupId].filter(user => user.nickname !== nickname);
       }
     },
     saveCurrentGroup: (state, action: PayloadAction<GroupResponseModel | null>) => {
@@ -131,6 +150,7 @@ export const getGroups = (state: RootState) => state.group.groups;
 export const getLikedPosts = (state: RootState) => state.group.likePosts;
 export const getUserGroups = (state: RootState) => state.group.userGroups;
 export const getGroupMembers = (state: RootState) => state.group.groupMembers;
+export const getGroupEnableMembers = (state: RootState) => state.group.groupEnableMembers;
 export const getCurrentGroup = (state: RootState) => state.group.currentGroup;
 export const getCurrentGroupPost = (state: RootState) => state.group.currentGroupPost;
 export const getLeaderGroups = (state: RootState) => state.group.leadergroups;
@@ -142,6 +162,9 @@ export const {
   saveUserGroups,
   saveLeaderGroups,
   saveGroupMembers,
+  saveGroupEnableMembers,
+  addGroupEnableMember,
+  deleteGroupEnableMember,
   addGroupMember,
   deleteGroupMember,
   addGroup,

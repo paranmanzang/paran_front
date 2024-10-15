@@ -5,7 +5,6 @@ import { useAppDispatch } from "@/lib/store";
 import { getNickname } from "@/lib/features/users/user.slice";
 import { ChatRoomModel } from "@/app/model/chat/chat.model";
 import { chatRoomService } from "@/app/service/chat/chatRoom.service";
-import CardRow from "../../chat/CardRow";
 import ChatCard from "./ChatCard";
 interface ChatRowProps {
   active: boolean;
