@@ -36,7 +36,7 @@ export default function Account() {
           <li key={index} className="my-2 rounded-lg bg-green-50 p-4">
             <div className="flex items-end justify-evenly">
               <h2 className="text-xl">{account.orderName}</h2>
-              <p>결제일: {account.createAt?.split('T')[0]}</p>
+              <p>결제일: {account.createAt?.slice(0, 10)}</p>
               <p className="text-sm">{account.amount.toLocaleString()}원</p>
               <span className="rounded-full bg-green-500 p-1 text-sm text-white">{account.canceled}</span>
             </div>
