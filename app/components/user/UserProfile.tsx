@@ -2,11 +2,11 @@
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { useEffect } from 'react'
-import {useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import LoadingSpinner from '@/app/components/common/status/LoadingSpinner'
 import { getCurrentUser } from '@/lib/features/users/user.slice'
 import ErrorMessage from '@/app/components/common/status/ErrorMessage'
-import {  RootState, useAppDispatch } from '@/lib/store' 
+import { RootState, useAppDispatch } from '@/lib/store'
 
 interface UserProfileProps {
     getUser: string | undefined;
@@ -15,10 +15,10 @@ export default function UserProfile({ getUser }: UserProfileProps) {
     const router = useRouter();
     const dispatch = useAppDispatch()
     const user = useSelector(getCurrentUser)
-    const {isLoading, error } = useSelector((state: RootState) => state.user);
+    const { isLoading, error } = useSelector((state: RootState) => state.user);
 
     useEffect(() => {
-      
+
     }, [getUser]);
 
     if (isLoading) return <LoadingSpinner />;
@@ -65,35 +65,28 @@ export default function UserProfile({ getUser }: UserProfileProps) {
             <div className="flex items-center justify-center">
                 <button
                     type="button"
-                    onClick={() => {router.push('/account')}}
+                    onClick={() => { router.push('/account') }}
                     className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400 text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
                 >
                     결제내역보기
                 </button>
                 <button
                     type="button"
-                    onClick={() => {router.push('/likeList')}}
+                    onClick={() => { router.push('/likeList') }}
                     className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400 text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
                 >
                     찜목록
                 </button>
                 <button
                     type="button"
-                    onClick={() => {router.push(`/`)}}
-                    className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400 text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
-                >
-                    소모임 신청 내역
-                </button>
-                <button
-                    type="button"
-                    onClick={() => {router.push(`/users/update/${getUser}`)}}
+                    onClick={() => { router.push(`/users/update/${getUser}`) }}
                     className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400 text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
                 >
                     내정보수정
                 </button>
                 <button
                     type="button"
-                    onClick={() => {router.back()}}
+                    onClick={() => { router.back() }}
                     className="m-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-500 hover:text-white"
                 >
                     뒤로가기

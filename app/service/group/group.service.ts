@@ -11,6 +11,10 @@ import {
     saveLoading,
     updateGroup,
     saveLeaderGroups,
+    saveGroupEnableMembers,
+    deleteGroupEnableMember,
+    addGroupEnableMember,
+    addGroup,
 } from "@/lib/features/group/group.slice";
 import { AppDispatch } from "@/lib/store";
 
@@ -60,7 +64,7 @@ const findByNickname = async (nickname: string, dispatch: AppDispatch): Promise<
 const insert = async (groupModel: GroupModel, dispatch: AppDispatch): Promise<void> => {
     await handleLoading(dispatch, async () => {
         try {
-            await groupApi.insert(groupModel);
+            const response = await groupApi.insert(groupModel);
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 등록 중 오류 발생했습니다.");
         }
@@ -71,7 +75,8 @@ const insert = async (groupModel: GroupModel, dispatch: AppDispatch): Promise<vo
 const able = async (groupId: number, dispatch: AppDispatch): Promise<void> => {
     await handleLoading(dispatch, async () => {
         try {
-            await groupApi.able(groupId);
+            const response = await groupApi.able(groupId);
+            dispatch(addGroup(response.data))
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 승인 요청 중 오류 발생했습니다.");
         }
@@ -82,21 +87,10 @@ const able = async (groupId: number, dispatch: AppDispatch): Promise<void> => {
 const enable = async (groupId: number, dispatch: AppDispatch): Promise<void> => {
     await handleLoading(dispatch, async () => {
         try {
-            await groupApi.enable(groupId);
+            const response = await groupApi.enable(groupId);
+            dispatch(deleteGroup(groupId))
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 승인 취소 중 오류 발생했습니다.");
-        }
-    });
-};
-
-// 소모임 멤버 승인 취소
-const enableUser = async (groupId: number, nickname: string, dispatch: AppDispatch): Promise<void> => {
-    await handleLoading(dispatch, async () => {
-        try {
-            await groupApi.enableUser(groupId, nickname);
-            dispatch(deleteGroupMember({ groupId, nickname }));
-        } catch (error: any) {
-            handleApiError(error, dispatch, "소모임 멤버 승인 취소 중 오류 발생했습니다.");
         }
     });
 };
@@ -106,9 +100,13 @@ const findUserById = async (groupId: number, dispatch: AppDispatch): Promise<voi
     await handleLoading(dispatch, async () => {
         try {
             const response = await groupApi.findUserById(groupId);
-            dispatch(saveGroupMembers(response.data));
+
+            const ableUsers = response.data.filter((user) => user.enabled === true);
+            const enableUsers = response.data.filter((user) => user.enabled !== true)
+            dispatch(saveGroupMembers(ableUsers));
+            dispatch(saveGroupEnableMembers(enableUsers))
         } catch (error: any) {
-            handleApiError(error, dispatch, "소모임 멤버 승인 취소 중 오류 발생했습니다.");
+            handleApiError(error, dispatch, "소모임 멤버 승인 목록을 불러 오는 중 오류 발생했습니다.");
         }
     });
 };
@@ -133,7 +131,7 @@ const insertUser = async (joiningModel: JoiningModel, dispatch: AppDispatch): Pr
         try {
             const response = await groupApi.insertUser(joiningModel);
             if ('groupId' in response.data && 'nickname' in response.data) {
-                dispatch(addGroupMember(response.data));
+                dispatch(addGroupEnableMember(response.data));
             }
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 멤버 추가 중 오류 발생했습니다.");
@@ -148,6 +146,7 @@ const ableUser = async (groupId: number, nickname: string, dispatch: AppDispatch
             const response = await groupApi.ableUser(groupId, nickname);
             if ('groupId' in response.data && 'nickname' in response.data) {
                 dispatch(addGroupMember(response.data));
+                dispatch(deleteGroupEnableMember({groupId,nickname}))
             }
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 멤버 승인 중 오류 발생했습니다.");
@@ -190,13 +189,13 @@ const dropUser = async (nickname: string, groupId: number, dispatch: AppDispatch
     });
 };
 
+
 export const groupService = {
     findList,
     findByNickname,
     insert,
     able,
     enable,
-    enableUser,
     findUserById,
     modifyChatRoomId,
     insertUser,

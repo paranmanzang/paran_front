@@ -12,34 +12,34 @@ export default function PeopleList({ chatUser }: PeopleListProps) {
   const [onToggle, setOnToggle] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
 
-  useEffect(() => {
-    let eventSource: EventSource | null = null;
+  // useEffect(() => {
+  //   let eventSource: EventSource | null = null;
 
-    //sse end point 설정해야합니당
-    const setupSSE = () => {
-      eventSource = new EventSource(`/api/user-status/${chatUser.nickname}`);
+  //   //sse end point 설정해야합니당
+  //   const setupSSE = () => {
+  //     eventSource = new EventSource(`/api/user-status/${chatUser.nickname}`);
 
-      eventSource.onmessage = (event) => {
-        const data = JSON.parse(event.data);
-        setIsOnline(data.isOnline);
-      };
+  //     eventSource.onmessage = (event) => {
+  //       const data = JSON.parse(event.data);
+  //       setIsOnline(data.isOnline);
+  //     };
 
-      eventSource.onerror = (error) => {
-        console.error('SSE error:', error);
-        if (eventSource) {
-          eventSource.close();
-        }
-      };
-    };
+  //     eventSource.onerror = (error) => {
+  //       console.error('SSE error:', error);
+  //       if (eventSource) {
+  //         eventSource.close();
+  //       }
+  //     };
+  //   };
 
-    setupSSE();
+  //   setupSSE();
 
-    return () => {
-      if (eventSource) {
-        eventSource.close();
-      }
-    };
-  }, [chatUser.nickname]);
+  //   return () => {
+  //     if (eventSource) {
+  //       eventSource.close();
+  //     }
+  //   };
+  // }, [chatUser.nickname]);
 
   return (
     <li className="border-b w-full">

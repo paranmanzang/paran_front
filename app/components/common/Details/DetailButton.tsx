@@ -1,7 +1,7 @@
 // components/DetailButton.tsx
 "use client"
-import {  useRouter } from "next/navigation";
-import {  useState } from "react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import BookingModal from "../BookingModal";
 import Alert from "../Alert";
 import { useSelector } from "react-redux";
@@ -16,6 +16,9 @@ import { LikeRoomModel } from "@/app/model/user/users.model";
 import { likeRoomService } from "@/app/service/users/likeRoom.service";
 import { likePostService } from "@/app/service/group/likePost.service";
 import { LikePostModel } from "@/app/model/group/group.model";
+import { groupService } from "@/app/service/group/group.service";
+import { chatUserService } from "@/app/service/chat/chatUser.service";
+import { chatRoomService } from "@/app/service/chat/chatRoom.service";
 
 interface DetailButtonProps {
     thisPage: string;
@@ -45,8 +48,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const nickname = useSelector(getNickname)
     const userInfo = user?.role ?? null
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
-    console.log(isUserInGroup)
-    console.log(leaderGroups)
+
     const handleReview = () => {
         route.push(`${thisPage}/review`)
     }
@@ -95,9 +97,25 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         setAlertMessage('찜 했습니다.');
         setIsAlertOpen(true);
     }
-    const JoinGroups = () => {
-        setAlertMessage('성공적으로 소모임 참여 신청이 되었습니다.');
+
+    const leaveGroup = () => {
+        setAlertMessage('소모임 탈퇴가 완료 됐습니다.');
         setIsAlertOpen(true);
+        if (nickname && group) {
+            groupService.dropUser(nickname, group.id, dispatch)
+            chatUserService.drop(group.chatRoomId, nickname, dispatch)
+        }
+    }
+
+    const deleteGroup = () => {
+        setAlertMessage('소모임 삭제가 완료 됐습니다.');
+        setIsAlertOpen(true);
+        if (nickname && group) {
+            groupService.drop(group.id, dispatch)
+            chatRoomService.drop({ roomId: group.chatRoomId, dispatch })
+        }
+    }
+    const JoinGroups = () => {
     }
     const groupConfirm = () => {
         setIsConfirmOpen(false);
@@ -176,15 +194,37 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                         참여하기
                     </button>
                 )}
-                {userInfo && thisPage === '/groups' && isUserInGroup && (
-                    <button
-                        type="button"
-                        onClick={() => { route.push(`/groups/board/${group?.id}`) }}
-                        className="mx-2 rounded-full border px-3 py-2"
-                        style={{ display: displayBoard }}
-                    >
-                        모임 공지가기
-                    </button>
+                {nickname && thisPage === '/groups' && isUserInGroup && (
+                    <>
+                        {group.nickname !== nickname &&
+                            <button
+                                type="button"
+                                onClick={leaveGroup}
+                                className="mx-2 rounded-full border px-3 py-2"
+                                style={{ display: displayBoard }}
+                            >
+                                탈퇴하기
+                            </button>
+                        }
+                        {group.nickname === nickname &&
+                            <button
+                                type="button"
+                                onClick={deleteGroup}
+                                className="mx-2 rounded-full border px-3 py-2"
+                                style={{ display: displayBoard }}
+                            >
+                                모임 삭제 하기
+                            </button>
+                        }
+                        <button
+                            type="button"
+                            onClick={() => { route.push(`/groups/board/${group?.id}`) }}
+                            className="mx-2 rounded-full border px-3 py-2"
+                            style={{ display: displayBoard }}
+                        >
+                            모임 공지가기
+                        </button>
+                    </>
                 )}
                 <button type="button" onClick={() => { route.back() }} className="mx-2 rounded-full border px-3 py-2">
                     뒤로가기
