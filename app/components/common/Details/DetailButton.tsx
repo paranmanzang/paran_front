@@ -20,6 +20,7 @@ import { groupService } from "@/app/service/group/group.service";
 import { chatUserService } from "@/app/service/chat/chatUser.service";
 import { chatRoomService } from "@/app/service/chat/chatRoom.service";
 import CommentBlock from "./CommentBlock";
+import { roomService } from "@/app/service/room/room.service";
 
 interface DetailButtonProps {
     thisPage: string
@@ -145,6 +146,21 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         route.push('/likeList');
     }
 
+    const roomConfirm = (answer: string) => {
+        if (room?.id) {
+            switch (answer) {
+                case "승인":
+                    roomService.modifyConfirm(room?.id, dispatch);
+                    break;
+                case "거절" || "삭제":
+                    roomService.drop(room?.id, dispatch);
+                    route.back()
+            }
+        }
+
+        route.push('/admin/rooms');
+    }
+
     const isBookLiked = likebooks.some((likeBook) => likeBook.id === book?.id)
     const isRoomLiked = likeRooms.some((likeRoom) => likeRoom.id === room?.id)
     const ispostLiked = likePosts.some((likePost) => likePost.id === post?.id)
@@ -153,9 +169,18 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         <>
             {userInfo === 'ROLE_ADMIN' && (
                 <div className="flex items-end justify-center">
-                    <button type="button" onClick={() => { route.push('/admin/update') }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">수정</button>
-                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">삭제</button>
-                    <button type="button" onClick={() => { route.back() }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">뒤로가기</button>
+                    {room?.enabled && (
+                        <button type="button" onClick={() => { roomConfirm("삭제") }} className="bg-green-500 p-3 text-white">삭제</button>
+                    )}
+                    {!room?.enabled && (
+                        <>
+                            <button type="button" onClick={() => { roomConfirm("승인") }} className="me-3 bg-green-500 p-3 text-white">승인</button>
+                            <button type="button" onClick={() => { roomConfirm("거절") }} className="ms-3 bg-green-500 p-3 text-white">거절</button>
+                        </>
+                    )}
+                    <button type="button" onClick={() => { route.back() }} className="mx-2 rounded-full border px-3 py-2">
+                        뒤로가기
+                    </button>
                 </div>
             )}
             {userInfo !== "ROLE_ADMIN" && (

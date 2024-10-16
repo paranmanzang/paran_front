@@ -91,6 +91,7 @@ const findAll = async (page: number, size: number, dispatch: AppDispatch): Promi
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.findAll(page, size)
+        console.log("findAll - service await 부분임", response.data.content)
         dispatch(saveRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {
@@ -136,7 +137,7 @@ const findByEnabled = async (page: number, size: number, dispatch: AppDispatch):
         dispatch(saveRooms(response.data.content))
         fileService.selectFileList(
             response.data.content.map((room: RoomModel) => room.id)
-            .filter((id): id is number => id !== undefined), 
+                .filter((id): id is number => id !== undefined),
             FileType.ROOM, dispatch)
     } catch (error: any) {
         if (error.response) {

@@ -16,6 +16,7 @@ import { LikeBookModel } from "@/app/model/group/book.model";
 import { likeBookService } from "@/app/service/group/likeBook.service";
 import { LikeRoomModel } from "@/app/model/user/users.model";
 import { likeRoomService } from "@/app/service/users/likeRoom.service";
+import { getAddresses, saveCurrentAddress } from "@/lib/features/room/address.slice";
 
 
 interface ComLikeListProps {
@@ -33,6 +34,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
   const likedRooms = useSelector(getLikedRooms);
   const likedBooks = useSelector(getLikedBooks);
   const nickname = useSelector(getNickname)
+  const addresses = useSelector(getAddresses)
   const router = useRouter();
   const dispatch = useAppDispatch();
 
@@ -104,6 +106,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
           const selectedRoom = likedRooms.find((likeRoom) => likeRoom.id === id);
           if (selectedRoom) {
             dispatch(saveCurrentRoom(selectedRoom));
+            dispatch(saveCurrentAddress(addresses.find(({ roomId }) => roomId === id) ?? null))
             router.push(`/rooms/${id}`);
           }
           break;
@@ -134,7 +137,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
             roomId: id,
             nickname: nickname
           };
-          likeRoomService.drop(likeRoomModel, dispatch) 
+          likeRoomService.drop(likeRoomModel, dispatch)
           break;
         default:
           break;
@@ -142,8 +145,8 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
     }
 
     return items.map((item: LikedItem, index: number) => (
-      <li key={item.id || index} className="w-full relative">
-        <div className="flex justify-around my-2 rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100">
+      <li key={item.id || index} className="relative w-full">
+        <div className="my-2 flex justify-around rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100">
           <div>
             <h5
               className="mb-2 text-2xl font-bold tracking-tight text-gray-900"
@@ -156,7 +159,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
             <button
               type="button"
               onClick={() => onClickDisLike(Number(item.id))}
-              className="text-sm p-2 mx-3 bg-green-100 rounded-lg"
+              className="mx-3 rounded-lg bg-green-100 p-2 text-sm"
             >
               좋아요 취소
             </button>
@@ -165,7 +168,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
                 <button
                   type="button"
                   onClick={modalOpen}
-                  className="text-sm p-2 mx-3 bg-green-100 rounded-lg"
+                  className="mx-3 rounded-lg bg-green-100 p-2 text-sm"
                 >
                   예약하기
                 </button>
