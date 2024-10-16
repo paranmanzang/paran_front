@@ -19,7 +19,7 @@ export default function RoomAdmin() {
   const [size, setSize] = useState(0)
 
   useEffect(() => {
-    const roomlist = roomService.findAll(page, size, dispatch);
+    const roomlist = roomService.findAll(1, 50, dispatch);
     console.log("roomlist 불러오기유", roomlist)
   }, [page, size, dispatch])
 
@@ -45,7 +45,7 @@ export default function RoomAdmin() {
               <span className="text-xs">등록일:{room.createdAt}</span>
               <button
                 type="button"
-                onClick={()=>onClick(room)}
+                onClick={() => onClick(room)}
                 className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500"
               >
                 상세보기
