@@ -29,7 +29,7 @@ export default function GroupAdd() {
         }
         if (nickname) {
             const groupModel: GroupModel = {
-                groupName: groupName,
+                name: groupName,
                 categoryName: categoryName,
                 nickname: nickname,
             };
