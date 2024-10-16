@@ -52,7 +52,7 @@ const drop = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.drop(id);
-        console.log("drop - result: ", response)
+        console.log("room drop - result: ", response)
         dispatch(removeRoom(id))
         return response.data;
     } catch (error: any) {
@@ -74,6 +74,25 @@ const findByUser = async (nickname: string, page: number, size: number, dispatch
         dispatch(saveLoading(true))
         const response = await roomAPI.findByUser(nickname, page, size);
         dispatch(saveSeperatedRooms(response.data.content))
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
+    }
+};
+const findAllByUser = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
+    try {
+        dispatch(saveLoading(true))
+        const response = await roomAPI.findAllByUser(nickname);
+        console.log("findAllByUser - service await 부분임", response.data)
+        dispatch(saveAllRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
@@ -176,7 +195,7 @@ const modifyConfirm = async (id: number, dispatch: AppDispatch): Promise<void> =
 }
 
 // 좋아요한 공간 조회
-const findAllByUserNickname = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
+const findAllLikedByNickname = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
         const response = await roomAPI.findLikeRoomList(nickname)
@@ -194,5 +213,5 @@ const findAllByUserNickname = async (nickname: string, dispatch: AppDispatch): P
 
 export const roomService = {
     save, modify, drop,
-    findByUser, findAll, findAllByEnabled, findByEnabled, findAllByUserNickname, modifyConfirm
+    findByUser, findAllByUser, findAll, findAllByEnabled, findByEnabled, findAllLikedByNickname, modifyConfirm
 }

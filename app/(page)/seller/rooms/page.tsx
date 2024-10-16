@@ -64,12 +64,12 @@ export default function SellerRoom() {
       </div>
 
       {/* 목록 */}
-      { showList.length > 0 && (
+      {showList.length > 0 && (
         showList.map((room) => (
           <li key={room.id}
             className="mx-auto my-3 flex items-center justify-around bg-white p-3">
             <div className="flex justify-around">
-              <h2 className="text-lg">{room.name}</h2>
+              <h2 className="text-lg">{room.name}, {room.id}</h2>
               <p>{room.createdAt}</p>
               <p>{room.enabled}</p>
             </div>
