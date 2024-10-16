@@ -100,6 +100,13 @@ export default function UserProfile({ getUser }: UserProfileProps) {
                 </button>
                 <button
                     type="button"
+                    onClick={() => { router.push('/users/friends') }}
+                    className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
+                >
+                    친구 목록
+                </button>
+                <button
+                    type="button"
                     onClick={() => { router.push(`/users/update/${getUser}`) }}
                     className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
                 >
