@@ -52,7 +52,7 @@ export default function GroupBoard() {
     const onClickToRoomDetail = (currentId: number | undefined) => {
         if (currentId !== undefined) {
             dispatch(saveCurrentRoom(enableRooms.find((room) => room.id === currentId) || null))
-            router.push(`/groups/rooms/${currentId}`);
+            router.push(`/rooms/${currentId}`);
         }
     }
 
