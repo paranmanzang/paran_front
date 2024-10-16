@@ -20,7 +20,7 @@ export default function UserProfile({ getUser }: UserProfileProps) {
     const { isLoading, error } = useSelector((state: RootState) => state.user)
 
     useEffect(() => {
-
+       
     }, [getUser]);
 
     if (isLoading) return <LoadingSpinner />;
