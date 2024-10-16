@@ -17,7 +17,9 @@ export const friendAPI = {
         return api.get<FriendModel[]>(requests.fetchUsers + `/friends/${nickname}`);
     },
     modifyFriend: (friendModel: FriendModel) => {
-        return api.post<FriendModel>(requests.fetchUsers + '/friends/state', { params: { state: true } }, friendModel)
+        return api.post<FriendModel>(requests.fetchUsers + '/friends/state', friendModel, {
+            params: { state: true }
+        });
     }
 }
 
