@@ -52,12 +52,8 @@ function UserHeader() {
 
   const onLogout = () => {
     logout().then(() => {
-<<<<<<< HEAD
-      router.push('/')
-=======
       window.location.replace('/');
       console.log("로그아웃됨")
->>>>>>> c466f74a04c3e83a124e5f6fdde46f6fc9d04225
     })
   }
   
@@ -91,7 +87,6 @@ function UserHeader() {
           </>
         )}
         <div className="flex items-center space-x-3 md:order-2 md:space-x-3 rtl:space-x-reverse">
-<<<<<<< HEAD
           <TimerButton onRefresh={refreshToken} />
           <button
             onClick={onLogout}
@@ -103,13 +98,6 @@ function UserHeader() {
             <Link
               href="/users/getMyPage"
               className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
-=======
-
-            <TimerButton onRefresh={refreshToken} />
-            <button
-              onClick={onLogout}
-              className="mx-4 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
->>>>>>> c466f74a04c3e83a124e5f6fdde46f6fc9d04225
             >
               마이페이지
             </Link>
