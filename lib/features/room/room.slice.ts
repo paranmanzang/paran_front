@@ -76,14 +76,17 @@ export const {
     saveRooms,
     saveAllRooms,
     saveLikedRooms,
+    saveSeperatedRooms,
     saveCurrentRoom,
     saveLoading,
     saveError,
     addRoom,
+    addEnabledRoom,
     updateRoom,
     removeRoom,
     addLikedRoom,
     removeLikedRoom,
+    removeNotEnabledRoom,
 } = roomSlice.actions;
 
 // 리듀서를 export

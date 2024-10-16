@@ -11,6 +11,8 @@ export const roomAPI = {
 
     findByUser(nickname: string, page: number, size: number) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}` + `/user`, { params: { nickname, page, size } }) },
 
+    findAllByUser(nickname: string) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}` + `/user/${nickname}`) },
+
     findAll(page: number, size: number) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}`, { params: { page, size } }) },
 
     findAllByEnabled() { return api.get<RoomModel[]>(requests.fetchRooms + '/enabled-all') },
