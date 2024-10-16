@@ -65,6 +65,7 @@ export default function GroupDetails() {
             groupService.findUserById(group.id, dispatch);
         }
     }, [group, dispatch]);
+    
     useEffect(() => {
         if (group?.chatRoomId !== undefined) {
             chatUserService.findList({ roomId: group.chatRoomId, dispatch })

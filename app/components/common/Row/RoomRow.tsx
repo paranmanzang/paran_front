@@ -76,7 +76,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
         ))}
       </div>
       <Pagination
-        currentPage={page} 
+        currentPage={page}
         pageSize={pageSize}
         totalItems={totalItems}
         onPageChange={handlePageChange}
