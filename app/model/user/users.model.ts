@@ -4,7 +4,8 @@ interface UserState {
   likeRooms: LikeRoomModel[];
   friends: FriendModel[];
   alreadyFriends: FriendModel[];
-  pendingFriends: FriendModel[];
+  requestFriends: FriendModel[];
+  responseFriends: FriendModel[];
   currnetAdminpost: AdminPostModel | null;
   adminPosts: AdminPostModel[];
   declarationPosts: DeclarationPostModel[];
@@ -21,7 +22,8 @@ export const initialUserState: UserState = {
   likeRooms: [],
   friends: [],
   alreadyFriends: [],
-  pendingFriends: [],
+  requestFriends: [],
+  responseFriends: [],
   currnetAdminpost: null,
   currentDeclarationPost: null,
   adminPosts: [],
@@ -73,8 +75,8 @@ export interface FriendModel {
   id?: number; // 친구 ID(선택)
   responseUser: string; // 친구 요청 수신자
   requestUser: string; // 친구 요청 발신자
-  requestAt: string; // 요청 보낸 시간
-  responseAt: string; // 요청 수락 시간
+  requestAt?: string; // 요청 보낸 시간
+  responseAt?: string; // 요청 수락 시간
 }
 
 export interface LikeRoomModel {

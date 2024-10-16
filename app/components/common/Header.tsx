@@ -9,6 +9,7 @@ import BellService from "./BellService";
 import { useSelector } from "react-redux";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 import { useRouter } from "next/navigation";
+import TimerButton from "./status/RefreshTokenBtn";
 
 function LoginHeader() {
   return (
@@ -56,6 +57,10 @@ function UserHeader() {
     })
   }
 
+  const refreshToken = () => {
+    console.log('리프레시 토큰이 될것')
+  }
+
   return (
     <header className="border-b border-gray-400 bg-white shadow-sm">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
@@ -73,6 +78,8 @@ function UserHeader() {
 
         <div className="flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <>
+          {/* -------- refresh token 연결하기  ----- */}
+            <TimerButton onRefresh={refreshToken} />
             <button
               onClick={onLogout}
               className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"

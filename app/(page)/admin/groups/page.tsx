@@ -2,7 +2,7 @@
 import ErrorMessage from "@/app/components/common/status/ErrorMessage";
 import LoadingSpinner from "@/app/components/common/status/LoadingSpinner";
 import { groupService } from "@/app/service/group/group.service";
-import { getGroups } from "@/lib/features/group/group.slice";
+import { getGroups, saveCurrentGroup } from "@/lib/features/group/group.slice";
 import { getError, getIsLoading } from "@/lib/features/room/room.slice";
 import { useAppDispatch } from "@/lib/store";
 import Link from "next/link";
@@ -15,6 +15,7 @@ export default function roomAdmin() {
   const groups = useSelector(getGroups)
   const loading = useSelector(getIsLoading)
   const error = useSelector(getError)
+  
   const route = useRouter()
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(9)
@@ -23,6 +24,11 @@ export default function roomAdmin() {
   useEffect(() => {
     groupService.findList(page, pageSize, dispatch)
   }, [page, pageSize])
+
+  const onClickToDetail = () => {
+    dispatch(saveCurrentGroup(groups));
+    route.push(`/groups/${groups.id}`);
+  }
 
   if (loading) return <LoadingSpinner />
   if (error) return <ErrorMessage message={error} />
@@ -43,7 +49,7 @@ export default function roomAdmin() {
             <span className="text-xs">등록일: {group.createAt}</span>
             <button
               type="button"
-              onClick={() => {route.push(`/groups/${group.id}`)}}
+              onClick={onClickToDetail}
               className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500"
             >
               상세보기
