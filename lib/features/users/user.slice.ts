@@ -57,23 +57,24 @@ const userSlice = createSlice({
     },
     logoutUser: (state, action: PayloadAction<string>) => {
       console.log('logoutUser 에서 실행중:', action.payload);
-      const index = state.users.findIndex(user => user.nickname === action.payload);
+      const index = state.users.findIndex(user => user.nickname === action.payload)
       if (index !== -1) {
-        state.users[index].logoutAt = new Date().toISOString();
+        state.users[index].logoutAt = new Date().toISOString()
       }
     },
     saveSuccess: (state, action: PayloadAction<string>) => {
-      console.log('saveSuccess 에서 실행중:', action.payload);
-      state.successMessage = action.payload;
+      console.log('saveSuccess 에서 실행중:', action.payload)
+      state.successMessage = action.payload
     },
   }
 });
 
-export const getCurrentUser = (state: RootState) => state.user.currentUser;
-export const getUsers = (state:  RootState) => state.user.users;
-export const getNickname = (state: RootState) => state.user.nickname;
-export const getIsLoading = (state: RootState) => state.user.isLoading;
-export const getError = (state:  RootState) => state.user.error;
+export const getCurrentUser = (state: RootState) => state.user.currentUser
+export const getUsers = (state:  RootState) => state.user.users
+export const getNickname = (state: RootState) => state.user.nickname
+export const getIsLoading = (state: RootState) => state.user.isLoading
+export const getUserList = (state: RootState) => state.user.users 
+export const getError = (state:  RootState) => state.user.error
 
 // 액션 생성자들을 export
 export const {

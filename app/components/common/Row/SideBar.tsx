@@ -5,7 +5,6 @@ import ContentArea from "./ContentArea";
 import { FaBook, FaSchool } from "react-icons/fa";
 import { FaUserGroup } from "react-icons/fa6"
 import { MdGroups, MdMessage } from "react-icons/md";
-import SellerButton from "../../user/seller/SellerButton";
 import { useSelector } from "react-redux";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 import { getUserGroups } from "@/lib/features/group/group.slice";

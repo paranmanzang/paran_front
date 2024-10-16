@@ -8,7 +8,6 @@ import { groupService } from '@/app/service/group/group.service'
 import { useAppDispatch } from '@/lib/store'
 import Pagination from './pagination/Pagination'
 import { getCurrentUser } from '@/lib/features/users/user.slice'
-import SellerButton from '../../user/seller/SellerButton'
 
 interface GroupRowProps {
   active: boolean

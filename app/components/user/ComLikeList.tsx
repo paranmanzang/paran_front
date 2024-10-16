@@ -146,10 +146,10 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
 
     return items.map((item: LikedItem, index: number) => (
       <li key={item.id || index} className="relative w-full">
-        <div className="my-2 flex justify-around rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100">
-          <div>
+        <div className="my-2 flex justify-around items-center rounded-lg border border-gray-200 bg-white p-6 shadow hover:bg-gray-100">
+          <div className="w-[42%]">
             <h5
-              className="mb-2 text-2xl font-bold tracking-tight text-gray-900"
+              className="mb-2 text-lg font-bold text-gray-900"
               onClick={() => onClickToDetail(Number(item.id))}
             >
               {item.title}
@@ -159,7 +159,7 @@ const ComLikeList = ({ type }: ComLikeListProps) => {
             <button
               type="button"
               onClick={() => onClickDisLike(Number(item.id))}
-              className="mx-3 rounded-lg bg-green-100 p-2 text-sm"
+              className="rounded-lg bg-green-100 p-2 text-sm"
             >
               좋아요 취소
             </button>

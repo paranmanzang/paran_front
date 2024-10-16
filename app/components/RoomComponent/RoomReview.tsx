@@ -37,13 +37,6 @@ export default function RoomReview() {
             </Link>
           </li>
         ))}
-        {/* <li className="my-5 min-w-full max-w-3 rounded-lg bg-white">
-          <div className="p-5">
-            <h2 className="border-b border-gray-100 text-xl">너무 좋아요!! 만족 만족!!</h2>
-            <p className="w-18 truncate">장소가 너무 이쁘고 좋아요 너무 좋고 조용해서 책읽고 소모임 하기 너무 좋습니다!!!</p>
-          </div>
-        </li>*/}
-
       </ul>
       <h1>pagination구현할곳</h1>
       <button type="button" className="rounded-lg border-white bg-green-100 p-2" onClick={goBack}>뒤로가기</button>
