@@ -11,7 +11,7 @@ const insert = async (friendModel: FriendModel, dispatch: AppDispatch): Promise<
         const response = await friendAPI.insert(friendModel); // API 호출
 
         // 응답 상태가 성공적이고, id와 nickname이 포함된 경우만 디스패치
-        if (response.status === 200 && 'id' in response.data && 'nickname' in response.data) {
+        if (response.status === 200 && 'id' in response.data) {
             dispatch(addFriend(response.data)); // 친구 신청 추가
             dispatch(addRequsetFriend(response.data))
         } else {

@@ -48,6 +48,8 @@ interface RoomState {
     rooms: RoomModel[];
     allRooms: RoomModel[];
     roomsLiked: RoomModel[];
+    enabledrooms: RoomModel[];
+    notEnabledrooms: RoomModel[];
     currentRoom: RoomModel | null;
     isLoading: boolean;
     error: string | null;
@@ -58,6 +60,8 @@ export const initialRoomState: RoomState = {
     rooms: [],
     allRooms: [],
     roomsLiked: [],
+    enabledrooms: [],
+    notEnabledrooms: [],
     currentRoom: null,
     isLoading: false,
     error: null

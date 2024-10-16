@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialRoomState, RoomModel } from '../../../app/model/room/room.model';
 import { RootState } from '../../store';
 
@@ -15,6 +15,10 @@ export const roomSlice = createSlice({
         saveLikedRooms: (state, action: PayloadAction<RoomModel[]>) => {
             state.roomsLiked = action.payload
         },
+        saveSeperatedRooms: (state, action: PayloadAction<RoomModel[]>) => {
+            state.enabledrooms = action.payload.filter(room => room.enabled);
+            state.notEnabledrooms = action.payload.filter(room => !room.enabled);
+        },
         saveCurrentRoom: (state, action: PayloadAction<RoomModel | null>) => {
             state.currentRoom = action.payload;
         },
@@ -30,6 +34,9 @@ export const roomSlice = createSlice({
         addLikedRoom: (state, action: PayloadAction<RoomModel>) => {
             state.roomsLiked.push(action.payload);
         },
+        addEnabledRoom: (state, action: PayloadAction<RoomModel>) => {
+            state.enabledrooms.push(action.payload);
+        },
         updateRoom: (state, action: PayloadAction<RoomModel>) => {
             const index = state.rooms.findIndex(room => room.id === action.payload.id)
             if (index !== -1) {
@@ -39,6 +46,9 @@ export const roomSlice = createSlice({
         removeRoom: (state, action: PayloadAction<number>) => {
             state.rooms.filter(room => room.id !== action.payload)
         },
+        removeNotEnabledRoom: (state, action: PayloadAction<number>) => {
+            state.notEnabledrooms.filter(room => room.id !== action.payload)
+        },
         removeLikedRoom: (state, action: PayloadAction<number>) => {
             state.roomsLiked.filter(room => room.id !== action.payload)
         }
@@ -46,6 +56,14 @@ export const roomSlice = createSlice({
 });
 
 // Selector 함수들
+export const getSeperatedRooms = createSelector(
+    (state: RootState) => state.room.enabledrooms,
+    (state: RootState) => state.room.notEnabledrooms,
+    (enabledrooms, notEnabledrooms) => ({
+        enabledrooms,
+        notEnabledrooms
+    })
+)
 export const getRooms = (state: RootState) => state.room.rooms;
 export const getAllRooms = (state: RootState) => state.room.allRooms;
 export const getLikedRooms = (state: RootState) => state.room.roomsLiked;
