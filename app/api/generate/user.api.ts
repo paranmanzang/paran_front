@@ -33,10 +33,8 @@ export const userAPI = {
     modifyRole: (nickname: string, newRole: string) => {
         console.log(nickname, newRole)
         return api.put(`${requests.fetchUsers}/updateRole`, {
-            params: {
-                nickname: nickname,
-                newRole: newRole
-            }
+            nickname: nickname,
+            newRole: newRole
         });
     },
     modifyDeclaration: (nickname: string) => {
