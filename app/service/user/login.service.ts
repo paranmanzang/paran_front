@@ -28,7 +28,7 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
       userService.findUserDetail(nickname, dispatch)
       groupService.findByNickname(nickname, dispatch)
       likeBookService.findByNickname(nickname, dispatch)
-      roomService.findAllByUserNickname(nickname, dispatch)
+      roomService.findAllLikedByNickname(nickname, dispatch)
       likePostService.findAllByUserNickname(nickname, dispatch)
 
     } else {

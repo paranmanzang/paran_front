@@ -51,7 +51,9 @@ const modify = async (id: number, dispatch: AppDispatch): Promise<void> => {
 const drop = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
+    console.log("booking drop - service 부분임", id)
     const response = await bookingAPI.drop(id)
+    console.log("booking drop - result: ", response)
     dispatch(removeBooking(id))
   } catch (error: any) {
     if (error.response) {

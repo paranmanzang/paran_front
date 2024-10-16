@@ -63,7 +63,7 @@ const TimerButton = ({ onRefresh }: TimerButtonProps) => {
         await userService.findUserDetail(nickname, dispatch);
         await groupService.findByNickname(nickname, dispatch);
         await likeBookService.findByNickname(nickname, dispatch);
-        await roomService.findAllByUserNickname(nickname, dispatch);
+        await roomService.findAllLikedByNickname(nickname, dispatch);
         await likePostService.findAllByUserNickname(nickname, dispatch);
 
         onRefresh(); // 새로 고침 이벤트 호출

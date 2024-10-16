@@ -4,7 +4,7 @@ import { BookingModel } from "@/app/model/room/bookings.model"
 import { bookingService } from "@/app/service/room/booking.service"
 import { roomService } from "@/app/service/room/room.service"
 import { getSeperatedBookings } from "@/lib/features/room/booking.slice"
-import { getRooms } from "@/lib/features/room/room.slice"
+import { getAllRooms } from "@/lib/features/room/room.slice"
 import { getCurrentUser } from "@/lib/features/users/user.slice"
 import { useAppDispatch } from "@/lib/store"
 import { useRouter } from "next/navigation"
@@ -15,7 +15,7 @@ export default function SellerBooking() {
     const user = useSelector(getCurrentUser)
     const nickname = user?.nickname as string
     const dispatch = useAppDispatch()
-    const rooms = useSelector(getRooms)
+    const rooms = useSelector(getAllRooms)
     const { enabledBookings, notEnabledBookings } = useSelector(getSeperatedBookings)
     const route = useRouter()
     const [page, setPage] = useState(0);
@@ -28,15 +28,12 @@ export default function SellerBooking() {
     };
 
     const showList: BookingModel[] = selectedCategory === '확정' ? enabledBookings : notEnabledBookings;
-
+    console.log("rooms: ", rooms)
     useEffect(() => {
         if (nickname) {
             bookingService.findByRoomIds(nickname, page, size, dispatch)
-            if((enabledBookings.length>0 || notEnabledBookings.length>0)&& rooms.length===0){
-                roomService.findAllByUserNickname(nickname, dispatch)
-            }
+            roomService.findAllByUser(nickname, dispatch)
         }
-
     }, [nickname, page, size, dispatch])
 
     const onDelete = (id: string) => {
@@ -76,7 +73,7 @@ export default function SellerBooking() {
                     <li key={booking.id}
                         className="mx-auto my-3 flex items-center justify-around bg-white p-3">
                         <div className="flex justify-around">
-                            <h2 className="text-lg">장소: {rooms.find(room => room.id === booking.roomId)?.name}</h2>
+                            {/* <h2 className="text-lg">장소: {rooms.find(room => room.id === booking.roomId)?.name}</h2> */}
                             <p>예약일: {booking.date}</p>
                             <p>예약시간: {booking.usingTime.map(time => time.slice(0, 5)).join(', ')}</p>
                         </div>
