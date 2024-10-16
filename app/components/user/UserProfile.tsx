@@ -13,11 +13,11 @@ interface UserProfileProps {
     getUser: string | undefined;
 }
 export default function UserProfile({ getUser }: UserProfileProps) {
-    const router = useRouter();
+    const router = useRouter()
     const dispatch = useAppDispatch()
     const user = useSelector(getCurrentUser)
     const leaderGroup = useSelector(getLeaderGroups)
-    const { isLoading, error } = useSelector((state: RootState) => state.user);
+    const { isLoading, error } = useSelector((state: RootState) => state.user)
 
     useEffect(() => {
 
@@ -29,17 +29,18 @@ export default function UserProfile({ getUser }: UserProfileProps) {
     return (
         <div className="mx-auto my-[40px] h-auto w-full max-w-[90%] items-center rounded-lg border border-gray-200 bg-white px-6 py-3 shadow">
             <div className="mb-10 flex justify-center">
-                <div className="ml-3 flex flex-col items-center">
-                    {/* <Image
-                        className="mb-3 rounded-full shadow-lg"
+                <div className="mr-6 flex flex-col items-center">
+                    <Image
+                        className="m-3 rounded-full shadow-lg"
                         width={102}
                         height={100}
-                        src={user.profileImage || `process.env.NEXT_PUBLIC_IMAGE_DEFAULT`}
+                        // user.profileImage || 
+                        src={`${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`}
                         alt="프로필 사진"
                         onError={(e) => {
                             e.currentTarget.src = `process.env.NEXT_PUBLIC_IMAGE_DEFAULT`
                         }}
-                    /> */}
+                    />
                 </div>
                 <div className="flex items-center justify-center">
                     <ul className="text-sm">
@@ -82,6 +83,11 @@ export default function UserProfile({ getUser }: UserProfileProps) {
                             결제내역보기
                         </button>
                     </>
+                )}
+                {user?.role === "ROLE_SELLER" && (
+                    <button type="button"
+                    onClick={() => {router.push("/seller/rooms")}}
+                    className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white">등록 공간</button>
                 )}
 
                 <button

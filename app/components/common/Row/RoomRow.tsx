@@ -55,7 +55,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
 
   return (
     <>
-      {user?.role === 'ROLE_SELLER' && <SellerButton />}
+   
       <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
         {rooms.map((room, index) => (
           <RoomCard

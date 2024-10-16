@@ -3,6 +3,7 @@ import { declarationService } from "@/app/service/users/declarationPost.service"
 import { getDeclarationPosts, getDeclarationPostsByNickname } from "@/lib/features/users/declarationPost.slice";
 import { getNickname } from "@/lib/features/users/user.slice";
 import { useAppDispatch } from "@/lib/store";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -10,6 +11,7 @@ export default function DeclarationList() {
     const dispatch = useAppDispatch();
     const declarationList = useSelector(getDeclarationPostsByNickname);
     const nickname = useSelector(getNickname);
+    const route = useRouter()
     const [page, setPage] = useState(0);
     const size = 10;
   
@@ -59,6 +61,8 @@ export default function DeclarationList() {
             </tbody>
           </table>
         )}
+ 
+        <button type="button" className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"onClick={() => {route.back()}}>뒤로가기</button>
       </div>
     );
   }

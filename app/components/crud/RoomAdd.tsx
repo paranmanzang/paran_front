@@ -2,6 +2,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Alert from "../common/Alert";
+import { useAppDispatch } from "@/lib/store";
 
 export default function RoomAdd() {
   const [formData, setFormData] = useState({
@@ -13,12 +14,12 @@ export default function RoomAdd() {
     startTime: '00:00',
     endTime: '00:00',
     account: ''
-  });
+  })
 
-  const route = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
+  const route = useRouter()
+  const [isOpen, setIsOpen] = useState(false)
+  const dispatch = useAppDispatch()
 
-  
   const handleChange = (event:any) => {
     const { name, value, type } = event.target;
     setFormData(prevState => ({
@@ -30,7 +31,7 @@ export default function RoomAdd() {
   const handleSubmit = (event:any) => {
     event.preventDefault();
     console.log(formData);
-    // 데이터 보내기 함수 적으면 됨.
+    dispatch
   };
 
   const goBack = () => {
