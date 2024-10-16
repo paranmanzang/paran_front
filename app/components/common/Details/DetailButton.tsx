@@ -152,7 +152,8 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 case "승인":
                     roomService.modifyConfirm(room?.id, dispatch);
                     break;
-                case "거절" || "삭제":
+                case "거절":
+                case "삭제":
                     roomService.drop(room?.id, dispatch);
                     route.back()
             }
