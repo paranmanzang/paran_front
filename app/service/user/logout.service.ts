@@ -2,15 +2,13 @@ import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
 import { UserModel } from "@/app/model/user.model";
 import { removeAccessToken } from "@/app/api/authUtils";
+import { saveCurrentUser } from "@/lib/features/users/user.slice";
 
 export const logout = async (): Promise<any> => {
   try {
-    const response = await api.post<UserModel>(
-    requests.fetchLogout);
-    console.log("로그아웃 응답: ", response)
-    
-    removeAccessToken();
-    window.location.reload();
+    await api.post<UserModel>(requests.fetchLogout)
+    removeAccessToken()
+    window.location.reload()
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);

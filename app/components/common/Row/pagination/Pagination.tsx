@@ -29,7 +29,7 @@ function Pagination({
     let endPage = Math.min(totalPages - 1, startPage + maxVisiblePages - 1);
 
     if (endPage - startPage + 1 < maxVisiblePages) {
-      startPage = Math.max(0, endPage - maxVisiblePages + 1);
+      startPage = Math.max(0, endPage - maxVisiblePages);
     }
 
     for (let i = startPage; i <= endPage; i++) {

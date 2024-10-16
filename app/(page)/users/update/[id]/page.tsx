@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { useAppDispatch } from "@/lib/store";
 import { useState } from "react";
 import { userService } from "@/app/service/user/user.service";
+import { useRouter } from "next/navigation";
 
 interface PageProps {
   params: { id: string };
@@ -14,11 +15,13 @@ export default function UserUpdate({ params }: PageProps) {
   const user = useSelector(getCurrentUser);
   const dispatch = useAppDispatch();
   const [newPassword, setNewPassword] = useState('');
+  const route = useRouter()
 
   const onUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (user && user.nickname) {
       await userService.modifyPassword(user.nickname, newPassword, dispatch);
+      route.push('/users/login')
     } else {
       dispatch(saveError("사용자 정보를 찾을 수 없습니다."));
     }

@@ -11,6 +11,7 @@ import { useSelector } from "react-redux"
 import { bookingService } from "@/app/service/room/booking.service"
 import { getLeaderGroups } from "@/lib/features/group/group.slice"
 import { accountService } from "@/app/service/room/account.service"
+import { getCurrentRoom } from "@/lib/features/room/room.slice"
 
 interface BookingListProps {
   bookingId?: string
@@ -46,9 +47,9 @@ export default function BookingList({ bookingId }: BookingListProps) {
 
   return (
     <div className="mx-auto max-w-lg">
-      <ul>
+      <ul className="w-full">
         {bookingItem.length > 0 && bookingItem.map((booking: BookingModel) => (
-          <li key={booking.id} className="relative mb-4 max-w-sm rounded-lg bg-green-100" id="box">
+          <li key={booking.id} className="relative mb-4 rounded-lg bg-green-100" id="box">
             <form className="absolute top-2 w-full px-3">
               <div className="flex justify-between">
                 <div id="selectBtn">
@@ -63,18 +64,18 @@ export default function BookingList({ bookingId }: BookingListProps) {
                 </div>
               </div>
             </form>
-            <div className="border-1 border-gray-100 pt-5">
+            <div className="border-1 border-gray-100 p-6">
               <div className="p-5">
                 <Link href={`/books/${booking.id}`}>
                   <h5 className="mb-2 text-lg font-medium tracking-tight">
-                    {booking?.roomId}
+                    예약 방 번호 {booking?.roomId}
                   </h5>
                 </Link>
                 <p className="mb-3 text-sm font-medium text-gray-700">
-                  {booking.date}
+                  예약 일 {booking.date}
                 </p>
                 <p className="mb-3 text-sm font-medium text-gray-700">
-                  {booking.groupId}
+                  예약 소모임 {booking.groupId}
                 </p>
                 <p className="mb-3 text-sm font-medium text-gray-700">
                   {booking.usingTime.length > 1 && booking.usingTime[0] + "-" + booking.usingTime[booking.usingTime.length - 1]}
@@ -82,7 +83,7 @@ export default function BookingList({ bookingId }: BookingListProps) {
                 <p className="mb-3 text-sm font-medium text-gray-700">
                   {booking.enabled}
                 </p>
-                <div className="mt-5 flex w-full items-center justify-center">
+                <div className="mt-5 flex w-full items-end justify-end">
                   <button
                     type="button"
                     onClick={() => router.push(`/rooms/${booking.id}`)}

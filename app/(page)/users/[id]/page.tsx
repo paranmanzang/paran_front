@@ -1,9 +1,13 @@
 import AdminUser from "@/app/components/user/AdminUser";
-export default function getUserId() {
+interface PageProps {
+  params: { id: string };
+}
+export default function getUserId({ params }: PageProps) {
+  const userId = params.id;
 
   return (
     <div>
-      <AdminUser />
+      <AdminUser getUser={userId}/>
     </div>
   )
 }
