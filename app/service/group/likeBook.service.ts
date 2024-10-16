@@ -27,7 +27,7 @@ const insert = async (likeBookModel: LikeBookModel, dispatch: AppDispatch): Prom
         console.log(likeBookModel)
         try {
             const response = await likeBookAPI.insert(likeBookModel);
-            if ('id' in response.data && 'nickname' in response.data) {
+            if ('title' in response.data) {
                 dispatch(addLikedBook(response.data));
             }
         } catch (error: any) {

@@ -119,7 +119,7 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                             className="w-full p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
                             onClick={() => onRejectRequest('delete')}
                         >
-                            친구 삭제하기
+                            친구 삭제
                         </button>
                     </li>
                 )}
@@ -166,7 +166,7 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                             className="w-full p-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
                             onClick={onFriends}
                         >
-                            친구 요청하기
+                            친구 요청
                         </button>
                     </li>
                 )}

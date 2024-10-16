@@ -102,7 +102,7 @@ export default function AccountButton(): JSX.Element {
 
     return (
         <div>
-            <button className="rounded-lg bg-green-100 p-2 text-sm text-gray-900" onClick={requestPayment}>결제하기</button>
+            <button className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600" onClick={requestPayment}>결제하기</button>
         </div>
     );
 }

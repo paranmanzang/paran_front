@@ -9,45 +9,40 @@ import { getBookings } from "@/lib/features/room/bookings.slice";
 import { bookingService } from "@/app/service/room/booking.service";
 import { getAllRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
 import { getAddresses, saveCurrentAddress } from "@/lib/features/room/address.slice";
+import { GroupPostResponseModel } from "@/app/model/group/group.model";
+
 // 페이지 네이션 필요!!!!
 export default function GroupBoard() {
     const dispatch = useAppDispatch();
     const router = useRouter();
     const { groupPostsNotice, groupPostsGeneral } = useSelector(getGroupPosts);
-    const groupId = useSelector(getCurrentGroup)?.id
+    const group = useSelector(getCurrentGroup)
     const page = 0 // 임의 값
     const size = 5 // 임의 값
-    const [selectedCategory, setSelectedCategory] = useState<'공지 사항' | '자유게시판' | '스케쥴'>('공지 사항');
+    const [activeTab, setActiveTab] = useState<'공지 사항' | '자유게시판' | '스케쥴'>('공지 사항');
 
     const bookings = useSelector(getBookings)
     const enableRooms = useSelector(getAllRooms)
     const addresses = useSelector(getAddresses)
+
     console.log(enableRooms)
     useEffect(() => {
-        if (!groupId) {
+        if (!group) {
             return;
         }
-        groupPostService.findByGroupId(groupId, page, size, selectedCategory, dispatch)
-        bookingService.findByGroupId(groupId, page, size, dispatch)
-    }, [dispatch, groupId, selectedCategory]);
+        groupPostService.findByGroupId(group.id, page, size, activeTab, dispatch)
+        bookingService.findByGroupId(group.id, page, size, dispatch)
+    }, [dispatch, group, activeTab]);
 
-    const postsToShow = selectedCategory === "공지 사항" ? groupPostsNotice : groupPostsGeneral;
-    console.log(postsToShow)
 
-    const handleTabClick = (category: '공지 사항' | '자유게시판' | '스케쥴') => {
-        setSelectedCategory(category);
-    };
 
-    const onClickToDetail = (currentId: number | undefined) => {
-        if (currentId !== undefined) {
-            const selectedPost = postsToShow.find(({ id }) => id === currentId);
-            if (selectedPost) {
-                dispatch(saveCurrentGroupPost(selectedPost)); // 선택한 게시물 저장
-                groupPostService.modifyViewCount(currentId, dispatch)
-                    .finally(() => {
-                        router.push(`/groups/board/detail/${currentId}`);
-                    });
-            }
+    const onClickToDetail = (post: GroupPostResponseModel) => {
+        if (post) {
+            dispatch(saveCurrentGroupPost(post)); // 선택한 게시물 저장
+            groupPostService.modifyViewCount(post.id, dispatch)
+                .finally(() => {
+                    router.push(`/groups/board/detail/${post.id}`);
+                });
         }
     };
 
@@ -58,84 +53,157 @@ export default function GroupBoard() {
             router.push(`/rooms/${currentId}`);
         }
     }
+    function formatUsingTime(times: string[]) {
+        if (times.length === 0) return "시간 정보 없음";
+
+        // 첫 번째와 마지막 시간을 추출하고 포맷 (e.g., "08:00")
+        const startTime = times[0].slice(0, 5);
+        const endTime = times[times.length - 1].slice(0, 5);
+
+        return `${startTime} ~ ${endTime}`;
+    }
+
+    const renderTabContent = () => {
+        switch (activeTab) {
+            case "공지 사항":
+                return (
+                    <ul className="space-y-4">
+                        {groupPostsNotice.length > 0 ? (
+                            groupPostsNotice.map((post, index) => (
+                                <li key={index} className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" onClick={() => onClickToDetail(post)}>
+                                    <div className="flex items-center justify-between space-x-4">
+                                        {/* 제목 */}
+                                        <p className="font-semibold text-lg text-gray-800 truncate flex-1">
+                                            {post.title}
+                                        </p>
+
+                                        {/* 작성자와 조회수 */}
+                                        <div className="flex items-center space-x-6">
+                                            <p className="text-sm text-gray-600">
+                                                <span className="font-medium text-gray-700">작성자:</span> {post.nickname}
+                                            </p>
+                                            <p className="text-sm text-gray-600">
+                                                <span className="font-medium text-gray-700">조회수:</span> {post.viewCount}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))
+                        ) : (
+                            <p className="text-center text-gray-500">게시물이 없습니다.</p>
+                        )}
+                    </ul>
+                );
+            case "자유게시판":
+                return (
+                    <ul className="space-y-4">
+                        {groupPostsGeneral.length > 0 ? (
+                            groupPostsGeneral.map((post, index) => (
+                                <li key={index} className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" onClick={() => onClickToDetail(post)}>
+                                    <div className="flex items-center justify-between space-x-4">
+                                        {/* 제목 */}
+                                        <p className="font-semibold text-lg text-gray-800 truncate flex-1">
+                                            {post.title}
+                                        </p>
+
+                                        {/* 작성자와 조회수 */}
+                                        <div className="flex items-center space-x-6">
+                                            <p className="text-sm text-gray-600">
+                                                <span className="font-medium text-gray-700">작성자:</span> {post.nickname}
+                                            </p>
+                                            <p className="text-sm text-gray-600">
+                                                <span className="font-medium text-gray-700">조회수:</span> {post.viewCount}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                            ))
+                        ) : (
+                            <p className="text-center text-gray-500">게시물이 없습니다.</p>
+                        )}
+                    </ul>
+                );
+            case "스케쥴":
+                return (
+                    <ul className="space-y-4">
+                        {bookings.length > 0 ? (
+                            bookings.map((booking, index) => (
+                                <li
+                                    key={index}
+                                    className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+                                >
+                                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
+                                        {/* 예약 날짜 */}
+                                        <p className="text-lg font-semibold text-gray-900">{booking.date}</p>
+
+                                        {/* 장소 정보 */}
+                                        <p
+                                            className="text-base font-medium text-green-600 cursor-pointer hover:underline"
+                                            onClick={() => onClickToRoomDetail(booking.roomId)}
+                                        >
+                                            장소: {enableRooms.find((room) => room.id === booking.roomId)?.name || "알 수 없음"}
+                                        </p>
+                                    </div>
+
+                                    {/* 이용 시간 */}
+                                    <div className="mt-2">
+                                        <p className="text-base font-medium text-gray-800">
+                                            <span className="font-semibold text-gray-700">이용 시간: </span>
+                                            {formatUsingTime(booking.usingTime)}
+                                        </p>
+                                    </div>
+                                </li>
+                            ))
+                        ) : (
+                            <li className="text-center text-gray-500 py-8">스케쥴이 없습니다.</li>
+                        )}
+                    </ul>
+                );
+            default:
+                return null;
+        }
+    };
 
     return (
-        <div className="mx-auto my-8 max-w-lg rounded-lg bg-green-100 p-6 shadow-md">
-            {/* 카테고리 선택 탭 */}
-            <div className="flex space-x-4">
-                <button
-                    className={`px-4 py-2 ${selectedCategory === '공지 사항' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
-                    onClick={() => handleTabClick('공지 사항')}
-                >
-                    공지 사항
-                </button>
-                <button
-                    className={`px-4 py-2 ${selectedCategory === '자유게시판' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
-                    onClick={() => handleTabClick('자유게시판')}
-                >
-                    자유게시판
-                </button>
-                <button
-                    className={`px-4 py-2 ${selectedCategory === '스케쥴' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
-                    onClick={() => handleTabClick('스케쥴')}
-                >
-                    스케쥴
-                </button>
+        <div className="max-w-4xl mx-auto my-10 p-6 bg-white rounded-lg shadow-lg">
+            <div className="bg-green-50 py-8 rounded-lg text-center">
+                <h1 className="text-4xl font-bold">{group?.name}</h1>
             </div>
 
-            {/* 게시물 목록 */}
-            {(selectedCategory === '공지 사항' || selectedCategory === '자유게시판') && (
-                <ul className="space-y-4">
-                    {postsToShow.length > 0 ? (
-                        postsToShow.map((post, index) => (
-                            <li
-                                key={index}
-                                className="cursor-pointer rounded-lg bg-white p-6 shadow-md transition-transform duration-200 hover:scale-105 hover:bg-green-50"
-                                onClick={() => onClickToDetail(post.id)}
-                            >
-                                <p className="mb-1 text-xl font-semibold text-gray-900">{post.title}</p>
-                                <p className="mb-1 text-sm text-gray-600">작성자: {post.nickname}</p>
-                                <p className="text-sm text-gray-600">조회수: {post.viewCount}</p>
-                            </li>
-                        ))
-                    ) : (
-                        <li className="text-center text-gray-500">게시물이 없습니다.</li>
-                    )}
-                </ul>
-            )}
+            <div className="my-6 space-y-6">
+                {/* 탭 버튼 */}
+                <div className="flex justify-center mb-8">
+                    <button
+                        className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "공지 사항" ? "bg-green-500 text-white" : "bg-gray-200"
+                            }`}
+                        onClick={() => setActiveTab("공지 사항")}
+                    >
+                        공지 사항
+                    </button>
+                    <button
+                        className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "자유게시판" ? "bg-green-500 text-white" : "bg-gray-200"
+                            }`}
+                        onClick={() => setActiveTab("자유게시판")}
+                    >
+                        자유게시판
+                    </button>
+                    <button
+                        className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "스케쥴" ? "bg-green-500 text-white" : "bg-gray-200"
+                            }`}
+                        onClick={() => setActiveTab("스케쥴")}
+                    >
+                        스케쥴
+                    </button>
+                </div>
 
-            {/* 스케쥴 카테고리 */}
-            {selectedCategory === '스케쥴' && (
-                <ul className="space-y-4">
-                    {bookings.length > 0 && (
-                        bookings.map((booking, index) => (
-                            <li
-                                key={index}
-                                className="cursor-pointer rounded-lg bg-white p-6 shadow-md transition-transform duration-200 hover:scale-105 hover:bg-green-50"
-                            >
-                                <p className="mb-1 text-xl font-semibold text-gray-900">{booking.date}</p>
-                                <p className="mb-1 text-xl font-semibold text-gray-900" onClick={() => onClickToRoomDetail(booking.roomId)} >장소: {enableRooms.find((room) => room.id === booking.roomId)?.name}</p>
-                                <p className="mb-1 text-sm text-gray-600">이용시간: {booking.usingTime.map((time) => time)}</p>
-                            </li>
-                        ))
-                    )} {bookings.length === 0 && (
-                        <li className="text-center text-gray-500">스케쥴이 없습니다.</li>
-                    )}
-                </ul>
-            )}
-
-
-            {/* 뒤로가기 버튼 */}
-            <div className="mt-8 flex justify-center">
-                <button
-                    type="button"
-                    onClick={() => router.back()}
-                    className="rounded-full border px-6 py-2 text-sm font-medium text-gray-700 transition-colors duration-300 hover:bg-gray-200"
-                >
+                {/* 탭 내용 렌더링 */}
+                <div className="bg-green-50 p-8 rounded-lg">{renderTabContent()}</div>
+            </div>
+            <div className="flex justify-center mt-6">
+                <button type="button" onClick={() => { router.back() }} className="rounded-full bg-white-400 px-3 py-2 text-black font-medium hover:bg-gray-200 transition duration-300 border border-gray-200">
                     뒤로가기
                 </button>
             </div>
         </div>
-
     );
 }
