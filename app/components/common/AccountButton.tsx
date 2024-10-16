@@ -5,7 +5,7 @@ import { v4 } from "uuid";
 import { accountService } from "@/app/service/room/account.service";
 import { AccountResultModel, AmountModel } from "@/app/model/room/account.model";
 import { useSelector } from "react-redux";
-import { getCurrentBooking } from "@/lib/features/room/bookings.slice";
+import { getCurrentBooking } from "@/lib/features/room/booking.slice";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 import { useAppDispatch } from "@/lib/store";
 import { saveLoading } from "@/lib/features/room/account.slice";

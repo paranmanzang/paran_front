@@ -1,6 +1,6 @@
 // bookingSlice.ts
 
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { initialBookingState, BookingModel } from '../../../app/model/room/bookings.model';
 import { RootState } from '../../store'
 
@@ -11,8 +11,15 @@ const bookingSlice = createSlice({
         saveBookings: (state, action: PayloadAction<BookingModel[]>) => {
             state.bookings = action.payload;
         },
+        saveSeperatedBookings: (state, action: PayloadAction<BookingModel[]>) => {
+            state.enabledBookings = action.payload.filter(booking => booking.enabled);
+            state.notEnabledBookings = action.payload.filter(booking => !booking.enabled);
+        },
         addBooking: (state, action: PayloadAction<BookingModel>) => {
             state.bookings.push(action.payload);
+        },
+        addEnabledBooking: (state, action: PayloadAction<BookingModel>) => {
+            state.enabledBookings.push(action.payload);
         },
         updateBooking: (state, action: PayloadAction<BookingModel>) => {
             const index = state.bookings.findIndex(booking => booking.id === action.payload.id);
@@ -20,8 +27,11 @@ const bookingSlice = createSlice({
                 state.bookings[index] = action.payload;
             }
         },
-        deleteBooking: (state, action: PayloadAction<number>) => {
+        removeBooking: (state, action: PayloadAction<number>) => {
             state.bookings = state.bookings.filter(booking => booking.id !== action.payload);
+        },
+        removeNotEnabledBooking: (state, action: PayloadAction<number>) => {
+            state.notEnabledBookings = state.notEnabledBookings.filter(booking => booking.id !== action.payload);
         },
         saveCurrentBooking: (state, action: PayloadAction<BookingModel | null>) => {
             state.currentBooking = action.payload;
@@ -35,6 +45,15 @@ const bookingSlice = createSlice({
     },
 });
 
+export const getSeperatedBookings = createSelector(
+    (state: RootState) => state.bookings.enabledBookings,
+    (state: RootState) => state.bookings.notEnabledBookings,
+    (enabledBookings, notEnabledBookings) => ({
+        enabledBookings,
+        notEnabledBookings
+    })
+)
+
 export const getBookings = (state: RootState) => state.bookings.bookings;
 export const getCurrentBooking = (state: RootState) => state.bookings.currentBooking;
 export const getIsLoading = (state: RootState) => state.bookings.isLoading;
@@ -45,7 +64,9 @@ export const {
     saveBookings,
     addBooking,
     updateBooking,
-    deleteBooking,
+    removeBooking,
+    removeNotEnabledBooking,
+    saveSeperatedBookings,
     saveCurrentBooking,
     saveLoading,
     saveError,

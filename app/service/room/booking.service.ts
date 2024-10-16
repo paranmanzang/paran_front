@@ -1,6 +1,6 @@
 import { BookingModel } from '@/app/model/room/bookings.model';
 import { AppDispatch } from '@/lib/store';
-import { addBooking, deleteBooking, saveBookings, saveLoading, updateBooking } from '@/lib/features/room/bookings.slice';
+import { addBooking, removeBooking, saveBookings, saveLoading, saveSeperatedBookings, updateBooking } from '@/lib/features/room/booking.slice';
 import { bookingAPI } from '@/app/api/generate/booking.api';
 import { accountService } from './account.service';
 import { saveAccounts } from '@/lib/features/room/account.slice';
@@ -52,7 +52,7 @@ const drop = async (id: number, dispatch: AppDispatch): Promise<void> => {
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.drop(id)
-    dispatch(deleteBooking(id))
+    dispatch(removeBooking(id))
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);
@@ -131,7 +131,7 @@ const findByRoomIds = async (nickname: string, page: number, size: number, dispa
   try {
     dispatch(saveLoading(true))
     const response = await bookingAPI.findByRooms(nickname, page, size)
-    dispatch(saveBookings(response.data.content))
+    dispatch(saveSeperatedBookings(response.data.content))
   } catch (error: any) {
     if (error.response) {
       console.error('Server Error:', error.response.data);

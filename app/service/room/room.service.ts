@@ -48,9 +48,11 @@ const modify = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): Promis
 }
 // 공간 삭제, 공간 승인 거절
 const drop = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
+    console.log("drop - service 부분임", id)
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.drop(id);
+        console.log("drop - result: ", response)
         dispatch(removeRoom(id))
         return response.data;
     } catch (error: any) {

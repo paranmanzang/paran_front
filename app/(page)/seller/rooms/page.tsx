@@ -88,7 +88,7 @@ export default function SellerRoom() {
         ))
       )}
       {
-        selectedCategory && showList.length === 0 && (
+        showList.length === 0 && (
           <li>정보가 존재하지 않습니다.</li>
         )
       }

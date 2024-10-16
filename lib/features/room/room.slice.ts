@@ -76,7 +76,6 @@ export const {
     saveRooms,
     saveAllRooms,
     saveLikedRooms,
-    saveSeperatedRooms,
     saveCurrentRoom,
     saveLoading,
     saveError,
@@ -85,8 +84,6 @@ export const {
     removeRoom,
     addLikedRoom,
     removeLikedRoom,
-    addEnabledRoom,
-    removeNotEnabledRoom,
 } = roomSlice.actions;
 
 // 리듀서를 export
