@@ -66,6 +66,7 @@ const insert = async (groupModel: GroupModel, dispatch: AppDispatch): Promise<vo
     await handleLoading(dispatch, async () => {
         try {
             const response = await groupApi.insert(groupModel);
+            console.log("groups insert 에서 실행됩니다₩" , response)
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 등록 중 오류 발생했습니다.");
         }

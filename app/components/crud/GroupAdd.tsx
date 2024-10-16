@@ -36,35 +36,32 @@ export default function GroupAdd() {
             groupService.insert(groupModel, dispatch)
         }
     }
-    const goBack = () => {
-        route.back();
-    }
+
     return (
         <>
-            <form className="max-w-lg mx-auto p-6 my-8 bg-green-50 rounded-lg">
+            <div className="max-w-lg mx-auto p-6 my-8 bg-green-50 rounded-lg">
                 <div>
-                    <label htmlFor="place">모임방 이름</label>
+                    <label htmlFor="groupName">모임방 이름</label>
                     <input
                         type="text"
                         placeholder="소모임의 이름을 적어주세요"
-                        id="place"
+                        id="groupName"
                         value={groupName}
                         onChange={(e) => setGroupName(e.target.value)}
                         className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 my-2"
                     />
                 </div>
-                <CategorySelect onChange={handleCategoryChange} />
+                <CategorySelect onChange={handleCategoryChange} value={categoryName} />
                 <div>
                     <button type="button" onClick={createGroup} className="p-2 bg-green-400 rounded-lg text-white">모임
                         개설하기
                     </button>
-                    <button type="button" onClick={goBack} className="p-2 mx-2 bg-green-400 rounded-lg text-white">모임 개설
-                        취소하기
+                    <button type="button" onClick={() => { route.back() }} className="p-2 mx-2 bg-green-400 rounded-lg text-white">취소하기
                     </button>
                 </div>
                 <div>
                 </div>
-            </form>
+            </div>
             <Alert message={'모임이 개설이 요청되었습니다.'} isOpen={isOpen} onClose={() => {
                 setIsOpen(false)
             }} />
