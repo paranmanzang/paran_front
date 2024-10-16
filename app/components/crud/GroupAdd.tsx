@@ -15,11 +15,13 @@ export default function GroupAdd() {
     const dispatch = useAppDispatch()
     const [groupName, setGroupName] = useState("");
     const [categoryName, setCategoryName] = useState("");
+    const [groupDetails, setGroupDetails] = useState("");
     const nickname = useSelector(getNickname)
 
     const handleCategoryChange = (selectedCategory: string) => {
         setCategoryName(selectedCategory);
     };
+
 
     const createGroup = () => {
         {
@@ -31,9 +33,11 @@ export default function GroupAdd() {
             const groupModel: GroupModel = {
                 name: groupName,
                 categoryName: categoryName,
+                detail: groupDetails,
                 nickname: nickname,
             };
             groupService.insert(groupModel, dispatch)
+            route.push('/')
         }
     }
 
@@ -52,6 +56,17 @@ export default function GroupAdd() {
                     />
                 </div>
                 <CategorySelect onChange={handleCategoryChange} value={categoryName} />
+                <div>
+                    <label htmlFor="details">모임설명</label>
+                    <input
+                        type="text"
+                        placeholder="소모임의 설명을 적어주세요"
+                        id="details"
+                        value={groupDetails}
+                        onChange={(e) => setGroupDetails(e.target.value)}
+                        className="bg-green-50 border border-green-300 text-green-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 my-2"
+                    />
+                </div>
                 <div>
                     <button type="button" onClick={createGroup} className="p-2 bg-green-400 rounded-lg text-white">모임
                         개설하기
