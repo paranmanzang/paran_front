@@ -152,7 +152,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                     break;
                 case "거절" || "삭제":
                     roomService.drop(room?.id, dispatch);
-                    break;
+                    route.back()
             }
         }
 
