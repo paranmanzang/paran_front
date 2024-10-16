@@ -3,9 +3,10 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Alert from '../common/Alert';
 import { getNickname } from "@/lib/features/users/user.slice";
-import { getAlreadyFriends, getPendingFriends } from "@/lib/features/users/friend.slice";
+import { getAlreadyFriends, getRequestFriends, getResponseFriends } from "@/lib/features/users/friend.slice";
 import { friendService } from "@/app/service/users/friend.service";
 import { useAppDispatch } from "@/lib/store";
+import { FriendModel } from "@/app/model/user/users.model";
 
 interface ModalFriendProps {
     name: string;
@@ -16,7 +17,8 @@ export default function ModalFriend({ name }: ModalFriendProps) {
     const dispatch = useAppDispatch()
     const nickname = useSelector(getNickname);
     const alreadyFriends = useSelector(getAlreadyFriends)
-    const pendingFriends = useSelector(getPendingFriends)
+    const requestFriends = useSelector(getRequestFriends)
+    const responseFriends = useSelector(getResponseFriends)
 
     useEffect(() => {
         if (nickname) {
@@ -27,9 +29,12 @@ export default function ModalFriend({ name }: ModalFriendProps) {
 
     const onFriends = () => {
         if (nickname) {
+            const friendModel: FriendModel = {
+                requestUser: nickname,
+                responseUser: name
+            }
+            friendService.insert(friendModel, dispatch)
             setAlertState({ isOpen: true, message: "친구요청을 보냈습니다." });
-        } else {
-            setAlertState({ isOpen: true, message: "사용자 정보를 불러올 수 없습니다." });
         }
     };
 
@@ -48,7 +53,7 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                 }
                 break;
             case 'reject':
-                const friendToReject = pendingFriends.find((friend) =>
+                const friendToReject = responseFriends.find((friend) =>
                     friend.requestUser === name && friend.responseUser === nickname
                 );
                 if (friendToReject) {
@@ -57,14 +62,13 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                 }
                 break;
             case 'cancel':
-                const friendToCancel = pendingFriends.find((friend) =>
+                const friendToCancel = requestFriends.find((friend) =>
                     friend.requestUser === nickname && friend.responseUser === name
                 );
                 if (friendToCancel) {
                     id = friendToCancel.id;
-                    message = '친구 요청을 거절했습니다.';
+                    message = '친구 요청을 취소했습니다.';
                 }
-                message = '친구 요청을 취소했습니다.';
                 break;
             default:
                 message = '알 수 없는 작업입니다.';
@@ -77,13 +81,14 @@ export default function ModalFriend({ name }: ModalFriendProps) {
 
     // 친구 요청 수락
     const onAcceptRequest = () => {
-        // friendService.acceptFriendRequest(name)  // 친구 요청을 수락하는 API 호출
-        //     .then(() => {
-        //         setAlertState({ isOpen: true, message: "친구 요청을 수락했습니다." });
-        //     })
-        //     .catch(() => {
-        //         setAlertState({ isOpen: true, message: "친구 요청 수락 중 오류가 발생했습니다." });
-        //     });
+        const friendModel = responseFriends.find((friend) => friend.requestAt === name)
+        console.log(friendModel)
+        if (friendModel) {
+            friendService.modifyFriend(friendModel, dispatch)
+                .then(() => {
+                    setAlertState({ isOpen: true, message: "친구 요청을 수락했습니다." });
+                })
+        }
     };
 
     const closeAlert = () => {
@@ -91,12 +96,12 @@ export default function ModalFriend({ name }: ModalFriendProps) {
     };
 
     // 나한테 온 요청
-    const isRequestPendingToMe = pendingFriends.some((friend) =>
+    const isReqsponse = responseFriends.some((friend) =>
         friend.requestUser === name && friend.responseUser === nickname
     );
 
     // 친구한테 보낸 요청
-    const isRequestPendingFromMe = pendingFriends.some((friend) =>
+    const isRequest = requestFriends.some((friend) =>
         friend.requestUser === nickname && friend.responseUser === name
     );
 
@@ -119,7 +124,7 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                     </li>
                 )}
 
-                {isRequestPendingToMe && (
+                {isReqsponse && (
                     <>
                         <li>
                             <button
@@ -142,7 +147,7 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                     </>
                 )}
 
-                {isRequestPendingFromMe && (
+                {isRequest && (
                     <li>
                         <button
                             type="button"
@@ -154,7 +159,7 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                     </li>
                 )}
 
-                {!isFriend && !isRequestPendingFromMe && !isRequestPendingToMe && (
+                {!isFriend && !isRequest && !isReqsponse && (
                     <li>
                         <button
                             type="button"
