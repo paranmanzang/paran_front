@@ -1,29 +1,22 @@
 "use client"
+import { RegisterModel } from "@/app/model/user/user.model"
 import { userService } from "@/app/service/user/user.service"
 import { useAppDispatch } from "@/lib/store"
 import { useRouter } from "next/navigation"
 import { ChangeEvent, useState } from "react"
 
-interface FormData {
-  username: string;
-  password: string;
-  passwordcheck: string;
-  nickname: string;
-  tel: string;
-  name: string;
-}
 
 export default function Register() {
   const dispatch = useAppDispatch()
   const route = useRouter()
   // eslint-disable-next-line react-hooks/rules-of-hooks
-  const [formData, setFormData] = useState<FormData>({
+  const [formData, setFormData] = useState<RegisterModel>({
     username: '',
     password: '',
     passwordcheck: '',
     nickname: '',
-    tel: '',
-    name: ''
+    name: '',
+    tel: ''
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -34,9 +27,15 @@ export default function Register() {
     }));
   };
 
+  const [isSeller, setIsSeller] = useState(false);
+
+  const handleSellerChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsSeller(e.target.checked);
+  };
+
   const onSubmit = () => {
     console.log(formData);
-    userService.insertUser(formData, dispatch);
+    userService.insertUser(formData, isSeller, dispatch);
     route.push("/users/login")
   }
 
@@ -44,6 +43,19 @@ export default function Register() {
     <div className="my-6 py-40">
       <div className="mx-auto max-w-md">
         <h1 className="mb-6 text-2xl">파란만장 서비스와 함께해요!</h1>
+        <div className="mb-5 flex items-center space-x-4 p-4 border rounded-lg bg-gray-50 hover:bg-gray-100 transition">
+          <input
+            type="checkbox"
+            id="isSeller"
+            checked={isSeller}
+            onChange={handleSellerChange}
+            className="h-5 w-5 text-green-500 focus:ring-green-400 border-gray-300 rounded"
+          />
+          <label htmlFor="isSeller" className="text-lg text-gray-900">
+            <span className="font-medium">Seller</span>로 등록하시겠습니까?
+          </label>
+        </div>
+
         <div className="group relative z-0 mb-5 w-full">
           <input
             type="text"

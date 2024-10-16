@@ -1,12 +1,12 @@
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
-import {UserModel} from "@/app/model/user/user.model";
-import {ExceptionResponseModel} from "@/app/model/error.model";
+import { RegisterModel, UserModel } from "@/app/model/user/user.model";
+import { ExceptionResponseModel } from "@/app/model/error.model";
 //insert, drop, modify, find**
 export const userAPI = {
 
-    insert: (userModel: UserModel) => {
-        return api.post<UserModel | ExceptionResponseModel>(requests.fetchUsers, userModel);
+    insert: (registerModel: RegisterModel) => {
+        return api.post<Boolean>(`${requests.fetchUsers}`, registerModel);
     },
     findAllUser: (nickname: string) => {
         return api.get(`${requests.fetchUsers}/findAllByNickname`, {
@@ -15,7 +15,7 @@ export const userAPI = {
             }
         });
     },
-    findDetailUser: (nickname:string )=> {
+    findDetailUser: (nickname: string) => {
         return api.get(`${requests.fetchUsers}/findByNickname`, {
             params: {
                 nickname
@@ -31,10 +31,11 @@ export const userAPI = {
         });
     },
     modifyRole: (nickname: string, newRole: string) => {
+        console.log(nickname, newRole)
         return api.put(`${requests.fetchUsers}/updateRole`, {
             params: {
-                nickname,
-                newRole
+                nickname: nickname,
+                newRole: newRole
             }
         });
     },
@@ -52,28 +53,28 @@ export const userAPI = {
             }
         });
     },
-    modifyLogoutTime : (nickname: string) => {
+    modifyLogoutTime: (nickname: string) => {
         return api.put(`${requests.fetchUsers}/logoutUserTime`, {
             params: {
                 nickname
             }
         });
     },
-    checkRole:(nickname: string) => {
-            return api.get(`${requests.fetchUsers}/checkRole`, {
-                params: {
-                    nickname
-                }
-            });
-        },
+    checkRole: (nickname: string) => {
+        return api.get(`${requests.fetchUsers}/checkRole`, {
+            params: {
+                nickname
+            }
+        });
+    },
 
     checkNickname: (userModel: UserModel) => {
-            return api.post<UserModel | ExceptionResponseModel>(requests.fetchUsers + '/checkNickname', userModel);
-        },
+        return api.post<UserModel | ExceptionResponseModel>(requests.fetchUsers + '/checkNickname', userModel);
+    },
 
     checkPassword: (userModel: UserModel) => {
-            return api.post<UserModel | ExceptionResponseModel>(requests.fetchUsers + '/checkPassword', userModel);
-        }
+        return api.post<UserModel | ExceptionResponseModel>(requests.fetchUsers + '/checkPassword', userModel);
+    }
 }
 
 export default userAPI;

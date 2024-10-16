@@ -1,15 +1,19 @@
-import { UserModel } from "@/app/model/user/user.model";
+import { RegisterModel, UserModel } from "@/app/model/user/user.model";
 import { AppDispatch } from "@/lib/store";
 import { logoutUser, saveCurrentUser, saveError, saveLoading, saveSuccess, saveUserList } from "@/lib/features/users/user.slice";
 import userAPI from "@/app/api/generate/user.api";
 
 // 사용자 등록
-const insertUser = async (userModel: UserModel, dispatch: AppDispatch): Promise<void> => {
+const insertUser = async (registerModel: RegisterModel, isSeller: boolean, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await userAPI.insert(userModel);
+        const response = await userAPI.insert(registerModel);
         console.log("회원가입 결과: ", response);
-        if ('id' in response.data && 'nickname' in response.data) {
+        if (response.data) {
+            if (isSeller && registerModel.nickname) {
+                console.log(registerModel.nickname)
+                modifyRole(registerModel.nickname, "ROLE_SELLER", dispatch)
+            }
             dispatch(saveSuccess("사용자가 성공적으로 등록되었습니다."));
         } else {
             throw new Error('사용자 등록 실패');
@@ -103,14 +107,14 @@ const findAllUsers = async (nickname: string, dispatch: AppDispatch): Promise<vo
     }
 };
 
-const findUserDetail = async (nickname: string,dispatch: AppDispatch): Promise<any> => {
+const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<any> => {
     try {
         const response = await userAPI.findDetailUser(nickname);
 
-        console.log("findUserDetail" , response);
+        console.log("findUserDetail", response);
         // Redux에 유저 데이터 저장
         dispatch(saveCurrentUser(response.data));
-        
+
     } catch (error) {
         console.error("Error fetching user detail:", error);
         throw error; // 에러 발생 시 throw
