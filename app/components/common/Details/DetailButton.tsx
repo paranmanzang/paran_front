@@ -47,7 +47,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const user = useSelector(getCurrentUser)
     const users = useSelector(getGroupMembers)
     const nickname = useSelector(getNickname)
-    const userInfo = user?.role ?? null
+    const userInfo = user?.role
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
     const enableUsers = useSelector(getGroupEnableMembers)
     const isPendingGroup = group?.id && enableUsers[group.id]?.some((user) => user.nickname === nickname);
@@ -149,7 +149,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
 
     return (
         <>
-            {userInfo === 'ROLE_admin' && (
+            {userInfo === 'ROLE_ADMIN' && (
                 <div className="mx-auto max-w-sm">
                     <button type="button" onClick={() => { route.push('/admin/update') }} className="bg-green-500 p-3 text-white">수정</button>
                     <button type="button" onClick={() => { route.push('/admin/delete') }} className="bg-green-500 p-3 text-white">삭제</button>

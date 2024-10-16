@@ -4,13 +4,12 @@ import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import StoreProvider from "./StoreProvider";
 import QueryProvider from "./QueryProvider";
-//import paranFavicon from "@/app/assets/paran_logo_favicon.png"
 
 export const metadata: Metadata = {
   title: "paranmanzang",
   description: "파란만장 모임 서비스!",
   icons: {
-    icon: "../app/assets/paran_logo_favicon.png"
+    icon: "/assets/paran_logo_favicon.png"
   }
 };
 
@@ -21,9 +20,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head>
-        <link rel="icon" href="/app/assets/paran_logo_favicon.png" />
-      </head>
       <body>
         <StoreProvider>
         <QueryProvider >
