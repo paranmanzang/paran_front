@@ -36,7 +36,7 @@ export const initialGroupState: GroupState = {
 };
 
 export interface GroupModel {
-    groupName: string;
+    name: string;
     categoryName: string;
     nickname?: string;
 }
