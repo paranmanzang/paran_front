@@ -7,25 +7,13 @@ export const roomSlice = createSlice({
     initialState: initialRoomState,
     reducers: {
         saveRooms: (state, action: PayloadAction<RoomModel[]>) => {
-            action.payload.forEach(newRoom => {
-                if (!state.rooms.some(room => room.id === newRoom.id)) {
-                    state.rooms.push(newRoom);
-                }
-            });
+            state.rooms = action.payload;
         },
         saveAllRooms: (state, action: PayloadAction<RoomModel[]>) => {
-            action.payload.forEach(newRoom => {
-                if (!state.allRooms.some(room => room.id === newRoom.id)) {
-                    state.allRooms.push(newRoom);
-                }
-            });
+            state.allRooms = action.payload;
         },
         saveLikedRooms: (state, action: PayloadAction<RoomModel[]>) => {
-            action.payload.forEach(LikedRoom => {
-                if (!state.roomsLiked.some(room => room.id === LikedRoom.id)) {
-                    state.roomsLiked.push(LikedRoom);
-                }
-            });
+            state.roomsLiked = action.payload
         },
         saveCurrentRoom: (state, action: PayloadAction<RoomModel | null>) => {
             state.currentRoom = action.payload;

@@ -52,19 +52,12 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
       }
     }
   };
-  const handlePageChange = (page: number) => {
-    setPage(page);
-  };
 
-  const handlePageSizeChange = (size: number) => {
-    setPageSize(size);
-    setPage(0);
-  };
   return (
     <>
-    {user?.role === 'ROLE_SELLER' && <SellerButton />}
-    <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
-        {rooms.map((room, index) =>(
+      {user?.role === 'ROLE_SELLER' && <SellerButton />}
+      <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
+        {rooms.map((room, index) => (
           <RoomCard
             key={index}
             room={room}
@@ -79,8 +72,8 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
         currentPage={page}
         pageSize={pageSize}
         totalItems={totalItems}
-        onPageChange={handlePageChange}
-        onPageSizeChange={handlePageSizeChange}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
       />
     </>
   );
