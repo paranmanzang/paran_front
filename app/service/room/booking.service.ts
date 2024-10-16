@@ -127,9 +127,27 @@ const findByRoomId = async (roomId: number, page: number, size: number, dispatch
     }
   }
 };
+const findByRoomIds = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+  try {
+    dispatch(saveLoading(true))
+    const response = await bookingAPI.findByRooms(nickname, page, size)
+    dispatch(saveBookings(response.data.content))
+  } catch (error: any) {
+    if (error.response) {
+      console.error('Server Error:', error.response.data);
+      throw new Error('서버에서 오류가 발생했습니다.');
+    } else if (error.request) {
+      console.error('No Response:', error.request);
+      throw new Error('서버 응답이 없습니다.');
+    } else {
+      console.error('Error:', error.message);
+      throw new Error('요청 중 오류 발생');
+    }
+  }
+};
 
 export const bookingService = {
   save, modify, drop,
-  findByGroupId, findByGroupIds, findByRoomId
+  findByGroupId, findByGroupIds, findByRoomId, findByRoomIds
 }
 

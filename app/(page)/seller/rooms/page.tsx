@@ -2,7 +2,7 @@
 import Pagination from "@/app/components/common/Row/pagination/Pagination"
 import { RoomModel } from "@/app/model/room/room.model"
 import { roomService } from "@/app/service/room/room.service"
-import { getRooms } from "@/lib/features/room/room.slice"
+import { getRooms, getSeperatedRooms, saveCurrentRoom } from "@/lib/features/room/room.slice"
 import { getCurrentUser } from "@/lib/features/users/user.slice"
 import { useAppDispatch } from "@/lib/store"
 import { useRouter } from "next/navigation"
@@ -13,13 +13,18 @@ export default function SellerRoom() {
   const user = useSelector(getCurrentUser)
   const nickname = user?.nickname as string
   const dispatch = useAppDispatch()
-  const rooms = useSelector(getRooms)
+  const { enabledrooms, notEnabledrooms } = useSelector(getSeperatedRooms)
   const route = useRouter()
   const [page, setPage] = useState(0);
   const [size, setSize] = useState(0);
+  const [selectedCategory, setSelectedCategory] = useState<'관리' | '승인 대기'>('관리');
+  // rooms 에 있는 nickname 어떻게 가져옴? 
+  // const userRooms = rooms.nickname === nickname;
 
-    // rooms 에 있는 nickname 어떻게 가져옴? 
-    const userRooms = rooms.nickname === nickname;
+  const handleTabClick = (category: '관리' | '승인 대기') => {
+    setSelectedCategory(category);
+  };
+  const showList: RoomModel[] = selectedCategory === '관리' ? enabledrooms : notEnabledrooms;
 
   useEffect(() => {
     if (nickname) {
@@ -30,39 +35,64 @@ export default function SellerRoom() {
   const onDelete = (id: string) => {
     // 삭제 로직 
     console.log(`Deleting room with id: ${id}`)
+    roomService.drop(Number(id), dispatch)
   }
   const onUpdate = (id: string) => {
+    if (id !== undefined) {
+      dispatch(saveCurrentRoom(enabledrooms.find(room => room.id === Number(id)) as RoomModel))
+    }
     route.push(`/rooms/update/${id}`)
   }
 
 
   return (
-    <div className="max-w-lg mx-auto my-8">
-      <div className="w-full">
-        <button type="button" onClick={() => route.push('/rooms/add')} className="p-3 bg-green-100 rounded-lg">등록하기</button>
+    <div className="mx-auto my-8 max-w-lg rounded-lg bg-green-100 p-6 shadow-md">
+      {/* 카테고리 선택 탭 */}
+      <div className="flex space-x-4">
+        <button
+          className={`px-4 py-2 ${selectedCategory === '관리' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+          onClick={() => handleTabClick('관리')}
+        >
+          관리
+        </button>
+        <button
+          className={`px-4 py-2 ${selectedCategory === '승인 대기' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+          onClick={() => handleTabClick('승인 대기')}
+        >
+          승인 대기
+        </button>
       </div>
-      <ul className="p-6 my-8 bg-green-100 rounded-lg">
-      {userRooms.length > 0 ? (
-          rooms.map((room) => (
-            <li key={room.id}
-              className="my-3 mx-auto p-3 bg-white flex justify-around items-center">
-              <div className="flex justify-around">
-                <h2 className="text-lg">{room.name}</h2>
-                <p>{room.createdAt}</p>
-                <p>{room.enabled}</p>
-              </div>
+
+      {/* 목록 */}
+      { showList.length > 0 && (
+        showList.map((room) => (
+          <li key={room.id}
+            className="mx-auto my-3 flex items-center justify-around bg-white p-3">
+            <div className="flex justify-around">
+              <h2 className="text-lg">{room.name}</h2>
+              <p>{room.createdAt}</p>
+              <p>{room.enabled}</p>
+            </div>
+            {selectedCategory === '관리' && (
               <div>
-                <button type="button" onClick={() => onDelete(`${room.id}`)} className="p-3 bg-green-100 mx-2 rounded-lg">삭제</button>
-                <button type="button" onClick={() => onUpdate(`${room.id}`)} className="p-3 bg-green-100 mx-2 rounded-lg">수정</button>
+                <button type="button" onClick={() => onDelete(`${room.id}`)} className="mx-2 rounded-lg bg-green-100 p-3">삭제</button>
+                <button type="button" onClick={() => onUpdate(`${room.id}`)} className="mx-2 rounded-lg bg-green-100 p-3">수정</button>
               </div>
-            </li>
-          ))
-        ) : (
-          <li>등록한 공간이 없습니다</li>
-        )}
-      </ul>
-      {/* <Pagination /> */}
-      <button type="button" onClick={() => route.back()} className="p-3 bg-green-100 mx-2 rounded-lg">뒤로가기</button>
+            )}
+            {selectedCategory === '승인 대기' && (
+              <div>
+                <button type="button" onClick={() => onDelete(`${room.id}`)} className="mx-2 rounded-lg bg-green-100 p-3">등록 취소</button>
+              </div>
+            )}
+          </li>
+        ))
+      )}
+      {
+        selectedCategory && showList.length === 0 && (
+          <li>정보가 존재하지 않습니다.</li>
+        )
+      }
+      <button type="button" onClick={() => route.back()} className="mx-2 rounded-lg bg-green-100 p-3">뒤로가기</button>
     </div>
   )
 }

@@ -1,10 +1,10 @@
 
 import { RoomModel, RoomUpdateModel } from '../../model/room/room.model';
 import { AppDispatch } from '@/lib/store';
-import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom, saveError, saveLikedRooms, saveAllRooms } from '@/lib/features/room/room.slice';
+import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom, saveError, saveLikedRooms, saveAllRooms, saveSeperatedRooms } from '@/lib/features/room/room.slice';
 import { roomAPI } from '@/app/api/generate/room.api';
 import { FileType } from '@/app/model/file/file.model';
-import { fileService } from '../File/file.service';
+import { fileService } from '../file/file.service';
 
 // 공간 등록
 const save = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<void> => {
@@ -71,7 +71,7 @@ const findByUser = async (nickname: string, page: number, size: number, dispatch
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.findByUser(nickname, page, size);
-        dispatch(saveRooms(response.data.content))
+        dispatch(saveSeperatedRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
