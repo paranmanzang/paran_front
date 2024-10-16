@@ -93,9 +93,9 @@ const TimerButton = ({ onRefresh }: TimerButtonProps) => {
         <button
           type="button"
           onClick={handleRefresh}
-          className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
+          className="rounded bg-green-500 py-2 text-white hover:bg-green-600"
         >
-          Refresh
+          시간연장하기
         </button>
       ) : (
         <div className={`rounded px-4 py-2 ${timeLeft === 0 ? 'bg-yellow-100' : 'bg-gray-100'}`}>
