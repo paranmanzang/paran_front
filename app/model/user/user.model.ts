@@ -29,3 +29,12 @@ export const initialUserState: UserState = {
   successMessage: null
 };
 
+export interface RegisterModel {
+  username: string;
+  password: string;
+  passwordcheck: string;
+  nickname: string;
+  name: string;
+  tel: string;
+}
+
