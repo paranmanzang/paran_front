@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux'; // redux dispatch 사용
 import { AppDispatch } from "@/lib/store";
 import requests from '@/app/api/requests';
 import api from '@/app/api/axios';
+import { logout } from '@/app/service/user/logout.service';
 
 
 
@@ -47,19 +48,16 @@ const TimerButton = ({ onRefresh }: TimerButtonProps) => {
     console.log("Refresh button clicked."); // 버튼 클릭 로그
     try {
       // API 호출
-      console.log("Sending request to reissue token..."); // API 요청 로그
       const response = await api.post(requests.fetchReissue, {
         withCredentials: true, // 필요한 경우, 쿠키를 포함할 수 있도록 설정
       });
 
       const token = response.headers['authorization']?.replace("Bearer ", "");
-
       if (token) {
         console.log("Token received:", token); // 토큰 수신 로그
         setAccessToken(token);
         dispatch(saveNickname(response.headers['nickname']));
         const nickname = response.headers['nickname'];
-        console.log(nickname)
         
         // 유저 세부정보 요청
         await userService.findUserDetail(nickname, dispatch);
@@ -70,12 +68,16 @@ const TimerButton = ({ onRefresh }: TimerButtonProps) => {
 
         onRefresh(); // 새로 고침 이벤트 호출
       } else {
-        console.error("토큰이 안보여요 ㅠㅠ"); // 토큰이 없는 경우 오류 로그
+        console.error("토큰 리프레시 요청 없음. "); // 토큰 요청 없을때 
         throw new Error('토큰을 받지 못했습니다.');
       }
       // API 호출 성공 시 추가 작업
       console.log('Response:', response.data); // API 응답 로그
     } catch (error) {
+      logout().then(() => {
+        window.location.replace('/');
+        console.log("로그아웃됨")
+      })
       console.error('Error during reissue:', error); // 오류 발생 시 로그
     }
 

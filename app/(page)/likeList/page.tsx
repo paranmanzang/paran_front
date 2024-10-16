@@ -144,7 +144,7 @@ export default function LikeList() {
         <div className="max-w-4xl mx-auto my-10 p-6 bg-white rounded-lg shadow-lg">
 
             <div className="bg-green-50 py-8 rounded-lg text-center">
-                <h1 className="text-4xl font-bold">좋아요 목록</h1>
+                <h1 className="text-lg font-bold">좋아요 목록</h1>
             </div>
 
             <div className="my-6">
