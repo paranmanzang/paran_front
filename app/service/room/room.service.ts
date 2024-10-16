@@ -113,7 +113,7 @@ const findAll = async (page: number, size: number, dispatch: AppDispatch): Promi
         dispatch(saveLoading(true))
         const response = await roomAPI.findAll(page, size)
         console.log("findAll - service await 부분임", response.data.content)
-        dispatch(saveRooms(response.data.content))
+        dispatch(saveSeperatedRooms(response.data.content))
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
