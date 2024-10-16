@@ -5,25 +5,28 @@ import Image from "next/image";
 import LoadingSpinner from '../common/status/LoadingSpinner';
 import { useAppDispatch } from '@/lib/store';
 import { useSelector } from 'react-redux';
-import { getCurrentUser } from '@/lib/features/users/user.slice';
+import { getCurrentUser, getNickname } from '@/lib/features/users/user.slice';
 import { userService } from '@/app/service/user/user.service';
+import { UserModel } from '@/app/model/user.model';
 
 interface UserInfo {
+  getUser: string
   nickname: string;
   grade: string;
   image: string;
 }
 
-export default function AdminUser() {
+export default function AdminUser({getUser}: UserInfo) {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
-  const [newGrade, setNewGrade] = useState<string>('')
+  const [newRole, setNewRole] = useState<string>('')
   const user = useSelector(getCurrentUser)
+  const nickname = useSelector(getNickname) as string
 
   useEffect(() => {
     // 컴포넌트 마운트 시 사용자 정보 불러오기
-      userService.modifyRole(setNewGrade); 
+      userService.modifyRole(nickname, newRole, dispatch); 
     
   }, []);
 
@@ -32,16 +35,17 @@ export default function AdminUser() {
   const handlePage = () => {router.push(`/users/delete/${user?.id}`)}
 
   const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setNewGrade(e.target.value);
+    setNewRole(e.target.value);
   };
 
   const handleGradeUpdate = async () => {
-    if (newGrade && userInfo) {
-      const success = await updateUserGrade("2", newGrade); // 실제 구현에서는 동적 userId 사용
-      if (success) {
-        setUserInfo({ ...userInfo, grade: newGrade });
+    if (newRole && userInfo) {
+      try {
+        await userService.modifyRole(nickname, newRole, dispatch);
+        setUserInfo({ ...userInfo, grade: newRole });
         alert("회원 등급이 성공적으로 업데이트되었습니다.");
-      } else {
+      } catch (error) {
+        console.error("회원 등급 업데이트 실패:", error);
         alert("회원 등급 업데이트에 실패했습니다.");
       }
     }
@@ -58,7 +62,7 @@ export default function AdminUser() {
           className="mb-3 rounded-full shadow-lg"
           width={102}
           height={100}
-          src={userInfo.image}
+          src={`${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`}
           alt="프로필 사진"
         />
       </div>
@@ -81,7 +85,7 @@ export default function AdminUser() {
     </div>
     <div className="flex items-center justify-center mb-4">
       <select
-        value={newGrade}
+        value={newRole}
         onChange={handleGradeChange}
         className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400 text-sm font-medium text-gray-900"
       >

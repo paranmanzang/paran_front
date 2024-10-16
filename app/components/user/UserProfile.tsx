@@ -19,9 +19,7 @@ export default function UserProfile({ getUser }: UserProfileProps) {
     const leaderGroup = useSelector(getLeaderGroups)
     const { isLoading, error } = useSelector((state: RootState) => state.user)
 
-    useEffect(() => {
-       
-    }, [getUser]);
+    useEffect(() => {}, [getUser]);
 
     if (isLoading) return <LoadingSpinner />;
     if (error) return <ErrorMessage message={error} />;

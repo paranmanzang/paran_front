@@ -12,6 +12,17 @@ import { useSelector } from "react-redux";
 export default function RoomAdmin() {
   const rooms = useSelector(getRooms)
   const dispatch = useAppDispatch()
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('ko-KR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+    });
+};
 
   console.log("rooms 목록 불러오기 ", rooms)
   const route = useRouter()
@@ -40,9 +51,10 @@ export default function RoomAdmin() {
             <div
               className="m-2 inline-flex w-full items-center justify-around border-2 border-green-400 bg-green-50 p-4"
             >
-              <div className="size-8 rounded-sm bg-green-500">Img</div>
-              <p>{room.name}</p>
-              <span className="text-xs">등록일:{room.createdAt}</span>
+              {/* <div className="size-8 rounded-sm bg-green-500">Img</div> */}
+              <p className="w-[30%]">{room.name}</p>
+              <span className="text-xs w-[30%]">등록일: <br/>
+                {formatDate(room.createdAt ?? "2024-01-01T00:00:00")}</span>
               <button
                 type="button"
                 onClick={() => onClick(room)}
