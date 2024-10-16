@@ -15,6 +15,9 @@ import {
     deleteGroupEnableMember,
     addGroupEnableMember,
     addGroup,
+    addEnableGroup,
+    deleteEnableGroup,
+    saveEnableGroups,
 } from "@/lib/features/group/group.slice";
 import { AppDispatch } from "@/lib/store";
 
@@ -36,7 +39,7 @@ const handleLoading = async (dispatch: AppDispatch, callback: () => Promise<void
     }
 };
 
-// 전체 그룹 조회
+// 전체 그룹 조회 승인된 소모임
 const findList = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     await handleLoading(dispatch, async () => {
         try {
@@ -66,8 +69,8 @@ const insert = async (groupModel: GroupModel, dispatch: AppDispatch): Promise<vo
     await handleLoading(dispatch, async () => {
         try {
             const response = await groupApi.insert(groupModel);
-            console.log("groups insert 에서 실행됩니다₩" , response.data)
-
+            console.log("groups insert 에서 실행됩니다₩", response.data)
+            dispatch(addEnableGroup(response.data))
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 등록 중 오류 발생했습니다.");
         }
@@ -80,6 +83,7 @@ const able = async (groupId: number, dispatch: AppDispatch): Promise<void> => {
         try {
             const response = await groupApi.able(groupId);
             dispatch(addGroup(response.data))
+            dispatch(deleteEnableGroup(response.data.id))
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 승인 요청 중 오류 발생했습니다.");
         }
@@ -91,7 +95,8 @@ const enable = async (groupId: number, dispatch: AppDispatch): Promise<void> => 
     await handleLoading(dispatch, async () => {
         try {
             const response = await groupApi.enable(groupId);
-            dispatch(deleteGroup(groupId))
+            dispatch(deleteGroup(response.data.id))
+            dispatch(addEnableGroup(response.data))
         } catch (error: any) {
             handleApiError(error, dispatch, "소모임 승인 취소 중 오류 발생했습니다.");
         }
@@ -173,7 +178,8 @@ const drop = async (groupId: number, dispatch: AppDispatch): Promise<void> => {
 const enableList = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
     await handleLoading(dispatch, async () => {
         try {
-            await groupApi.enableList(page, size);
+            const response = await groupApi.enableList(page, size);
+            dispatch(saveEnableGroups(response.data.content))
         } catch (error: any) {
             handleApiError(error, dispatch, "승인해야하는 소모임 찾는 중 오류 발생했습니다.");
         }

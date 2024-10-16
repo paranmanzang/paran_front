@@ -1,4 +1,4 @@
-import { initialUserState, DeclarationPostModel} from '@/app/model/user/users.model';
+import { initialUserState, DeclarationPostModel } from '@/app/model/user/users.model';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store';
 
@@ -7,10 +7,10 @@ export const declarationPostSlice = createSlice({
     initialState: initialUserState,
     reducers: {
         saveDeclarationPosts: (state, action: PayloadAction<DeclarationPostModel[]>) => {
-            state.declarationPosts.push(...action.payload);
+            state.declarationPosts = action.payload;
         },
         saveDeclarationPostsByNickname: (state, action: PayloadAction<DeclarationPostModel[]>) => {
-            state.declarationPostsByNickname.push(...action.payload);
+            state.declarationPostsByNickname = action.payload;
         },
         saveCurrentDeclarationPost: (state, action: PayloadAction<DeclarationPostModel>) => {
             state.currentDeclarationPost = action.payload;

@@ -26,7 +26,7 @@ export const groupApi = {
         return api.put<GroupResponseModel>(requests.fetchGroups + `/groups/able?groupId=${groupId}`);
     },
     enable(groupId: number) {
-        return api.put<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/groups/enable?groupId=${groupId}`);
+        return api.put<GroupResponseModel>(requests.fetchGroups + `/groups/enable?groupId=${groupId}`);
     },
     enableUser(groupId: number, nickname: string) {
         return api.put<GroupResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/groups/enable-user?groupId=${groupId}&nickname=${nickname}`);

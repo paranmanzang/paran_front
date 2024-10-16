@@ -65,9 +65,7 @@ const findAllByNickname = async (page: number, size: number, nickname: string, d
     try {
         dispatch(saveLoading(true));
         const response = await declarationPostAPI.findDeclarationPostByNickname(page, size, nickname)
-        if (Array.isArray(response.data)) {
-            dispatch(saveDeclarationPostsByNickname(response.data))
-        }
+        dispatch(saveDeclarationPostsByNickname(response.data.content))
     } catch (error: any) {
         dispatch(saveError("게시물 목록 조회 중 오류 발생했습니다."));
         console.error('Error fetching Dposts by nickname:', error.response?.data || error.message);
