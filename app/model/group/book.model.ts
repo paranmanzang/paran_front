@@ -28,6 +28,7 @@ export interface BookResponseModel {
 }
 
 export interface LikeBookModel {
+    id?: number
     nickname: string;
-    bookId: number;
+    bookId?: number;
 }

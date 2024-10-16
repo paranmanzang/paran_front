@@ -78,7 +78,7 @@ export default function GroupDetails() {
                     console.error('채팅 유저 리스트를 불러오는 중 오류 발생:', error);
                 });
         }
-    }, [group, dispatch, chatUsers]);
+    }, [group, dispatch]);
 
     const inputUserIntoChatRoom = (name: string) => {
         if (group) {
@@ -99,7 +99,9 @@ export default function GroupDetails() {
     const deleteUser = (name: string) => {
         if (group) {
             groupService.dropUser(name, group.id, dispatch)
-            chatUserService.drop(group.chatRoomId, name, dispatch)
+            if (isUserInChatRoom(name)) {
+                chatUserService.drop(group.chatRoomId, name, dispatch)
+            }
         }
     }
 
@@ -226,7 +228,7 @@ export default function GroupDetails() {
                     </Modal>
                 )}
             </div>
-            <DetailButton thisPage={`/groups`} displayBoard="block" displayReview="none" displayReservation="block" displayComment="none"/>
+            <DetailButton thisPage={`/groups`} displayBoard="block" displayReview="none" displayReservation="block" displayComment="none" />
         </div>
     )
 }

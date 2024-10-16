@@ -52,7 +52,7 @@ function UserHeader() {
 
   const onLogout = () => {
     logout().then(() => {
-      router.push('/')
+      window.location.replace('/');
       console.log("로그아웃됨")
     })
   }
@@ -75,8 +75,8 @@ function UserHeader() {
             <Nav />
           </div>
         )}
-
         <div className="flex items-center space-x-3 md:order-2 md:space-x-3 rtl:space-x-reverse">
+
             <TimerButton onRefresh={refreshToken} />
             <button
               onClick={onLogout}
