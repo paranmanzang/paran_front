@@ -27,8 +27,8 @@ export default function UserProfile({ getUser }: UserProfileProps) {
     if (error) return <ErrorMessage message={error} />;
 
     return (
-        <div className="mx-auto my-[40px] h-auto w-full max-w-lg items-start rounded-lg border border-gray-200 bg-white px-6 py-3 shadow">
-            <div className="mb-10 flex">
+        <div className="mx-auto my-[40px] h-auto w-full max-w-[90%] items-center rounded-lg border border-gray-200 bg-white px-6 py-3 shadow">
+            <div className="mb-10 flex justify-center">
                 <div className="ml-3 flex flex-col items-center">
                     {/* <Image
                         className="mb-3 rounded-full shadow-lg"
@@ -41,7 +41,7 @@ export default function UserProfile({ getUser }: UserProfileProps) {
                         }}
                     /> */}
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center justify-center">
                     <ul className="text-sm">
                         <li className="flex items-center">
                             닉네임

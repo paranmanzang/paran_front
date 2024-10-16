@@ -36,9 +36,10 @@ export const initialGroupState: GroupState = {
 };
 
 export interface GroupModel {
-    name: string;
-    categoryName: string;
-    nickname?: string;
+    name: string
+    categoryName: string
+    detail: string
+    nickname?: string
 }
 
 export interface JoiningModel {
