@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { getAddresses } from '@/lib/features/room/address.slice';
+import { getAddresses, saveCurrentAddress } from '@/lib/features/room/address.slice';
 import { AddressModel } from '@/app/model/room/address.model';
 import { useAppDispatch } from '@/lib/store';
 import { getRooms, saveCurrentRoom } from '@/lib/features/room/room.slice';
@@ -45,6 +45,7 @@ const NaverMap = () => {
                 let infoWindows: naver.maps.InfoWindow[] = [];
 
                 const onCLickToMove = (id: number) => {
+                    dispatch(saveCurrentAddress(addresses.find(({ roomId }) => roomId === id) ?? null))
                     router.push(`/rooms/${id}`);
                 };
 

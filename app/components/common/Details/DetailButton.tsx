@@ -19,6 +19,7 @@ import { JoiningModel, LikePostModel } from "@/app/model/group/group.model";
 import { groupService } from "@/app/service/group/group.service";
 import { chatUserService } from "@/app/service/chat/chatUser.service";
 import { chatRoomService } from "@/app/service/chat/chatRoom.service";
+import { roomService } from "@/app/service/room/room.service";
 
 interface DetailButtonProps {
     thisPage: string;
@@ -143,6 +144,21 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         route.push('/likeList');
     }
 
+    const roomConfirm = (answer: string) => {
+        if (room?.id) {
+            switch (answer) {
+                case "승인":
+                    roomService.modifyConfirm(room?.id, dispatch);
+                    break;
+                case "거절" || "삭제":
+                    roomService.drop(room?.id, dispatch);
+                    route.back()
+            }
+        }
+
+        route.push('/admin/rooms');
+    }
+
     const isBookLiked = likebooks.some((likeBook) => likeBook.id === book?.id)
     const isRoomLiked = likeRooms.some((likeRoom) => likeRoom.id === room?.id)
     const ispostLiked = likePosts.some((likePost) => likePost.id === post?.id)
@@ -151,108 +167,117 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
         <>
             {userInfo === 'ROLE_ADMIN' && (
                 <div className="flex items-end justify-center">
-                    <button type="button" onClick={() => { route.push('/admin/update') }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">수정</button>
-                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">삭제</button>
-                    <button type="button" onClick={() => { route.back() }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">뒤로가기</button>
+                    {room?.enabled && (
+                        <button type="button" onClick={() => { roomConfirm("삭제") }} className="bg-green-500 p-3 text-white">삭제</button>
+                    )}
+                    {!room?.enabled && (
+                        <>
+                            <button type="button" onClick={() => { roomConfirm("승인") }} className="me-3 bg-green-500 p-3 text-white">승인</button>
+                            <button type="button" onClick={() => { roomConfirm("거절") }} className="ms-3 bg-green-500 p-3 text-white">거절</button>
+                        </>
+                    )}
+                    <button type="button" onClick={() => { route.back() }} className="mx-2 rounded-full border px-3 py-2">
+                        뒤로가기
+                    </button>
                 </div>
             )}
             {userInfo !== "ROLE_ADMIN" && (
-            <div className="flex items-end justify-center">
-                {thisPage !== '/groups' && (() => {
-                    let isLiked;
-                    switch (thisPage) {
-                        case '/books':
-                            isLiked = isBookLiked;
-                            break;
-                        case '/rooms':
-                            isLiked = isRoomLiked;
-                            break;
-                        case '/groups/board/detail':
-                            isLiked = ispostLiked;
-                            break;
-                        default:
-                            return null; // 해당되지 않는 페이지일 경우 렌더링하지 않음
-                    }
-                    // 좋아요 여부에 따른 버튼 렌더링
-                    return (
-                        isLiked ? (
-                            <button type="button" onClick={Message} className="mx-2 rounded-full border px-3 py-2">
-                                이미 좋아요 목록에 있습니다
-                            </button>
-                        ) : (
-                            userInfo && (
-                                <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
-                                    🥰 좋아요 🥰
+                <div className="flex items-end justify-center">
+                    {thisPage !== '/groups' && (() => {
+                        let isLiked;
+                        switch (thisPage) {
+                            case '/books':
+                                isLiked = isBookLiked;
+                                break;
+                            case '/rooms':
+                                isLiked = isRoomLiked;
+                                break;
+                            case '/groups/board/detail':
+                                isLiked = ispostLiked;
+                                break;
+                            default:
+                                return null; // 해당되지 않는 페이지일 경우 렌더링하지 않음
+                        }
+                        // 좋아요 여부에 따른 버튼 렌더링
+                        return (
+                            isLiked ? (
+                                <button type="button" onClick={Message} className="mx-2 rounded-full border px-3 py-2">
+                                    이미 좋아요 목록에 있습니다
                                 </button>
+                            ) : (
+                                userInfo && (
+                                    <button type="button" onClick={LikeThis} className="mx-2 rounded-full border px-3 py-2">
+                                        🥰 좋아요 🥰
+                                    </button>
+                                )
                             )
-                        )
-                    );
-                })()}
+                        );
+                    })()}
 
-                {/* 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것 */}
-                <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
-                    style={{ display: displayReview }}
-                >
-                    리뷰보기
-                </button>
-                {thisPage == '/rooms' && leaderGroups.length > 0 && (
-                    <button type="button" onClick={() => setIsModalOpen(true)} className="mx-2 rounded-full border px-3 py-2"
+                    {/* 리뷰는 유저의 예약일이 접속일보다 과거면 버튼 띄우기 -> 해당 유저가 진짜 그 장소를 컨텍했는지에 따라 버튼 유무 결정할 것 */}
+                    <button type="button" onClick={handleReview} className="mx-2 rounded-full border px-3 py-2"
                         style={{ display: displayReview }}
                     >
-                        예약하기
+                        리뷰보기
                     </button>
-                )}
-                <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={room?.id ?? 0} />
-                {userInfo && thisPage === '/groups' && group && !isUserInGroup && !isPendingGroup && (
-                    <button type="button" onClick={joinGroup} className="mx-2 rounded-full border px-3 py-2"
-                        style={{ display: displayReservation }}
-                    >
-                        참여하기
-                    </button>
-                )}
-                {isPendingGroup &&
-                    <button type="button" onClick={delteJoinGroup} className="mx-2 rounded-full border px-3 py-2"
-                        style={{ display: displayReservation }}
-                    >
-                        참여신청 취소
-                    </button>
-                }
-                {nickname && thisPage === '/groups' && isUserInGroup && (
-                    <>
-                        {group.nickname !== nickname &&
-                            <button
-                                type="button"
-                                onClick={leaveGroup}
-                                className="mx-2 rounded-full border px-3 py-2"
-                                style={{ display: displayBoard }}
-                            >
-                                탈퇴하기
-                            </button>
-                        }
-                        {group.nickname === nickname &&
-                            <button
-                                type="button"
-                                onClick={deleteGroup}
-                                className="mx-2 rounded-full border px-3 py-2"
-                                style={{ display: displayBoard }}
-                            >
-                                모임 삭제 하기
-                            </button>
-                        }
-                        <button
-                            type="button"
-                            onClick={() => { route.push(`/groups/board/${group?.id}`) }}
-                            className="mx-2 rounded-full border px-3 py-2"
-                            style={{ display: displayBoard }}
+                    {thisPage == '/rooms' && leaderGroups.length > 0 && (
+                        <button type="button" onClick={() => setIsModalOpen(true)} className="mx-2 rounded-full border px-3 py-2"
+                            style={{ display: displayReview }}
                         >
-                            모임 공지가기
+                            예약하기
                         </button>
-                    </>
-                )}
-                <button type="button" onClick={() => { route.back() }} className="mx-2 rounded-full border px-3 py-2">
-                    뒤로가기
-                </button>
-            </div>
+                    )}
+                    <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} id={room?.id ?? 0} />
+                    {userInfo && thisPage === '/groups' && group && !isUserInGroup && !isPendingGroup && (
+                        <button type="button" onClick={joinGroup} className="mx-2 rounded-full border px-3 py-2"
+                            style={{ display: displayReservation }}
+                        >
+                            참여하기
+                        </button>
+                    )}
+                    {isPendingGroup &&
+                        <button type="button" onClick={delteJoinGroup} className="mx-2 rounded-full border px-3 py-2"
+                            style={{ display: displayReservation }}
+                        >
+                            참여신청 취소
+                        </button>
+                    }
+                    {nickname && thisPage === '/groups' && isUserInGroup && (
+                        <>
+                            {group.nickname !== nickname &&
+                                <button
+                                    type="button"
+                                    onClick={leaveGroup}
+                                    className="mx-2 rounded-full border px-3 py-2"
+                                    style={{ display: displayBoard }}
+                                >
+                                    탈퇴하기
+                                </button>
+                            }
+                            {group.nickname === nickname &&
+                                <button
+                                    type="button"
+                                    onClick={deleteGroup}
+                                    className="mx-2 rounded-full border px-3 py-2"
+                                    style={{ display: displayBoard }}
+                                >
+                                    모임 삭제 하기
+                                </button>
+                            }
+                            <button
+                                type="button"
+                                onClick={() => { route.push(`/groups/board/${group?.id}`) }}
+                                className="mx-2 rounded-full border px-3 py-2"
+                                style={{ display: displayBoard }}
+                            >
+                                모임 공지가기
+                            </button>
+                        </>
+                    )}
+                    <button type="button" onClick={() => { route.back() }} className="mx-2 rounded-full border px-3 py-2">
+                        뒤로가기
+                    </button>
+                </div>
             )}
 
             <Alert

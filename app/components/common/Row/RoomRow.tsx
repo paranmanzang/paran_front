@@ -10,6 +10,7 @@ import RoomCard from "./RoomCard";
 import { useRouter } from "next/navigation";
 import SellerButton from "../../user/seller/SellerButton";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
+import { getAddresses, saveCurrentAddress } from "@/lib/features/room/address.slice";
 
 interface RoomRowProps {
   active: boolean;
@@ -19,6 +20,7 @@ interface RoomRowProps {
 const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   const rooms = useSelector(getRooms)
   const files = useSelector(getFiles)
+  const addresses = useSelector(getAddresses)
   const dispatch = useAppDispatch()
   const router = useRouter()
   const user = useSelector(getCurrentUser)
@@ -48,6 +50,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
       if (currentRoom) {
         dispatch(saveCurrentRoom(currentRoom));
         dispatch(saveCurrentFile(files.roomFiles.find(({ refId }) => refId === currentId) ?? null));
+        dispatch(saveCurrentAddress(addresses.find(({ roomId }) => roomId === currentId) ?? null))
         router.push(`/rooms/${currentId}`);
       }
     }
@@ -56,7 +59,7 @@ const RoomRow = ({ active, onSelect }: RoomRowProps) => {
   return (
     <>
       {user?.role === 'ROLE_SELLER' && <SellerButton />}
-      <div className="w-[92%] mb-4 ml-4 grid grid-cols-4 gap-8 md:grid-cols-3">
+      <div className="mb-4 ml-4 grid w-[92%] grid-cols-4 gap-8 md:grid-cols-3">
         {rooms.map((room, index) => (
           <RoomCard
             key={index}
