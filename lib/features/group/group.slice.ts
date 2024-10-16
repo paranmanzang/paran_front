@@ -15,6 +15,9 @@ const groupSlice = createSlice({
     saveGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
       state.groups = action.payload;
     },
+    saveEnableGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
+      state.enableGroups = action.payload;
+    },
     saveLeaderGroups: (state, action: PayloadAction<GroupResponseModel[]>) => {
       state.leadergroups = action.payload;
     },
@@ -35,6 +38,9 @@ const groupSlice = createSlice({
     },
     addGroup: (state, action: PayloadAction<GroupResponseModel>) => {
       state.groups.push(action.payload);
+    },
+    addEnableGroup: (state, action: PayloadAction<GroupResponseModel>) => {
+      state.enableGroups.push(action.payload);
     },
     addGroupMember: (state, action: PayloadAction<JoiningModel>) => {
       const { groupId } = action.payload;
@@ -58,6 +64,9 @@ const groupSlice = createSlice({
     },
     deleteGroup: (state, action: PayloadAction<number>) => {
       state.groups = state.groups.filter(group => group.id !== action.payload);
+    },
+    deleteEnableGroup: (state, action: PayloadAction<number>) => {
+      state.enableGroups = state.enableGroups.filter(group => group.id !== action.payload);
     },
     deleteGroupMember: (state, action: PayloadAction<{ groupId: number; nickname: string }>) => {
       const { groupId, nickname } = action.payload;
@@ -147,6 +156,7 @@ export const getGroupPosts = createSelector(
   })
 );
 export const getGroups = (state: RootState) => state.group.groups;
+export const getEnableGroups = (state: RootState) => state.group.enableGroups;
 export const getLikedPosts = (state: RootState) => state.group.likePosts;
 export const getUserGroups = (state: RootState) => state.group.userGroups;
 export const getGroupMembers = (state: RootState) => state.group.groupMembers;
@@ -159,6 +169,7 @@ export const getError = (state: RootState) => state.group.error
 
 export const {
   saveGroups,
+  saveEnableGroups,
   saveUserGroups,
   saveLeaderGroups,
   saveGroupMembers,
@@ -168,6 +179,8 @@ export const {
   addGroupMember,
   deleteGroupMember,
   addGroup,
+  addEnableGroup,
+  deleteEnableGroup,
   updateGroup,
   deleteGroup,
   saveGroupPosts,
