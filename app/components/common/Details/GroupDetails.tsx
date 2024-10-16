@@ -65,7 +65,7 @@ export default function GroupDetails() {
             groupService.findUserById(group.id, dispatch);
         }
     }, [group, dispatch]);
-    
+
     useEffect(() => {
         if (group?.chatRoomId !== undefined) {
             chatUserService.findList({ roomId: group.chatRoomId, dispatch })
@@ -226,7 +226,7 @@ export default function GroupDetails() {
                     </Modal>
                 )}
             </div>
-            <DetailButton thisPage={`/groups`} displayBoard="block" displayReview="none" displayReservation="block" />
+            <DetailButton thisPage={`/groups`} displayBoard="block" displayReview="none" displayReservation="block" displayComment="none"/>
         </div>
     )
 }

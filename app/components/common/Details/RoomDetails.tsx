@@ -37,10 +37,10 @@ export default function Details() {
 
       </div>
       {user?.role &&
-        <DetailButton thisPage="/rooms" displayBoard="block" displayReview="block" displayReservation="block" />
+        <DetailButton thisPage="/rooms" displayBoard="block" displayReview="block" displayReservation="block" displayComment="none"/>
       }
       {!user?.role &&
-        <DetailButton thisPage="/rooms" displayBoard="none" displayReview="none" displayReservation="none" />
+        <DetailButton thisPage="/rooms" displayBoard="none" displayReview="none" displayReservation="none" displayComment="none"/>
       }
 
     </div >
