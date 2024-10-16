@@ -58,7 +58,7 @@ function UserHeader() {
   }
 
   const refreshToken = () => {
-    console.log('리프레시 토큰이 될것')
+    console.log('리프레시 토큰')
   }
 
   return (
@@ -76,13 +76,11 @@ function UserHeader() {
           </div>
         )}
 
-        <div className="flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
-          <>
-          {/* -------- refresh token 연결하기  ----- */}
+        <div className="flex items-center space-x-3 md:order-2 md:space-x-3 rtl:space-x-reverse">
             <TimerButton onRefresh={refreshToken} />
             <button
               onClick={onLogout}
-              className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
+              className="mx-4 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
             >
               로그아웃
             </button>
@@ -111,7 +109,6 @@ function UserHeader() {
                 </ul>
               </>
               )}
-          </>
         </div>
       </div>
     </header>
