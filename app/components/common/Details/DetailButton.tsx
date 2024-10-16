@@ -153,6 +153,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                 <div className="flex items-end justify-center">
                     <button type="button" onClick={() => { route.push('/admin/update') }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">수정</button>
                     <button type="button" onClick={() => { route.push('/admin/delete') }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">삭제</button>
+                    <button type="button" onClick={() => { route.back() }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">뒤로가기</button>
                 </div>
             )}
             {userInfo !== "ROLE_ADMIN" && (
