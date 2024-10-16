@@ -29,16 +29,18 @@ export default function Login() {
     // login 로직 끝난 후로 추가하기
     useEffect(() => {
         if (!loading && role) {
-        console.log("user 의 role 을 사용해볼게요", role)
-        {
-            role === "ROLE_ADMIN" && (
-                router.push('/admin'))
+            console.log("user 의 role 을 사용해볼게요", role)
+            switch (role) {
+                case "ROLE_ADMIN":
+                    router.push('/admin')
+                    break
+                case "ROLE_SELLER":
+                    router.push('/seller')
+                    break
+                default:
+                    router.push('/')
+            }
         }
-        {
-            role !== "ROLE_ADMIN" && (
-                router.push('/'))
-        }
-    }
     }, [role, router]);
 
 
@@ -58,7 +60,7 @@ export default function Login() {
     };
 
     return (
-        <div className="mx-auto my-6 max-w-lg rounded-lg border p-6 shadow items-center">
+        <div className="mx-auto my-6 max-w-lg items-center rounded-lg border p-6 shadow">
             <form onSubmit={onSubmit}>
                 <div className="mb-5">
                     <label htmlFor="username" className="mb-2 block text-sm font-medium text-gray-900">

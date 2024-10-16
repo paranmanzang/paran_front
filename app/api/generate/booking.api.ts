@@ -17,4 +17,7 @@ export const bookingAPI = {
     findByRoom(roomId: number, page: number, size: number) {
         return api.get<Page<BookingModel>>(requests.fetchRooms + `/bookings/room/${roomId}`, { params: { page, size } });
     },
+    findByRooms(nickname: string, page: number, size: number) {
+        return api.get<Page<BookingModel>>(requests.fetchRooms + `/bookings/room`, { params: { nickname, page, size }, paramsSerializer: (params: any) => qs.stringify(params, { arrayFormat: 'repeat' }) });
+    },
 }

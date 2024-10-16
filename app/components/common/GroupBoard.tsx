@@ -5,7 +5,7 @@ import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { groupPostService } from "@/app/service/group/groupPost.service";
-import { getBookings } from "@/lib/features/room/bookings.slice";
+import { getBookings } from "@/lib/features/room/booking.slice";
 import { bookingService } from "@/app/service/room/booking.service";
 import { getAllRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
 import { getAddresses, saveCurrentAddress } from "@/lib/features/room/address.slice";

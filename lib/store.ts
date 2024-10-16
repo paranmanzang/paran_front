@@ -4,7 +4,7 @@ import roomSlice from './features/room/room.slice'
 import addressSlice from './features/room/address.slice'
 import accountSlice from './features/room/account.slice'
 import reviewSlice from './features/room/review.slice'
-import bookingsSlice from './features/room/bookings.slice'
+import bookingsSlice from './features/room/booking.slice'
 import { useDispatch } from "react-redux"
 import userSlice from './features/users/user.slice'
 import errorSlice from './features/error.slice'
