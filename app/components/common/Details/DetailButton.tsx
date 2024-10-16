@@ -47,7 +47,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
     const user = useSelector(getCurrentUser)
     const users = useSelector(getGroupMembers)
     const nickname = useSelector(getNickname)
-    const userInfo = user?.role ?? null
+    const userInfo = user?.role
     const isUserInGroup = group?.id && users[group.id]?.some((user: any) => user.nickname === nickname);
     const enableUsers = useSelector(getGroupEnableMembers)
     const isPendingGroup = group?.id && enableUsers[group.id]?.some((user) => user.nickname === nickname);
@@ -149,15 +149,15 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
 
     return (
         <>
-            {userInfo === 'ROLE_admin' && (
-                <div className="mx-auto max-w-sm">
-                    <button type="button" onClick={() => { route.push('/admin/update') }} className="bg-green-500 p-3 text-white">수정</button>
-                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="bg-green-500 p-3 text-white">삭제</button>
+            {userInfo === 'ROLE_ADMIN' && (
+                <div className="flex items-end justify-center">
+                    <button type="button" onClick={() => { route.push('/admin/update') }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">수정</button>
+                    <button type="button" onClick={() => { route.push('/admin/delete') }} className="mx-2 rounded-full border px-3 py-2 hover:bg-green-50">삭제</button>
                 </div>
             )}
+            {userInfo !== "ROLE_ADMIN" && (
             <div className="flex items-end justify-center">
                 {thisPage !== '/groups' && (() => {
-
                     let isLiked;
                     switch (thisPage) {
                         case '/books':
@@ -172,7 +172,6 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                         default:
                             return null; // 해당되지 않는 페이지일 경우 렌더링하지 않음
                     }
-
                     // 좋아요 여부에 따른 버튼 렌더링
                     return (
                         isLiked ? (
@@ -253,6 +252,7 @@ export default function DetailButton({ thisPage, displayReview, displayBoard, di
                     뒤로가기
                 </button>
             </div>
+            )}
 
             <Alert
                 message={alertMessage}

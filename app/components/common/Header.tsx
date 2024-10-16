@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "./Nav";
-import paranLogo from "@/app/assets/paranLogo.png";
 import { logout } from "@/app/service/user/logout.service";
 import BellService from "./BellService";
 import { useSelector } from "react-redux";
@@ -16,7 +15,7 @@ function LoginHeader() {
     <header className="border-b border-gray-400 bg-white shadow-sm">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <Image src={paranLogo} width={24} height={24} className="size-8" alt="Logo" />
+          <Image src="/assets/paranLogo.png" width={24} height={24} className="size-8" alt="Logo" />
           <span className="self-center whitespace-nowrap text-2xl font-semibold">
             Paranmanzang
           </span>
@@ -61,7 +60,7 @@ function UserHeader() {
     <header className="border-b border-gray-400 bg-white shadow-sm">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <Image src={paranLogo} width={24} height={24} className="size-8" alt="Logo" />
+          <Image src="/assets/paranLogo.png" width={24} height={24} className="size-8" alt="Logo" />
           <span className="self-center whitespace-nowrap text-2xl font-semibold">
             Paranmanzang
           </span>

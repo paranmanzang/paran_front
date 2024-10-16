@@ -2,13 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Image from "next/image";
-import Naver from "@/app/assets/btnG.png"
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from '@/lib/store';
 import { loginService } from '@/app/service/user/login.service';
 import { useSelector } from 'react-redux';
 import { getCurrentUser } from '@/lib/features/users/user.slice';
-import { userService } from '@/app/service/user/user.service';
 
 export default function Login() {
     const router = useRouter();
@@ -113,9 +111,9 @@ export default function Login() {
                     onClick={() => moveToOath()}
                 >
                     <Image
-                        src={Naver}
+                        src="/assets/btnG.png"
                         alt="naver"
-                        width={40}
+                        width={40} height={40}
                     />
                     <span className="mx-5">네이버로 로그인</span>
                 </button>
