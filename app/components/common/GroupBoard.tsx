@@ -8,6 +8,7 @@ import { groupPostService } from "@/app/service/group/groupPost.service";
 import { getBookings } from "@/lib/features/room/bookings.slice";
 import { bookingService } from "@/app/service/room/booking.service";
 import { getAllRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
+import { getAddresses, saveCurrentAddress } from "@/lib/features/room/address.slice";
 // 페이지 네이션 필요!!!!
 export default function GroupBoard() {
     const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ export default function GroupBoard() {
 
     const bookings = useSelector(getBookings)
     const enableRooms = useSelector(getAllRooms)
+    const addresses = useSelector(getAddresses)
     console.log(enableRooms)
     useEffect(() => {
         if (!groupId) {
@@ -52,7 +54,8 @@ export default function GroupBoard() {
     const onClickToRoomDetail = (currentId: number | undefined) => {
         if (currentId !== undefined) {
             dispatch(saveCurrentRoom(enableRooms.find((room) => room.id === currentId) || null))
-            router.push(`/groups/rooms/${currentId}`);
+            dispatch(saveCurrentAddress(addresses.find(({ roomId }) => roomId === currentId) ?? null))
+            router.push(`/rooms/${currentId}`);
         }
     }
 

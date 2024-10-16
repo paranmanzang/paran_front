@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Nav from "./Nav";
-import paranLogo from "@/app/assets/paranLogo.png";
 import { logout } from "@/app/service/user/logout.service";
 import BellService from "./BellService";
 import { useSelector } from "react-redux";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 import { useRouter } from "next/navigation";
+import TimerButton from "./status/RefreshTokenBtn";
 
 function LoginHeader() {
   return (
     <header className="border-b border-gray-400 bg-white shadow-sm">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <Image src={paranLogo} width={24} height={24} className="size-8" alt="Logo" />
+          <Image src="/assets/paranLogo.png" width={24} height={24} className="size-8" alt="Logo" />
           <span className="self-center whitespace-nowrap text-2xl font-semibold">
             Paranmanzang
           </span>
@@ -57,11 +57,15 @@ function UserHeader() {
     })
   }
 
+  const refreshToken = () => {
+    console.log('리프레시 토큰이 될것')
+  }
+
   return (
     <header className="border-b border-gray-400 bg-white shadow-sm">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
         <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-          <Image src={paranLogo} width={24} height={24} className="size-8" alt="Logo" />
+          <Image src="/assets/paranLogo.png" width={24} height={24} className="size-8" alt="Logo" />
           <span className="self-center whitespace-nowrap text-2xl font-semibold">
             Paranmanzang
           </span>
@@ -74,6 +78,8 @@ function UserHeader() {
 
         <div className="flex items-center space-x-3 md:order-2 md:space-x-0 rtl:space-x-reverse">
           <>
+          {/* -------- refresh token 연결하기  ----- */}
+            <TimerButton onRefresh={refreshToken} />
             <button
               onClick={onLogout}
               className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
