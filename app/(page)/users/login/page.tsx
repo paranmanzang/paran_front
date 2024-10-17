@@ -50,13 +50,13 @@ export default function Login() {
             console.log("result확인용", result);
             console.log("page부분",window.location.search)
             console.log("page부분끝",window.location.search)
-            
-            
         } catch (error) {
             console.error('로그인 실패:', error)
+        }finally{
+            router.push("/users/oauth")
         }
-        const oauth = loginService.handleOAuthCallback(dispatch)
-        console.log("확인용 : ", oauth)
+        // const oauth = loginService.handleOAuthCallback(dispatch)
+        // console.log("확인용 : ", oauth)
 
     };
 
