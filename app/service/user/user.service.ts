@@ -48,7 +48,7 @@ const modifyPassword = async (nickname: string, newPassword: string, dispatch: A
 };
 
 // 권한 수정
-const modifyRole = async (nickname: string, newRole: string, dispatch: AppDispatch): Promise<void> => {
+const modifyRole = async (nickname: string, newRole: string, dispatch: AppDispatch): Promise<any> => {
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.modifyRole(nickname, newRole);

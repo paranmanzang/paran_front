@@ -74,7 +74,7 @@ export default function UserList() {
               </div>
               <p>{user.nickname}</p>
               <button type="button" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500"
-                onClick={() => router.push(`/users/${user.id}`)}>
+                onClick={() => router.push(`/users/${user.nickname}`)}>
                 상세보기
               </button>
             </Link>

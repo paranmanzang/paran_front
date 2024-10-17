@@ -5,30 +5,26 @@ import Image from "next/image";
 import LoadingSpinner from '../common/status/LoadingSpinner';
 import { useAppDispatch } from '@/lib/store';
 import { useSelector } from 'react-redux';
-import { getCurrentUser, getNickname } from '@/lib/features/users/user.slice';
+import { getCurrentUser } from '@/lib/features/users/user.slice';
 import { userService } from '@/app/service/user/user.service';
-import { UserModel } from '@/app/model/user.model';
 
 interface UserInfo {
   id: string
-  nickname: string;
+  nickname: { nickname: string };
   grade: string;
   image: string;
 }
 
-export default function AdminUser({id}: UserInfo) {
+export default function AdminUser({nickname}: UserInfo) {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)
   const [newRole, setNewRole] = useState<string>('')
   const user = useSelector(getCurrentUser)
-  const nickname = useSelector(getNickname) as string
 
   useEffect(() => {
-    // 컴포넌트 마운트 시 사용자 정보 불러오기
-      userService.modifyRole(nickname, newRole, dispatch); 
-    
-  }, []);
+    userService.modifyRole(nickname.nickname, newRole, dispatch); 
+  }, [nickname, newRole, dispatch]);
 
   const handlePageUserJoin = () => {router.push('/account')}
   const handlePageUserUpdate = () => { router.push('/admin/userUpdate')}
@@ -41,7 +37,7 @@ export default function AdminUser({id}: UserInfo) {
   const handleGradeUpdate = async () => {
     if (newRole && userInfo) {
       try {
-        await userService.modifyRole(nickname, newRole, dispatch);
+        await userService.modifyRole(nickname.nickname, newRole, dispatch);
         setUserInfo({ ...userInfo, grade: newRole });
         alert("회원 등급이 성공적으로 업데이트되었습니다.");
       } catch (error) {
@@ -71,7 +67,7 @@ export default function AdminUser({id}: UserInfo) {
           <li className="flex items-center">
             닉네임
             <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
-              {userInfo.nickname}
+              {userInfo.nickname.nickname}
             </h5>
           </li>
           <li className="flex items-center">
