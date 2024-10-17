@@ -10,9 +10,9 @@ import { userService } from '@/app/service/user/user.service';
 
 interface UserInfo {
   id: string
-  nickname: { nickname: string };
-  grade: string;
-  image: string;
+  nickname: string
+  grade: string
+  image: string
 }
 
 export default function AdminUser({nickname}: UserInfo) {
@@ -23,7 +23,7 @@ export default function AdminUser({nickname}: UserInfo) {
   const user = useSelector(getCurrentUser)
 
   useEffect(() => {
-    userService.modifyRole(nickname.nickname, newRole, dispatch); 
+    userService.modifyRole(nickname, newRole, dispatch); 
   }, [nickname, newRole, dispatch]);
 
   const handlePageUserJoin = () => {router.push('/account')}
@@ -37,7 +37,7 @@ export default function AdminUser({nickname}: UserInfo) {
   const handleGradeUpdate = async () => {
     if (newRole && userInfo) {
       try {
-        await userService.modifyRole(nickname.nickname, newRole, dispatch);
+        await userService.modifyRole(nickname, newRole, dispatch);
         setUserInfo({ ...userInfo, grade: newRole });
         alert("회원 등급이 성공적으로 업데이트되었습니다.");
       } catch (error) {
@@ -67,7 +67,7 @@ export default function AdminUser({nickname}: UserInfo) {
           <li className="flex items-center">
             닉네임
             <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
-              {userInfo.nickname.nickname}
+              {userInfo.nickname}
             </h5>
           </li>
           <li className="flex items-center">
