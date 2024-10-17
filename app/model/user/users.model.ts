@@ -10,7 +10,7 @@ interface UserState {
   adminPosts: AdminPostModel[];
   declarationPosts: DeclarationPostModel[];
   declarationPostsByNickname: DeclarationPostModel[];
-  currentDeclarationPost: DeclarationPostModel[] | null
+  currentDeclarationPost: DeclarationPostModel | null,
   checkedNames: CheckedNamesModel[];
   isLoading: boolean;
   error: string | null;
