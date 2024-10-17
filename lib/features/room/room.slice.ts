@@ -9,8 +9,17 @@ export const roomSlice = createSlice({
         saveRooms: (state, action: PayloadAction<RoomModel[]>) => {
             state.rooms = action.payload;
         },
-        saveAllRooms: (state, action: PayloadAction<RoomModel[]>) => {
-            state.allRooms = action.payload;
+        saveRoomsMap: (state, action: PayloadAction<RoomModel[]>) => {
+            state.roomsMap = action.payload;
+        },
+        saveDisableRooms: (state, action: PayloadAction<RoomModel[]>) => {
+            state.disabledRooms = action.payload;
+        },
+        saveDisableRoomByNickname: (state, action: PayloadAction<RoomModel[]>) => {
+            state.disabledRoomByNickname = action.payload;
+        },
+        saveEnabledRoomByNickanme: (state, action: PayloadAction<RoomModel[]>) => {
+            state.enabledRoomByNickname = action.payload;
         },
         saveLikedRooms: (state, action: PayloadAction<RoomModel[]>) => {
             state.roomsLiked = action.payload
@@ -31,6 +40,18 @@ export const roomSlice = createSlice({
         addRoom: (state, action: PayloadAction<RoomModel>) => {
             state.rooms.push(action.payload)
         },
+        addRoomMap: (state, action: PayloadAction<RoomModel>) => {
+            state.roomsMap.push(action.payload)
+        },
+        addEnabledRoomByNickname: (state, action: PayloadAction<RoomModel>) => {
+            state.enabledRoomByNickname.push(action.payload)
+        },
+        addDisabledRoomByNickname: (state, action: PayloadAction<RoomModel>) => {
+            state.disabledRoomByNickname.push(action.payload)
+        },
+        addDisabledRoom: (state, action: PayloadAction<RoomModel>) => {
+            state.disabledRooms.push(action.payload)
+        },
         addLikedRoom: (state, action: PayloadAction<RoomModel>) => {
             state.roomsLiked.push(action.payload);
         },
@@ -43,8 +64,44 @@ export const roomSlice = createSlice({
                 state.rooms[index] = action.payload;
             }
         },
+        updateRoomMap: (state, action: PayloadAction<RoomModel>) => {
+            const index = state.roomsMap.findIndex(room => room.id === action.payload.id)
+            if (index !== -1) {
+                state.rooms[index] = action.payload;
+            }
+        },
+        updateEnableRoomByNickname: (state, action: PayloadAction<RoomModel>) => {
+            const index = state.enabledRoomByNickname.findIndex(room => room.id === action.payload.id)
+            if (index !== -1) {
+                state.rooms[index] = action.payload;
+            }
+        },
+        updateDisabledRoomByNickname: (state, action: PayloadAction<RoomModel>) => {
+            const index = state.disabledRoomByNickname.findIndex(room => room.id === action.payload.id)
+            if (index !== -1) {
+                state.rooms[index] = action.payload;
+            }
+        },
+        updateDisabledRoom: (state, action: PayloadAction<RoomModel>) => {
+            const index = state.disabledRooms.findIndex(room => room.id === action.payload.id)
+            if (index !== -1) {
+                state.rooms[index] = action.payload;
+            }
+        },
         removeRoom: (state, action: PayloadAction<number>) => {
             state.rooms.filter(room => room.id !== action.payload)
+        },
+        removeRoomMap: (state, action: PayloadAction<number>) => {
+            state.roomsMap.filter(room => room.id !== action.payload)
+        },
+        removeEnabledRoomByNickname: (state, action: PayloadAction<number>) => {
+            state.enabledRoomByNickname.filter(room => room.id !== action.payload)
+        },
+        removeDisabledRoomByNickname: (state, action: PayloadAction<number>) => {
+            state.disabledRoomByNickname.filter(room => room.id !== action.payload)
+        },
+        removeDisabledRoom: (state, action: PayloadAction<number>) => {
+            state.disabledRooms.filter(room => room.id !== action.payload)
         },
         removeNotEnabledRoom: (state, action: PayloadAction<number>) => {
             state.notEnabledrooms.filter(room => room.id !== action.payload)
@@ -65,7 +122,10 @@ export const getSeperatedRooms = createSelector(
     })
 )
 export const getRooms = (state: RootState) => state.room.rooms;
-export const getAllRooms = (state: RootState) => state.room.allRooms;
+export const getRoomsMap = (state: RootState) => state.room.roomsMap;
+export const getEnabledRoomByNickname = (state: RootState) => state.room.enabledRoomByNickname;
+export const getDisabledRoomByNickname = (state: RootState) => state.room.disabledRoomByNickname;
+export const getDisabledRooms = (state: RootState) => state.room.disabledRooms;
 export const getLikedRooms = (state: RootState) => state.room.roomsLiked;
 export const getCurrentRoom = (state: RootState) => state.room.currentRoom;
 export const getIsLoading = (state: RootState) => state.room.isLoading;
@@ -74,18 +134,32 @@ export const getError = (state: RootState) => state.room.error;
 // 액션 생성자들을 export
 export const {
     saveRooms,
-    saveAllRooms,
+    saveRoomsMap,
+    saveDisableRooms,
+    saveEnabledRoomByNickanme,
+    saveDisableRoomByNickname,
     saveLikedRooms,
     saveSeperatedRooms,
     saveCurrentRoom,
     saveLoading,
     saveError,
     addRoom,
-    addEnabledRoom,
+    addRoomMap,
+    addDisabledRoom,
+    addDisabledRoomByNickname,
+    addEnabledRoomByNickname,
     updateRoom,
+    updateRoomMap,
+    updateDisabledRoom,
+    updateDisabledRoomByNickname,
+    updateEnableRoomByNickname,
     removeRoom,
+    removeRoomMap,
     addLikedRoom,
     removeLikedRoom,
+    removeDisabledRoom,
+    removeDisabledRoomByNickname,
+    removeEnabledRoomByNickname,
     removeNotEnabledRoom,
 } = roomSlice.actions;
 

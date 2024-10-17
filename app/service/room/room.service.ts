@@ -1,7 +1,7 @@
 
 import { RoomModel, RoomUpdateModel } from '../../model/room/room.model';
 import { AppDispatch } from '@/lib/store';
-import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom, saveError, saveLikedRooms, saveAllRooms, saveSeperatedRooms } from '@/lib/features/room/room.slice';
+import { saveLoading, addRoom, updateRoom, saveRooms, removeRoom, saveError, saveLikedRooms, saveEnabledRoomByNickanme, saveDisableRoomByNickname, saveDisableRooms, updateEnableRoomByNickname, addEnabledRoomByNickname, addDisabledRoomByNickname, addDisabledRoom, removeDisabledRoom, removeEnabledRoomByNickname, removeDisabledRoomByNickname, addRoomMap, updateRoomMap, saveRoomsMap, removeRoomMap } from '@/lib/features/room/room.slice';
 import { roomAPI } from '@/app/api/generate/room.api';
 import { FileType } from '@/app/model/file/file.model';
 import { fileService } from '../file/file.service';
@@ -11,7 +11,8 @@ const save = async (roomModel: RoomModel, dispatch: AppDispatch): Promise<void> 
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.insert(roomModel)
-        dispatch(addRoom(response.data))
+        dispatch(addDisabledRoomByNickname(response.data))
+        dispatch(addDisabledRoom(response.data))
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
@@ -33,6 +34,8 @@ const modify = async (roomModel: RoomUpdateModel, dispatch: AppDispatch): Promis
         const response = await roomAPI.modify(roomModel)
         console.log(response)
         dispatch(updateRoom(response.data));
+        dispatch(updateEnableRoomByNickname(response.data))
+        dispatch(updateRoomMap(response.data))
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
@@ -54,6 +57,10 @@ const drop = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
         const response = await roomAPI.drop(id);
         console.log("room drop - result: ", response)
         dispatch(removeRoom(id))
+        dispatch(removeRoomMap(id))
+        dispatch(removeDisabledRoom(id))
+        dispatch(removeEnabledRoomByNickname(id))
+        dispatch(removeDisabledRoomByNickname(id))
         return response.data;
     } catch (error: any) {
         if (error.response) {
@@ -68,52 +75,33 @@ const drop = async (id: number, dispatch: AppDispatch): Promise<boolean> => {
         }
     }
 };
-// 등록자에 대한 공간 조회
-const findByUser = async (nickname: string, page: number, size: number, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true))
-        const response = await roomAPI.findByUser(nickname, page, size);
-        dispatch(saveSeperatedRooms(response.data.content))
-    } catch (error: any) {
-        if (error.response) {
-            console.error('Server Error:', error.response.data);
-            throw new Error('서버에서 오류가 발생했습니다.');
-        } else if (error.request) {
-            console.error('No Response:', error.request);
-            throw new Error('서버 응답이 없습니다.');
-        } else {
-            console.error('Error:', error.message);
-            throw new Error('요청 설정 중 오류가 발생했습니다.');
-        }
-    }
-};
-const findAllByUser = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
-    try {
-        dispatch(saveLoading(true))
-        const response = await roomAPI.findAllByUser(nickname);
-        console.log("findAllByUser - service await 부분임", response.data)
-        dispatch(saveAllRooms(response.data.content))
-    } catch (error: any) {
-        if (error.response) {
-            console.error('Server Error:', error.response.data);
-            throw new Error('서버에서 오류가 발생했습니다.');
-        } else if (error.request) {
-            console.error('No Response:', error.request);
-            throw new Error('서버 응답이 없습니다.');
-        } else {
-            console.error('Error:', error.message);
-            throw new Error('요청 설정 중 오류가 발생했습니다.');
-        }
-    }
-};
 
-// 전체 공간 조회 -> admin 에서 볼 수 있음. 
-const findAll = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+// 지도 전체 공간 
+const findAllMap = async (dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.findAll(page, size)
+        const response = await roomAPI.findAllMap()
+        dispatch(saveRoomsMap(response.data))
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
+    }
+};
+// 나의 승인된 공간
+const findEnableByNickname = async (page: number, size: number, nickname: string, dispatch: AppDispatch): Promise<void> => {
+    try {
+        dispatch(saveLoading(true))
+        const response = await roomAPI.findEnableByNickname(page, size, nickname)
         console.log("findAll - service await 부분임", response.data.content)
-        dispatch(saveSeperatedRooms(response.data.content))
+        dispatch(saveEnabledRoomByNickanme(response.data.content))
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
@@ -128,13 +116,13 @@ const findAll = async (page: number, size: number, dispatch: AppDispatch): Promi
     }
 };
 
-// 승인된 공간 전체 조회
-const findAllByEnabled = async (dispatch: AppDispatch): Promise<void> => {
+//  나의 승인되지않은 공간
+const findDisableByNickname = async (page: number, size: number, nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.findAllByEnabled()
-        fileService.selectFileList(response.data.map((room) => room.id).filter((id): id is number => id !== undefined), FileType.ROOM, dispatch);
-        dispatch(saveAllRooms(response.data))
+        const response = await roomAPI.findDisableByNickname(page, size, nickname)
+        console.log("findAll - service await 부분임", response.data.content)
+        dispatch(saveDisableRoomByNickname(response.data.content))
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
@@ -147,12 +135,34 @@ const findAllByEnabled = async (dispatch: AppDispatch): Promise<void> => {
             throw new Error('요청 설정 중 오류가 발생했습니다.');
         }
     }
-}
+};
+
+// 전체에서 승인되지 않는 공간
+const findDisable = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+    try {
+        dispatch(saveLoading(true))
+        const response = await roomAPI.findDisable(page, size)
+        console.log("findAll - service await 부분임", response.data.content)
+        dispatch(saveDisableRooms(response.data.content))
+    } catch (error: any) {
+        if (error.response) {
+            console.error('Server Error:', error.response.data);
+            throw new Error('서버에서 오류가 발생했습니다.');
+        } else if (error.request) {
+            console.error('No Response:', error.request);
+            throw new Error('서버 응답이 없습니다.');
+        } else {
+            console.error('Error:', error.message);
+            throw new Error('요청 설정 중 오류가 발생했습니다.');
+        }
+    }
+};
+
 // 승인된 공간 조회-페이지네이션
 const findByEnabled = async (page: number, size: number, dispatch: AppDispatch): Promise<any> => {
     try {
         dispatch(saveLoading(true))
-        const response = await roomAPI.findByEnabled(page, size)
+        const response = await roomAPI.findEnable(page, size)
 
         //console.log("findByEnabled - service await 부분임",response.data.content)
         dispatch(saveRooms(response.data.content))
@@ -179,7 +189,11 @@ const modifyConfirm = async (id: number, dispatch: AppDispatch): Promise<void> =
     try {
         dispatch(saveLoading(true))
         const response = await roomAPI.modifyConfirm(id)
-        dispatch(updateRoom(response.data))
+        dispatch(addRoom(response.data))
+        dispatch(addRoomMap(response.data))
+        dispatch(addEnabledRoomByNickname(response.data))
+        dispatch(removeDisabledRoom(id))
+        dispatch(removeDisabledRoomByNickname(id))
     } catch (error: any) {
         if (error.response) {
             console.error('Server Error:', error.response.data);
@@ -212,6 +226,6 @@ const findAllLikedByNickname = async (nickname: string, dispatch: AppDispatch): 
 }
 
 export const roomService = {
-    save, modify, drop,
-    findByUser, findAllByUser, findAll, findAllByEnabled, findByEnabled, findAllLikedByNickname, modifyConfirm
+    save, modify, drop, findAllMap,
+    findByEnabled, findDisable, findEnableByNickname, findDisableByNickname, findAllLikedByNickname, modifyConfirm
 }
