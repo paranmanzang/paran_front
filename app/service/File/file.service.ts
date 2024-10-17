@@ -39,11 +39,11 @@ const deleteFile = async (fileDeleteModel: FileDeleteModel, type: FileType, disp
     }
 };
 
-const findByRefId = async (refId: number, type: FileType): Promise<string> => {
+const findByRefId = async (refId: number, type: FileType): Promise<Blob> => {
     try {
         const response = await fileAPI.findByRefId(refId, type)
         console.log(response)
-        return URL.createObjectURL(response.data);
+        return response.data;
     } catch (error) {
         console.error('Error load file:', error);
         throw new Error('이미지 불러오기 중 오류 발생');
