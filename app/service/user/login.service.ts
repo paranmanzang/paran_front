@@ -1,9 +1,9 @@
 import { UserModel } from "@/app/model/user/user.model";
 import api from "@/app/api/axios";
 import requests from "@/app/api/requests";
-import { setAccessToken } from "@/app/api/authUtils";
+import { setAccessToken, removeNickname, removeAuthorization } from "@/app/api/authUtils";
 import { AppDispatch } from "@/lib/store";
-import {getCurrentUser, saveNickname } from "@/lib/features/users/user.slice";
+import { getCurrentUser, saveNickname } from "@/lib/features/users/user.slice";
 import { userService } from "./user.service";
 import { groupService } from "../group/group.service";
 import { likeBookService } from "../group/likeBook.service";
@@ -70,33 +70,105 @@ const get = async (): Promise<UserModel> => {
     }
   }
 };
-// login.service.ts
-const oauth = async (router: any): Promise<void> => {
-  try {
-    const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
+const oauth = async (): Promise<any> => {
+  const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
 
-    if (!oauthUrl) {
-      throw new Error('OAuth URL is not defined');
-    }
-    console.log(oauthUrl)
-
-    if (oauthUrl.startsWith('http') || oauthUrl.startsWith('https')) {
-      // 외부 URL인 경우
-      window.location.href = oauthUrl;
-
-    } else {
-      // 내부 경로인 경우
-      await router.push(oauthUrl);
-    }
-    
-  } catch (error: any) {
-    console.error('OAuth redirection failed:', error);
-    throw new Error('OAuth 인증 중 오류가 발생했습니다.');
+  if (!oauthUrl) {
+    throw new Error('OAuth URL이 정의되지 않았습니다.');
   }
+
+  // 첫 번째 단계: OAuth URL로 리디렉션
+  console.log("Redirecting to OAuth URL:", oauthUrl);
+  window.location.href = oauthUrl;
+  console.log("loginservice 부분", window.location.href)
+
+};
+
+// const handleOAuthCallback = async (dispatch: AppDispatch): Promise<any> => {
+
+//   // 쿠키에서 값을 가져오는 함수
+//   const getCookieValue = (name: string): string | null => {
+//     const value = `; ${document.cookie}`;
+//     const parts = value.split(`; ${name}=`);
+//     if (parts.length === 2) return parts.pop()?.split(';').shift() || null; // undefined인 경우 null로 처리
+//     return null; // 값이 없으면 null 반환
+//   };
+//   //await ([
+//   // 쿠키에서 nickname과 Authorization 값 가져오기
+//   const nickname = getCookieValue("nickname");
+//   const token = getCookieValue("Authorization");
+//   console.log(nickname)
+//   console.log(token)
+//   if (!token || !nickname) {
+//     throw new Error('URL에서 액세스 토큰이나 닉네임을 찾을 수 없습니다.');
+//   }
+//   await getToken(token, nickname, dispatch);
+//   // 액세스 토큰 설정 및 닉네임 저장
+
+//   // ]);
+// };
+
+// const getToken = (token: string, nickname: string, dispatch: AppDispatch) => {
+//   setAccessToken(token); // 여기서 token을 사용
+
+//   //여기부터 처리 안됨1
+
+//   dispatch(saveNickname(nickname));
+//   removeNickname;
+//   removeAuthorization;
+//   //2번 로그인 두번 눌러야 이게 불려짐
+
+//   // 사용자 정보 요청
+
+//   userService.findUserDetail(nickname, dispatch),
+//     groupService.findByNickname(nickname, dispatch),
+//     likeBookService.findByNickname(nickname, dispatch),
+//     roomService.findAllLikedByNickname(nickname, dispatch),
+//     likePostService.findAllByUserNickname(nickname, dispatch)
+// }
+
+const handleOAuthCallback = async (dispatch: AppDispatch): Promise<any> => {
+  const getCookieValue = (name: string): string | null => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+    return null;
+  };
+
+  const nickname = getCookieValue("nickname");
+  const token = getCookieValue("Authorization");
+  
+  console.log('닉네임:', nickname);
+  console.log('토큰:', token);
+
+  if (!token || !nickname) {
+    throw new Error('URL에서 액세스 토큰이나 닉네임을 찾을 수 없습니다.');
+  }
+  
+  await getToken(token, nickname, dispatch); // await을 추가하여 순차적으로 처리
+};
+
+const getToken = async (token: string, nickname: string, dispatch: AppDispatch) => {
+  setAccessToken(token);
+  dispatch(saveNickname(nickname));
+
+  // 사용자 정보를 가져오기 위한 요청을 Promise.all로 처리
+  await Promise.all([
+    userService.findUserDetail(nickname, dispatch),
+    groupService.findByNickname(nickname, dispatch),
+    likeBookService.findByNickname(nickname, dispatch),
+    roomService.findAllLikedByNickname(nickname, dispatch),
+    likePostService.findAllByUserNickname(nickname, dispatch)
+  ]);
+
+  removeNickname(); // 함수 호출
+  removeAuthorization(); // 함수 호출
 };
 
 export const loginService = {
   login,
   get,
-  oauth
+  oauth,
+  handleOAuthCallback
+
 }

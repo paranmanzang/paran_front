@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, ReactEventHandler } from 'react';
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from '@/lib/store';
@@ -45,19 +45,21 @@ export default function Login() {
 
 
     const moveToOath = () => {
-        const oauthUrl = process.env.NEXT_PUBLIC_OAUTH_URL;
         try {
-            if (oauthUrl) {
-                const result = loginService.oauth(oauthUrl);
-                console.log(result);
-            } else {
-                router.push('/')
-            }
+            const result = loginService.oauth();
+            console.log("result확인용", result);
+            console.log("page부분",window.location.search)
+            console.log("page부분끝",window.location.search)
+            
+            
         } catch (error) {
             console.error('로그인 실패:', error)
         }
+        const oauth = loginService.handleOAuthCallback(dispatch)
+        console.log("확인용 : ", oauth)
 
     };
+
 
     return (
         <div className="mx-auto my-6 max-w-lg items-center rounded-lg border p-6 shadow">
