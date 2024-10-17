@@ -114,8 +114,8 @@ const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<
 
         console.log("findUserDetail", response);
         // Redux에 유저 데이터 저장
-        dispatch(saveCurrentUser(response.data));
-
+        // dispatch(saveCurrentUser(response.data));
+        
     } catch (error) {
         console.error("Error fetching user detail:", error);
         throw error; // 에러 발생 시 throw

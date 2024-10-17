@@ -5,7 +5,7 @@ interface PageProps {
 export default function getUserId({ params }: PageProps) {
   return (
     <div>
-    <AdminUser id={params.id} />
+      <AdminUser id={params.id} />
   </div>
   )
 }

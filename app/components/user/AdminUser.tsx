@@ -9,17 +9,21 @@ import { useSelector } from 'react-redux';
 import { getCurrentUser, getNickname } from '@/lib/features/users/user.slice';
 import ErrorMessage from '../common/status/ErrorMessage';
 
-export default function AdminUser({ id }: { id: string }) {
+interface AdminUserProps {
+  nickname: string
+}
+
+export default function AdminUser({ nickname }: AdminUserProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const [userInfo, setUserInfo] = useState({
-    id: "",
+    nickname: "",
     role: ''
   })
   const [newRole, setNewRole] = useState<string>('');
   const [isLoading, setIsLoading] = useState(true);
   const user = useSelector(getCurrentUser)
-  const nickname = user?.nickname as string
+  // const nickname = user?.nickname as string
 
   useEffect(() => {
     const fetchUserInfo = async () => {
