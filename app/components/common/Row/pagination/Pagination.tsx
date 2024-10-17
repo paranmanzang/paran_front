@@ -32,18 +32,18 @@ function Pagination({
       startPage = Math.max(0, endPage - maxVisiblePages);
     }
 
-    for (let i = startPage; i <= endPage; i++) {
+    for (let i = startPage + 1; i <= endPage; i++) {
       pageNumbers.push(
         <button
           key={i}
           onClick={() => handlePageChange(i)}
-          className={`mx-1 flex items-center justify-center size-4 rounded-full focus:outline-none ${
+          className={`mx-1 flex items-center justify-center size-5 rounded-full focus:outline-none ${
             i === currentPage
               ? 'bg-green-500 text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
           }`}
         >
-          {/* {i} */}
+          {i}
         </button>
       );
     }
@@ -54,8 +54,8 @@ function Pagination({
   return ( 
     <div className="pagination flex justify-center items-center space-x-2">
       <button
-        onClick={() => handlePageChange(0)}
-        disabled={currentPage === 0}
+        onClick={() => handlePageChange(1)}
+        disabled={currentPage === 1}
         className="p-1 rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300 focus:outline-none disabled:opacity-50"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="size-4" viewBox="0 0 20 20" fill="currentColor">
