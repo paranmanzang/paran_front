@@ -6,11 +6,11 @@ interface UserState {
   alreadyFriends: FriendModel[];
   requestFriends: FriendModel[];
   responseFriends: FriendModel[];
-  currnetAdminpost: AdminPostModel | null;
+  currentAdminpost: AdminPostModel;
   adminPosts: AdminPostModel[];
   declarationPosts: DeclarationPostModel[];
   declarationPostsByNickname: DeclarationPostModel[];
-  currentDeclarationPost: DeclarationPostModel | null
+  currentDeclarationPost: DeclarationPostModel[] | null
   checkedNames: CheckedNamesModel[];
   isLoading: boolean;
   error: string | null;
@@ -24,7 +24,7 @@ export const initialUserState: UserState = {
   alreadyFriends: [],
   requestFriends: [],
   responseFriends: [],
-  currnetAdminpost: null,
+  currentAdminpost: {} as AdminPostModel,
   currentDeclarationPost: null,
   adminPosts: [],
   declarationPosts: [],

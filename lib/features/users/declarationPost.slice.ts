@@ -33,7 +33,7 @@ export const declarationPostSlice = createSlice({
 // 셀렉터 정의
 export const getDeclarationPosts = (state: RootState) => state.declarationPost.declarationPosts;
 export const getDeclarationPostsByNickname = (state: RootState) => state.declarationPost.declarationPostsByNickname;
-export const getCurrnetDeclarationPost = (state: RootState) => state.declarationPost.currentDeclarationPost;
+export const getCurrentDeclarationPost = (state: RootState) => state.declarationPost.currentDeclarationPost;
 
 export const {
     saveDeclarationPosts,
