@@ -1,9 +1,20 @@
+import { chatRoomService } from "@/app/service/chat/chatRoom.service";
+import { getNickname } from "@/lib/features/users/user.slice";
+import { useAppDispatch } from "@/lib/store";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
-export default function MyProfile() {
+interface MyProfileProps {
+  roomId: string;
+}
+
+export default function MyProfile({roomId}:MyProfileProps) {
+  const nickname = useSelector(getNickname)
+  const router = useRouter()
+  const dispatch = useAppDispatch()
   useEffect(() => {
     const targetElement = document.getElementById("popover-top");
     const triggerElement = document.getElementById("popup-button");
@@ -24,6 +35,13 @@ export default function MyProfile() {
       popover.classList.toggle("opacity-0");
     }
   };
+
+  const moveGetMyPage =() => {
+    if(nickname){
+      chatRoomService.insertLastReadMessageTime({roomId,nickname,dispatch})
+      router.push("/users/getMyPage")
+    }
+  }
 
   return (
     <div className="absolute bottom-[25px] mb-3 flex w-full justify-evenly border-t bg-white px-3 py-2">
@@ -62,7 +80,7 @@ export default function MyProfile() {
               <span className="border text-xs">online</span>
             </div>
             <div className="px-3 py-2">
-              <Link href="/users/getMyPage">내 정보</Link>
+              <button onClick={moveGetMyPage}>내 정보</button>
             </div>
           </div>
         </div>
