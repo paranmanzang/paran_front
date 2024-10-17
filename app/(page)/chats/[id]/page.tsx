@@ -10,7 +10,7 @@ import { chatRoomService } from "@/app/service/chat/chatRoom.service";
 import { chatUserService } from "@/app/service/chat/chatUser.service";
 import { chatMessageService } from "@/app/service/chat/chatMessage.service";
 import { useAppDispatch } from "@/lib/store";
-import { getCurrentUser, getNickname } from "@/lib/features/users/user.slice";
+import { getNickname } from "@/lib/features/users/user.slice";
 
 const ChatPage = dynamic(() => import("@/app/components/chat/ChatPages/ChatPage"), { ssr: false });
 const MyChatList = dynamic(() => import("@/app/components/chat/MyChatList"), { ssr: false });
@@ -22,7 +22,7 @@ export default function ChatRoom() {
     const dispatch = useAppDispatch();
     const loading = useSelector(getIsLoading);
     const error = useSelector(getError);
-    
+
     const nickname = useSelector(getNickname) as string;
     const chatRoom = useSelector(getCurrentChatRoom)
     const roomId = chatRoom?.roomId ?? '';
@@ -171,7 +171,7 @@ export default function ChatRoom() {
                         <ul className="w-full">
                             {memoizedPeopleList}
                         </ul>
-                        <MyProfile />
+                        <MyProfile roomId={roomId} />
                     </section>
                     <article className="flex w-4/5 flex-col bg-blue-200 ">
                         <aside className="w-full">
