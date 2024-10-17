@@ -1,22 +1,21 @@
 "use client"
-import Pagination from "@/app/components/common/Row/pagination/Pagination"
 import { RoomModel } from "@/app/model/room/room.model"
 import { roomService } from "@/app/service/room/room.service"
-import { getRooms, getSeperatedRooms, saveCurrentRoom } from "@/lib/features/room/room.slice"
-import { getCurrentUser } from "@/lib/features/users/user.slice"
+import { getDisabledRoomByNickname, getEnabledRoomByNickname, saveCurrentRoom } from "@/lib/features/room/room.slice"
+import { getNickname } from "@/lib/features/users/user.slice"
 import { useAppDispatch } from "@/lib/store"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 
 export default function SellerRoom() {
-  const user = useSelector(getCurrentUser)
-  const nickname = user?.nickname as string
+  const nickname = useSelector(getNickname)
   const dispatch = useAppDispatch()
-  const { enabledrooms, notEnabledrooms } = useSelector(getSeperatedRooms)
+  const enabledRooms = useSelector(getEnabledRoomByNickname)
+  const disabledRooms = useSelector(getDisabledRoomByNickname)
   const route = useRouter()
   const [page, setPage] = useState(0);
-  const [size, setSize] = useState(0);
+  const [size, setSize] = useState(10);
   const [selectedCategory, setSelectedCategory] = useState<'관리' | '승인 대기'>('관리');
   // rooms 에 있는 nickname 어떻게 가져옴? 
   // const userRooms = rooms.nickname === nickname;
@@ -24,24 +23,29 @@ export default function SellerRoom() {
   const handleTabClick = (category: '관리' | '승인 대기') => {
     setSelectedCategory(category);
   };
-  const showList: RoomModel[] = selectedCategory === '관리' ? enabledrooms : notEnabledrooms;
+  const showList: RoomModel[] = selectedCategory === '관리' ? enabledRooms : disabledRooms;
 
   useEffect(() => {
     if (nickname) {
-      roomService.findByUser(nickname, page, size, dispatch)
+      if (selectedCategory === '관리') {
+        roomService.findEnableByNickname(page, size, nickname, dispatch)
+      } else {
+        roomService.findDisableByNickname(page, size, nickname, dispatch)
+      }
     }
-  }, [nickname, page, size, dispatch])
+  }, [nickname, page, size, dispatch, selectedCategory])
 
   const onDelete = (id: string) => {
-    // 삭제 로직 
     console.log(`Deleting room with id: ${id}`)
     roomService.drop(Number(id), dispatch)
   }
-  const onUpdate = (id: string) => {
-    if (id !== undefined) {
-      dispatch(saveCurrentRoom(enabledrooms.find(room => room.id === Number(id)) as RoomModel))
+
+
+  const onUpdate = (room: RoomModel) => {
+    if (room.id !== undefined) {
+      dispatch(saveCurrentRoom(room))
+      route.push(`/rooms/update/${room.id}`)
     }
-    route.push(`/rooms/update/${id}`)
   }
 
 
@@ -65,7 +69,7 @@ export default function SellerRoom() {
 
       {/* 목록 */}
       {showList.length > 0 && (
-        showList.map((room) => (
+        showList.map((room, index) => (
           <li key={room.id}
             className="mx-auto my-3 flex items-center justify-around bg-white p-3">
             <div className="flex justify-around">
@@ -76,7 +80,7 @@ export default function SellerRoom() {
             {selectedCategory === '관리' && (
               <div>
                 <button type="button" onClick={() => onDelete(`${room.id}`)} className="mx-2 rounded-lg bg-green-100 p-3">삭제</button>
-                <button type="button" onClick={() => onUpdate(`${room.id}`)} className="mx-2 rounded-lg bg-green-100 p-3">수정</button>
+                <button type="button" onClick={() => onUpdate(room)} className="mx-2 rounded-lg bg-green-100 p-3">수정</button>
               </div>
             )}
             {selectedCategory === '승인 대기' && (

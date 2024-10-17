@@ -38,6 +38,7 @@ export const getCurrentDeclarationPost = (state: RootState) => state.declaration
 export const {
     saveDeclarationPosts,
     saveDeclarationPostsByNickname,
+    saveCurrentDeclarationPost,
     addDeclarationPost,
     addDeclarationPostByNickname,
     deleteDeclarationPost,

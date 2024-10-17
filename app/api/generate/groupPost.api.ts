@@ -10,13 +10,13 @@ import {
 
 export const groupPostAPI = {
     insert(groupPostModel: GroupPostModel){
-        return api.post<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/posts', groupPostModel);
+        return api.post<GroupPostResponseModel>(requests.fetchGroups + '/posts', groupPostModel);
     },
     modify(groupPostModel: GroupPostModel){
-        return api.put<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + '/posts', groupPostModel);
+        return api.put<GroupPostResponseModel>(requests.fetchGroups + '/posts', groupPostModel);
     },
     drop(boardId: number){
-        return api.delete<Boolean | ExceptionResponseModel>(requests.fetchGroups + `/posts/${boardId}`);
+        return api.delete<Boolean>(requests.fetchGroups + `/posts/${boardId}`);
     },
     findByGroupId(groupId: number, page: number, size: number, postCategory: string){
         return api.get<Page<GroupPostResponseModel>>(requests.fetchGroups + `/posts/${groupId}`, {
@@ -24,6 +24,6 @@ export const groupPostAPI = {
         });
     },
     modifyViewCount(postId: number){
-        return api.put<GroupPostResponseModel | ExceptionResponseModel>(requests.fetchGroups + `/posts/${postId}`);
+        return api.put<GroupPostResponseModel>(requests.fetchGroups + `/posts/${postId}`);
     }
 }

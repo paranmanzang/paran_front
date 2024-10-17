@@ -2,9 +2,8 @@
 import Pagination from "@/app/components/common/Row/pagination/Pagination";
 import { RoomModel } from "@/app/model/room/room.model";
 import { roomService } from "@/app/service/room/room.service";
-import { getRooms, getSeperatedRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
+import { getDisabledRooms, getRooms, getSeperatedRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
 import { useAppDispatch } from "@/lib/store";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -34,20 +33,22 @@ export default function RoomAdmin() {
   const [승인대기Page, set승인대기Page] = useState(1);
   const [pageSize, setPageSize] = useState(5);
   
-  const { enabledrooms, notEnabledrooms } = useSelector(getSeperatedRooms);
+  const enabledRooms = useSelector(getRooms)
+  const disabledRooms = useSelector(getDisabledRooms)
   const [selectedCategory, setSelectedCategory] = useState<'관리' | '승인 대기'>('관리');
 
   // Determine which list and page to use based on the selected category
-  const showList: RoomModel[] = selectedCategory === '관리' ? enabledrooms : notEnabledrooms;
+  const showList: RoomModel[] = selectedCategory === '관리' ? enabledRooms : disabledRooms;
   const currentPage = selectedCategory === '관리' ? 관리Page : 승인대기Page;
 
   useEffect(() => {
     if (selectedCategory === '관리') {
-      roomService.findAll(관리Page, pageSize, dispatch);
+      roomService.findByEnabled(관리Page, pageSize, dispatch);
     } else {
-      roomService.findAll(승인대기Page, pageSize, dispatch);
+      roomService.findDisable(승인대기Page, pageSize, dispatch);
     }
   }, [관리Page, 승인대기Page, pageSize, selectedCategory, dispatch]);
+
 
   const handleTabClick = (category: '관리' | '승인 대기') => {
     setSelectedCategory(category);
@@ -100,8 +101,8 @@ export default function RoomAdmin() {
         </li>
 
         {showList.length > 0 ? (
-          showList.map((room) => (
-            <li key={room.id} className="mx-auto my-3 flex items-center justify-around bg-white p-3">
+          showList.map((room, index) => (
+            <li key={index} className="mx-auto my-3 flex items-center justify-around bg-white p-3">
               <div className="flex justify-around">
                 <h2 className="text-lg">{room.name}, {room.id}</h2>
                 <p>{room.createdAt ? formatDate(room.createdAt) : "날짜 정보 없음"}</p>
