@@ -1,4 +1,5 @@
 "use client"
+import Pagination from "@/app/components/common/Row/pagination/Pagination";
 import ErrorMessage from "@/app/components/common/status/ErrorMessage";
 import LoadingSpinner from "@/app/components/common/status/LoadingSpinner";
 import { GroupResponseModel } from "@/app/model/group/group.model";
@@ -6,24 +7,14 @@ import { groupService } from "@/app/service/group/group.service";
 import { getEnableGroups, getGroups, saveCurrentGroup } from "@/lib/features/group/group.slice";
 import { getError, getIsLoading } from "@/lib/features/room/room.slice";
 import { useAppDispatch } from "@/lib/store";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-export default function roomAdmin() {
-  const [activeTab, setActiveTab] = useState<string>("승인된 소모임");
-  const dispatch = useAppDispatch()
-  // 승인된 소모임 내역
-  const groups = useSelector(getGroups)
-  // 승인되지 않은 소모임 내역
-  const enableGroups = useSelector(getEnableGroups)
-  const loading = useSelector(getIsLoading)
-  const error = useSelector(getError)
-
-  const router = useRouter()
-  const [page, setPage] = useState(1)
-  const [pageSize, setPageSize] = useState(9)
+export default function GroupsAdmin() {
+  const router = useRouter();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(9);
   const totalItems = 10
 
   useEffect(() => {
@@ -34,18 +25,23 @@ export default function roomAdmin() {
   const onClickToDetail = (group: GroupResponseModel) => {
     dispatch(saveCurrentGroup(group));
     router.push(`/groups/${group.id}`);
-  }
-
-  const enableGroup = (group: GroupResponseModel) => {
-    groupService.enable(group.id, dispatch)
-  }
+  };
+  const [activeTab, setActiveTab] = useState<string>("승인된 소모임");
+  const dispatch = useAppDispatch()
+  // 승인된 소모임 내역
+  const groups = useSelector(getGroups)
+  // 승인되지 않은 소모임 내역
+  const enableGroups = useSelector(getEnableGroups)
+  const loading = useSelector(getIsLoading)
+  const error = useSelector(getError)
 
   const ableGroup = (group: GroupResponseModel) => {
     groupService.able(group.id, dispatch)
   }
 
-  if (loading) return <LoadingSpinner />
-  if (error) return <ErrorMessage message={error} />
+  const enableGroup = (group: GroupResponseModel) => {
+    groupService.enable(group.id, dispatch);
+  };
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -109,6 +105,7 @@ export default function roomAdmin() {
       </div>
 
       <div className="my-6 space-y-6">
+
         {/* 탭 버튼 */}
         <div className="flex justify-center mb-8">
           <button
@@ -119,6 +116,7 @@ export default function roomAdmin() {
             승인된 소모임
           </button>
           <button
+
             className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "승인 대기 소모임" ? "bg-green-500 text-white" : "bg-gray-200"
               }`}
             onClick={() => setActiveTab("승인 대기 소모임")}
@@ -139,6 +137,13 @@ export default function roomAdmin() {
           뒤로가기
         </button>
       </div>
+      <Pagination
+        currentPage={page}
+        pageSize={pageSize}
+        totalItems={activeTab === "승인된 소모임" ? groups.length : enableGroups.length}
+        onPageChange={setPage}
+        onPageSizeChange={setPageSize}
+      />
     </div>
   );
 }
