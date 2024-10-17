@@ -88,6 +88,7 @@ const oauth = async (router: any): Promise<void> => {
       // 내부 경로인 경우
       await router.push(oauthUrl);
     }
+    
   } catch (error: any) {
     console.error('OAuth redirection failed:', error);
     throw new Error('OAuth 인증 중 오류가 발생했습니다.');

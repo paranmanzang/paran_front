@@ -1,6 +1,6 @@
 import { FileDeleteModel, FileModel } from "@/app/model/file/file.model";
 import api from "../axios";
-import qs from "qs";
+import qs from "qs"
 import requests from "../requests";
 
 export const fileAPI = {
