@@ -31,7 +31,7 @@ export const declarationPostAPI = {
         return api.post<DeclarationPostModel>(requests.fetchUsers + `/depost`, declarationPostModel);
     },
     drop: (id: number) => {
-        return api.delete<Boolean>(`depost/${id}`)
+        return api.delete<Boolean>(`${requests.fetchUsers}/depost/${id}`)
     }
 
 }

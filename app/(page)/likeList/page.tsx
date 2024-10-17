@@ -161,7 +161,7 @@ export default function LikeList() {
                     ))}
                 </div>
 
-                <ul className="space-y-4">
+                <ul className="bg-green-50 p-8 rounded-lg">
                     {likeData.length > 0 ? (
                         likeData.map(({ id, title }) => (
                             <LikeItem

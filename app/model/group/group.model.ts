@@ -1,6 +1,7 @@
 // 상태 인터페이스 정의
 export interface GroupState {
     groups: GroupResponseModel[]
+    enableGroups: GroupResponseModel[]
     userGroups: GroupResponseModel[]
     leadergroups: GroupResponseModel[]
     likePosts: GroupPostResponseModel[];
@@ -22,6 +23,7 @@ export enum PostCategory {
 // 초기 상태
 export const initialGroupState: GroupState = {
     groups: [],
+    enableGroups: [],
     userGroups: [],
     leadergroups: [],
     likePosts: [],

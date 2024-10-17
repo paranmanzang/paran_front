@@ -1,128 +1,120 @@
-"use client"
-import { useRouter } from 'next/navigation'
-import Image from 'next/image'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import LoadingSpinner from '@/app/components/common/status/LoadingSpinner'
-import { getCurrentUser } from '@/lib/features/users/user.slice'
-import ErrorMessage from '@/app/components/common/status/ErrorMessage'
-import { RootState, useAppDispatch } from '@/lib/store'
-import { getLeaderGroups } from '@/lib/features/group/group.slice'
+"use client";
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+import { useSelector } from 'react-redux';
+import { FaCalendarAlt, FaWallet, FaHeart, FaExclamationCircle, FaUserFriends, FaUserEdit, FaArrowLeft, FaBuilding } from 'react-icons/fa';
+import LoadingSpinner from '@/app/components/common/status/LoadingSpinner';
+import ErrorMessage from '@/app/components/common/status/ErrorMessage';
+import { getCurrentUser } from '@/lib/features/users/user.slice';
+import { RootState, useAppDispatch } from '@/lib/store';
+import { getLeaderGroups } from '@/lib/features/group/group.slice';
+import styles from './UserProfile.module.css'; // CSS Module 임포트
 
 interface UserProfileProps {
     getUser: string | undefined;
 }
-export default function UserProfile({ getUser }: UserProfileProps) {
-    const router = useRouter()
-    const dispatch = useAppDispatch()
-    const user = useSelector(getCurrentUser)
-    const leaderGroup = useSelector(getLeaderGroups)
-    const { isLoading, error } = useSelector((state: RootState) => state.user)
 
-    useEffect(() => {}, [getUser]);
+interface ActionButtonProps {
+    onClick: () => void;
+    icon: JSX.Element;
+    label: string;
+    className?: string;
+}
+
+const ActionButton = ({ onClick, icon, label, className = '' }: ActionButtonProps) => (
+    <button onClick={onClick} className={`${styles['action-button']} ${className}`}>
+        {icon}
+        <span>{label}</span>
+    </button>
+);
+
+export default function UserProfile({ getUser }: UserProfileProps) {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+    const user = useSelector(getCurrentUser);
+    const leaderGroup = useSelector(getLeaderGroups);
+    const { isLoading, error } = useSelector((state: RootState) => state.user);
+
+    const profileImageSrc = `${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`;
 
     if (isLoading) return <LoadingSpinner />;
     if (error) return <ErrorMessage message={error} />;
 
     return (
-        <div className="mx-auto my-[40px] h-auto w-full max-w-[90%] items-center rounded-lg border border-gray-200 bg-white px-6 py-3 shadow">
-            <div className="mb-10 flex justify-center">
-                <div className="mr-6 flex flex-col items-center">
-                    <Image
-                        className="m-3 rounded-full shadow-lg"
-                        width={102}
-                        height={100}
-                        // user.profileImage || 
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`}
-                        alt="프로필 사진"
-                        onError={(e) => {
-                            e.currentTarget.src = `process.env.NEXT_PUBLIC_IMAGE_DEFAULT`
-                        }}
-                    />
-                </div>
-                <div className="flex items-center justify-center">
-                    <ul className="text-sm">
-                        <li className="flex items-center">
-                            닉네임
-                            <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
-                                {user?.nickname}
-                            </h5>
-                        </li>
-                        <li className="flex items-center">
-                            아이디
-                            <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
-                                {user?.username}
-                            </h5>
-                        </li>
-                        <li className="flex items-center">
-                            권한
-                            <h5 className="mb-2 ml-6 text-xl font-medium text-gray-900">
-                                {user?.role}
-                            </h5>
-                        </li>
-                    </ul>
-                </div>
+        <div className={styles['profile-container']}>
+            {/* 프로필 정보 */}
+            <div className={styles['profile-info']}>
+                <Image
+                    className={styles['profile-image']}
+                    width={120}
+                    height={120}
+                    src={profileImageSrc}
+                    alt="프로필 사진"
+                    onError={(e) => {
+                        (e.target as HTMLImageElement).src = profileImageSrc;
+                    }}
+                />
+                <ul className={styles['profile-details']}>
+                    <li>
+                        <strong>닉네임:</strong> {user?.nickname}
+                    </li>
+                    <li>
+                        <strong>아이디:</strong> {user?.username}
+                    </li>
+                </ul>
             </div>
-            <div className="flex items-center justify-center">
+
+            {/* 버튼 목록 */}
+            <div className={styles['button-group']}>
                 {leaderGroup.length > 0 && (
                     <>
-                        <button
-                            type="button"
-                            onClick={() => { router.push('/booking') }}
-                            className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
-                        >
-                            예약내역보기
-                        </button>
-                        <button
-                            type="button"
-                            onClick={() => { router.push('/account') }}
-                            className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
-                        >
-                            결제내역보기
-                        </button>
+                        <ActionButton 
+                            onClick={() => router.push('/booking')} 
+                            icon={<FaCalendarAlt />} 
+                            label="예약내역보기" 
+                        />
+                        <ActionButton 
+                            onClick={() => router.push('/account')} 
+                            icon={<FaWallet />} 
+                            label="결제내역보기" 
+                        />
                     </>
                 )}
-                {user?.role === "ROLE_SELLER" && (
-                    <button type="button"
-                    onClick={() => {router.push("/seller/rooms")}}
-                    className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white">등록 공간</button>
+
+                {user?.role === 'ROLE_SELLER' && (
+                    <ActionButton 
+                        onClick={() => router.push('/seller/rooms')} 
+                        icon={<FaBuilding />} 
+                        label="등록 공간" 
+                    />
                 )}
 
-                <button
-                    type="button"
-                    onClick={() => { router.push('/likeList') }}
-                    className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
-                >
-                    찜목록
-                </button>
-                <button
-                    type="button"
-                    onClick={() => { router.push('/users/declarationList') }}
-                    className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
-                >
-                    내가 신고한 내역
-                </button>
-                <button
-                    type="button"
-                    onClick={() => { router.push('/users/friends') }}
-                    className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
-                >
-                    친구 목록
-                </button>
-                <button
-                    type="button"
-                    onClick={() => { router.push(`/users/update/${getUser}`) }}
-                    className="m-2 rounded-lg border-2 border-green-400 bg-green-50 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white"
-                >
-                    내정보수정
-                </button>
-                <button
-                    type="button"
-                    onClick={() => { router.back() }}
-                    className="m-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-500 hover:text-white"
-                >
-                    뒤로가기
-                </button>
+                <ActionButton 
+                    onClick={() => router.push('/likeList')} 
+                    icon={<FaHeart />} 
+                    label="찜목록" 
+                />
+                <ActionButton 
+                    onClick={() => router.push('/users/declarationList')} 
+                    icon={<FaExclamationCircle />} 
+                    label="내가 신고한 내역" 
+                />
+                <ActionButton 
+                    onClick={() => router.push('/users/friends')} 
+                    icon={<FaUserFriends />} 
+                    label="친구 목록" 
+                />
+                <ActionButton 
+                    onClick={() => router.push(`/users/update/${getUser}`)} 
+                    icon={<FaUserEdit />} 
+                    label="내정보수정" 
+                />
+                <ActionButton 
+                    onClick={() => router.back()} 
+                    icon={<FaArrowLeft />} 
+                    label="뒤로가기" 
+                    className={styles['back-button']}
+                />
             </div>
         </div>
     );

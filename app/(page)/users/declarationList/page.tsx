@@ -27,6 +27,7 @@ export default function DeclarationList() {
     }
   };
 
+
   return (
     <div className="max-w-4xl mx-auto my-10 p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold mb-6 text-center">신고 내역</h1>
@@ -37,14 +38,14 @@ export default function DeclarationList() {
           <thead>
             <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
               <th className="py-3 px-6 text-left">제목</th>
-              <th className="py-3 px-6 text-left">설명</th>
-              <th className="py-3 px-6 text-left">신고한 사람</th>
+              <th className="py-3 px-6 text-left">신고 이유</th>
+              <th className="py-3 px-6 text-left">신고 대상자</th>
               <th className="py-3 px-6 text-center">작업</th>
             </tr>
           </thead>
           <tbody>
             {declarationList.map((post, index) => (
-              <tr key={post.id} className="border-b border-gray-200 hover:bg-gray-100">
+              <tr key={index} className="border-b border-gray-200 hover:bg-gray-100">
                 <td className="py-3 px-6 text-left">{post.title}</td>
                 <td className="py-3 px-6 text-left">{post.content}</td>
                 <td className="py-3 px-6 text-left">{post.target}</td>

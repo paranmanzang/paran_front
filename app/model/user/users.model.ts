@@ -41,7 +41,7 @@ export enum CheckType {
 
 export interface CheckedNamesModel {
   id: number;
-  nickname: string; 
+  nickname: string;
   type: CheckType;
 }
 
@@ -69,6 +69,7 @@ export interface DeclarationPostModel {
   content: string; // 신고 내용 (필수)
   target: string; // 신고 당한 사람 (필수)
   declarer: string; // 신고자 (필수)
+  // createdAt: string;
 }
 
 export interface FriendModel {
