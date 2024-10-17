@@ -81,7 +81,6 @@ const oauth = async (): Promise<any> => {
   console.log("Redirecting to OAuth URL:", oauthUrl);
   window.location.href = oauthUrl;
   console.log("loginservice 부분", window.location.href)
-
 };
 
 // const handleOAuthCallback = async (dispatch: AppDispatch): Promise<any> => {
@@ -126,26 +125,24 @@ const oauth = async (): Promise<any> => {
 //     roomService.findAllLikedByNickname(nickname, dispatch),
 //     likePostService.findAllByUserNickname(nickname, dispatch)
 // }
-
+const getCookieValue = (name: string): string | null => {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
+  return null;
+};
 const handleOAuthCallback = async (dispatch: AppDispatch): Promise<any> => {
-  const getCookieValue = (name: string): string | null => {
-    const value = `; ${document.cookie}`;
-    const parts = value.split(`; ${name}=`);
-    if (parts.length === 2) return parts.pop()?.split(';').shift() || null;
-    return null;
-  };
-
   const nickname = getCookieValue("nickname");
   const token = getCookieValue("Authorization");
-  
+
   console.log('닉네임:', nickname);
   console.log('토큰:', token);
 
   if (!token || !nickname) {
-    throw new Error('URL에서 액세스 토큰이나 닉네임을 찾을 수 없습니다.');
+    throw new Error('액세스 토큰이나 닉네임이 없습니다.');
   }
-  
-  await getToken(token, nickname, dispatch); // await을 추가하여 순차적으로 처리
+
+  await getToken(token, nickname, dispatch);
 };
 
 const getToken = async (token: string, nickname: string, dispatch: AppDispatch) => {
@@ -170,5 +167,4 @@ export const loginService = {
   get,
   oauth,
   handleOAuthCallback
-
 }
