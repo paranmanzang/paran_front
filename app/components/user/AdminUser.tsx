@@ -28,9 +28,9 @@ export default function AdminUser({ nickname }: AdminUserProps) {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const user = await userService.findUserDetail(nickname, dispatch);
+        const user = await userService.findAdminUser(nickname, dispatch);
         setUserInfo(user)
-        setNewRole(user.role)
+        setNewRole(userInfo.role)
       } catch (error) {
         console.error("사용자 정보 조회 중 오류:", error)
       } finally {
@@ -45,7 +45,7 @@ export default function AdminUser({ nickname }: AdminUserProps) {
     setNewRole(e.target.value)
   }
 
-  const handleGradeUpdate = async () => {
+  const handleRoleUpdate = async () => {
     if (newRole && userInfo) {
       try {
         await userService.modifyRole(nickname, newRole, dispatch)
@@ -101,7 +101,7 @@ export default function AdminUser({ nickname }: AdminUserProps) {
           <option value="admin">Admin</option>
         </select>
         <button
-          onClick={handleGradeUpdate}
+          onClick={handleRoleUpdate}
           className="m-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500"
         >
           등급 변경

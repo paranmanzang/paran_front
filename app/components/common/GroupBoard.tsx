@@ -21,7 +21,7 @@ export default function GroupBoard() {
     const { groupPostsNotice, groupPostsGeneral } = useSelector(getGroupPosts);
     const group = useSelector(getCurrentGroup)
     const page = 0 // 임의 값
-    const size = 5 // 임의 값
+    const size = 50 // 임의 값
     const [activeTab, setActiveTab] = useState<TabType>('공지 사항');
     const tabs: TabType[] = ["공지 사항", "자유게시판", "스케쥴"];
 

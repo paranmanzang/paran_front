@@ -1,6 +1,6 @@
 import { RegisterModel, UserModel } from "@/app/model/user/user.model";
 import { AppDispatch } from "@/lib/store";
-import { logoutUser, saveCurrentUser, saveError, saveLoading, saveSuccess, saveUserList } from "@/lib/features/users/user.slice";
+import { logoutUser, saveCurrentUser, saveError, saveLoading, saveSuccess, saveUserDetail, saveUserList } from "@/lib/features/users/user.slice";
 import userAPI from "@/app/api/generate/user.api";
 
 // 사용자 등록
@@ -111,23 +111,33 @@ const findAllUsers = async (nickname: string, dispatch: AppDispatch): Promise<vo
 const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<any> => {
     try {
         const response = await userAPI.findDetailUser(nickname);
-
         console.log("findUserDetail", response);
-        // Redux에 유저 데이터 저장
-        // dispatch(saveCurrentUser(response.data));
-        
+        // 현재 불러오는 유저의 정보를 담음.
+        dispatch(saveCurrentUser(response.data));
     } catch (error) {
         console.error("Error fetching user detail:", error);
-        throw error; // 에러 발생 시 throw
+        throw error; 
     }
-};
+}
+
+const findAdminUser = async (nickname: string, dispatch: AppDispatch): Promise<any> =>{
+    try {
+        dispatch(saveLoading(true))
+        const response = await userAPI.findDetailUser(nickname)
+        console.log(response)
+        // dispatch(saveUserDetail(response))
+    } catch (error){
+        console.log("Error 입니다 admin의 유저요", error)
+        throw error
+        
+    }
+}
 
 // 권한 확인
 const checkRole = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true)); // 로딩 상태 시작
         const response = await userAPI.checkRole(nickname); // 사용자 권한 확인 API 호출 이거 안됨
-
         if (response.data) {
             dispatch(saveSuccess("확인 완료")); // 권한 정보를 저장하는 액션
         } else {
@@ -222,6 +232,7 @@ export const userService = {
     modifyDeclaration,
     findAllUsers,
     findUserDetail,
+    findAdminUser,
     checkRole,
     dropUser,
     checkNickname,
