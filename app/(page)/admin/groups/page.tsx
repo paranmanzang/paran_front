@@ -6,7 +6,6 @@ import { groupService } from "@/app/service/group/group.service";
 import { getEnableGroups, getGroups, saveCurrentGroup } from "@/lib/features/group/group.slice";
 import { getError, getIsLoading } from "@/lib/features/room/room.slice";
 import { useAppDispatch } from "@/lib/store";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
