@@ -11,7 +11,7 @@ interface MyProfileProps {
   roomId: string;
 }
 
-export default function MyProfile({roomId}:MyProfileProps) {
+export default function MyProfile({ roomId }: MyProfileProps) {
   const nickname = useSelector(getNickname)
   const router = useRouter()
   const dispatch = useAppDispatch()
@@ -36,9 +36,9 @@ export default function MyProfile({roomId}:MyProfileProps) {
     }
   };
 
-  const moveGetMyPage =() => {
-    if(nickname){
-      chatRoomService.insertLastReadMessageTime({roomId,nickname,dispatch})
+  const moveGetMyPage = () => {
+    if (nickname) {
+      chatRoomService.insertLastReadMessageTime({ roomId, nickname, dispatch })
       router.push("/users/getMyPage")
     }
   }
@@ -53,7 +53,7 @@ export default function MyProfile({roomId}:MyProfileProps) {
         alt="userprofile"
       />
       <span className="py-2 text-base font-semibold text-green-900">
-        My 닉네임
+        {nickname}
       </span>
 
       <button
@@ -64,26 +64,26 @@ export default function MyProfile({roomId}:MyProfileProps) {
         className="relative mb-3 me-4 rounded-lg border border-green-200 bg-green-50 px-2.5 text-sm font-medium text-green-900 hover:bg-green-100"
       >
         {">"}
-        </button>
+      </button>
 
-        <div
-          data-popover
-          id="popover-top"
-          role="tooltip"
-          className="invisible absolute bottom-6 -right-24 w-36 z-10 inline-block rounded-lg border border-green-100 bg-white text-sm text-gray-900 opacity-0 shadow-sm transition-opacity"
-        >
-          <div className="rounded-t-lg border-b border-green-100 bg-green-50 px-3 py-2">
-            <div className="justify-around flex py-1">
-              <button type="button" className="mx-2 border-none">
-                상태 변경
-              </button>
-              <span className="border text-xs">online</span>
-            </div>
-            <div className="px-3 py-2">
-              <button onClick={moveGetMyPage}>내 정보</button>
-            </div>
+      <div
+        data-popover
+        id="popover-top"
+        role="tooltip"
+        className="invisible absolute bottom-6 -right-24 w-36 z-10 inline-block rounded-lg border border-green-100 bg-white text-sm text-gray-900 opacity-0 shadow-sm transition-opacity"
+      >
+        <div className="rounded-t-lg border-b border-green-100 bg-green-50 px-3 py-2">
+          <div className="justify-around flex py-1">
+            <button type="button" className="mx-2 border-none">
+              상태 변경
+            </button>
+            <span className="border text-xs">online</span>
+          </div>
+          <div className="px-3 py-2">
+            <button onClick={moveGetMyPage}>내 정보</button>
           </div>
         </div>
+      </div>
     </div>
   );
 }

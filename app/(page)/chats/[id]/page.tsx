@@ -34,6 +34,9 @@ export default function ChatRoom() {
 
     const unsubscribeRef = useRef<(() => void) | null>(null);
 
+    const listRef = useRef<HTMLUListElement | null>(null);
+
+
     const togglePopUp = useCallback(() => {
         setIsPopUpOpen((prev) => !prev);
         const url = `/chats/${roomId}`;
@@ -66,6 +69,7 @@ export default function ChatRoom() {
                 router.push("/List");
             });
     }, [chatRoom, dispatch, nickname, roomId, router]);
+
 
     useEffect(() => {
 
@@ -111,6 +115,27 @@ export default function ChatRoom() {
         };
     }, [chatRoom, dispatch, nickname]);
 
+    const handleScroll = useCallback(() => {
+        if (listRef.current) {
+            const { scrollTop, scrollHeight, clientHeight } = listRef.current;
+            if (scrollTop + clientHeight >= scrollHeight) {
+                console.log("Reached the bottom of the people list.");
+                // 필요한 경우 더 많은 데이터를 불러오는 로직 추가
+            }
+        }
+    }, []);
+
+    useEffect(() => {
+        if (listRef.current) {
+            listRef.current.addEventListener("scroll", handleScroll);
+        }
+        return () => {
+            if (listRef.current) {
+                listRef.current.removeEventListener("scroll", handleScroll);
+            }
+        };
+    }, [handleScroll]);
+
     const memoizedChatPage = useMemo(() => {
         console.log("Rendering ChatPage with messages and roomId:", messages, roomId);
         return <ChatPage messages={messages} roomId={roomId} />;
@@ -126,7 +151,7 @@ export default function ChatRoom() {
         return chatUsers.map((user, index) => (
             user.nickname !== nickname && <PeopleList key={index} chatUser={user} />
         ));
-    }, [chatUsers]);
+    }, [chatUsers, nickname]);
 
     if (loading) {
         return <div>로딩 중...</div>;
@@ -165,15 +190,22 @@ export default function ChatRoom() {
                         X
                     </button>
                 </div>
-                <div className="flex h-dvh justify-center rounded-lg bg-gray-100">
-                    <section className="relative w-1/5 bg-green-700">
+                <div className="flex h-screen justify-center rounded-lg bg-gray-100">
+                    <section className="relative flex flex-col w-1/5 bg-green-700">
                         {memoizedMyChatList}
-                        <ul className="w-full">
-                            {memoizedPeopleList}
-                        </ul>
+                        <div className="flex-1 overflow-hidden">
+                            <ul
+                                className="w-full h-full overflow-y-auto"
+                                ref={listRef}
+                                style={{ maxHeight: "100%" }} // 최대 높이 설정
+                            >
+                                {memoizedPeopleList}
+                            </ul>
+                        </div>
                         <MyProfile roomId={roomId} />
                     </section>
-                    <article className="flex w-4/5 flex-col bg-blue-200 ">
+
+                    <article className="flex w-4/5 flex-col bg-blue-200">
                         <aside className="w-full">
                             {memoizedChatPage}
                         </aside>

@@ -43,28 +43,34 @@ export default function PeopleList({ chatUser }: PeopleListProps) {
 
   return (
     <li className="border-b w-full">
-      <div className="flex justify-around px-3 py-2 my-3 items-center">
+      <div
+        className="flex items-center px-6 py-4 space-x-6 justify-between"
+        style={{ maxWidth: "600px", margin: "0 auto" }} // 가운데 정렬
+      >
+        {/* 프로필 이미지와 온라인 상태 */}
         <div className="relative">
           <Image
-            width={46}
-            height={46}
+            width={50}
+            height={50}
             className="rounded-full bg-green-400"
             src="/"
-            alt="userprofile"
+            alt="user profile"
           />
-          <span className={isOnline ? styles.online : styles.offline}></span>
+          <span className={`${isOnline ? "online" : "offline"}`}></span>
         </div>
-        <p className="text-white text-lg font-semibold">{chatUser.nickname}</p>
+
+        {/* 닉네임 버튼 */}
         <button
-          className="text-xs border-white border p-2 rounded-lg text-white hover:bg-green-600"
+          className="text-white text-lg font-semibold hover:text-green-300 focus:outline-none"
           onClick={() => setOnToggle((prev) => !prev)}
         >
-          보기
+          {chatUser.nickname}
         </button>
+
+        {/* 모달 */}
         <div
-          className={`${styles.toggleBottom} relative top-0 ${
-            onToggle ? styles.visible : styles.invisible
-          }`}
+          className={`${onToggle ? "visible" : "invisible"
+            } transition-all duration-300`}
         >
           <ModalFriend name={chatUser.nickname} />
         </div>
