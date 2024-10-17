@@ -15,8 +15,8 @@ export default function UserList() {
   const nickname = useSelector(getNickname) as string
   const router = useRouter()
 
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(9);
+  const [page, setPage] = useState(1)
+  const [pageSize, setPageSize] = useState(8)
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -45,7 +45,7 @@ export default function UserList() {
 
   const handlePageSizeChange = (newPageSize: number) => {
     setPageSize(newPageSize);
-    setPage(1); // 페이지 크기 변경 시 첫 페이지로 리셋
+    setPage(1);
   };
 
   return (
@@ -59,7 +59,7 @@ export default function UserList() {
       <ul className="h-1/2 px-10 py-10 bg-green-100 rounded-lg">
         {paginatedUsers.map(user => (
           <li key={user.id}>
-            <Link href={`/users/${user.nickname}`} className="inline-flex justify-around items-center w-full bg-green-50 border-2 border-green-400 p-4 m-2">
+            <Link href={`/users/${user.id}`} className="inline-flex justify-around items-center w-full bg-green-50 border-2 border-green-400 p-4 m-2">
               <div className="size-8 bg-green-500 rounded-full">
                 <Image
                   className="size-8 rounded-full shadow-lg"
@@ -84,7 +84,7 @@ export default function UserList() {
 
       <Pagination
         currentPage={page}
-        pageSize={pageSize}
+        pageSize={totalPages}
         totalItems={allUsers.length}
         onPageChange={handlePageChange}
         onPageSizeChange={handlePageSizeChange}

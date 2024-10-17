@@ -10,13 +10,13 @@ import { userService } from '@/app/service/user/user.service';
 import { UserModel } from '@/app/model/user.model';
 
 interface UserInfo {
-  getUser: string
+  id: string
   nickname: string;
   grade: string;
   image: string;
 }
 
-export default function AdminUser({getUser}: UserInfo) {
+export default function AdminUser({id}: UserInfo) {
   const router = useRouter()
   const dispatch = useAppDispatch()
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null)

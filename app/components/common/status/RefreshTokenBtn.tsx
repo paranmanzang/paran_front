@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { setAccessToken } from "@/app/api/authUtils";
+import { removeAccessToken, setAccessToken } from "@/app/api/authUtils";
 import { userService } from "../../../service/user/user.service";
 import { groupService } from "../../../service/group/group.service";
 import { likeBookService } from "../../../service/group/likeBook.service";
@@ -7,21 +7,19 @@ import { likePostService } from "../../../service/group/likePost.service";
 import { roomService } from "../../../service/room/room.service";
 import { saveNickname } from "@/lib/features/users/user.slice";
 import axios from 'axios';
-import { useDispatch } from 'react-redux'; // redux dispatch 사용
+import { useDispatch } from 'react-redux';
 import { AppDispatch } from "@/lib/store";
 import requests from '@/app/api/requests';
 import api from '@/app/api/axios';
 import { logout } from '@/app/service/user/logout.service';
-
-
 
 interface TimerButtonProps {
   onRefresh: () => void;
 }
 
 const TimerButton = ({ onRefresh }: TimerButtonProps) => {
-  const dispatch = useDispatch<AppDispatch>(); // dispatch 가져오기
-  const [timeLeft, setTimeLeft] = useState(600); // 10분 
+  const dispatch = useDispatch<AppDispatch>();
+  const [timeLeft, setTimeLeft] = useState(600); // 10분
   const [isHovered, setIsHovered] = useState(false);
 
   const formatTime = useCallback((seconds: number): string => {
@@ -35,6 +33,7 @@ const TimerButton = ({ onRefresh }: TimerButtonProps) => {
       setTimeLeft((prevTime) => {
         if (prevTime <= 1) {
           clearInterval(interval);
+          handleLogout(); // 시간이 0이 되면 로그아웃 실행
           return 0;
         }
         return prevTime - 1;
@@ -44,45 +43,50 @@ const TimerButton = ({ onRefresh }: TimerButtonProps) => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleRefresh = async () => {
-    console.log("Refresh button clicked."); // 버튼 클릭 로그
+  function handleLogout(){
     try {
-      // API 호출
+      logout().then(() => {
+        removeAccessToken()
+        window.location.replace('/');
+      });
+      console.log("시간 초과로 자동 로그아웃되었습니다.");
+    } catch (error) {
+      console.error('로그아웃 중 오류 발생:', error);
+    }
+  };
+
+  const handleRefresh = async () => {
+    console.log("Refresh 버튼을 눌렀습니다.");
+    try {
       const response = await api.post(requests.fetchReissue, {
-        withCredentials: true, // 필요한 경우, 쿠키를 포함할 수 있도록 설정
+        withCredentials: true,
       });
 
       const token = response.headers['authorization']?.replace("Bearer ", "");
       if (token) {
-        console.log("Token received:", token); // 토큰 수신 로그
+        console.log("Token received:", token);
         setAccessToken(token);
         dispatch(saveNickname(response.headers['nickname']));
         const nickname = response.headers['nickname'];
         
-        // 유저 세부정보 요청
         await userService.findUserDetail(nickname, dispatch);
         await groupService.findByNickname(nickname, dispatch);
         await likeBookService.findByNickname(nickname, dispatch);
         await roomService.findAllLikedByNickname(nickname, dispatch);
         await likePostService.findAllByUserNickname(nickname, dispatch);
 
-        onRefresh(); // 새로 고침 이벤트 호출
+        onRefresh();
       } else {
-        console.error("토큰 리프레시 요청 없음. "); // 토큰 요청 없을때 
+        console.error("토큰 리프레시 요청 없음.");
         throw new Error('토큰을 받지 못했습니다.');
       }
-      // API 호출 성공 시 추가 작업
-      console.log('Response:', response.data); // API 응답 로그
+      console.log('Response:', response.data);
     } catch (error) {
-      logout().then(() => {
-        window.location.replace('/');
-        console.log("로그아웃됨")
-      })
-      console.error('Error during reissue:', error); // 오류 발생 시 로그
+      handleLogout(); // 오류 발생 시 로그아웃
+      console.error('Error during reissue:', error);
     }
 
-    // Reset 타이머
-    setTimeLeft(600); // Reset 10분 
+    setTimeLeft(600); // Reset to 10 minutes
   };
 
   return (
@@ -95,13 +99,13 @@ const TimerButton = ({ onRefresh }: TimerButtonProps) => {
         <button
           type="button"
           onClick={handleRefresh}
-          className="rounded bg-green-500 py-2 text-white hover:bg-green-600"
+          className="rounded bg-green-500 px-4 py-2 text-white hover:bg-green-600"
         >
           시간연장하기
         </button>
       ) : (
-        <div className={`rounded px-4 py-2 ${timeLeft === 0 ? 'bg-yellow-100' : 'bg-gray-100'}`}>
-          <span className={`font-mono ${timeLeft === 0 ? 'text-yellow-700' : ''}`}>{formatTime(timeLeft)}</span>
+        <div className={`rounded px-4 py-2 ${timeLeft <= 60 ? 'bg-red-100' : 'bg-gray-100'}`}>
+          <span className={`font-mono ${timeLeft <= 60 ? 'text-red-700' : ''}`}>{formatTime(timeLeft)}</span>
         </div>
       )}
     </div>

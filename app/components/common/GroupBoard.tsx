@@ -10,6 +10,7 @@ import { bookingService } from "@/app/service/room/booking.service";
 import { getAllRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
 import { getAddresses, saveCurrentAddress } from "@/lib/features/room/address.slice";
 import { GroupPostResponseModel } from "@/app/model/group/group.model";
+import PostEditor from "../crud/PostEditor";
 
 // 페이지 네이션 필요!!!!
 export default function GroupBoard() {
@@ -97,6 +98,10 @@ export default function GroupBoard() {
             case "자유게시판":
                 return (
                     <ul className="space-y-4">
+                        <li>
+                            <h2>게시글 작성하기</h2>
+                            <PostEditor onSubmit={() => {}}/>
+                        </li>
                         {groupPostsGeneral.length > 0 ? (
                             groupPostsGeneral.map((post, index) => (
                                 <li key={index} className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" onClick={() => onClickToDetail(post)}>
