@@ -4,7 +4,8 @@ import { BookingModel } from "@/app/model/room/bookings.model"
 import { bookingService } from "@/app/service/room/booking.service"
 import { roomService } from "@/app/service/room/room.service"
 import { getSeperatedBookings } from "@/lib/features/room/booking.slice"
-import { getAllRooms } from "@/lib/features/room/room.slice"
+import { getEnabledRoomByNickname } from "@/lib/features/room/room.slice"
+
 import { getCurrentUser } from "@/lib/features/users/user.slice"
 import { useAppDispatch } from "@/lib/store"
 import { useRouter } from "next/navigation"
@@ -15,7 +16,7 @@ export default function SellerBooking() {
     const user = useSelector(getCurrentUser)
     const nickname = user?.nickname as string
     const dispatch = useAppDispatch()
-    const rooms = useSelector(getAllRooms)
+    const rooms = useSelector(getEnabledRoomByNickname)
     const { enabledBookings, notEnabledBookings } = useSelector(getSeperatedBookings)
     const route = useRouter()
     const [page, setPage] = useState(0);
@@ -32,7 +33,7 @@ export default function SellerBooking() {
     useEffect(() => {
         if (nickname) {
             bookingService.findByRoomIds(nickname, page, size, dispatch)
-            roomService.findAllByUser(nickname, dispatch)
+            roomService.findEnableByNickname(page, size, nickname, dispatch)
         }
     }, [nickname, page, size, dispatch])
 

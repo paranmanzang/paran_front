@@ -133,7 +133,7 @@ export default function RoomAdmin() {
       <Pagination
         currentPage={currentPage}
         pageSize={pageSize}
-        totalItems={showList.length}  // Or replace with actual total from server
+        totalItems={showList.length}
         onPageChange={handlePageChange}
         onPageSizeChange={setPageSize}
       />

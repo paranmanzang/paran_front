@@ -9,8 +9,8 @@ export const adminPostSlice = createSlice({
         saveAdminPosts: (state, action: PayloadAction<AdminPostModel[]>) => {
             state.adminPosts.push(...action.payload);
         },
-        saveCurrnetAdminPost: (state, action: PayloadAction<AdminPostModel>) => {
-            state.currnetAdminpost = action.payload;
+        saveCurrentAdminPost: (state, action: PayloadAction<AdminPostModel>) => {
+            state.currentAdminpost = action.payload;
         },
         addAdminPost: (state, action: PayloadAction<AdminPostModel>) => {
             state.adminPosts.push(action.payload);
@@ -31,7 +31,7 @@ export const adminPostSlice = createSlice({
 
 
 export const getAdminPosts = (state: RootState) => state.adminPost.adminPosts;
-export const getCurrnetAdminPost = (state: RootState) => state.adminPost.currnetAdminpost;
+export const getCurrnetAdminPost = (state: RootState) => state.adminPost.currentAdminpost;
 
 export const {
     addAdminPost,
