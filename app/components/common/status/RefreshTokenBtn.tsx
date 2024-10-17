@@ -43,17 +43,17 @@ const TimerButton = ({ onRefresh }: TimerButtonProps) => {
     return () => clearInterval(interval);
   }, []);
 
-  function handleLogout(){
+  function handleLogout() {
     try {
-      logout().then(() => {
-        removeAccessToken()
-        window.location.replace('/');
-      });
+      removeAccessToken();
+      window.location.replace('/');
       console.log("시간 초과로 자동 로그아웃되었습니다.");
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('로그아웃 중 오류 발생:', error);
     }
   };
+  
 
   const handleRefresh = async () => {
     console.log("Refresh 버튼을 눌렀습니다.");
