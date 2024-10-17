@@ -1,43 +1,51 @@
 "use client"
-import { getDeclarationPosts } from "@/lib/features/users/declarationPost.slice"
+import { getDeclarationPosts, saveCurrentDeclarationPost } from "@/lib/features/users/declarationPost.slice"
 import { useAppDispatch } from "@/lib/store"
-import Link from "next/link"
 import { useSelector } from "react-redux"
 import ErrorMessage from "../status/ErrorMessage"
-import { getNickname } from "@/lib/features/users/user.slice"
 import { useEffect, useState } from "react"
 import { declarationService } from "@/app/service/users/declarationPost.service"
+import { DeclarationPostModel } from "@/app/model/user/users.model"
 import { useRouter } from "next/navigation"
 
-interface ComplainListProps {
-  id: number
-}
-
-export default function ComplainList({id}: ComplainListProps) {
+export default function ComplainList() {
   const dispatch = useAppDispatch()
   const declarationList = useSelector(getDeclarationPosts)
-  const router = useRouter()
   const [page, setPage] = useState(0);
   const size = 10;
-  
+  const router = useRouter()
+
   useEffect(() => {
-    if (!id) return;
-    const declaration = declarationService.findAll(page, size, dispatch);
-    console.log("declaration값이 나오는지 봅시다", declaration)
+    declarationService.findAll(page, size, dispatch);
   }, [page, size, dispatch]);
-  
+
+  const moveToDetail = (complain: DeclarationPostModel) => {
+    dispatch(saveCurrentDeclarationPost(complain))
+    router.push(`/complain/${complain.id}`)
+  }
+
+  console.log("declaration값이 나오는지 봅시다", declarationList)
   return (
     <>
-        {declarationList.map((complain, index) => {
-            <li className="p-4 bg-white rounded-lg my-2" key={index}>
-              <Link href={`/complain/${complain.id}`}>
-                {complain.title}
-              </Link>
-            </li>
-          })}
-        {declarationList.length <= 0 && (
-          <p><ErrorMessage message="접수된신고가 없습니다." /></p>
-        )}
+      {/* 신고 리스트 렌더링 */}
+      {declarationList.length > 0 ? (
+        declarationList.map((complain, index) => (
+          <li
+            className="p-6 bg-white rounded-lg shadow-md hover:bg-gray-50 transition-all duration-300 my-4"
+            key={index}
+          >
+            <div className="flex items-center justify-between mb-4" onClick={()=>moveToDetail(complain)}>
+              <h3 className="text-lg font-semibold text-gray-800">{complain.title}</h3>
+              <span className="text-sm text-gray-500">{`신고자: ${complain.declarer}`}</span>
+            </div>
+          </li>
+        ))
+      ) : (
+        // 신고가 없는 경우 에러 메시지 표시
+        <p>
+          <ErrorMessage message="접수된 신고가 없습니다." />
+        </p>
+      )}
     </>
   )
 }

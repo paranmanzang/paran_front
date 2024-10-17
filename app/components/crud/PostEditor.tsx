@@ -1,105 +1,150 @@
-"use client"
+"use client";
+import { FileType } from '@/app/model/file/file.model';
+import { GroupPostModel } from '@/app/model/group/group.model';
+import { fileService } from '@/app/service/file/file.service';
+import { groupPostService } from '@/app/service/group/groupPost.service';
+import { getCurrentGroup, saveCurrentGroupPost } from '@/lib/features/group/group.slice';
+import { getNickname } from '@/lib/features/users/user.slice';
+import { useAppDispatch } from '@/lib/store';
+import { useRouter } from 'next/navigation';
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { useSelector } from 'react-redux';
 
-type PostEditorProps = {
-  onSubmit: (content: string, imageFiles: File[], group: string) => void;
-};
-
-const PostEditor = ({ onSubmit }: PostEditorProps) => {
+export default function PostEditor() {
   const [content, setContent] = useState<string>('');
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [selectedGroup, setSelectedGroup] = useState<string>(''); // group selection
-  
-  // Handle text input
+  const [title, setTitle] = useState<string>('');
+  const [imageFile, setImageFile] = useState<File | null>(null); // 단일 파일
+  const [selectedGroup, setSelectedGroup] = useState<string>('자유게시판');
+
+  const group = useSelector(getCurrentGroup);
+  const nickname = useSelector(getNickname);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+
+  // Handle content change
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
+  // Handle title change
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
   // Handle image upload
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const fileArray = Array.from(e.target.files);
-      setImageFiles([...imageFiles, ...fileArray]);
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setImageFile(file); // 첫 번째 파일 저장
+      console.log('업로드된 파일:', file); // 파일 정보 로그 출력
     }
   };
 
   // Handle form submission
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    onSubmit(content, imageFiles, selectedGroup);
-  };
+  const onSubmit = async (e: FormEvent) => {
+    e.preventDefault(); // Prevent page reload
 
+    if (!title || !content) {
+      alert('제목과 내용을 입력해주세요.');
+      return;
+    }
+
+    if (!group?.id || !nickname) {
+      alert('그룹 정보가 없습니다.');
+      return;
+    }
+
+    // Create a new group post
+    const groupPost: GroupPostModel = {
+      title,
+      content,
+      userGroupId: group.id,
+      postCategory: selectedGroup,
+      nickname: nickname
+    };
+
+    const response = await groupPostService.insert(groupPost, dispatch);
+
+    if (imageFile && response?.id) {
+      fileService.uploadFile(imageFile, FileType.GROUP_POST, response.id, dispatch);
+    }
+    dispatch(saveCurrentGroupPost(response))
+    router.push(`/groups/board/detail/${response.id}`);
+  };
+  console.log(imageFile)
   return (
-    <form onSubmit={handleSubmit} className="p-4 bg-white shadow-md rounded-lg space-y-4">
+    <div className="p-6 bg-white shadow-md rounded-lg space-y-6 max-w-2xl mx-auto">
       {/* Group/Board Selection */}
-      <div className="mb-4">
-        <label htmlFor="groupSelect" className="block text-sm font-medium text-gray-700">
-          Select Group or Board
+      <div>
+        <label htmlFor="groupSelect" className="block text-sm font-medium text-gray-700 mb-2">
+          카테고리
         </label>
         <select
           id="groupSelect"
           value={selectedGroup}
           onChange={(e) => setSelectedGroup(e.target.value)}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
         >
-          <option value="" disabled>Select...</option>
-          <option value="Group 1">Group 1</option>
-          <option value="Group 2">Group 2</option>
-          <option value="Board 1">Board 1</option>
-          <option value="Board 2">Board 2</option>
+          {group?.nickname === nickname && <option value="공지 사항">공지 사항</option>}
+          <option value="자유게시판">자유게시판</option>
         </select>
       </div>
 
-      {/* Text Area for Content */}
-      <div className="mb-4">
-        <label htmlFor="content" className="block text-sm font-medium text-gray-700">
-          Post Content
+      {/* Title Input */}
+      <div>
+        <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-2">
+          글 제목
+        </label>
+        <input
+          id="title"
+          value={title}
+          onChange={handleTitleChange}
+          className="w-full rounded-lg border border-gray-300 bg-gray-50 py-3 px-4 shadow-md focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-300 transition-all duration-300 placeholder-gray-400 sm:text-base"
+          placeholder="제목을 입력해주세요."
+        />
+      </div>
+
+      {/* Content Text Area */}
+      <div>
+        <label htmlFor="content" className="block text-sm font-medium text-gray-700 mb-2">
+          글 내용
         </label>
         <textarea
           id="content"
           value={content}
           onChange={handleContentChange}
           rows={6}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
-          placeholder="Write your post content here..."
+          className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 sm:text-sm"
+          placeholder="내용을 입력해주세요."
         />
       </div>
 
-      {/* Image Upload */}
-      <div className="mb-4">
-        <label htmlFor="imageUpload" className="block text-sm font-medium text-gray-700">
-          Upload Images
+      {/* Image Upload with Preview */}
+      <div>
+        <label htmlFor="imageUpload" className="block text-sm font-medium text-gray-700 mb-2">
+          이미지 업로드
         </label>
         <input
           type="file"
           id="imageUpload"
           onChange={handleImageUpload}
           accept="image/*"
-          multiple
-          className="mt-1"
+          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
         />
-        <div className="mt-2">
-          {imageFiles.length > 0 && (
-            <ul>
-              {imageFiles.map((file, index) => (
-                <li key={index} className="text-sm text-gray-500">
-                  {file.name}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        {imageFile && (
+          <div className="mt-4">
+            <p className="text-sm text-gray-500">{imageFile.name}</p>
+          </div>
+        )}
       </div>
 
       {/* Submit Button */}
       <button
-        type="submit"
-        className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+        onClick={onSubmit} // 버튼 클릭 시 onSubmit 호출
+        className="w-full py-3 px-4 text-white bg-green-500 rounded-md shadow-md hover:bg-green-600 transition-colors duration-300"
       >
-        Post
+        글 작성
       </button>
-    </form>
+    </div>
   );
 };
-
-export default PostEditor;
