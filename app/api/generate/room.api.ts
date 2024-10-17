@@ -9,13 +9,12 @@ export const roomAPI = {
 
     drop(id: number) { return api.delete<boolean>(requests.fetchRooms + `/${id}`) },
 
-    findByUser(nickname: string, page: number, size: number) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}` + `/user`, { params: { nickname, page, size } }) },
+    findEnableByNickname(page: number, size: number, nickname:string) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}/user/enabled/${nickname}`, { params: { page, size } }) },
+    findDisableByNickname(page: number, size: number, nickname: string) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}/user/disabled/${nickname}`, { params: { page, size } }) },
+    findEnable(page: number, size: number) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}/enabled`, { params: { page, size } }) },
+    findDisable(page: number, size: number) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}/disabled`, { params: { page, size } }) },
 
-    findAllByUser(nickname: string) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}` + `/user/${nickname}`) },
-
-    findAll(page: number, size: number) { return api.get<Page<RoomModel>>(`${requests.fetchRooms}`, { params: { page, size } }) },
-
-    findAllByEnabled() { return api.get<RoomModel[]>(requests.fetchRooms + '/enabled-all') },
+    findAllMap(){return api.get<RoomModel[]>(requests.fetchRooms)},
 
     findByEnabled(page: number, size: number) { return api.get<Page<RoomModel>>(requests.fetchRooms + '/enabled', { params: { page, size } }) },
 

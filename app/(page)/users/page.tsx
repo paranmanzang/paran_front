@@ -1,7 +1,7 @@
 "use client"
 import Link from "next/link";
 import { useSelector } from "react-redux";
-import { getNickname, getUserList } from "@/lib/features/users/user.slice";
+import { getUserList, getNickname } from "@/lib/features/users/user.slice";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAppDispatch } from "@/lib/store";
@@ -12,7 +12,7 @@ import Pagination from "@/app/components/common/Row/pagination/Pagination";
 export default function UserList() {
   const dispatch = useAppDispatch()
   const allUsers = useSelector(getUserList)
-  const nickname = useSelector(getNickname) as string
+  const currentUserNickname = useSelector(getNickname)
   const router = useRouter()
 
   const [page, setPage] = useState(1)
@@ -20,15 +20,17 @@ export default function UserList() {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      try {
-        await userService.findAllUsers(nickname, dispatch);
-      } catch (error) {
-        console.error("사용자 목록 조회 중 오류:", error);
+      if (currentUserNickname) {
+        try {
+          await userService.findAllUsers(currentUserNickname, dispatch);
+        } catch (error) {
+          console.error("사용자 목록 조회 중 오류:", error);
+        }
       }
     };
 
     fetchUsers();
-  }, [nickname, dispatch]);
+  }, [currentUserNickname, dispatch]);
 
   const { paginatedUsers, totalPages } = useMemo(() => {
     const startIndex = (page - 1) * pageSize;
@@ -59,7 +61,7 @@ export default function UserList() {
       <ul className="h-1/2 px-10 py-10 bg-green-100 rounded-lg">
         {paginatedUsers.map(user => (
           <li key={user.id}>
-            <Link href={`/users/${user.id}`} className="inline-flex justify-around items-center w-full bg-green-50 border-2 border-green-400 p-4 m-2">
+            <div className="inline-flex justify-around items-center w-full bg-green-50 border-2 border-green-400 p-4 m-2">
               <div className="size-8 bg-green-500 rounded-full">
                 <Image
                   className="size-8 rounded-full shadow-lg"
@@ -73,11 +75,14 @@ export default function UserList() {
                 />
               </div>
               <p>{user.nickname}</p>
-              <button type="button" className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500"
-                onClick={() => router.push(`/users/${user.id}`)}>
+              <button 
+                type="button" 
+                className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500"
+                onClick={() => router.push(`/users/${user.nickname}`)}
+              >
                 상세보기
               </button>
-            </Link>
+            </div>
           </li>
         ))}
       </ul>

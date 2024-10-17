@@ -64,6 +64,7 @@ function UserHeader() {
   return (
     <header className="border-b border-gray-400 bg-white shadow-sm">
       <div className="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
+        {/* nav 없음 -> admin */}
         {getUser?.role === "ROLE_ADMIN" && (
           <Link href="/admin" className="flex items-center space-x-3 rtl:space-x-reverse">
             <Image src="/assets/paranLogo.png" width={24} height={24} className="size-8" alt="Logo" />
@@ -72,8 +73,17 @@ function UserHeader() {
             </span>
           </Link>
         )}
-
-        {getUser?.role !== "ROLE_ADMIN" && (
+        {/* nav 없음 -> seller */}
+        {getUser?.role === "ROLE_SELLER" && (
+          <Link href="/seller" className="flex items-center space-x-3 rtl:space-x-reverse">
+            <Image src="/assets/paranLogo.png" width={24} height={24} className="size-8" alt="Logo" />
+            <span className="self-center whitespace-nowrap text-2xl font-semibold">
+              Paranmanzang
+            </span>
+          </Link>
+        )}
+        {/* nav 있음 -> user */}
+        {(getUser?.role  !== "ROLE_ADMIN" && getUser?.role !== "ROLE_SELLER") && (
           <>
             <Link href="/" className="flex items-center space-x-3 rtl:space-x-reverse">
               <Image src="/assets/paranLogo.png" width={24} height={24} className="size-8" alt="Logo" />

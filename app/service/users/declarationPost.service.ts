@@ -45,13 +45,12 @@ const drop = async (id: number, dispatch: AppDispatch): Promise<void> => {
     }
 };
 //게시물 리스트 조회
-const findAll = async (page: number, size: number, dispatch: AppDispatch): Promise<void> => {
+const findAll = async (page: number, size: number, dispatch: AppDispatch): Promise<any> => {
     try {
         dispatch(saveLoading(true));
-        const response = await declarationPostAPI.findDeclarationPost(page, size)
-        if (Array.isArray(response.data)) {
-            dispatch(saveDeclarationPosts(response.data))
-        }
+        const response = await declarationPostAPI.findAll(page, size)
+        console.log(response.data.content)
+        dispatch(saveDeclarationPosts(response.data.content))
     } catch (error: any) {
         dispatch(saveError("게시물 목록 조회 중 오류 발생했습니다."));
         console.error('Error fetching Aposts :', error.response?.data || error.message);
@@ -61,10 +60,11 @@ const findAll = async (page: number, size: number, dispatch: AppDispatch): Promi
     }
 };
 //게시물 리스트 조회 (닉네임)
-const findAllByNickname = async (page: number, size: number, nickname: string, dispatch: AppDispatch): Promise<void> => {
+const findByNickname = async (page: number, size: number, nickname: string, dispatch: AppDispatch): Promise<any> => {
     try {
         dispatch(saveLoading(true));
-        const response = await declarationPostAPI.findDeclarationPostByNickname(page, size, nickname)
+        const response = await declarationPostAPI.findByNickname(page, size, nickname)
+        console.log("response 신고 게시판 리스트 띄움 ", response)
         dispatch(saveDeclarationPostsByNickname(response.data.content))
     } catch (error: any) {
         dispatch(saveError("게시물 목록 조회 중 오류 발생했습니다."));
@@ -78,7 +78,7 @@ const findAllByNickname = async (page: number, size: number, nickname: string, d
 const findByPostId = async (id: number, dispatch: AppDispatch): Promise<void> => {
     try {
         dispatch(saveLoading(true));
-        const response = await declarationPostAPI.findDeclarationPostDetail(id)
+        const response = await declarationPostAPI.findById(id)
         if (Array.isArray(response.data)) {
             dispatch(saveDeclarationPosts(response.data))
         }
@@ -95,6 +95,6 @@ export const declarationService = {
     insert,
     drop,
     findAll,
-    findAllByNickname,
+    findByNickname,
     findByPostId
 }

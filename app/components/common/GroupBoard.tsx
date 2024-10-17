@@ -7,23 +7,26 @@ import { useRouter } from "next/navigation";
 import { groupPostService } from "@/app/service/group/groupPost.service";
 import { getBookings } from "@/lib/features/room/booking.slice";
 import { bookingService } from "@/app/service/room/booking.service";
-import { getAllRooms, saveCurrentRoom } from "@/lib/features/room/room.slice";
+import { getRoomsMap, saveCurrentRoom } from "@/lib/features/room/room.slice";
 import { getAddresses, saveCurrentAddress } from "@/lib/features/room/address.slice";
 import { GroupPostResponseModel } from "@/app/model/group/group.model";
 import PostEditor from "../crud/PostEditor";
 
+type TabType = "공지 사항" | "자유게시판" | "스케쥴";
 // 페이지 네이션 필요!!!!
 export default function GroupBoard() {
     const dispatch = useAppDispatch();
+    const [isEditorVisible, setIsEditorVisible] = useState<boolean>(false);
     const router = useRouter();
     const { groupPostsNotice, groupPostsGeneral } = useSelector(getGroupPosts);
     const group = useSelector(getCurrentGroup)
     const page = 0 // 임의 값
-    const size = 5 // 임의 값
-    const [activeTab, setActiveTab] = useState<'공지 사항' | '자유게시판' | '스케쥴'>('공지 사항');
+    const size = 50 // 임의 값
+    const [activeTab, setActiveTab] = useState<TabType>('공지 사항');
+    const tabs: TabType[] = ["공지 사항", "자유게시판", "스케쥴"];
 
     const bookings = useSelector(getBookings)
-    const enableRooms = useSelector(getAllRooms)
+    const enableRooms = useSelector(getRoomsMap)
     const addresses = useSelector(getAddresses)
 
     console.log(enableRooms)
@@ -63,6 +66,9 @@ export default function GroupBoard() {
 
         return `${startTime} ~ ${endTime}`;
     }
+    const toggleEditorVisibility = () => {
+        setIsEditorVisible((prev) => !prev);
+    };
 
     const renderTabContent = () => {
         switch (activeTab) {
@@ -98,10 +104,6 @@ export default function GroupBoard() {
             case "자유게시판":
                 return (
                     <ul className="space-y-4">
-                        <li>
-                            <h2>게시글 작성하기</h2>
-                            <PostEditor onSubmit={() => {}}/>
-                        </li>
                         {groupPostsGeneral.length > 0 ? (
                             groupPostsGeneral.map((post, index) => (
                                 <li key={index} className="p-4 bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300" onClick={() => onClickToDetail(post)}>
@@ -177,35 +179,50 @@ export default function GroupBoard() {
 
             <div className="my-6 space-y-6">
                 {/* 탭 버튼 */}
-                <div className="flex justify-center mb-8">
-                    <button
-                        className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "공지 사항" ? "bg-green-500 text-white" : "bg-gray-200"
-                            }`}
-                        onClick={() => setActiveTab("공지 사항")}
-                    >
-                        공지 사항
-                    </button>
-                    <button
-                        className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "자유게시판" ? "bg-green-500 text-white" : "bg-gray-200"
-                            }`}
-                        onClick={() => setActiveTab("자유게시판")}
-                    >
-                        자유게시판
-                    </button>
-                    <button
-                        className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "스케쥴" ? "bg-green-500 text-white" : "bg-gray-200"
-                            }`}
-                        onClick={() => setActiveTab("스케쥴")}
-                    >
-                        스케쥴
-                    </button>
+                <div className="flex justify-center space-x-4 mb-8">
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab}
+                            className={`px-6 py-2 rounded-lg font-medium transition-all duration-300 
+            ${activeTab === tab ? 'bg-green-500 text-white' : 'bg-gray-200 hover:bg-gray-300'}
+          `}
+                            onClick={() => setActiveTab(tab)}
+                        >
+                            {tab}
+                        </button>
+                    ))}
                 </div>
 
-                {/* 탭 내용 렌더링 */}
-                <div className="bg-green-50 p-8 rounded-lg">{renderTabContent()}</div>
+                {/* 글 작성 버튼 및 에디터 */}
+                <div className="max-w-4xl mx-auto my-10 p-6 bg-white rounded-lg shadow-lg">
+                    <button
+                        type="button"
+                        onClick={toggleEditorVisibility}
+                       className="py-2 px-6 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors duration-300 shadow-md"
+                    >
+                        {isEditorVisible ? '글 작성 취소' : '글 작성'}
+                    </button>
+
+                    {isEditorVisible && (
+                        <div className="mt-8 p-6 bg-gray-50 rounded-lg shadow-md transition-transform duration-500 ease-in-out transform scale-100">
+                            <PostEditor />
+                        </div>
+                    )}
+                </div>
+
+                {/* 탭 내용 */}
+                <div className="bg-green-50 p-8 rounded-lg shadow-md">
+                    {renderTabContent()}
+                </div>
             </div>
+
+            {/* 뒤로가기 버튼 */}
             <div className="flex justify-center mt-6">
-                <button type="button" onClick={() => { router.back() }} className="rounded-full bg-white-400 px-3 py-2 text-black font-medium hover:bg-gray-200 transition duration-300 border border-gray-200">
+                <button
+                    type="button"
+                    onClick={() => router.back()}
+                    className="rounded-full px-4 py-2 text-black font-medium transition-all duration-300 border border-gray-300 hover:bg-gray-100"
+                >
                     뒤로가기
                 </button>
             </div>

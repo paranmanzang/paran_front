@@ -17,7 +17,7 @@ export default function DeclarationList() {
 
   useEffect(() => {
     if (!nickname) return;
-    declarationService.findAllByNickname(page, size, nickname, dispatch);
+    declarationService.findByNickname(page, size, nickname, dispatch);
   }, [nickname, page]);
 
   const deleteDeclarationPost = (id: number) => {

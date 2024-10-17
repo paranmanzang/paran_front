@@ -157,7 +157,7 @@ export default function GroupDetails() {
                                                 {!isUserInChatRoom(user.nickname) && nickname === group.nickname && (
                                                     <button
                                                         type="button"
-                                                        className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                                                        className="px-4 py-2 border border-green-400 text-green-600 rounded-lg hover:bg-green-50"
                                                         onClick={() => inputUserIntoChatRoom(user.nickname)}
                                                     >
                                                         채팅방 초대하기
@@ -167,7 +167,7 @@ export default function GroupDetails() {
                                                 {nickname === group.nickname && (
                                                     <button
                                                         type="button"
-                                                        className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                                                        className="px-4 py-2 border border-red-400 text-red-600 rounded-lg hover:bg-red-50"
                                                         onClick={() => deleteUser(user.nickname)}
                                                     >
                                                         소모임 멤버 제명
@@ -178,7 +178,7 @@ export default function GroupDetails() {
 
                                                 <button
                                                     type="button"
-                                                    className="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600"
+                                                    className="px-4 py-2 border border-red-400 text-red-600 rounded-lg hover:bg-red-50"
                                                     onClick={() => declarationUser(user.nickname)}
                                                 >
                                                     <FaExclamationTriangle />
@@ -192,12 +192,11 @@ export default function GroupDetails() {
                     </div>
                 )}
 
-                {/* 모달을 여는 버튼 */}
                 {group?.nickname === nickname && enableUsers[group.id]?.length > 0 && (
                     <div>
                         <button
                             type="button"
-                            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                            className="px-4 py-2 border border-green-400 text-green-600 rounded-lg hover:bg-green-50"
                             onClick={openModal}
                         >
                             참여 신청자 보기
@@ -205,7 +204,6 @@ export default function GroupDetails() {
                     </div>
                 )}
 
-                {/* 모달 컴포넌트 */}
                 {isModalOpen && group && (
                     <Modal onClose={closeModal}>
                         <h3 className="text-xl font-bold text-center mb-6">참여하고 싶어하는 유저</h3>
@@ -217,7 +215,7 @@ export default function GroupDetails() {
                                     </div>
                                     <button
                                         type="button"
-                                        className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                                        className="px-4 py-2 border border-green-400 text-green-600 rounded-lg hover:bg-green-50"
                                         onClick={() => ableUser(user.nickname)}
                                     >
                                         소모임 멤버 승인
@@ -230,5 +228,5 @@ export default function GroupDetails() {
             </div>
             <DetailButton thisPage={`/groups`} displayBoard="block" displayReview="none" displayReservation="block" displayComment="none" />
         </div>
-    )
+  )
 }
