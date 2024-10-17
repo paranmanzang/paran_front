@@ -1,11 +1,11 @@
 import AdminUser from "@/app/components/user/AdminUser";
 interface PageProps {
-  params: { nickname: string }
+  params: { id: string };
 }
 export default function getUserId({ params }: PageProps) {
   return (
     <div>
-    <AdminUser nickname={params.nickname} />
+    <AdminUser id={params.id} />
   </div>
   )
 }

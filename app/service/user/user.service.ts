@@ -51,8 +51,9 @@ const modifyPassword = async (nickname: string, newPassword: string, dispatch: A
 const modifyRole = async (nickname: string, newRole: string, dispatch: AppDispatch): Promise<any> => {
     try {
         dispatch(saveLoading(true));
+        console.log("dispatch 연결 됨.", dispatch)
         const response = await userAPI.modifyRole(nickname, newRole);
-
+        console.log("response 확인용", response)
         if (response.status === 200) {
             dispatch(saveSuccess("권한이 성공적으로 수정되었습니다."));
         } else {
