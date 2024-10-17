@@ -7,7 +7,7 @@ import { DeclarationPostModel } from "@/app/model/user/users.model";
 export const declarationPostAPI = {
 
     findDeclarationPost: (page: number, size: number) => {
-        return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/depost`, {
+        return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/aboard`, {
             params: {
                 page,
                 size
@@ -16,7 +16,7 @@ export const declarationPostAPI = {
     },
 
     findDeclarationPostByNickname: (page: number, size: number, nickname: string) => {
-        return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/depost/${nickname}`, {
+        return api.get<Page<DeclarationPostModel>>(`${requests.fetchUsers}/aboard/${nickname}`, {
             params: {
                 page,
                 size
@@ -28,10 +28,10 @@ export const declarationPostAPI = {
         return api.get<DeclarationPostModel[]>(requests.fetchUsers + `/aboard/details/${postId}`);
     },
     insert: (declarationPostModel: DeclarationPostModel) => {
-        return api.post<DeclarationPostModel>(requests.fetchUsers + `/depost`, declarationPostModel);
+        return api.post<DeclarationPostModel>(requests.fetchUsers + `/aboard`, declarationPostModel);
     },
     drop: (id: number) => {
-        return api.delete<Boolean>(`${requests.fetchUsers}/depost/${id}`)
+        return api.delete<Boolean>(`${requests.fetchUsers}/aboard/${id}`)
     }
 
 }
