@@ -116,7 +116,7 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                     <li>
                         <button
                             type="button"
-                            className="w-full p-2 border border-gray-300 rounded-lg text-gray-800 hover:bg-gray-100 transition-colors"
+                            className="w-full p-2 border border-green-300 rounded-lg text-green-400 hover:bg-gray-100 transition-colors"
                             onClick={() => onRejectRequest('delete')}
                         >
                             친구 삭제
@@ -129,7 +129,7 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                         <li>
                             <button
                                 type="button"
-                                className="w-full p-2 border border-blue-400 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
+                                className="px-4 py-2 border border-blue-400 text-blue-600 rounded-lg hover:bg-blue-50 transition-colors"
                                 onClick={onAcceptRequest}
                             >
                                 친구 요청 수락
@@ -138,7 +138,7 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                         <li>
                             <button
                                 type="button"
-                                className="w-full p-2 border border-gray-300 text-gray-800 rounded-lg hover:bg-gray-100 transition-colors"
+                                className="px-4 py-2 border border-gray-300 text-gray-800 rounded-lg hover:bg-gray-100 transition-colors"
                                 onClick={() => onRejectRequest('reject')}
                             >
                                 친구 요청 거절
@@ -151,7 +151,11 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                     <li>
                         <button
                             type="button"
-                            className="w-full p-2 border border-yellow-400 text-yellow-600 rounded-lg hover:bg-yellow-50 transition-colors"
+                            className="px-4 py-2 
+                            border border-yellow-400 text-yellow-600
+                            text-xs
+                             rounded-lg 
+                            bg-yellow-100 hover:bg-yellow-50 transition-colors"
                             onClick={() => onRejectRequest('cancel')}
                         >
                             요청 대기 취소
@@ -163,7 +167,9 @@ export default function ModalFriend({ name }: ModalFriendProps) {
                     <li>
                         <button
                             type="button"
-                            className="w-full p-2 border border-green-400 text-green-600 rounded-lg hover:bg-green-50 transition-colors"
+                            className="py-2 px-4 border-2 border-green-400 text-gray-900
+                            text-xs rounded-lg 
+                            bg-green-100 hover:bg-green-50 transition-colors"
                             onClick={onFriends}
                         >
                             친구 요청

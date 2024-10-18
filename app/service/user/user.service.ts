@@ -112,24 +112,11 @@ const findUserDetail = async (nickname: string, dispatch: AppDispatch): Promise<
     try {
         const response = await userAPI.findDetailUser(nickname);
         console.log("findUserDetail", response);
-        // 현재 불러오는 유저의 정보를 담음.
+        // 현재 로그인 한 유저의 정보를 담음.
         dispatch(saveCurrentUser(response.data));
     } catch (error) {
         console.error("Error fetching user detail:", error);
         throw error; 
-    }
-}
-
-const findAdminUser = async (nickname: string, dispatch: AppDispatch): Promise<any> =>{
-    try {
-        dispatch(saveLoading(true))
-        const response = await userAPI.findDetailUser(nickname)
-        console.log(response)
-        // dispatch(saveUserDetail(response))
-    } catch (error){
-        console.log("Error 입니다 admin의 유저요", error)
-        throw error
-        
     }
 }
 
@@ -232,7 +219,6 @@ export const userService = {
     modifyDeclaration,
     findAllUsers,
     findUserDetail,
-    findAdminUser,
     checkRole,
     dropUser,
     checkNickname,

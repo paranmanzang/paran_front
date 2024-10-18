@@ -20,10 +20,9 @@ export default function AdminUser({ nickname }: AdminUserProps) {
     nickname: "",
     role: ''
   })
-  const [newRole, setNewRole] = useState<string>('');
-  const [isLoading, setIsLoading] = useState(true);
-  const user = useSelector(getCurrentUser)
-  // const nickname = user?.nickname as string
+  const [newRole, setNewRole] = useState<string>('')
+  const [isLoading, setIsLoading] = useState(true)
+  // const userNickname = useSelector(getNickname)
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -38,7 +37,7 @@ export default function AdminUser({ nickname }: AdminUserProps) {
       }
     }
 
-    fetchUserInfo();
+    fetchUserInfo()
   }, [nickname, dispatch])
 
   const handleGradeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -96,9 +95,8 @@ export default function AdminUser({ nickname }: AdminUserProps) {
           onChange={handleGradeChange}
           className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400 text-sm font-medium text-gray-900"
         >
-          <option value="user">User</option>
-          <option value="seller">Seller</option>
-          <option value="admin">Admin</option>
+          <option value="ROLE_USER">User</option>
+          <option value="ROLE_SELLER">Seller</option>
         </select>
         <button
           onClick={handleRoleUpdate}
@@ -110,7 +108,7 @@ export default function AdminUser({ nickname }: AdminUserProps) {
       <div className="flex items-center justify-center">
         <button type="button" onClick={() => router.push('/account')} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white">등록정보</button>
         <button type="button" onClick={() => router.push('/admin/userUpdate')} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white">회원등급 수정</button>
-        <button type="button" onClick={() => router.push(`/users/delete/${userInfo.id}`)} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white">회원강제탈퇴</button>
+        <button type="button" onClick={() => router.push(`/users/delete/${userInfo.nickname}`)} className="m-2 rounded-lg bg-green-50 px-4 py-2 text-center border-2 border-green-400  text-sm font-medium text-gray-900 hover:bg-green-400 hover:text-white">회원강제탈퇴</button>
         <button type="button" onClick={() => router.push('/')} className="m-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-gray-900 hover:bg-green-500 hover:text-white">뒤로가기</button>
       </div>
     </div>

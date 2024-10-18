@@ -8,8 +8,7 @@ import ErrorMessage from '@/app/components/common/status/ErrorMessage';
 import { getCurrentUser } from '@/lib/features/users/user.slice';
 import { RootState, useAppDispatch } from '@/lib/store';
 import { getLeaderGroups } from '@/lib/features/group/group.slice';
-import styles from './UserProfile.module.css'; // CSS Module 임포트
-
+import styles from './UserProfile.module.css'; 
 interface UserProfileProps {
     getUser: string | undefined;
 }

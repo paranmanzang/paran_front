@@ -26,7 +26,7 @@ export default function GroupsAdmin() {
     dispatch(saveCurrentGroup(group));
     router.push(`/groups/${group.id}`);
   };
-  const [activeTab, setActiveTab] = useState<string>("승인된 소모임");
+  const [activeTab, setActiveTab] = useState<string>("승인 완료");
   const dispatch = useAppDispatch()
   // 승인된 소모임 내역
   const groups = useSelector(getGroups)
@@ -45,17 +45,17 @@ export default function GroupsAdmin() {
 
   const renderTabContent = () => {
     switch (activeTab) {
-      case "승인된 소모임":
+      case "승인 완료":
         return (
           <ul>
             {groups.length > 0 ? (
               groups.map((group, index) => (
-                <li key={index} className="p-4 bg-white rounded-lg shadow-sm mb-4 flex justify-between items-center">
+                <li key={index} className="p-4 px-8 bg-white rounded-lg shadow-sm mb-4 flex justify-between items-center">
                   <p className="font-bold text-gray-800" onClick={() => onClickToDetail(group)}>
                     {group.name}
                   </p>
                   <button
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                    className="px-4 py-2 bg-red-400 text-white rounded-lg hover:bg-red-500"
                     onClick={() =>
                       enableGroup(group)
                     }
@@ -74,12 +74,12 @@ export default function GroupsAdmin() {
           <ul>
             {enableGroups.length > 0 ? (
               enableGroups.map((group, index) => (
-                <li key={index} className="p-4 bg-white rounded-lg shadow-sm mb-4 flex justify-between items-center">
+                <li key={index} className="p-4 px-8 bg-white rounded-lg shadow-sm mb-4 flex justify-between items-center">
                   <p className="font-bold text-gray-800" onClick={() => onClickToDetail(group)}>
                     {group.name}
                   </p>
                   <button
-                    className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                    className="px-4 py-2 bg-red-400 text-white rounded-lg hover:bg-red-500"
                     onClick={() =>
                       ableGroup(group)
                     }
@@ -99,48 +99,47 @@ export default function GroupsAdmin() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto my-10 p-6 bg-white rounded-lg shadow-lg">
-      <div className="bg-green-50 py-8 rounded-lg text-center">
-        <h1 className="text-4xl font-bold">소모임 관리</h1>
-      </div>
-
-      <div className="my-6 space-y-6">
-
-        {/* 탭 버튼 */}
-        <div className="flex justify-center mb-8">
-          <button
-            className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "승인된 소모임" ? "bg-green-500 text-white" : "bg-gray-200"
-              }`}
-            onClick={() => setActiveTab("승인된 소모임")}
-          >
-            승인된 소모임
-          </button>
-          <button
-
-            className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "승인 대기 소모임" ? "bg-green-500 text-white" : "bg-gray-200"
-              }`}
-            onClick={() => setActiveTab("승인 대기 소모임")}
-          >
-            승인 대기 소모임
-          </button>
+    <div className="max-w-4xl mx-auto my-10 p-6 bg-white rounded-lg">
+      <div className="flex justify-between items-center">
+        <div className="py-4 rounded-lg">
+          <h1 className="text-lg font-semibold">소모임 승인 요청</h1>
         </div>
-
-        {/* 탭 내용 렌더링 */}
-        <div className="bg-green-50 p-8 rounded-lg">{renderTabContent()}</div>
-      </div>
-      <div className="flex justify-center mt-6">
         <button
           type="button"
           onClick={() => { router.back() }}
-          className="rounded-full bg-white-400 px-6 py-3 text-black text-sm font-medium hover:bg-gray-200 transition duration-300 border border-gray-200"
+          className="rounded-lg bg-green-300 px-4 py-2 my-4 text-sm font-medium hover:bg-green-400 transition duration-300 border border-green-400 text-white"
         >
           뒤로가기
         </button>
       </div>
+
+
+      <div className="my-6">
+        {/* 탭 버튼 */}
+        <div className="flex justify-center bg-green-50 py-8 rounded-t-lg shadow-b-lg">
+          <button
+            className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "승인 완료" ? "bg-green-400 text-white" : "bg-gray-200"
+              }`}
+            onClick={() => setActiveTab("승인 완료")}
+          >
+            승인 완료
+          </button>
+          <button
+            className={`px-4 py-2 mx-2 rounded-lg ${activeTab === "승인 대기" ? "bg-green-400 text-white" : "bg-gray-200"
+              }`}
+            onClick={() => setActiveTab("승인 대기")}
+          >
+            승인 대기
+          </button>
+        </div>
+
+        {/* 탭 내용 렌더링 */}
+        <div className="bg-green-50 p-8 rounded-b-lg">{renderTabContent()}</div>
+      </div>
       <Pagination
         currentPage={page}
         pageSize={pageSize}
-        totalItems={activeTab === "승인된 소모임" ? groups.length : enableGroups.length}
+        totalItems={activeTab === "승인 완료" ? groups.length : enableGroups.length}
         onPageChange={setPage}
         onPageSizeChange={setPageSize}
       />

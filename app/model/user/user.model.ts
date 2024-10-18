@@ -13,7 +13,7 @@ export interface UserModel {
 interface UserState {
   currentUser?: UserModel
   users: UserModel[]
-  nickname: string
+  nickname?: string
   isLoading: boolean
   error: string | null
   successMessage: string | null // 성공 메시지 추가
