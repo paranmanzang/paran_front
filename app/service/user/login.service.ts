@@ -44,7 +44,8 @@ const login = async (username: string, password: string, dispatch: AppDispatch):
       throw new Error('서버 응답이 없습니다.');
     } else {
       console.error('Error:', error.message);
-      throw new Error('로그인 중 오류 발생');
+      throw new Error('비밀번호가 다릅니다 발생');
+      
     }
   }
 };

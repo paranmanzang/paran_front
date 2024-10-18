@@ -28,7 +28,6 @@ export default function RoomAdmin() {
   console.log("rooms 목록 불러오기 ", rooms);
   const route = useRouter();
 
-  // Define separate states for each tab's pagination
   const [관리Page, set관리Page] = useState(1);
   const [승인대기Page, set승인대기Page] = useState(1);
   const [pageSize, setPageSize] = useState(5);
@@ -37,7 +36,7 @@ export default function RoomAdmin() {
   const disabledRooms = useSelector(getDisabledRooms)
   const [selectedCategory, setSelectedCategory] = useState<'관리' | '승인 대기'>('관리');
 
-  // Determine which list and page to use based on the selected category
+  
   const showList: RoomModel[] = selectedCategory === '관리' ? enabledRooms : disabledRooms;
   const currentPage = selectedCategory === '관리' ? 관리Page : 승인대기Page;
 
@@ -81,19 +80,19 @@ export default function RoomAdmin() {
   };
 
   return (
-    <div className="mx-auto mt-8 max-w-lg ">
+    <div className="mx-auto mt-8 max-w-[80%]">
       <button onClick={() => route.back()} className="mx-2 rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500">뒤로가기</button>
       
       <ul className="mx-auto my-8 rounded-lg bg-green-100 p-6 shadow-md">
-        <li className="flex space-x-4">
+        <li className="flex space-x-4 my-4">
           <button
-            className={`px-4 py-2 ${selectedCategory === '관리' ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'}`}
+            className={`px-4 py-2 rounded-lg ${selectedCategory === '관리' ? 'bg-green-400 text-white' : 'bg-gray-200 text-black'}`}
             onClick={() => handleTabClick('관리')}
           >
             관리
           </button>
           <button
-            className={`px-4 py-2 ${selectedCategory === '승인 대기' ? 'bg-green-500 text-white' : 'bg-gray-200 text-black'}`}
+            className={`px-4 py-2 rounded-lg ${selectedCategory === '승인 대기' ? 'bg-green-400 text-white' : 'bg-gray-200 text-black'}`}
             onClick={() => handleTabClick('승인 대기')}
           >
             승인 대기
@@ -103,10 +102,9 @@ export default function RoomAdmin() {
         {showList.length > 0 ? (
           showList.map((room, index) => (
             <li key={index} className="mx-auto my-3 flex items-center justify-around bg-white p-3">
-              <div className="flex justify-around">
-                <h2 className="text-lg">{room.name}, {room.id}</h2>
-                <p>{room.createdAt ? formatDate(room.createdAt) : "날짜 정보 없음"}</p>
-                <p>{room.enabled ? 'Enabled' : 'Disabled'}</p>
+              <div className="flex justify-around w-80 items-center">
+                <h2 className="text-lg">{room.name}</h2>
+                <p className="text-sm w-[9rem]">날짜: {room.createdAt ? formatDate(room.createdAt) : "날짜 정보 없음"}</p>
               </div>
               {selectedCategory === '관리' && (
                 <button
@@ -119,14 +117,14 @@ export default function RoomAdmin() {
               )}
               {selectedCategory === '승인 대기' && (
                 <div>
-                  <button type="button" onClick={() => onUpdate(`${room.id}`)} className="mx-2 rounded-lg bg-green-100 p-3">승인</button>
-                  <button type="button" onClick={() => onDelete(`${room.id}`)} className="mx-2 rounded-lg bg-green-100 p-3">거절</button>
+                  <button type="button" onClick={() => onUpdate(`${room.id}`)} className="mx-2 rounded-lg bg-green-400 p-3">승인</button>
+                  <button type="button" onClick={() => onDelete(`${room.id}`)} className="mx-2 rounded-lg bg-green-400 p-3">거절</button>
                 </div>
               )}
             </li>
           ))
         ) : (
-          <li>정보가 존재하지 않습니다.</li>
+          <li className="list-none">정보가 존재하지 않습니다.</li>
         )}
       </ul>
 

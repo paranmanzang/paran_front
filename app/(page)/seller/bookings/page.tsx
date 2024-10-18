@@ -22,8 +22,6 @@ export default function SellerBooking() {
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(0);
     const [selectedCategory, setSelectedCategory] = useState<'확정' | '승인 대기'>('확정');
-    // rooms 에 있는 nickname 어떻게 가져옴? 
-    // const userRooms = rooms.nickname === nickname;
     const handleTabClick = (category: '확정' | '승인 대기') => {
         setSelectedCategory(category);
     };
@@ -39,7 +37,7 @@ export default function SellerBooking() {
 
     const onDelete = (id: string) => {
         // 삭제 로직 
-        console.log(`Deleting room with id: ${id}`)
+        console.log(`Deleting id: ${id}`)
         bookingService.drop(Number(id), dispatch)
     }
     const onUpdate = (id: string) => {
@@ -48,20 +46,18 @@ export default function SellerBooking() {
         }
     }
 
-
     return (
-
-        <div className="mx-auto my-8 max-w-lg rounded-lg bg-green-100 p-6 shadow-md">
+        <div className="mx-auto my-8 max-w-[80%] rounded-lg bg-green-100 p-6 shadow-md">
             {/* 카테고리 선택 탭 */}
-            <div className="flex space-x-4">
+            <div className="flex space-x-4 my-4">
                 <button
-                    className={`px-4 py-2 ${selectedCategory === '확정' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+                    className={`px-4 py-2 rounded-lg ${selectedCategory === '확정' ? 'bg-green-400 text-white' : 'bg-gray-200 text-black'}`}
                     onClick={() => handleTabClick('확정')}
                 >
                     확정
                 </button>
                 <button
-                    className={`px-4 py-2 ${selectedCategory === '승인 대기' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+                    className={`px-4 py-2 rounded-lg ${selectedCategory === '승인 대기' ? 'bg-green-400 text-white' : 'bg-gray-200 text-black'}`}
                     onClick={() => handleTabClick('승인 대기')}
                 >
                     승인 대기
@@ -74,7 +70,6 @@ export default function SellerBooking() {
                     <li key={booking.id}
                         className="mx-auto my-3 flex items-center justify-around bg-white p-3">
                         <div className="flex justify-around">
-                            {/* <h2 className="text-lg">장소: {rooms.find(room => room.id === booking.roomId)?.name}</h2> */}
                             <p>예약일: {booking.date}</p>
                             <p>예약시간: {booking.usingTime.map(time => time.slice(0, 5)).join(', ')}</p>
                         </div>
@@ -93,13 +88,12 @@ export default function SellerBooking() {
                 ))
             )}
             {showList.length === 0 && (
-                <li>정보가 존재하지 않습니다.</li>
+                <li className="list-none my-3">정보가 존재하지 않습니다.</li>
             )}
 
-
-
             {/* <Pagination /> */}
-            <button type="button" onClick={() => route.back()} className="mx-2 rounded-lg bg-green-100 p-3">뒤로가기</button>
+
+            <button type="button" onClick={() => route.back()} className="rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500">뒤로가기</button>
         </div >
     )
 }

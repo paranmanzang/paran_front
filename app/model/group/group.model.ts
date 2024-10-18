@@ -9,7 +9,7 @@ export interface GroupState {
     groupEnableMembers: { groupEnableMembers: any;[groupId: number]: JoiningModel[] }
     groupPostsNotices: GroupPostResponseModel[]
     groupPostsGenerals: GroupPostResponseModel[]
-    currentGroup: GroupResponseModel | null
+    currentGroup?: GroupResponseModel
     currentGroupPost: GroupPostResponseModel | null
     isLoading: boolean
     error: string | null
@@ -26,7 +26,7 @@ export const initialGroupState: GroupState = {
     groupEnableMembers: { groupEnableMembers: [] },
     groupPostsNotices: [],
     groupPostsGenerals: [],
-    currentGroup: null,
+    currentGroup: {} as GroupResponseModel,
     currentGroupPost: null,
     isLoading: false,
     error: null,

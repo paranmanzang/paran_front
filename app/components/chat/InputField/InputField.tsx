@@ -49,17 +49,17 @@ const InputField = ({
       <div className={styles.inputContainer}>
         <textarea
           id="autoResize"
-          rows={1} // 최소 1줄로 시작
+          rows={1} 
           placeholder="메세지를 작성해주세요.."
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           style={{
             resize: "none",
-            whiteSpace: "pre-wrap", // 줄바꿈을 포함한 공백 처리
-            overflow: "hidden", // textarea 크기를 자동으로 맞추므로 스크롤 숨김
+            whiteSpace: "pre-wrap",
+            overflow: "hidden", 
           }}
           onKeyDown={handleEnter}
-          className="w-[90%] rounded border p-2"
+          className="w-[90%] rounded border p-4"
         />
         <button disabled={message === ""} type="submit" className={styles.sendButton} onClick={handleSubmit}>
           <svg

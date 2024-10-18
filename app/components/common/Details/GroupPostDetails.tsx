@@ -41,31 +41,28 @@ export default function GroupPostDetails() {
         <>
             <div className="mx-auto my-20 max-w-4xl bg-green-100 p-4">
                 <div className="rounded-lg bg-white py-4">
-                    <h1 className="text-center text-3xl font-bold">{post?.title || "글 제목"}</h1>
+                    <h1 className="text-center text-lg font-semibold">{post?.title || "글 제목"}</h1>
                 </div>
                 <div>
-                    <h3 className="m-4 font-medium md:text-xl">작성자 : {post?.nickname}</h3>
+                    <h3 className="mx-4 my-4 font-medium text-base">작성자 : {post?.nickname}</h3>
                 </div>
-                <div className="my-6 grid grid-cols-1 gap-4 md:grid-cols-2">
-                    <div>
-                        <h3 className="m-4 font-medium md:text-xl">작성일: {formatDate(post?.createAt ?? "2024-01-01T00:00:00")}</h3>
-                    </div>
-                    <div>
-                        <h3 className="m-4 font-medium md:text-xl">조회수: {post?.viewCount}</h3>
-                    </div>
+                <div className="flex justify-between items-center border-y-2 py-2 border-dotted border-green-500">
+                    <h3 className="mx-4 font-sm text-sm">작성일: {formatDate(post?.createAt ?? "2024-01-01T00:00:00")}</h3>
+                    <h3 className="mx-4 font-sm text-sm">조회수: {post?.viewCount}</h3>
                 </div>
                 <div>
-                    <h3 className="m-4 font-medium md:text-xl">카테고리: {post?.postCategory}</h3>
+                    <h3 className="m-4 font-medium text-sm">게시판 분류: {post?.postCategory}</h3>
                 </div>
-                <div className="border-t-2">
+                <div className="border-t-2 border-dotted border-green-500 py-6">
+                     <h3 className="m-4 font-medium text-base">내용:</h3>
                     {imageUrl && imageUrl.length > 0 && (<img src={imageUrl} alt="포스트 이미지" className="rounded-lg shadow-md" />)}
-                    <h3 className="m-4 font-medium md:text-xl">내용:</h3>
+                    
                     {post?.bookId && (
                         <div className="mb-4">
-                            <p className="text-sm md:text-base">책 제목: {post?.bookTitle}</p>
+                            <p className="text-base">책 제목: {post?.bookTitle}</p>
                         </div>
                     )}
-                    <div className="rounded-lg bg-white p-4 text-sm md:text-base">{post?.content}</div>
+                    <div className="rounded-lg bg-white p-4 text-base">{post?.content}</div>
                 </div>
             </div>
             <div className="mx-auto max-w-4xl">
