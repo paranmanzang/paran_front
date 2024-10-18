@@ -1,6 +1,6 @@
 import { RegisterModel, UserModel } from "@/app/model/user/user.model";
 import { AppDispatch } from "@/lib/store";
-import { logoutUser, saveCurrentUser, saveError, saveLoading, saveSuccess, saveUserDetail, saveUserList } from "@/lib/features/users/user.slice";
+import { deleteUser, logoutUser, saveCurrentUser, saveError, saveLoading, saveSuccess, saveUserList } from "@/lib/features/users/user.slice";
 import userAPI from "@/app/api/generate/user.api";
 
 // 사용자 등록
@@ -147,6 +147,7 @@ const dropUser = async (nickname: string, dispatch: AppDispatch): Promise<any> =
 
         if (response.status === 200) {
             dispatch(saveSuccess("사용자가 성공적으로 삭제되었습니다."));
+            dispatch(deleteUser(nickname))
         } else {
             throw new Error('회원 탈퇴 실패');
         }

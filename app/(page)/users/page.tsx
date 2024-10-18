@@ -101,7 +101,7 @@ export default function UserList() {
       try {
         await userService.dropUser(nickname, dispatch);
         alert("회원이 성공적으로 탈퇴되었습니다.");
-        await userService.findAllUsers(nickname, dispatch);
+        // await userService.findAllUsers(nickname, dispatch);
       } catch (error) {
         console.error("회원 강제 탈퇴 중 오류:", error);
         alert("회원 강제 탈퇴에 실패했습니다.");
