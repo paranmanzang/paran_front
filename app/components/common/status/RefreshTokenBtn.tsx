@@ -6,12 +6,10 @@ import { likeBookService } from "../../../service/group/likeBook.service";
 import { likePostService } from "../../../service/group/likePost.service";
 import { roomService } from "../../../service/room/room.service";
 import { saveNickname } from "@/lib/features/users/user.slice";
-import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from "@/lib/store";
 import requests from '@/app/api/requests';
 import api from '@/app/api/axios';
-import { logout } from '@/app/service/user/logout.service';
 
 interface TimerButtonProps {
   onRefresh: () => void;
