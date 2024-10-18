@@ -25,7 +25,7 @@ export const userAPI = {
     },
 
     drop: (nickname: string | undefined) => {
-        const response =  api.delete(`${requests.fetchUsers}/delete?nickname=${nickname}`);
+        const response =  api.delete(`${requests.fetchUsers}?nickname=${nickname}`);
         console.log("response DeleteUser", response)
         return response
     },

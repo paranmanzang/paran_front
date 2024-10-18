@@ -31,7 +31,7 @@ export default function ShowOne() {
   }
 
   return (
-   <div className="max-w-lg mx-auto my-8 p-8 rounded-lg bg-green-50 shadow-lg">
+   <div className="max-w-lg mx-auto my-8 p-8 rounded-lg bg-green-100 shadow-lg">
   {/* 신고 접수 요청을 리스트로 크게 볼 수 있도록 한다. */}
   <ul className="bg-white p-6 rounded-lg shadow-md">
     <li className="border-b-2 border-gray-200 pb-6 mb-6">
@@ -73,7 +73,7 @@ export default function ShowOne() {
       </button>
     </li>
   </ul>
-  <button type="button" onClick={() => { route.back() }} className="p-2 bg-green-200 rounded-lg hover:bg-green-300">뒤로가기</button>
+  <button type="button" onClick={() => { route.back() }} className="mt-4 p-2 bg-green-400 text-white rounded-lg hover:bg-green-500">뒤로가기</button>
   <Alert
     message={"처리가 완료되었습니다"}
     isOpen={isOpen}

@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Alert from "./Alert";
-import { useAppDispatch } from "@/lib/store";
 import { useSelector } from "react-redux";
 import { getCurrentUser } from "@/lib/features/users/user.slice";
 
@@ -89,6 +88,18 @@ export default function About() {
   const [isAlertOpen, setIsAlertOpen] = useState(false);
   const router = useRouter();
   const user = useSelector(getCurrentUser);
+  const contentRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+  useEffect(() => {
+    openItems.forEach((id) => {
+      if (contentRefs.current[id]) {
+        const element = contentRefs.current[id];
+        if (element) {
+          element.style.maxHeight = `${element.scrollHeight}px`;
+        }
+      }
+    });
+  }, [openItems]);
 
   const handleDelete = () => {
     if (checkedItems.length === 0) {
@@ -96,7 +107,7 @@ export default function About() {
       setAlertMessage("삭제할 항목을 선택해주세요");
       return;
     }
-    
+
     const newItems = items.filter((item) => !checkedItems.includes(item.id));
     setItems(newItems);
     setCheckedItems([]);
@@ -159,8 +170,8 @@ export default function About() {
               삭제
             </button>
             <button type="button"
-              onClick={() => {router.back()}}
-             className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
+              onClick={() => { router.back() }}
+              className="mx-2 rounded-lg bg-green-400 px-4 py-3 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"
             >뒤로가기</button>
           </div>
         )}
@@ -175,9 +186,8 @@ export default function About() {
               <h2 id={item.id}>
                 <button
                   type="button"
-                  className={`flex w-full items-center justify-between gap-3 border border-gray-200 p-5 font-medium text-gray-500 hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 rtl:text-right ${
-                    openItems.includes(item.id) && "bg-gray-100 text-gray-900"
-                  }`}
+                  className={`flex w-full items-center justify-between gap-3 border border-gray-200 p-5 font-medium text-gray-500 hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 rtl:text-right ${openItems.includes(item.id) && "bg-gray-100 text-gray-900"
+                    }`}
                   onClick={() => toggleItem(item.id)}
                   aria-expanded={openItems.includes(item.id)}
                   aria-controls={`${item.id}-body`}
@@ -210,9 +220,8 @@ export default function About() {
                     </span>
                   </span>
                   <svg
-                    className={`size-3 shrink-0 transition-transform ${
-                      openItems.includes(item.id) ? "rotate-180" : ""
-                    }`}
+                    className={`size-3 shrink-0 transition-transform ${openItems.includes(item.id) ? "rotate-180" : ""
+                      }`}
                     aria-hidden="true"
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -230,7 +239,7 @@ export default function About() {
               </h2>
               <div
                 id={`${item.id}`}
-                className={openItems.includes(item.id) ? "" : "hidden"}
+                className={`accordion-content ${openItems.includes(item.id) ? "open" : ""}`}
                 aria-labelledby={item.id}
               >
                 <div className="border border-b-0 border-gray-200 p-5">
@@ -241,7 +250,7 @@ export default function About() {
           ))}
         </div>
       </div>
-      <Alert 
+      <Alert
         message={alertMessage}
         isOpen={isAlertOpen}
         onClose={() => setIsAlertOpen(false)}
