@@ -150,7 +150,7 @@ const dropUser = async (nickname: string, dispatch: AppDispatch): Promise<any> =
         } else {
             throw new Error('회원 탈퇴 실패');
         }
-        console.log(response.data)
+        console.log("user drop 확인 : ", response.data)
         return response.data
     } catch (error: any) {
         const errorMessage = error.response?.data?.message || "회원 탈퇴 중 오류 발생했습니다.";
