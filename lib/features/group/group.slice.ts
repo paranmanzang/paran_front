@@ -81,7 +81,9 @@ const groupSlice = createSlice({
       }
     },
     saveCurrentGroup: (state, action: PayloadAction<GroupResponseModel | null>) => {
-      state.currentGroup = action.payload;
+      if (action.payload !== null) {
+        state.currentGroup = action.payload;
+      }
     },
     saveGroupPosts: (state, action: PayloadAction<GroupPostResponseModel[]>) => {
       state.groupPostsNotices = action.payload.filter(post => post.postCategory === '공지 사항');

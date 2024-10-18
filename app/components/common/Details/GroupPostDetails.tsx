@@ -59,7 +59,7 @@ export default function GroupPostDetails() {
                     
                     {post?.bookId && (
                         <div className="mb-4">
-                            <p className="text-sm text-base">책 제목: {post?.bookTitle}</p>
+                            <p className="text-base">책 제목: {post?.bookTitle}</p>
                         </div>
                     )}
                     <div className="rounded-lg bg-white p-4 text-base">{post?.content}</div>

@@ -101,7 +101,7 @@ export default function RoomAdmin() {
 
         {showList.length > 0 ? (
           showList.map((room, index) => (
-            <li key={index} className="mx-auto my-3 flex items-center justify-around justify-around bg-white p-3">
+            <li key={index} className="mx-auto my-3 flex items-center justify-around bg-white p-3">
               <div className="flex justify-around w-80 items-center">
                 <h2 className="text-lg">{room.name}</h2>
                 <p className="text-sm w-[9rem]">날짜: {room.createdAt ? formatDate(room.createdAt) : "날짜 정보 없음"}</p>

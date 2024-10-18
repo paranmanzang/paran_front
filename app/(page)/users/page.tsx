@@ -13,7 +13,7 @@ export default function UserList() {
   const dispatch = useAppDispatch()
   const allUsers = useSelector(getUserList)
   const currentUserNickname = useSelector(getNickname)
-  const [userRoles, setUserRoles] = useState<{ [key: string]: string }>({})
+  const [userRoles, setUserRoles] = useState<{ [key: string]: string | undefined}>({})
   const router = useRouter()
 
   const [page, setPage] = useState(1)
@@ -34,7 +34,7 @@ export default function UserList() {
   }, [currentUserNickname, dispatch])
 
   useEffect(() => {
-    const initialRoles = allUsers.reduce<{ [key: string]: string }>((acc, user) => {
+    const initialRoles = allUsers.reduce<{ [key: string]: string | undefined }>((acc, user) => {
       if (user.nickname) {
         acc[user.nickname as string] = user.role;
       }
@@ -149,7 +149,7 @@ export default function UserList() {
                   <div className="content-center">
                     <div className="flex items-center justify-center">
                       <select
-                        value={userRoles[user.nickname] || user.role}
+                        value={userRoles[user.nickname as string] || user.role}
                         onChange={(e) => user.nickname && handleRoleChange(user.nickname, e.target.value)}
                         className="rounded-lg bg-green-50 px-3 py-1 text-center border-2 border-green-400 text-sm font-medium text-gray-900"
                       >
