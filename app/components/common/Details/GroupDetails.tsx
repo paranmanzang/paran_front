@@ -147,17 +147,17 @@ export default function GroupDetails() {
                             <ul className="space-y-4">
                                 {users[group.id].map((user: JoiningModel, index) => (
                                     user.nickname !== nickname && (
-                                        <li key={index} className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm hover:bg-gray-100">
+                                        <li key={index} className="flex items-center justify-between p-4 px-6 bg-white rounded-lg shadow-sm hover:bg-gray-100">
                                             <div className="text-left">
                                                 <p className="font-bold text-gray-800">{user.nickname}</p>
-                                                <p className="text-gray-600">가입 날짜: {user.requestAt}</p>
+                                                <p className="text-gray-600 text-sm">가입 날짜: {user.requestAt}</p>
                                             </div>
 
                                             <div className="flex items-center space-x-4">
                                                 {!isUserInChatRoom(user.nickname) && nickname === group.nickname && (
                                                     <button
                                                         type="button"
-                                                        className="px-4 py-2 border border-green-400 text-green-600 rounded-lg hover:bg-green-50"
+                                                        className="p-2 border border-green-400 text-green-600 rounded-lg hover:bg-green-50"
                                                         onClick={() => inputUserIntoChatRoom(user.nickname)}
                                                     >
                                                         채팅방 초대하기
@@ -167,7 +167,7 @@ export default function GroupDetails() {
                                                 {nickname === group.nickname && (
                                                     <button
                                                         type="button"
-                                                        className="px-4 py-2 border border-red-400 text-red-600 rounded-lg hover:bg-red-50"
+                                                        className="p-2 border border-red-400 text-red-600 rounded-lg hover:bg-red-50"
                                                         onClick={() => deleteUser(user.nickname)}
                                                     >
                                                         소모임 멤버 제명
@@ -196,7 +196,7 @@ export default function GroupDetails() {
                     <div>
                         <button
                             type="button"
-                            className="px-4 py-2 border border-green-400 text-green-600 rounded-lg hover:bg-green-50"
+                            className="p-2 border bg-green-400 text-white rounded-lg hover:bg-green-500"
                             onClick={openModal}
                         >
                             참여 신청자 보기

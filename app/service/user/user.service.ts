@@ -140,7 +140,7 @@ const checkRole = async (nickname: string, dispatch: AppDispatch): Promise<void>
 };
 
 // 회원 탈퇴
-const dropUser = async (nickname: string, dispatch: AppDispatch): Promise<void> => {
+const dropUser = async (nickname: string, dispatch: AppDispatch): Promise<any> => {
     try {
         dispatch(saveLoading(true));
         const response = await userAPI.drop(nickname);
@@ -150,6 +150,8 @@ const dropUser = async (nickname: string, dispatch: AppDispatch): Promise<void> 
         } else {
             throw new Error('회원 탈퇴 실패');
         }
+        console.log(response.data)
+        return response.data
     } catch (error: any) {
         const errorMessage = error.response?.data?.message || "회원 탈퇴 중 오류 발생했습니다.";
         dispatch(saveError(errorMessage));

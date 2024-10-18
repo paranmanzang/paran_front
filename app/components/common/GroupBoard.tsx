@@ -194,11 +194,11 @@ export default function GroupBoard() {
                 </div>
 
                 {/* 글 작성 버튼 및 에디터 */}
-                <div className="max-w-4xl mx-auto my-10 p-6 bg-white rounded-lg shadow-lg">
+                <div className="max-w-4xl mx-auto my-4 p-6 bg-white rounded-lg shadow-lg">
                     <button
                         type="button"
                         onClick={toggleEditorVisibility}
-                       className="py-2 px-6 bg-green-500 text-white rounded-full hover:bg-green-600 transition-colors duration-300 shadow-md"
+                       className="py-2 px-6 bg-green-400 text-white rounded-lg hover:bg-green-500 transition-colors duration-300 shadow-md"
                     >
                         {isEditorVisible ? '글 작성 취소' : '글 작성'}
                     </button>

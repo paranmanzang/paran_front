@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, ReactEventHandler } from 'react';
+import { useState, useEffect, ReactEventHandler, useRef } from 'react';
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from '@/lib/store';
@@ -13,17 +13,21 @@ export default function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+    const passwordRef = useRef<HTMLInputElement>(null);
     const dispatch = useAppDispatch()
     const role = useSelector(getCurrentUser)?.role
 
-    const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setError('')
         try {
-            loginService.login(username, password, dispatch)
-        } catch (error) {
-            console.error('로그인 실패:', error)
+            await loginService.login(username, password, dispatch)
+        } catch (err: any) {
+            console.error('Login error:', err);
+            setError('비밀번호가 다릅니다 다시 입력해주세요');
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
     };
     // login 로직 끝난 후로 추가하기
@@ -86,12 +90,14 @@ export default function Login() {
                         type="password"
                         id="password"
                         value={password}
+                        ref={passwordRef}
                         onChange={(e) => setPassword(e.target.value)}
                         className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-green-500 focus:ring-green-500"
                         placeholder="비밀번호"
                         required
                     />
                 </div>
+                {error && <div style={{ color: 'red' }}>{error}</div>}
                 <button
                     type="submit"
                     className="my-2 w-full rounded-lg border-2 border-green-400 bg-green-400 px-4 py-2.5 text-center text-sm font-medium text-white hover:bg-green-500 focus:outline-none focus:ring-4 focus:ring-green-300"

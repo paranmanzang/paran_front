@@ -21,17 +21,17 @@ export default function PostEditor() {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  // Handle content change
+  //content change
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setContent(e.target.value);
   };
 
-  // Handle title change
+  // title change
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  // Handle image upload
+  // image upload
   const handleImageUpload = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
@@ -40,7 +40,7 @@ export default function PostEditor() {
     }
   };
 
-  // Handle form submission
+  // submission
   const onSubmit = async (e: FormEvent) => {
     e.preventDefault(); // Prevent page reload
 
@@ -54,7 +54,7 @@ export default function PostEditor() {
       return;
     }
 
-    // Create a new group post
+    // Create
     const groupPost: GroupPostModel = {
       title,
       content,
@@ -129,7 +129,7 @@ export default function PostEditor() {
           id="imageUpload"
           onChange={handleImageUpload}
           accept="image/*"
-          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+          className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
         />
         {imageFile && (
           <div className="mt-4">
@@ -140,7 +140,7 @@ export default function PostEditor() {
 
       {/* Submit Button */}
       <button
-        onClick={onSubmit} // 버튼 클릭 시 onSubmit 호출
+        onClick={onSubmit} 
         className="w-full py-3 px-4 text-white bg-green-500 rounded-md shadow-md hover:bg-green-600 transition-colors duration-300"
       >
         글 작성

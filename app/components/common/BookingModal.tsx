@@ -267,7 +267,7 @@ function TimeSlots({ handleChange, selectedTimes, selectedDate, timeSlots }: {
   };
 
   return (
-    <ul className="grid grid-cols-6 gap-2">
+    <ul className="grid grid-cols-6 gap-6">
       {
         timeSlots.map((time) => (
           <li key={time}>

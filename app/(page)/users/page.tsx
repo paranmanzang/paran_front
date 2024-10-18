@@ -94,7 +94,7 @@ export default function UserList() {
 
   const onDelete = async (nickname: string | undefined) => {
     if (!nickname) {
-      console.error("닉네임이 없습니다.");
+      console.error("유저가 없습니다.");
       return;
     }
     if (window.confirm(`${nickname}을(를) 강제 탈퇴시키겠습니까?`)) {
@@ -155,7 +155,10 @@ export default function UserList() {
                       >
                         <option value="ROLE_USER">일반회원</option>
                         <option value="ROLE_SELLER">판매자</option>
-                        {/* <option value="ROLE_ADMIN">Admin</option> */}
+                        {/* 
+                          어드민으로 만드는게 필요할까? 
+                         <option value="ROLE_ADMIN">Admin</option> 
+                         */}
                       </select>
                     </div>
                     <button
