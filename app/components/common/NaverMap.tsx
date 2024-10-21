@@ -11,7 +11,7 @@ import { getRooms, saveCurrentRoom } from '@/lib/features/room/room.slice';
 
 const NaverMap = () => {
     const addresses = useSelector(getAddresses)
-    const rooms= useSelector(getRooms)
+    const rooms = useSelector(getRooms)
     const dispatch = useAppDispatch()
 
     let map: naver.maps.Map; // 'map' 변수를 useEffect 범위 바깥에 선언
@@ -75,7 +75,7 @@ const NaverMap = () => {
                                 moveButton.onclick = () => {
                                     if (address.id) {
                                         dispatch(saveCurrentRoom(
-                                            rooms.find((room)=> room.id===address.roomId) ?? null
+                                            rooms.find((room) => room.id === address.roomId) ?? null
                                         ))
                                         onCLickToMove(address.id); // address.id가 존재할 때만 호출
                                     }
@@ -132,11 +132,11 @@ const NaverMap = () => {
 
         // 네이버 지도 스크립트가 로드된 후 지도 초기화
         if (!window.naver) {
-            const script = document.createElement('script')
-            script.src = process.env.NEXT_PUBLIC_NAVER_MAP as string
-            script.async = true
-            script.onload = initMap
-            document.head.appendChild(script)
+            const script = document.createElement('script');
+            script.src = process.env.NEXT_PUBLIC_NAVER_MAP as string;
+            script.async = true;
+            script.onload = initMap;
+            document.head.appendChild(script);
         } else {
             initMap();
         }
