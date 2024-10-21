@@ -1,8 +1,6 @@
-// src/services/userService.ts
 import api from '../axios';
 import requests from "@/app/api/requests";
 import {AdminPostModel} from "@/app/model/user/users.model";
-//insert, drop, modify, find**
 
 export const adminPostAPI = {
     findAdminPost: (page: number, size: number) => {

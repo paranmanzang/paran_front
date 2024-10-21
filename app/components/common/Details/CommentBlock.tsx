@@ -85,7 +85,7 @@ export default function CommentBlock({ open: initialOpen }: CommentBlockProps) {
             />
             <button
               onClick={handleSubmit}
-              className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+              className="px-4 py-2 bg-green-400 text-white rounded-lg hover:bg-green-500"
             >
               작성
             </button>
@@ -95,10 +95,10 @@ export default function CommentBlock({ open: initialOpen }: CommentBlockProps) {
           {comments.map((comment) => (
             <div
               key={comment.id}
-              className="mb-2 py-2 px-5 bg-white rounded flex flex-col space-y-2"
+              className="mb-2 px-4 py-2 bg-white rounded flex flex-col "
               style={{ paddingLeft: `${comment.depth * 20}px` }} // depth에 따른 들여쓰기
             >
-              <div className="flex items-start space-x-4">
+              <div className="flex px-6">
                 {comment.depth > 0 && (
                   <div className="flex items-center justify-center">
                     <FaReply className="text-gray-400 rotate-180" />
@@ -118,7 +118,7 @@ export default function CommentBlock({ open: initialOpen }: CommentBlockProps) {
 
               {/* 대댓글 입력창 */}
               {replyTo === comment.id && (
-                <div className="mt-2 flex items-center space-x-4">
+                <div className="mt-2 flex items-center px-6 space-x-4">
                   <input
                     type="text"
                     className="flex-1 p-2 border rounded-lg"

@@ -11,68 +11,46 @@ interface PeopleListProps {
 export default function PeopleList({ chatUser }: PeopleListProps) {
   const [onToggle, setOnToggle] = useState(false);
   const [isOnline, setIsOnline] = useState(false);
-
-  // useEffect(() => {
-  //   let eventSource: EventSource | null = null;
-
-  //   //sse end point 설정해야합니당
-  //   const setupSSE = () => {
-  //     eventSource = new EventSource(`/api/user-status/${chatUser.nickname}`);
-
-  //     eventSource.onmessage = (event) => {
-  //       const data = JSON.parse(event.data);
-  //       setIsOnline(data.isOnline);
-  //     };
-
-  //     eventSource.onerror = (error) => {
-  //       console.error('SSE error:', error);
-  //       if (eventSource) {
-  //         eventSource.close();
-  //       }
-  //     };
-  //   };
-
-  //   setupSSE();
-
-  //   return () => {
-  //     if (eventSource) {
-  //       eventSource.close();
-  //     }
-  //   };
-  // }, [chatUser.nickname]);
+  const profileImageSrc = `${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`;
 
   return (
-    <li className="border-b w-full">
+    <li className="border-b w-full overflow-x-clip">
       <div
-        className="flex items-center px-6 py-4 space-x-6 justify-between"
+        className="flex items-center px-8 py-4 space-x-6 justify-between"
         style={{ maxWidth: "600px", margin: "0 auto" }} // 가운데 정렬
       >
-        {/* 프로필 이미지와 온라인 상태 */}
-        <div className="relative">
+        {/* 온라인 상태 */}
+        <div className="relative w-30">
           <Image
             width={50}
             height={50}
             className="rounded-full bg-green-400"
-            src="/"
-            alt="user profile"
+            src={profileImageSrc}
+            alt="프로필 사진"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = profileImageSrc;
+            }}
           />
+          {/* 온라인 상태 가져오기 sse  */}
           <span className={`${isOnline ? "online" : "offline"}`}></span>
         </div>
 
         {/* 닉네임 버튼 */}
-        <button
-          className="text-white text-lg font-semibold hover:text-green-300 focus:outline-none"
-          onClick={() => setOnToggle((prev) => !prev)}
-        >
-          {chatUser.nickname}
-        </button>
+        <div className="relative">
+          <button
+            className="text-white text-lg font-semibold hover:text-green-300 focus:outline-none"
+            onClick={() => setOnToggle((prev) => !prev)}
+          >
+            {chatUser.nickname}
+          </button>
 
-        {/* 모달 */}
-        <div
-          className={`${onToggle ? "visible" : "invisible"
-            } transition-all duration-300`}
-        >
-          <ModalFriend name={chatUser.nickname} />
+          {/* 모달 */}
+          <div
+            className={`${onToggle ? "visible" : "invisible" 
+              } absolute top-8 left-[-3rem] z-50`}
+          >
+            <ModalFriend name={chatUser.nickname} />
+          </div>
         </div>
       </div>
     </li>

@@ -24,8 +24,10 @@ export const userAPI = {
         return api.put(`${requests.fetchUsers}/updateDeclaration?nickname=${nickname}`);
     },
 
-    drop: (nickname: string) => {
-        return api.delete(`${requests.fetchUsers}/delete?nickname=${nickname}`);
+    drop: (nickname: string | undefined) => {
+        const response =  api.put(`${requests.fetchUsers}?nickname=${nickname}`);
+        console.log("response DeleteUser", response)
+        return response
     },
     modifyLogoutTime: (nickname: string) => {
         return api.put(`${requests.fetchUsers}/logoutUserTime?nickname=${nickname}`);

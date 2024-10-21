@@ -5,7 +5,6 @@ import { bookingService } from "@/app/service/room/booking.service"
 import { roomService } from "@/app/service/room/room.service"
 import { getSeperatedBookings } from "@/lib/features/room/booking.slice"
 import { getEnabledRoomByNickname } from "@/lib/features/room/room.slice"
-
 import { getCurrentUser } from "@/lib/features/users/user.slice"
 import { useAppDispatch } from "@/lib/store"
 import { useRouter } from "next/navigation"
@@ -19,62 +18,79 @@ export default function SellerBooking() {
     const rooms = useSelector(getEnabledRoomByNickname)
     const { enabledBookings, notEnabledBookings } = useSelector(getSeperatedBookings)
     const route = useRouter()
-    const [page, setPage] = useState(0);
-    const [size, setSize] = useState(0);
+    const [page, setPage] = useState(1);
+    const [size, setSize] = useState(9);
+    const [totalItems, setTotalItems] = useState(0)
     const [selectedCategory, setSelectedCategory] = useState<'확정' | '승인 대기'>('확정');
-    // rooms 에 있는 nickname 어떻게 가져옴? 
-    // const userRooms = rooms.nickname === nickname;
+
     const handleTabClick = (category: '확정' | '승인 대기') => {
         setSelectedCategory(category);
+        setPage(1); // 페이지네이션 리셋 하는 부분 
     };
 
-    const showList: BookingModel[] = selectedCategory === '확정' ? enabledBookings : notEnabledBookings;
-    console.log("rooms: ", rooms)
+    const getPaginatedData = (data: BookingModel[]) => {
+        const startIndex = (page - 1) * size;
+        const endIndex = startIndex + size;
+        return data.slice(startIndex, endIndex);
+    };
+
+    const showList: BookingModel[] = getPaginatedData(
+        selectedCategory === '확정' ? enabledBookings : notEnabledBookings
+    );
+
     useEffect(() => {
         if (nickname) {
-            bookingService.findByRoomIds(nickname, page, size, dispatch)
-            roomService.findEnableByNickname(page, size, nickname, dispatch)
+            bookingService.findByRoomIds(nickname, page - 1, size, dispatch)
+            roomService.findEnableByNickname(page - 1, size, nickname, dispatch)
         }
     }, [nickname, page, size, dispatch])
 
+    useEffect(() => {
+        setTotalItems(selectedCategory === '확정' ? enabledBookings.length : notEnabledBookings.length);
+    }, [selectedCategory, enabledBookings, notEnabledBookings]);
+
     const onDelete = (id: string) => {
-        // 삭제 로직 
-        console.log(`Deleting room with id: ${id}`)
+        console.log(`Deleting id: ${id}`)
         bookingService.drop(Number(id), dispatch)
     }
+
     const onUpdate = (id: string) => {
         if (id !== undefined) {
             bookingService.modify(Number(id), dispatch)
         }
     }
 
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+    }
+
+    const handlePageSizeChange = (newPageSize: number) => {
+        setSize(newPageSize);
+        setPage(1);
+    }
 
     return (
-
-        <div className="mx-auto my-8 max-w-lg rounded-lg bg-green-100 p-6 shadow-md">
-            {/* 카테고리 선택 탭 */}
-            <div className="flex space-x-4">
+        <div className="mx-auto my-8 max-w-[80%] rounded-lg bg-green-100 p-6 shadow-md">
+            <div className="flex space-x-4 my-4">
                 <button
-                    className={`px-4 py-2 ${selectedCategory === '확정' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+                    className={`px-4 py-2 rounded-lg ${selectedCategory === '확정' ? 'bg-green-400 text-white' : 'bg-gray-200 text-black'}`}
                     onClick={() => handleTabClick('확정')}
                 >
                     확정
                 </button>
                 <button
-                    className={`px-4 py-2 ${selectedCategory === '승인 대기' ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'}`}
+                    className={`px-4 py-2 rounded-lg ${selectedCategory === '승인 대기' ? 'bg-green-400 text-white' : 'bg-gray-200 text-black'}`}
                     onClick={() => handleTabClick('승인 대기')}
                 >
                     승인 대기
                 </button>
             </div>
 
-            {/* 목록 */}
-            {showList.length > 0 && (
+            {showList.length > 0 ? (
                 showList.map((booking) => (
                     <li key={booking.id}
                         className="mx-auto my-3 flex items-center justify-around bg-white p-3">
                         <div className="flex justify-around">
-                            {/* <h2 className="text-lg">장소: {rooms.find(room => room.id === booking.roomId)?.name}</h2> */}
                             <p>예약일: {booking.date}</p>
                             <p>예약시간: {booking.usingTime.map(time => time.slice(0, 5)).join(', ')}</p>
                         </div>
@@ -91,15 +107,19 @@ export default function SellerBooking() {
                         </div>
                     </li>
                 ))
+            ) : (
+                <li className="list-none my-3">정보가 존재하지 않습니다.</li>
             )}
-            {showList.length === 0 && (
-                <li>정보가 존재하지 않습니다.</li>
-            )}
 
+            <Pagination
+                currentPage={page}
+                pageSize={size}
+                totalItems={totalItems}
+                onPageChange={handlePageChange}
+                onPageSizeChange={handlePageSizeChange}
+            />
 
-
-            {/* <Pagination /> */}
-            <button type="button" onClick={() => route.back()} className="mx-2 rounded-lg bg-green-100 p-3">뒤로가기</button>
-        </div >
+            <button type="button" onClick={() => route.back()} className="rounded-lg bg-green-400 px-4 py-2 text-center text-sm font-medium text-white hover:bg-green-500">뒤로가기</button>
+        </div>
     )
 }

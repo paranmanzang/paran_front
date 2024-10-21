@@ -15,6 +15,7 @@ export default function MyProfile({ roomId }: MyProfileProps) {
   const nickname = useSelector(getNickname)
   const router = useRouter()
   const dispatch = useAppDispatch()
+  const profileImageSrc = `${process.env.NEXT_PUBLIC_IMAGE_DEFAULT}`;
   useEffect(() => {
     const targetElement = document.getElementById("popover-top");
     const triggerElement = document.getElementById("popup-button");
@@ -49,8 +50,11 @@ export default function MyProfile({ roomId }: MyProfileProps) {
         width={50}
         height={50}
         className="rounded-full bg-green-400"
-        src="/"
-        alt="userprofile"
+        src={profileImageSrc}
+        alt="프로필 사진"
+        onError={(e) => {
+            (e.target as HTMLImageElement).src = profileImageSrc;
+        }}
       />
       <span className="py-2 text-base font-semibold text-green-900">
         {nickname}

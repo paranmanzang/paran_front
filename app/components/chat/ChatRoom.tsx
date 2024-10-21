@@ -48,7 +48,7 @@ export default function ChatRoom() {
                         <PeopleList key={user.nickname} chatUser={user} />
                     ))}
                 </ul>
-                <MyProfile />
+                <MyProfile roomId={""} />
                 <ChatPage messages={messages} roomId={roomId} />
             </>
         </ChatRoomLayout>
