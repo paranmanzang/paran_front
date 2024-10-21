@@ -132,11 +132,11 @@ const NaverMap = () => {
 
         // 네이버 지도 스크립트가 로드된 후 지도 초기화
         if (!window.naver) {
-            const script = document.createElement('script');
-            script.src = `https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=2zx8z3y9qn&submodules=geocoder`;
-            script.async = true;
-            script.onload = initMap;
-            document.head.appendChild(script);
+            const script = document.createElement('script')
+            script.src = process.env.NEXT_PUBLIC_NAVER_MAP as string
+            script.async = true
+            script.onload = initMap
+            document.head.appendChild(script)
         } else {
             initMap();
         }
