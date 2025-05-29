@@ -1,5 +1,6 @@
 # PARANMANZANG PROJECT 
-(2024.09.20 ~ 2024.11.14)
+(2024.08.21 ~ 2024.10.21)
+
 ### FrontEnd 스택
 - Typescript
 - Yarn 1.22.22
